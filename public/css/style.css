@@ -1,0 +1,278 @@
+@media (max-width: 667px) {
+  nav .navbar-brand img {
+    width: 200px;
+    height:50px;
+    
+  }
+  .navbar {
+    background-color: transparent;
+    background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+  }
+  .navbar-nav .navbar-link {
+    color: white !important;
+  
+  }
+  .navbar-nav .btn-primary{
+    font-size: 12px;
+    width: 80px;
+    padding: 5px;
+    color: white;
+    border-radius: 0px;
+  }
+
+  /* carousel */
+  
+  .carousel-item{
+    height: 80vw;
+    min-height: 100px;
+    background: no-repeat scroll center scroll;
+    -webkit-background-size: cover;
+    background-size: cover;
+  }
+  .carousel-item::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top : 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #000;
+    opacity: 0.7;
+
+  }
+    .carousel-caption {
+    /* background-color:red; */
+    position: absolute;
+      left:0;
+      right:0;
+      top:0;
+      bottom:0;
+    
+   
+    
+  }
+  .carousel-caption h5{
+    font-size: 1.3em;
+    font-weight: bolder;
+    display: block;
+    /* background-color:#000; */
+    margin-top: 74px;
+
+  }
+  .carousel-caption .h5{
+    font-size: 1.2em;
+    font-weight: bolder;
+    display: block;
+    /* background-color: #000; */
+  }
+  .carousel-caption p {
+  
+    font-size : 16px;
+    top:2rem;
+    width: 290px;
+    margin:auto;
+    /* background-color: #000; */
+    
+  }
+  .slider-btn {
+    margin-top: 30px;
+  }
+  .slider-btn .btn{
+    background-color : rgb(55, 219, 205);
+    color: white;
+    font-weight: bold;
+    border-radius: 0;
+    padding: 10px 12px;
+    font-size: 1rem;
+    margin-right:5px;
+    border-radius: 20px;
+  }
+  .slider-btn .btn:hover{
+    background-color: #ffffff;
+    color: #11B4A6;
+  }
+  .carousel-item img {
+    height: 100%;
+  }
+  footer {
+    margin-top : 35px;
+  }
+}
+/* Medium devices (tablets, 768px and up) */
+/* @media (min-width: 768px) {
+
+  
+
+  
+
+ } */
+#about , #produk, #pekerjaan, #customer {
+  font-family: 'Poppins', sans-serif;
+  
+}
+#produk img, #pekerjaan img{
+  height: 250px;
+  background-size: cover;
+}
+
+#about .col-lg-12 h1 ,
+#produk .col-lg-12 h1,
+#pekerjaan .col-lg-12 h1,
+#customer .col-lg-12 h1
+
+{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size : 35px;
+  color: #151948;
+}
+
+
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+  /* navbar */
+  .navbar-nav {
+    display:flex;
+    width: 55%;
+    justify-content: space-around;
+  }
+  .nav-link {
+    position: relative;
+    text-transform: uppercase;
+    font-weight: bold;
+    /* background-color: red; */
+    
+  }
+  /* .nav-link:hover::after {
+    content:'';
+    display: block;
+    border-bottom: 2px solid #f6f8fa;
+    width: 100%;
+    margin:auto;
+    padding-bottom: 3px;
+    margin-bottom: -8px;
+  } */
+  .nav-link::after{
+    content:'';
+    position: absolute;
+    height:3px;
+    width:0%;
+    background-color: rgb(255, 250, 250);
+    transition: 0.4s;
+    left: 4.5px;
+    bottom:2px;
+  }
+  .nav-link:hover::after {
+    width:90%;
+  }
+  .aktip::after {
+    content:'';
+    position: absolute;
+    height:3px;
+    width:90%;
+    background-color: rgb(255, 250, 250);
+    transition: 0.4s;
+    left: 4.5px;
+    bottom:2px;
+  }
+  
+  .itemnavbar {
+    display: flex !important;
+    justify-content: end;
+  }
+  .navbar {
+    /* background-color:; transparent; */
+    background-color: #8BC6EC;
+  background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+  }
+
+  .navbar-nav .nav-link{
+    font-family: arial;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  .navbar {
+    border-bottom: 2px solid rgb(11, 109, 179);
+    box-shadow: 2px 2px 2px rgba(red, green, blue, 0.1);
+    
+  }
+  /* endnavbar */
+
+  
+  /* Carousel Slider */
+
+  .carousel-item{
+    height: 80vh;
+    min-height: 300px;
+    background: no-repeat scroll center scroll;
+    -webkit-background-size: cover;
+    background-size: cover;
+  }
+  .carousel-item::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top : 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #000;
+    opacity: 0.7;
+
+  }
+  .carousel-caption {
+    bottom : 110px;
+    padding-left : 80px;
+    padding-right : 100px;
+  }
+  .carousel-caption h5{
+    font-size: 40px;
+    font-weight: bolder;
+
+  }
+  .carousel-caption p {
+  
+    font-size : 20px;
+    top:2rem;
+  }
+  .slider-btn {
+    margin-top: 50px;
+  }
+  .slider-btn .btn{
+    background-color : rgb(17, 180, 166);
+    color: white;
+    font-weight: bold;
+    border-radius: 0;
+    padding: 15px 20px;
+    font-size: 1rem;
+    margin-right:5px;
+    border-radius: 20px;
+  }
+  .slider-btn .btn:hover{
+    background-color: #ffffff;
+    color: #11B4A6;
+  }
+
+
+  /* End Carousel */
+
+ /* main */
+ 
+#customer figure img {
+  height: 250px;
+  size: cover;
+
+}
+/* section:nth-child(even){
+  background-color:#A2D9FF ;
+}
+section:nth-child(odd){
+  background-color:#ffff ;
+} */
+
+/* #produk {
+  height: 80vh;
+} */
+}
