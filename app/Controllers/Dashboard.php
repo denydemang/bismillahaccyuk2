@@ -21,8 +21,15 @@ class Dashboard extends BaseController
     public function kelolaproyek()
     {
         $data = [
-            'judul' => 'Dasboard Klien'
+            'judul' => 'Dasboard Kelola Proyek'
         ];
         return view('dashboard/kelolaproyek', $data);
+    }
+    public function detailproyek()
+    {
+        $data = [
+            'judul' => 'Dasboard Detail Proyek'
+        ];
+        return view('dashboard/detailproyek', $data);
     }
 }
