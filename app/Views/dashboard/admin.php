@@ -7,7 +7,7 @@
     <div class="bg-white" id="sidebar-wrapper">
         <div class="sidebar-heading text-center py-4 primary-text fs-5 fw-bold text-uppercase border-bottom"><img src="<?= base_url(); ?>/img/logo.png" class="me-5" width="140" " alt=""></div>
         <div class=" list-group list-group-flush my-3">
-            <a class="list-group-item list-group-item-action bg-transparent second-text aktif fw-bold"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+            <a class="list-group-item list-group-item-action bg-transparent second-text aktif fw-bold"><i class="fas fa-tachometer-alt me-2"></i>Ajuan Klien</a>
             <a class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i class="fas fa-database me-2"></i>Data Klien</a>
             <a href="#collapseProyek" aria-expanded="false" aria-controls="collapseExample" data-bs-toggle="collapse" class="list-group-item list-group-item-action bg-transparent second-text fw-bold" id="dataproyek"><i class="fas fa-project-diagram me-2"></i>Data Proyek <i class="fa-solid fa-caret-right float-end"></i></a>
             <div class="collapse" id="collapseProyek">
