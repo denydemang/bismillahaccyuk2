@@ -13,7 +13,7 @@
                     <a class="nav-link produk text-white" href="#produk">Produk</a>
                     <a class="nav-link pekerjaan text-white" href="#pekerjaan">Pekerjaan</a>
                     <a class="nav-link customer text-white" href="#customer">Customer</a>
-                    <a class="btn btn-primary rounded-pill text-white fw-bold" href="<?= base_url(); ?>/registrasi">SIGN IN</a>
+                    <a class="btn btn-primary rounded-pill text-white fw-bold" href="<?= base_url(); ?>/login">LOG IN</a>
                 </div>
             </div>
         </div>

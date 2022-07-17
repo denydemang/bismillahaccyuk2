@@ -33,7 +33,7 @@
                     <p>Because We Work With Masterpice Quality</p>
                     <div class="slider-btn">
                         <!-- <button class="btn btn-1">Layanan Kami</button> -->
-                        <button class="btn btn-2">AJUKAN TAWARAN</button>
+                        <a href="<?= base_url(); ?>/registrasi" class="btn btn-2">AJUKAN TAWARAN</a>
                     </div>
                 </div>
             </div>
