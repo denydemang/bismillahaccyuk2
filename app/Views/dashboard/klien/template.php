@@ -24,7 +24,7 @@
                 <a href="<?= base_url(); ?>/klien" class="list-group-item list-group-item-action bg-transparent second-text <?= ($_SESSION['aktif'] == 'home') ? 'aktif' : ''; ?> fw-bold"><i class="fas fa-tachometer-alt me-2"></i>Home</a>
                 <a href="<?= base_url(); ?>/klien/ajukanproyek" class="list-group-item list-group-item-action bg-transparent second-text <?= ($_SESSION['aktif'] == 'ajukan') ? 'aktif' : ''; ?> fw-bold"><i class="fas fa-tachometer-alt me-2"></i>Ajukan Proyek</a>
                 <a href="<?= base_url(); ?>/klien/message" class="list-group-item list-group-item-action bg-transparent second-text <?= ($_SESSION['aktif'] == 'message') ? 'aktif' : ''; ?> fw-bold" id="dataproyek"><i class="fa-solid fa-message me-2"></i>Message</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i class="fas fa-power-off me-2"></i>Logout</a>
+                <a href="<?= base_url(); ?>" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i class="fas fa-power-off me-2"></i>Logout</a>
             </div>
 
         </div>
