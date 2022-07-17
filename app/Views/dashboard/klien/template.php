@@ -13,18 +13,17 @@
 </head>
 
 <body>
+
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
         <div class="bg-white" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-4 primary-text fs-5 fw-bold text-uppercase border-bottom"><img src="<?= base_url(); ?>/img/logo.png" class="me-5" width="140" " alt=""></div>
-        <div class=" list-group list-group-flush my-3">
-                <a href="<?= base_url(); ?>/admin" class="list-group-item list-group-item-action bg-transparent <?= ($_SESSION['aktif'] == 'welcome') ? 'aktif' : ''; ?> second-text fw-bold"><i class="fa-solid fa-house me-2"></i>Home</a>
-                <a href="<?= base_url(); ?>/admin/ajuanproyek" class="list-group-item list-group-item-action bg-transparent <?= ($_SESSION['aktif'] == 'ajuan') ? 'aktif' : ''; ?> second-text fw-bold"><i class="fas fa-tachometer-alt me-2"></i>Ajuan Proyek</a>
-                <a href="<?= base_url() ?>/admin/dataklien" class="list-group-item list-group-item-action bg-transparent <?= ($_SESSION['aktif'] == 'dataklien') ? 'aktif' : ''; ?> second-text fw-bold"><i class="fas fa-database me-2"></i>Data Klien</a>
-                <a href="<?= base_url() ?>/admin/dataproyek" class="list-group-item list-group-item-action bg-transparent <?= ($_SESSION['aktif'] == 'dataproyek') ? 'aktif' : ''; ?> second-text fw-bold" id="dataproyek"><i class="fas fa-project-diagram me-2"></i>Data Proyek</a>
-                <a href="<?= base_url() ?>/admin/message" class="list-group-item list-group-item-action bg-transparent second-text  <?= ($_SESSION['aktif'] == 'message') ? 'aktif' : ''; ?> fw-bold"><i class="fa-solid fa-message me-2"></i>Message</a>
-
-
+            <div class="sidebar-heading text-center py-4 primary-text fs-5 fw-bold text-uppercase border-bottom">
+                <img src="<?= base_url(); ?>/img/logo.png" class="me-5" width="140" " alt="">
+            </div>
+            <div class=" list-group list-group-flush my-3">
+                <a href="<?= base_url(); ?>/klien" class="list-group-item list-group-item-action bg-transparent second-text <?= ($_SESSION['aktif'] == 'home') ? 'aktif' : ''; ?> fw-bold"><i class="fas fa-tachometer-alt me-2"></i>Home</a>
+                <a href="<?= base_url(); ?>/klien/ajukanproyek" class="list-group-item list-group-item-action bg-transparent second-text <?= ($_SESSION['aktif'] == 'ajukan') ? 'aktif' : ''; ?> fw-bold"><i class="fas fa-tachometer-alt me-2"></i>Ajukan Proyek</a>
+                <a href="<?= base_url(); ?>/klien/message" class="list-group-item list-group-item-action bg-transparent second-text <?= ($_SESSION['aktif'] == 'message') ? 'aktif' : ''; ?> fw-bold" id="dataproyek"><i class="fa-solid fa-message me-2"></i>Message</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i class="fas fa-power-off me-2"></i>Logout</a>
             </div>
 
@@ -36,8 +35,8 @@
             <nav class="navbar shadow-lg navbar-expand-lg navbar-light bg-transparent py-2 px-4">
                 <div class="d-flex align-items-center">
                     <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
-                    <h2 class="fs-4 m-0">Dashboard Admin</h2>
-                </div>
+                    <h2 class="fs-4 m-0">Dashboard Klien</h2>
+                </div cx>
                 <div class="ms-5 me-2 primary-text position-relative">
                     <i class="fa-solid fa-bell fs-4"></i>
                     <span class="position-absolute ms-2 top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -68,9 +67,9 @@
                     </ul>
                 </div>
             </nav>
-            <?= $this->renderSection('dashboardadmin'); ?>
-
+            <?= $this->renderSection('dashboardklien'); ?>
         </div>
+    </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

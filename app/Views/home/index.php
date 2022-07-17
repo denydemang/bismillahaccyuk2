@@ -184,9 +184,9 @@
         Because
         we work with masterpice quality"</h1>
 </section>
-<section id="about" class="py-lg-5" style="background-color: #A2D9FF">
-    <div class="container">
-        <div class="col-lg-12 text-center">
+<section id="about" class="pt-lg-5" style="background-color: #A2D9FF">
+    <div class="container pb-lg-5">
+        <div class="col-lg-12 pt-lg text-center">
             <h1>About Us</h1>
         </div>
         <div class="row pt-lg-3">
@@ -195,7 +195,7 @@
                 Odio rem sapiente nihil vel ut dolorum cum laudantium, reiciendis repudiandae, dicta quas in quia, accusantium est neque necessitatibus corrupti exercitationem nostrum! Eligendi ea repellat labore quaerat nobis. Minus, eaque.
             </div>
             <div class="col-lg-6">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum quam excepturi nam maiores porro voluptas rem minus pariatur consequuntur ratione, rerum natus, doloremque dolorem numquam eveniet voluptate fuga nobis ex.
+                Lorem ipsumsss, dolor sit amet consectetur adipisicing elit. Harum quam excepturi nam maiores porro voluptas rem minus pariatur consequuntur ratione, rerum natus, doloremque dolorem numquam eveniet voluptate fuga nobis ex.
                 Provident, veritatis! Cumque reprehenderit consectetur error cupiditate nam eum, voluptatibus exercitationem voluptatem officiis! Dolorum blanditiis nam veniam dolorem, corrupti repellendus nemo neque temporibus omnis odit, mollitia vel veritatis illum laborum?
             </div>
         </div>

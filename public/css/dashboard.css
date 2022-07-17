@@ -45,6 +45,7 @@
   -o-transition: margin 0.25s ease-out;
   transition: margin 0.25s ease-out;
   
+  
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -58,6 +59,7 @@
 
 #page-content-wrapper {
   min-width: 100vw;
+  z-index:99999;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -103,6 +105,10 @@
   
   
 }
+.subaktif {
+  color:#009d63 !important;
+}
+
 .rotate{
   transform: rotate(90deg);
   transition: ease 0.5s;

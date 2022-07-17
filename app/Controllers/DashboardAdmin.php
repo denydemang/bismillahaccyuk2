@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 class DashboardAdmin extends Dashboard
 {
-    public function index($demang =  'asu')
+    public function index()
     {
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
@@ -12,7 +12,7 @@ class DashboardAdmin extends Dashboard
         $_SESSION['aktif'] = 'welcome';
         $data = [
             'judul' => 'Dashboard Admin',
-            'demang' => $demang
+
         ];
         return view('dashboard/admin/welcome', $data);
     }
