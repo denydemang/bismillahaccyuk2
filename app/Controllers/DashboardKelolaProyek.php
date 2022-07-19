@@ -11,24 +11,37 @@ class DashboardKelolaProyek extends Dashboard
             unset($_SESSION['subaktif']);
         }
         $_SESSION['aktif'] = 'bahanbaku';
-        $_SESSION['subaktif'] = 'keloladatakun';
+        $_SESSION['subaktif'] = 'keloladatabahanbaku';
         $data = [
             'judul' => 'Dasboard Kelola Proyek'
         ];
-        return view('dashboard/kelolaproyek/keloladataakun', $data);
+        return view('dashboard/kelolaproyek/keloladatabahanbaku', $data);
     }
-    public function keloladataakun()
+    public function keloladatabahanbaku()
     {
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
             unset($_SESSION['subaktif']);
         }
         $_SESSION['aktif'] = 'bahanbaku';
-        $_SESSION['subaktif'] = 'keloladataakun';
+        $_SESSION['subaktif'] = 'keloladatabahanbaku';
         $data = [
             'judul' => 'Dasboard Kelola Proyek'
         ];
-        return view('dashboard/kelolaproyek/keloladataakun', $data);
+        return view('dashboard/kelolaproyek/keloladatabahanbaku', $data);
+    }
+    public function kelolajenisbahanbaku()
+    {
+        if (isset($_SESSION['aktif'])) {
+            unset($_SESSION['aktif']);
+            unset($_SESSION['subaktif']);
+        }
+        $_SESSION['aktif'] = 'bahanbaku';
+        $_SESSION['subaktif'] = 'kelolajenisbahanbaku';
+        $data = [
+            'judul' => 'Dasboard Kelola Proyek'
+        ];
+        return view('dashboard/kelolaproyek/kelolajenisbahanbaku', $data);
     }
     public function belibahanbaku()
     {
@@ -107,18 +120,5 @@ class DashboardKelolaProyek extends Dashboard
             'judul' => 'Dasboard Kelola Proyek'
         ];
         return view('dashboard/kelolaproyek/progressproyek', $data);
-    }
-    public function message()
-    {
-        if (isset($_SESSION['aktif'])) {
-            unset($_SESSION['aktif']);
-            unset($_SESSION['subaktif']);
-        }
-        $_SESSION['aktif'] = 'message';
-        $_SESSION['subaktif'] = '';
-        $data = [
-            'judul' => 'Dasboard Kelola Proyek'
-        ];
-        return view('dashboard/kelolaproyek/message', $data);
     }
 }

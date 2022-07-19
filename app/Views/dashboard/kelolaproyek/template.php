@@ -23,8 +23,11 @@
                 </a>
                 <div class="collapse" id="collapseBahanBaku">
                     <div class="card card-body">
-                        <a href="<?= base_url(); ?>/kelolaproyek/keloladataakun" class="sub-item second-text <?= ($_SESSION['subaktif'] == 'keloladataakun') ? 'subaktif' : ''; ?> fw-bold bg-transparent">
-                            <i class="fa-solid fa-helmet-safety me-2"></i>Kelola Data Akun
+                        <a href="<?= base_url(); ?>/kelolaproyek/keloladatabahanbaku" class="sub-item second-text <?= ($_SESSION['subaktif'] == 'keloladatabahanbaku') ? 'subaktif' : ''; ?> fw-bold bg-transparent">
+                            <i class="fa-solid fa-helmet-safety me-2"></i>Kelola Data Bahan Baku
+                        </a>
+                        <a href="<?= base_url(); ?>/kelolaproyek/kelolajenisbahanbaku" class="sub-item second-text <?= ($_SESSION['subaktif'] == 'kelolajenisbahanbaku') ? 'subaktif' : ''; ?> fw-bold bg-transparent">
+                            <i class="fa-solid fa-helmet-safety me-2"></i>Kelola Jenis Bahan Baku
                         </a>
                         <a href="<?= base_url(); ?>/kelolaproyek/belibahanbaku" class="sub-item second-text  <?= ($_SESSION['subaktif'] == 'belibahanbaku') ? 'subaktif' : ''; ?> fw-bold bg-transparent">
                             <i class="fa-solid fa-gear me-2"></i>Beli Bahan Baku
@@ -52,9 +55,6 @@
                 </a>
                 <a href="<?= base_url(); ?>/kelolaproyek/pembayaranproyek" class="list-group-item list-group-item-action bg-transparent second-text <?= ($_SESSION['aktif'] == 'pembayaranproyek') ? 'aktif' : ''; ?>  fw-bold">
                     <i class="fas fa-database me-2"></i>Pembayaran Proyek
-                </a>
-                <a href="<?= base_url(); ?>/kelolaproyek/message" class="list-group-item list-group-item-action bg-transparent second-text <?= ($_SESSION['aktif'] == 'message') ? 'aktif' : ''; ?> fw-bold">
-                    <i class="fa-solid fa-message me-2"></i>Message
                 </a>
                 <a href="<?= base_url(); ?>/logout" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold">
                     <i class="fas fa-power-off me-2"></i>Logout

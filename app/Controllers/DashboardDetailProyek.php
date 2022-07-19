@@ -37,15 +37,4 @@ class DashboardDetailProyek extends Dashboard
         ];
         return view('dashboard/detailproyek/pembayaranproyek', $data);
     }
-    public function message()
-    {
-        if (isset($_SESSION['aktif'])) {
-            unset($_SESSION['aktif']);
-        }
-        $_SESSION['aktif'] = 'message';
-        $data = [
-            'judul' => 'Dashboard Detail Proyek'
-        ];
-        return view('dashboard/detailproyek/message', $data);
-    }
 }

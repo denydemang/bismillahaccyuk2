@@ -21,7 +21,6 @@
 
                 <a href="<?= base_url(); ?>/detailproyek" class="list-group-item list-group-item-action bg-transparent <?= ($_SESSION['aktif'] == 'progressproyek') ? 'aktif' : ''; ?> second-text fw-bold"><i class="fas fa-database me-2"></i>Progress Proyek</a>
                 <a href="<?= base_url(); ?>/detailproyek/pembayaranproyek" class="list-group-item list-group-item-action bg-transparent <?= ($_SESSION['aktif'] == 'pembayaranproyek') ? 'aktif' : ''; ?> second-text fw-bold"><i class="fas fa-database me-2"></i>Pembayaran Proyek</a>
-                <a href="<?= base_url(); ?>/detailproyek/message" class="list-group-item list-group-item-action bg-transparent <?= ($_SESSION['aktif'] == 'message') ? 'aktif' : ''; ?> second-text fw-bold" id="dataproyek"><i class="fa-solid fa-message me-2"></i>Message</a>
 
 
                 <a href="<?= base_url(); ?>/logout" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i class="fas fa-power-off me-2"></i>Logout</a>
