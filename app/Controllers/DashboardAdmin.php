@@ -14,10 +14,11 @@ class DashboardAdmin extends Dashboard
             'judul' => 'Dashboard Admin',
 
         ];
-        return view('dashboard/admin/welcome', $data);
+        return view('dashboard/index', $data);
     }
     public function ajuanproyek()
     {
+
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };

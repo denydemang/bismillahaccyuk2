@@ -24,7 +24,7 @@
                 <a href="<?= base_url(); ?>/detailproyek/message" class="list-group-item list-group-item-action bg-transparent <?= ($_SESSION['aktif'] == 'message') ? 'aktif' : ''; ?> second-text fw-bold" id="dataproyek"><i class="fa-solid fa-message me-2"></i>Message</a>
 
 
-                <a href="<?= base_url(); ?>" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i class="fas fa-power-off me-2"></i>Logout</a>
+                <a href="<?= base_url(); ?>/logout" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i class="fas fa-power-off me-2"></i>Logout</a>
 
             </div>
         </div>
@@ -61,7 +61,7 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
                                 <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <li><a class="dropdown-item" href="<?= base_url(); ?>/logout">Logout</a></li>
                             </ul>
                         </li>
                     </ul>

@@ -9,20 +9,35 @@
             <div class="col-md-8">
                 <div class="card-body p-3">
                     <h5 class="card-title text-center mb-3">Silakan Login</h5>
-                    <form>
+
+                    <form action="<?= base_url(); ?>/login/cekuser" method="post">
+                        <?= csrf_field(); ?>
                         <div class="mb-3">
+                            <?php
+                            $isInvalidUser = (session()->getFlashdata('errUsername')) ? 'is-invalid' : '';
+                            ?>
                             <label for="exampleInputEmail1" class="form-label">Username</label>
-                            <input type="input" class="form-control" id="exampleInputEmail1" placeholder="Silakan Masukkan Username" aria-describedby="emailHelp">
+                            <input type="text" id="username" name="username" class="form-control <?= $isInvalidUser; ?>" placeholder="Silakan Masukkan Username" aria-describedby="emailHelp" value="<?= old('username'); ?>">
+                            <div id="username" class="invalid-feedback">
+                                <?= session()->getFlashdata('errUsername'); ?>
+                            </div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label" ">Password</label>
-                            <input type=" password" class="form-control" placeholder="Silakan Masukkan Password" id=" exampleInputPassword1">
+                            <?php
+                            $isInvalidPassword = (session()->getFlashdata('errPassword')) ? 'is-invalid' : '';
+                            ?>
+                            <label for="exampleInputEmail1" class="form-label">Password</label>
+                            <input type="password" id="password" name="password" class="form-control <?= $isInvalidPassword; ?>" placeholder="Silakan Masukkan Password" aria-describedby="emailHelp" value="<?= old('password'); ?>">
+                            <div id="password" class="invalid-feedback">
+                                <?= session()->getFlashdata('errPassword'); ?>
+                            </div>
+
                         </div>
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="exampleCheck1">
                             <label class="form-check-label" for="exampleCheck1">Remember me</label>
                         </div>
-                        <a href="<?= base_url(); ?>/klien" type="submit" class="btn btn-primary"><i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk</a>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk</button>
                         <a href="<?= base_url(); ?>" type="submit" class="btn btn-danger"><i class="fa-solid fa-house"></i>
                             Kembali</a>
                     </form>
