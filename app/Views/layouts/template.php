@@ -67,7 +67,7 @@
                 a.classList.add('aktip');
             }
         })
-        console.log(current)
+
     })
 </script>
 

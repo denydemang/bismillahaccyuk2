@@ -27,16 +27,23 @@
                             $isInvalidPassword = (session()->getFlashdata('errPassword')) ? 'is-invalid' : '';
                             ?>
                             <label for="exampleInputEmail1" class="form-label">Password</label>
-                            <input type="password" id="password" name="password" class="form-control <?= $isInvalidPassword; ?>" placeholder="Silakan Masukkan Password" aria-describedby="emailHelp" value="<?= old('password'); ?>">
-                            <div id="password" class="invalid-feedback">
+                            <input type="password" id="password" name="password" class="form-control pw <?= $isInvalidPassword; ?>" placeholder="Silakan Masukkan Password" aria-describedby="emailHelp" value="<?= old('password'); ?>">
+                            <div class="invalid-feedback">
                                 <?= session()->getFlashdata('errPassword'); ?>
                             </div>
 
                         </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                        <div class="d-flex">
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input">
+                                <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                            </div>
+                            <div class="mb-3 ms-3 form-check">
+                                <input type="checkbox" class="form-check-input" onclick="ShowPassword()">
+                                <label class="form-check-label" for="exampleCheck1">Show Password</label>
+                            </div>
                         </div>
+
                         <button type="submit" class="btn btn-primary"><i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk</button>
                         <a href="<?= base_url(); ?>" type="submit" class="btn btn-danger"><i class="fa-solid fa-house"></i>
                             Kembali</a>
@@ -45,4 +52,14 @@
             </div>
         </div>
 </section>
+<script>
+    function ShowPassword() {
+        var pw = document.getElementById('password');
+        if (pw.type === 'password') {
+            pw.type = 'text';
+        } else {
+            pw.type = 'password';
+        };
+    }
+</script>
 <?= $this->endSection(); ?>
