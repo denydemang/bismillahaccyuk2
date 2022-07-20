@@ -14,7 +14,7 @@ class DashboardAdmin extends Dashboard
             'judul' => 'Dashboard Admin',
 
         ];
-        return view('dashboard/index', $data);
+        return view('dashboard/admin/welcome', $data);
     }
     public function ajuanproyek()
     {

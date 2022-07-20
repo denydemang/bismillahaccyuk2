@@ -17,7 +17,7 @@
                             $isInvalidUser = (session()->getFlashdata('errUsername')) ? 'is-invalid' : '';
                             ?>
                             <label for="exampleInputEmail1" class="form-label">Username</label>
-                            <input type="text" id="username" name="username" class="form-control <?= $isInvalidUser; ?>" placeholder="Silakan Masukkan Username" aria-describedby="emailHelp" value="<?= old('username'); ?>">
+                            <input type="text" id="username" name="username" class="form-control <?= $isInvalidUser; ?>" placeholder="Silakan Masukkan Username" aria-describedby="emailHelp" value="<?= old('username'); ?>" autocomplete="off">
                             <div id="username" class="invalid-feedback">
                                 <?= session()->getFlashdata('errUsername'); ?>
                             </div>
@@ -27,7 +27,7 @@
                             $isInvalidPassword = (session()->getFlashdata('errPassword')) ? 'is-invalid' : '';
                             ?>
                             <label for="exampleInputEmail1" class="form-label">Password</label>
-                            <input type="password" id="password" name="password" class="form-control pw <?= $isInvalidPassword; ?>" placeholder="Silakan Masukkan Password" aria-describedby="emailHelp" value="<?= old('password'); ?>">
+                            <input type="password" id="password" name="password" class="form-control pw <?= $isInvalidPassword; ?>" placeholder="Silakan Masukkan Password" aria-describedby="emailHelp" value="<?= old('password'); ?>" autocomplete="off">
                             <div class="invalid-feedback">
                                 <?= session()->getFlashdata('errPassword'); ?>
                             </div>
