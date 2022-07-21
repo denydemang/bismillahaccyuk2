@@ -10,6 +10,6 @@ class ModelLogin extends Model
     protected $table = 'akun';
     protected $primaryKey = 'id';
     protected $allowedFields = [
-        'id', 'user_name', 'nama', 'alamat', 'notelp', 'password', 'user_level'
+        'user_id', 'user_name', 'nama', 'email', 'alamat', 'notelp', 'password', 'user_level'
     ];
 }
