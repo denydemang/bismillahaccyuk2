@@ -21,7 +21,7 @@ class Login extends BaseController
         $validation = \Config\Services::validation();
         $valid = $this->validate([
             'username' => [
-                'label' => 'Username',
+                'label' => 'Username atau Email',
                 'rules' => 'required',
                 'errors' => [
                     'required' => '{field} tidak boleh kosong'
@@ -45,10 +45,11 @@ class Login extends BaseController
             return redirect()->to(base_url() . '/login')->withInput();
         } else {
             $modelLogin = new ModelLogin();
-            $cekUserLogin = $modelLogin->where('user_name', $username)->first();
+            $cekUserLogin = $modelLogin->where('user_name', $username);
+            $cekUserLogin = $modelLogin->orWhere('email', $username)->first();
             if ($cekUserLogin == null) {
                 $sessErr = [
-                    'errUsername' => 'Username Tidak Terdaftar',
+                    'errUsername' => 'Username/Email Tidak Terdaftar',
 
                 ];
                 session()->setFlashdata($sessErr);

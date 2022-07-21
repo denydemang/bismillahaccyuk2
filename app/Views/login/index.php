@@ -16,8 +16,8 @@
                             <?php
                             $isInvalidUser = (session()->getFlashdata('errUsername')) ? 'is-invalid' : '';
                             ?>
-                            <label for="exampleInputEmail1" class="form-label">Username</label>
-                            <input type="text" id="username" name="username" class="form-control <?= $isInvalidUser; ?>" placeholder="Silakan Masukkan Username" aria-describedby="emailHelp" value="<?= old('username'); ?>" autocomplete="off">
+                            <label for="exampleInputEmail1" class="form-label">Email / Username</label>
+                            <input type="text" id="username" name="username" class="form-control <?= $isInvalidUser; ?>" placeholder="Silakan Masukkan Email atau Username" aria-describedby="emailHelp" value="<?= old('username'); ?>" autocomplete="off">
                             <div id="username" class="invalid-feedback">
                                 <?= session()->getFlashdata('errUsername'); ?>
                             </div>
@@ -47,6 +47,9 @@
                         <button type="submit" class="btn btn-primary"><i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk</button>
                         <a href="<?= base_url(); ?>" type="submit" class="btn btn-danger"><i class="fa-solid fa-house"></i>
                             Kembali</a>
+                        <div class="mt-2">
+                            <small>Belum Punya Akun ? <a href="<?= base_url(); ?>/registrasi">Registrasi</a></small>
+                        </div>
                     </form>
                 </div>
             </div>

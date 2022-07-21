@@ -1,6 +1,11 @@
+@media (max-width: 767px ){
+  .gambarregistrasi {
+    display: none !important;
+  }
 
+}
 
-@media (max-width: 667px) {
+@media (max-width: 680px) {
   nav .navbar-brand img {
     width: 200px;
     height:50px;
@@ -54,6 +59,7 @@
    
     
   }
+  
   .carousel-caption h5{
     font-size: 1.3em;
     font-weight: bolder;
@@ -129,7 +135,10 @@
   font-size : 35px;
   color: #151948;
 }
-
+.pesanerror{
+  margin-bottom: -27px;
+  box-sizing:border-box;
+}
 
 
 /* Large devices (desktops, 992px and up) */
