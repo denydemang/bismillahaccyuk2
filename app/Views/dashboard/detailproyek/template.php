@@ -170,7 +170,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
                             <a href="<?= base_url(); ?>/detailproyek" class="nav-link <?= ($_SESSION['aktif'] == 'progressproyek') ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-business-time"></i>
+                                <i class="nav-icon fas fa-business-time mr-3"></i>
                                 <p>
                                     Progress Proyek
                                 </p>
@@ -178,7 +178,7 @@
                         </li>
                         <li class="nav-item" style="margin-top:10px;">
                             <a href="<?= base_url(); ?>/detailproyek/pembayaranproyek" class="nav-link <?= ($_SESSION['aktif'] == 'pembayaranproyek') ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-money-bill"></i>
+                                <i class="nav-icon fas fa-money-bill mr-3"></i>
                                 <p>
                                     Pembayaran Proyek
                                 </p>

@@ -170,7 +170,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
                             <a href="<?= base_url(); ?>/klien" class="nav-link <?= ($_SESSION['aktif'] == 'home') ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-home"></i>
+                                <i class="nav-icon fas fa-home mr-3"></i>
                                 <p>
                                     Home
                                 </p>
@@ -178,7 +178,7 @@
                         </li>
                         <li class="nav-item" style="margin-top:10px;">
                             <a href="<?= base_url(); ?>/klien/message" class="nav-link <?= ($_SESSION['aktif'] == 'message') ? 'active' : '' ?>">
-                                <i class="nav-icon far fa-envelope"></i>
+                                <i class="nav-icon far fa-envelope mr-3"></i>
                                 <p>
                                     Message
                                 </p>

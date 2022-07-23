@@ -169,16 +169,32 @@
                     <!-- Bagian Item Menu Sidebar -->
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="<?= base_url(); ?>/klien" class="nav-link <?= ($_SESSION['aktif'] == 'home') ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <a href="<?= base_url(); ?>/admin" class="nav-link <?= ($_SESSION['aktif'] == 'home') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-tachometer-alt mr-3""></i>
                                 <p>
                                     Dashboard
                                 </p>
                             </a>
                         </li>
+                        <li class=" nav-item" style="margin-top:10px;">
+                                    <a href="<?= base_url(); ?>/admin/message" class="nav-link <?= ($_SESSION['aktif'] == 'message') ? 'active' : '' ?>">
+                                        <i class="nav-icon fas fa-hand-holding-usd mr-3""></i>
+                                <p>
+                                    Ajuan Proyek
+                                </p>
+                            </a>
+                        </li>
+                        <li class=" nav-item" style="margin-top:10px;">
+                                            <a href="<?= base_url(); ?>/admin/message" class="nav-link <?= ($_SESSION['aktif'] == 'message') ? 'active' : '' ?>">
+                                                <i class="nav-icon fas fa-users mr-3"></i>
+                                                <p>
+                                                    Kelola Users
+                                                </p>
+                                            </a>
+                        </li>
                         <li class="nav-item" style="margin-top:10px;">
-                            <a href="<?= base_url(); ?>/klien/message" class="nav-link <?= ($_SESSION['aktif'] == 'message') ? 'active' : '' ?>">
-                                <i class="nav-icon far fa-envelope"></i>
+                            <a href="<?= base_url(); ?>/admin/message" class="nav-link <?= ($_SESSION['aktif'] == 'message') ? 'active' : '' ?>">
+                                <i class="nav-icon far fa-envelope mr-3""></i>
                                 <p>
                                     Message
                                 </p>
@@ -197,22 +213,22 @@
         <!-- ENd Bagian Content -->
         <?= $this->renderSection('dashboardadmin'); ?>
         <!-- Bagian Footer -->
-        <footer class="main-footer">
+        <footer class=" main-footer">
 
-            <strong>Copyright &copy; 2022 <a href="#">PT. Adika Jaya Engineering</a>.</strong> All rights reserved.
-        </footer>
-        <!-- End Bagian Footer -->
+                                    <strong>Copyright &copy; 2022 <a href="#">PT. Adika Jaya Engineering</a>.</strong> All rights reserved.
+                                    </footer>
+                                    <!-- End Bagian Footer -->
 
-    </div>
+            </div>
 
 
-    <script src="<?= base_url('assetslte') ?>/plugins/jquery/jquery.min.js"></script>
+            <script src="<?= base_url('assetslte') ?>/plugins/jquery/jquery.min.js"></script>
 
-    <script src="<?= base_url('assetslte') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="<?= base_url('assetslte') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <script src="<?= base_url('assetslte') ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+            <script src="<?= base_url('assetslte') ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 
-    <script src="<?= base_url('assetslte') ?>/dist/js/adminlte.min.js?v=3.2.0"></script>
+            <script src="<?= base_url('assetslte') ?>/dist/js/adminlte.min.js?v=3.2.0"></script>
 
 
 </body>
