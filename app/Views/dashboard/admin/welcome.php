@@ -4,12 +4,10 @@
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Selamat Datang <?= $nama; ?></h1>
-                    <br>
-                    <p>Anda Login Sebagai Admin</p>
-                </div>
+            <div class="alert alert-info alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h2>Selamat Datang <?= $nama; ?></h2>
+                Anda Login Sebagai Admin
             </div>
         </div>
     </section>
@@ -34,7 +32,7 @@
                     <div class="small-box bg-success">
                         <div class="inner">
                             <h3>0</h3>
-                            <p>Klien</p>
+                            <p>User Terdaftar</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
@@ -47,7 +45,7 @@
                     <div class="small-box bg-warning">
                         <div class="inner">
                             <h3>0</h3>
-                            <p>Proyek Sudah Selsaikan</p>
+                            <p>Proyek Sudah Selesaikan</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>

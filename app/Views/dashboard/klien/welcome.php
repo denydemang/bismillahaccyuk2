@@ -4,12 +4,10 @@
 
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Selamat Datang <?= $nama; ?></h1>
-                    <br>
-                    <p>Anda Dapat Ajukan Tawaran Proyek Di Bawah</p>
-                </div>
+            <div class="alert alert-info alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h2>Selamat Datang <?= $nama; ?></h2>
+                Anda Dapat Ajukan Tawaran Proyek Di Bawah
             </div>
         </div>
     </section>

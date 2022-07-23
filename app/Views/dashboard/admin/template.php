@@ -170,9 +170,9 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
                             <a href="<?= base_url(); ?>/klien" class="nav-link <?= ($_SESSION['aktif'] == 'home') ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-home"></i>
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Home
+                                    Dashboard
                                 </p>
                             </a>
                         </li>
