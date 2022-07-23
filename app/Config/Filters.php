@@ -39,10 +39,10 @@ class Filters extends BaseConfig
             // 'csrf',
             // 'invalidchars',
             'filterAdmin' => [
-                'except' => ['login/*', 'login', '/', 'registrasi', 'registrasi/*']
+                'except' => ['login/*', 'login', '/', 'registrasi', 'registrasi/*', 'coba', 'coba/*']
             ],
             'filterKlien' => [
-                'except' => ['login/*', 'login', '/', 'registrasi', 'registrasi/*']
+                'except' => ['login/*', 'login', '/', 'registrasi', 'registrasi/*', 'coba', 'coba/*']
             ]
         ],
         'after' => [

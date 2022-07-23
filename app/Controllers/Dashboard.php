@@ -7,7 +7,10 @@ class Dashboard extends BaseController
 
     public function index()
     {
-
+        $username = session()->get('username');
+        $nama = session()->get('nama');
+        $alamat = session()->get('alamat');
+        $notelp = session()->get('notelp');
         if (session()->idlevel == 1) {
 
             if (isset($_SESSION['aktif'])) {
@@ -17,6 +20,10 @@ class Dashboard extends BaseController
             $judul = 'Admin';
             $data = [
                 'judul' => $judul,
+                'nama' => $nama,
+                'alamat' => $alamat,
+                'notelp' => $notelp,
+                'username' => $username
             ];
             return view('dashboard/admin/welcome', $data);
         } else {
@@ -30,6 +37,10 @@ class Dashboard extends BaseController
             $judul = 'Klien';
             $data = [
                 'judul' => $judul,
+                'nama' => $nama,
+                'alamat' => $alamat,
+                'notelp' => $notelp,
+                'username' => $username
             ];
             return view('dashboard/klien/welcome', $data);
         };

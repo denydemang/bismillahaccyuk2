@@ -1,14 +1,91 @@
 <?= $this->extend('dashboard/klien/template'); ?>
 <?= $this->section('dashboardklien'); ?>
-<div class="container-fluid px-5 py-5">
-    <div class="card bg-dark">
-        <div class="card-body bg-white">
-            <h3 class="card-title">Selamat Datang Demang</h3>
-            <h6 class="card-subtitle mb-2 text-muted">SIlakan Anda Dapat Mengajukan Proyek Di Menu Ajukan Proyek</h6>
-            <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a> -->
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Selamat Datang <?= $nama; ?></h1>
+                    <br>
+                    <p>Anda Dapat Ajukan Tawaran Proyek Di Bawah</p>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col col-lg-8">
+
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Form Ajukan Proyek</h3>
+                        </div>
+                        <form>
+                            <div class="card-body">
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <label for="email">Nama</label>
+                                        <input type="text" readonly class="form-control" class="nama" name="nama" value="<?= $nama; ?>">
+                                    </div>
+                                    <div class="col">
+                                        <label for="alamat">Alamat</label>
+                                        <input type="text" readonly class="form-control" id="alamat" name="alamat" value="<?= $alamat; ?>">
+                                    </div>
+                                </div>
+                                <div class=" form-group form-row">
+                                    <div class="col">
+                                        <label for="notelp">No Telpon</label>
+                                        <input type="text" readonly class="form-control" id="notelp" name="notelp" value="<?= $notelp; ?>">
+                                    </div>
+                                    <div class="col">
+                                        <label for="namaproyek">Nama Proyek</label>
+                                        <input type="text" class="form-control" id="namaproyek" id="namaproyek" name="namaproyek">
+                                    </div>
+                                </div>
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <label for="notelp">No Telpon</label>
+                                        <input type="text" class="form-control" id="notelp" name="notelp">
+                                    </div>
+                                    <div class="col">
+                                        <label for="jenisproyek">Jenis Proyek</label>
+                                        <input type="text" class="form-control" id="jenisproyek" name="jenisproyek">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lokasiproyek">Lokasi Proyek</label>
+                                    <input type="text" class="form-control" id="lokasiproyek" name="lokasiproyek">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lokasiproyek">Catatan</label>
+                                    <textarea class="form-control" id="catatan" rows="2" name="catatan"></textarea>
+                                </div>
+                                <div class=" form-group">
+                                    <label for="exampleInputFile">Masukkan File (optional)</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="exampleInputFile">
+                                            <label class="custom-file-label" for="exampleInputFile">Pilih File</label>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Upload</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Ajukan Proyek</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </div>
 <?= $this->endSection(); ?>

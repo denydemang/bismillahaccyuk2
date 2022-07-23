@@ -2,96 +2,219 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="<?= base_url(); ?>/css/dashboard.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $judul; ?></title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+    <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/fontawesome-free/css/all.min.css">
+
+    <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+
+    <link rel="stylesheet" href="<?= base_url('assetslte') ?>/dist/css/adminlte.min.css?v=3.2.0">
+    <script nonce="1a2a044e-6724-4fa0-a605-15124d71b2a4">
+        (function(w, d) {
+            ! function(a, e, t, r) {
+                a.zarazData = a.zarazData || {};
+                a.zarazData.executed = [];
+                a.zaraz = {
+                    deferred: []
+                };
+                a.zaraz.q = [];
+                a.zaraz._f = function(e) {
+                    return function() {
+                        var t = Array.prototype.slice.call(arguments);
+                        a.zaraz.q.push({
+                            m: e,
+                            a: t
+                        })
+                    }
+                };
+                for (const e of ["track", "set", "ecommerce", "debug"]) a.zaraz[e] = a.zaraz._f(e);
+                a.zaraz.init = () => {
+                    var t = e.getElementsByTagName(r)[0],
+                        z = e.createElement(r),
+                        n = e.getElementsByTagName("title")[0];
+                    n && (a.zarazData.t = e.getElementsByTagName("title")[0].text);
+                    a.zarazData.x = Math.random();
+                    a.zarazData.w = a.screen.width;
+                    a.zarazData.h = a.screen.height;
+                    a.zarazData.j = a.innerHeight;
+                    a.zarazData.e = a.innerWidth;
+                    a.zarazData.l = a.location.href;
+                    a.zarazData.r = e.referrer;
+                    a.zarazData.k = a.screen.colorDepth;
+                    a.zarazData.n = e.characterSet;
+                    a.zarazData.o = (new Date).getTimezoneOffset();
+                    a.zarazData.q = [];
+                    for (; a.zaraz.q.length;) {
+                        const e = a.zaraz.q.shift();
+                        a.zarazData.q.push(e)
+                    }
+                    z.defer = !0;
+                    for (const e of [localStorage, sessionStorage]) Object.keys(e || {}).filter((a => a.startsWith("_zaraz_"))).forEach((t => {
+                        try {
+                            a.zarazData["z_" + t.slice(7)] = JSON.parse(e.getItem(t))
+                        } catch {
+                            a.zarazData["z_" + t.slice(7)] = e.getItem(t)
+                        }
+                    }));
+                    z.referrerPolicy = "origin";
+                    z.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(a.zarazData)));
+                    // t.parentNode.insertBefore(z, t)
+                };
+                ["complete", "interactive"].includes(e.readyState) ? zaraz.init() : a.addEventListener("DOMContentLoaded", zaraz.init)
+            }(w, d, 0, "script");
+        })(window, document);
+    </script>
 </head>
 
-<body>
-    <div class="d-flex" id="wrapper">
-        <!-- Sidebar -->
-        <div class="bg-white" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-4 primary-text fs-5 fw-bold text-uppercase border-bottom"><img src="<?= base_url(); ?>/img/logo.png" class="me-5" width="140" " alt=""></div>
-        <div class=" list-group list-group-flush my-3">
+<body class="hold-transition sidebar-mini layout-fixed">
 
-                <a href="<?= base_url(); ?>/detailproyek" class="list-group-item list-group-item-action bg-transparent <?= ($_SESSION['aktif'] == 'progressproyek') ? 'aktif' : ''; ?> second-text fw-bold"><i class="fas fa-database me-2"></i>Progress Proyek</a>
-                <a href="<?= base_url(); ?>/detailproyek/pembayaranproyek" class="list-group-item list-group-item-action bg-transparent <?= ($_SESSION['aktif'] == 'pembayaranproyek') ? 'aktif' : ''; ?> second-text fw-bold"><i class="fas fa-database me-2"></i>Pembayaran Proyek</a>
+    <div class="wrapper">
+        <!-- Bagian Navbar Atas -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Toggle SideBar Dan Nama Dashboard -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-sm-inline-block" style="margin-top:5px;">
+                    <h4>Dashboard Detail Proyek</h4>
+                </li>
+            </ul>
+            <!-- end Toggle Sidebar Dan Nama Dashboard -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Bagian Notifikasi-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="far fa-bell"></i>
+                        <span class="badge badge-warning navbar-badge">15</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <span class="dropdown-item dropdown-header">15 Notifications</span>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-envelope mr-2"></i> 4 new messages
+                            <span class="float-right text-muted text-sm">3 mins</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-users mr-2"></i> 8 friend requests
+                            <span class="float-right text-muted text-sm">12 hours</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-file mr-2"></i> 3 new reports
+                            <span class="float-right text-muted text-sm">2 days</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                    </div>
+                </li>
+                <!-- End Bagian Icon Notifikasi -->
 
+                <!-- Bagian Enable Full Screen -->
+                <li class="nav-item d-none d-lg-inline">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url(); ?>/logout" role="button">
+                        <i class="fas fa-power-off" style="color:red;"></i><span class="d-none mx-2 d-lg-inline">Log Out</span>
+                    </a>
+                </li>
+                <!-- End Bagian Enable Full Screen -->
 
-                <a href="<?= base_url(); ?>/logout" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i class="fas fa-power-off me-2"></i>Logout</a>
+            </ul>
+        </nav>
+        <!-- End Bagian Navbar Atas -->
+
+        <!-- Bagian SideBar -->
+        <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
+            <!-- Bagian Logo  Dan Judul -->
+            <a href="<?= base_url('assetslte') ?>/index3.html" class="brand-link">
+                <img src="<?= base_url() ?>/img/logosmall2.png" alt="AdminLTE Logo" class="brand-image img-circle" style="opacity: 1">
+                <span class="brand-text font-weight-light">PT ADIKA JAYA E.</span>
+            </a>
+            <!-- End Bagian Logo dan Judul -->
+            <!-- Bagian Menu Sidebar -->
+            <div class="sidebar">
+                <!-- Bagian User Profile -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="<?= base_url() ?>/img/undraw_profile.svg" class="img-circle" alt="User Image">
+                    </div>
+                    <div class="info">
+                        <a class="d-block"><?= $username; ?></a>
+                    </div>
+                </div>
+                <!-- End Bagian User Profile -->
+                <!-- Bagian Search SideBar -->
+                <div class="form-inline">
+                    <div class="input-group" data-widget="sidebar-search">
+                        <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-sidebar">
+                                <i class="fas fa-search fa-fw"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Bagian Search SideBar -->
+                <!-- Bagian Menu Sidebar -->
+                <nav class="mt-2">
+                    <!-- Bagian Item Menu Sidebar -->
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                            <a href="<?= base_url(); ?>/detailproyek" class="nav-link <?= ($_SESSION['aktif'] == 'progressproyek') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-business-time"></i>
+                                <p>
+                                    Progress Proyek
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item" style="margin-top:10px;">
+                            <a href="<?= base_url(); ?>/detailproyek/pembayaranproyek" class="nav-link <?= ($_SESSION['aktif'] == 'pembayaranproyek') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-money-bill"></i>
+                                <p>
+                                    Pembayaran Proyek
+                                </p>
+                            </a>
+                        </li>
+                        <!-- ENd Bagian Item MenuSidebar -->
+                </nav>
 
             </div>
-        </div>
-        <!-- /#sidebar-wrapper -->
+            <!-- End Bagian Menu Sidebar -->
+        </aside>
+        <!-- End Bagian Sidebar -->
 
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <nav class="navbar shadow-lg navbar-expand-lg navbar-light bg-transparent py-2 px-4">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
-                    <h2 class="fs-4 m-0">Dashboard Detail Proyek</h2>
-                </div>
-                <div class="ms-5 me-2 primary-text position-relative">
-                    <i class="fa-solid fa-bell fs-4"></i>
-                    <span class="position-absolute ms-2 top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        99+
-                        <span class="visually-hidden">unread messages</span>
-                    </span>
-                </div>
+        <!-- Bagian Content -->
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <!-- ENd Bagian Content -->
+        <?= $this->renderSection('dashboardetailproyek'); ?>
+        <!-- Bagian Footer -->
+        <footer class="main-footer">
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <p class="d-inline me-2">Demang</p>
-                                <img class="rounded-circle z-depth-2" alt="100x100" width="50" src="<?= base_url(); ?>/img/undraw_profile.svg" data-holder-rendered="true">
+            <strong>Copyright &copy; 2022 <a href="https://adminlte.io">PT. Adika Jaya Engineering</a>.</strong> All rights reserved.
+        </footer>
+        <!-- End Bagian Footer -->
 
-                                <!-- John Doe <img src="https://mdbootstrap.com/img/new/avatars/2.jpg" class="img-fluid mx-2" style="width: 35px;" alt="" /> -->
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="<?= base_url(); ?>/logout">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            <?= $this->renderSection('dashboarddetailproyek'); ?>
-
-        </div>
     </div>
+
+
+    <script src="<?= base_url('assetslte') ?>/plugins/jquery/jquery.min.js"></script>
+
+    <script src="<?= base_url('assetslte') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="<?= base_url('assetslte') ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
+    <script src="<?= base_url('assetslte') ?>/dist/js/adminlte.min.js?v=3.2.0"></script>
+
+
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script>
-    var el = document.getElementById("wrapper");
-    var toggleButton = document.getElementById("menu-toggle");
-
-    toggleButton.onclick = function() {
-        el.classList.toggle("toggled");
-    };
-    $('#dataproyek').click(function() {
-        $('.fa-caret-right').toggleClass('rotate');
-
-    })
-    $('#bahanbaku').click(function() {
-        $(this).$('.fa-caret-right').toggleClass('rotate');
-
-    })
-    $('.list-group-item').click(function() {
-        $('.list-group-item').removeClass('aktif');
-        $(this).addClass('aktif');
-    })
-</script>
 
 </html>
