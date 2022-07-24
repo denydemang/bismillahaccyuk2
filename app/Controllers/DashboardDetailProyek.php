@@ -4,61 +4,59 @@ namespace App\Controllers;
 
 class DashboardDetailProyek extends Dashboard
 {
+    public function __construct()
+    {
+        $this->username = session()->get('username');
+        $this->nama = session()->get('nama');
+        $this->alamat = session()->get('alamat');
+        $this->notelp = session()->get('notelp');
+    }
     public function index()
     {
-        $username = session()->get('username');
-        $nama = session()->get('nama');
-        $alamat = session()->get('alamat');
-        $notelp = session()->get('notelp');
+
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         }
         $_SESSION['aktif'] = 'progressproyek';
         $data = [
             'judul' => 'Dasboard Detail Proyek',
-            'nama' => $nama,
-            'alamat' => $alamat,
-            'notelp' => $notelp,
-            'username' => $username
+            'nama' => $this->nama,
+            'alamat' => $this->alamat,
+            'notelp' => $this->notelp,
+            'username' => $this->username
 
         ];
         return view('dashboard/detailproyek/progressproyek', $data);
     }
     public function progressproyek()
     {
-        $username = session()->get('username');
-        $nama = session()->get('nama');
-        $alamat = session()->get('alamat');
-        $notelp = session()->get('notelp');
+
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         }
         $_SESSION['aktif'] = 'progressproyek';
         $data = [
             'judul' => 'Dashboard Detail Proyek',
-            'nama' => $nama,
-            'alamat' => $alamat,
-            'notelp' => $notelp,
-            'username' => $username
+            'nama' => $this->nama,
+            'alamat' => $this->alamat,
+            'notelp' => $this->notelp,
+            'username' => $this->username
         ];
         return view('dashboard/detailproyek/progressproyek', $data);
     }
     public function pembayaranproyek()
     {
-        $username = session()->get('username');
-        $nama = session()->get('nama');
-        $alamat = session()->get('alamat');
-        $notelp = session()->get('notelp');
+
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         }
         $_SESSION['aktif'] = 'pembayaranproyek';
         $data = [
             'judul' => 'Dashboard Detail Proyek',
-            'nama' => $nama,
-            'alamat' => $alamat,
-            'notelp' => $notelp,
-            'username' => $username
+            'nama' => $this->nama,
+            'alamat' => $this->alamat,
+            'notelp' => $this->notelp,
+            'username' => $this->username
         ];
         return view('dashboard/detailproyek/pembayaranproyek', $data);
     }

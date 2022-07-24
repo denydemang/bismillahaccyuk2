@@ -169,38 +169,47 @@
                     <!-- Bagian Item Menu Sidebar -->
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="<?= base_url(); ?>/admin" class="nav-link <?= ($_SESSION['aktif'] == 'home') ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-tachometer-alt mr-3""></i>
+                            <a href="<?= base_url(); ?>/admin" class="nav-link <?= ($_SESSION['aktif'] == 'welcome') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-tachometer-alt mr-3"></i>
                                 <p>
                                     Dashboard
                                 </p>
                             </a>
                         </li>
-                        <li class=" nav-item" style="margin-top:10px;">
-                                    <a href="<?= base_url(); ?>/admin/message" class="nav-link <?= ($_SESSION['aktif'] == 'message') ? 'active' : '' ?>">
-                                        <i class="nav-icon fas fa-hand-holding-usd mr-3""></i>
+                        <li class="nav-item">
+                            <a href="<?= base_url(); ?>/admin/datauser" class="nav-link <?= ($_SESSION['aktif'] == 'datauser') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-users mr-3"></i>
+                                <p>
+                                    Kelola User
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url(); ?>/admin/ajuanproyek" class="nav-link <?= ($_SESSION['aktif'] == 'ajuan') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-hand-holding-usd mr-3"></i>
                                 <p>
                                     Ajuan Proyek
                                 </p>
                             </a>
                         </li>
-                        <li class=" nav-item" style="margin-top:10px;">
-                                            <a href="<?= base_url(); ?>/admin/message" class="nav-link <?= ($_SESSION['aktif'] == 'message') ? 'active' : '' ?>">
-                                                <i class="nav-icon fas fa-users mr-3"></i>
-                                                <p>
-                                                    Kelola Users
-                                                </p>
-                                            </a>
+                        <li class="nav-item">
+                            <a href="<?= base_url(); ?>/admin/dataproyek" class="nav-link <?= ($_SESSION['aktif'] == 'dataproyek') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fas fa-toolbox mr-3"></i>
+                                <p>
+                                    Data Proyek
+                                </p>
+                            </a>
                         </li>
-                        <li class="nav-item" style="margin-top:10px;">
+                        <li class="nav-item">
                             <a href="<?= base_url(); ?>/admin/message" class="nav-link <?= ($_SESSION['aktif'] == 'message') ? 'active' : '' ?>">
-                                <i class="nav-icon far fa-envelope mr-3""></i>
+                                <i class="nav-icon fas fa-envelope mr-3"></i>
                                 <p>
                                     Message
                                 </p>
                             </a>
                         </li>
-                        <!-- ENd Bagian Item MenuSidebar -->
+                    </ul>
+                    <!-- ENd Bagian Item MenuSidebar -->
                 </nav>
 
             </div>
@@ -215,21 +224,21 @@
         <!-- Bagian Footer -->
         <footer class=" main-footer">
 
-                                    <strong>Copyright &copy; 2022 <a href="#">PT. Adika Jaya Engineering</a>.</strong> All rights reserved.
-                                    </footer>
-                                    <!-- End Bagian Footer -->
+            <strong>Copyright &copy; 2022 <a href="#">PT. Adika Jaya Engineering</a>.</strong> All rights reserved.
+        </footer>
+        <!-- End Bagian Footer -->
 
-            </div>
+    </div>
 
 
-            <script src="<?= base_url('assetslte') ?>/plugins/jquery/jquery.min.js"></script>
+    <script src="<?= base_url('assetslte') ?>/plugins/jquery/jquery.min.js"></script>
 
-            <script src="<?= base_url('assetslte') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= base_url('assetslte') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-            <script src="<?= base_url('assetslte') ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-
-            <script src="<?= base_url('assetslte') ?>/dist/js/adminlte.min.js?v=3.2.0"></script>
-
+    <script src="<?= base_url('assetslte') ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="<?= base_url('assetslte') ?>/dist/js/adminlte.min.js?v=3.2.0"></script>
+    <script src="<?= base_url(); ?>/js/myscript.js"></script>
 
 </body>
 
