@@ -6,9 +6,21 @@ use App\Models\ModelLogin;
 
 class DashboardAdmin extends Dashboard
 {
+    private $db,
+        $jumlahdataakun;
 
     public function __construct()
     {
+        $this->db = \Config\Database::connect();
+        $builder = $this->db->table('akun');
+
+        //query builder untuk mendapatkan jumlah baris di tabel
+        $builder->selectCount('user_id');
+        $jumlahdata = $builder->get();
+        $jumlahdata->getRow();
+        $getjumlahdata = $jumlahdata->getResultObject();
+        $this->jumlahdataakun = $getjumlahdata[0]->user_id;
+        //end query builder untuk mendapatkan jumlah baris di tabel
         $this->username = session()->get('username');
         $this->nama = session()->get('nama');
         $this->alamat = session()->get('alamat');
@@ -26,7 +38,8 @@ class DashboardAdmin extends Dashboard
             'nama' => $this->nama,
             'alamat' => $this->alamat,
             'notelp' => $this->notelp,
-            'username' => $this->username
+            'username' => $this->username,
+            'jumlahdataakun' => $this->jumlahdataakun
 
         ];
         return view('dashboard/admin/welcome', $data);
@@ -43,15 +56,15 @@ class DashboardAdmin extends Dashboard
             'nama' => $this->nama,
             'alamat' => $this->alamat,
             'notelp' => $this->notelp,
-            'username' => $this->username
+            'username' => $this->username,
 
         ];
         return view('dashboard/admin/ajuanproyek', $data);
     }
     public function datauser()
     {
-        $db      = \Config\Database::connect();
-        $builder = $db->table('akun');
+
+        $builder = $this->db->table('akun');
         $builder->select('*');
         $builder->select('level.levelnama');
         $builder->join('level', 'akun.user_level=level.user_level');
@@ -67,7 +80,8 @@ class DashboardAdmin extends Dashboard
             'alamat' => $this->alamat,
             'notelp' => $this->notelp,
             'username' => $this->username,
-            'users' => $query->getResult()
+            'users' => $query->getResult(),
+
         ];
         return view('dashboard/admin/datauser', $data);
     }
@@ -82,7 +96,8 @@ class DashboardAdmin extends Dashboard
             'nama' => $this->nama,
             'alamat' => $this->alamat,
             'notelp' => $this->notelp,
-            'username' => $this->username
+            'username' => $this->username,
+
         ];
         return view('dashboard/admin/dataproyek', $data);
     }
@@ -97,7 +112,7 @@ class DashboardAdmin extends Dashboard
             'nama' => $this->nama,
             'alamat' => $this->alamat,
             'notelp' => $this->notelp,
-            'username' => $this->username
+            'username' => $this->username,
         ];
         return view('dashboard/admin/message', $data);
     }

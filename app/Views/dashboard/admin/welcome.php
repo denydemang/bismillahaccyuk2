@@ -31,13 +31,13 @@
 
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>0</h3>
+                            <h3><?= $jumlahdataakun; ?></h3>
                             <p>User Terdaftar</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?= base_url(); ?>/admin/datauser" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
