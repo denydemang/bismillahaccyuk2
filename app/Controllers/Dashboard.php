@@ -8,9 +8,21 @@ class Dashboard extends BaseController
     private $nama,
         $alamat,
         $notelp,
-        $username;
+        $username,
+        $db,
+        $jumlahdataakun;
     public function __construct()
+
     {
+        $this->db = \Config\Database::connect();
+        $builder = $this->db->table('akun');
+
+        //query builder untuk mendapatkan jumlah baris di tabel
+        $builder->selectCount('user_id');
+        $jumlahdata = $builder->get();
+        $jumlahdata->getRow();
+        $getjumlahdata = $jumlahdata->getResultObject();
+        $this->jumlahdataakun = $getjumlahdata[0]->user_id;
         $this->username = session()->get('username');
         $this->nama = session()->get('nama');
         $this->alamat = session()->get('alamat');
@@ -18,6 +30,7 @@ class Dashboard extends BaseController
     }
     public function index()
     {
+
 
         if (session()->idlevel == 1) {
 
@@ -31,7 +44,8 @@ class Dashboard extends BaseController
                 'nama' => $this->nama,
                 'alamat' => $this->alamat,
                 'notelp' => $this->notelp,
-                'username' => $this->username
+                'username' => $this->username,
+                'jumlahdataakun' => $this->jumlahdataakun
             ];
             return view('dashboard/admin/welcome', $data);
         } else {
@@ -48,7 +62,8 @@ class Dashboard extends BaseController
                 'nama' => $this->nama,
                 'alamat' => $this->alamat,
                 'notelp' => $this->notelp,
-                'username' => $this->username
+                'username' => $this->username,
+
             ];
             return view('dashboard/klien/welcome', $data);
         };

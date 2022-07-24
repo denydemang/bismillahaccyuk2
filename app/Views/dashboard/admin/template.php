@@ -135,7 +135,7 @@
         <!-- Bagian SideBar -->
         <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
             <!-- Bagian Logo  Dan Judul -->
-            <a href="<?= base_url('assetslte') ?>/index3.html" class="brand-link">
+            <a href="<?= base_url() ?>/dashboard" class="brand-link">
                 <img src="<?= base_url() ?>/img/logosmall2.png" alt="AdminLTE Logo" class="brand-image img-circle" style="opacity: 1">
                 <span class="brand-text font-weight-light">PT ADIKA JAYA E.</span>
             </a>

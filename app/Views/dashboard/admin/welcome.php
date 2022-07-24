@@ -45,7 +45,7 @@
                     <div class="small-box bg-warning">
                         <div class="inner">
                             <h3>0</h3>
-                            <p>Proyek Sudah Selesaikan</p>
+                            <p>Ajuan Proyek Dari Klien</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
