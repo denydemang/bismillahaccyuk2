@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\AjuanProyekModel;
+
 class DashboardKLien extends Dashboard
 {
     public function __construct()

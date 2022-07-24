@@ -6,8 +6,7 @@ use App\Models\ModelLogin;
 
 class DashboardAdmin extends Dashboard
 {
-    private $db,
-        $jumlahdataakun;
+
 
     public function __construct()
     {
@@ -43,23 +42,6 @@ class DashboardAdmin extends Dashboard
 
         ];
         return view('dashboard/admin/welcome', $data);
-    }
-    public function ajuanproyek()
-    {
-        if (isset($_SESSION['aktif'])) {
-            unset($_SESSION['aktif']);
-        };
-        $_SESSION['aktif'] = 'ajuan';
-
-        $data = [
-            'judul' => 'Dashboard Admin',
-            'nama' => $this->nama,
-            'alamat' => $this->alamat,
-            'notelp' => $this->notelp,
-            'username' => $this->username,
-
-        ];
-        return view('dashboard/admin/ajuanproyek', $data);
     }
     public function datauser()
     {
