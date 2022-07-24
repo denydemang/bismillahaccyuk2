@@ -45,17 +45,13 @@
                                 </div>
                                 <div class="form-row form-group">
                                     <div class="col">
-                                        <label for="notelp">No Telpon</label>
-                                        <input type="text" class="form-control" id="notelp" name="notelp">
-                                    </div>
-                                    <div class="col">
                                         <label for="jenisproyek">Jenis Proyek</label>
                                         <input type="text" class="form-control" id="jenisproyek" name="jenisproyek">
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="lokasiproyek">Lokasi Proyek</label>
-                                    <input type="text" class="form-control" id="lokasiproyek" name="lokasiproyek">
+                                    <div class="form-group">
+                                        <label for="lokasiproyek">Lokasi Proyek</label>
+                                        <input type="text" class="form-control" id="lokasiproyek" name="lokasiproyek">
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="lokasiproyek">Catatan</label>
