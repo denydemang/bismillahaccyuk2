@@ -32,7 +32,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.min.js"></script>
 <script src="<?= base_url('js/additional-methods.min.js'); ?>"></script>
-<script src="<?= base_url('js/validasiregistrasi.js'); ?>"></script>
+<script src="<?= base_url('js/validasiform.js'); ?>"></script>
 <script>
     // let section = document.querySelectorAll('section');
     // let navLinks = document.querySelectorAll('.nav-link');

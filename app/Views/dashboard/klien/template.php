@@ -214,6 +214,8 @@
 
     <script src="<?= base_url('assetslte') ?>/dist/js/adminlte.min.js?v=3.2.0"></script>
 
+    <script src="<?= base_url('js/additional-methods.min.js'); ?>"></script>
+    <script src="<?= base_url('js/validasiform.js'); ?>"></script>
 
 </body>
 
