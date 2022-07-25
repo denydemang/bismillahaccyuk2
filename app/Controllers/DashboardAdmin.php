@@ -80,6 +80,20 @@ class DashboardAdmin extends Dashboard
         $_SESSION['aktif'] = 'message';
         return view('dashboard/admin/message', $this->datalogin);
     }
+    public function detailajuanproyek()
+
+    {
+        $id = $this->request->getVar('id');
+        $builder = $this->db->table('pengajuan_proyek');
+        $builder->select('*');
+        $builder->select('status_ajuan.keterangan');
+        $builder->join('status_ajuan', 'pengajuan_proyek.status_id=status_ajuan.status_id');
+        $builder->where('idajuan', $id);
+        $query = $builder->get();
+        $getdata = $query->getResult();
+
+        echo json_encode($getdata);
+    }
 
     ////Method untuk menjalankan query
     public function terimaajuan($id)
@@ -159,13 +173,5 @@ class DashboardAdmin extends Dashboard
         $id = $_POST['id'];
         $getuser = new ModelLogin();
         echo json_encode($getuser->where('user_id', $id)->findAll());
-    }
-    public function detailajuanproyek()
-    {
-        if (isset($_SESSION['aktif'])) {
-            unset($_SESSION['aktif']);
-        };
-        $_SESSION['aktif'] = 'ajuan';
-        $Ajuanproyekmodal = new AjuanProyekModel();
     }
 }
