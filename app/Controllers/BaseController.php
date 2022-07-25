@@ -47,5 +47,6 @@ abstract class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
         // session_start();
+        session()->start();
     }
 }

@@ -16,15 +16,17 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col col-lg-8">
-
+                    <div class="pesan" data-flash="<?= session()->getFlashdata('pesan'); ?>"></div>
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Form Ajukan Proyek</h3>
                         </div>
-                        <form>
+                        <form id="formajuanproyek" method="post" action="<?= base_url('/DashboardKlien/simpanajuanproyek'); ?>">
+                            <?= csrf_field(); ?>
                             <div class="card-body">
                                 <div class="form-row form-group">
                                     <div class="col">
+                                        <input type="hidden" class="form-control" class="nama" name="user_id" value="<?= $user_id; ?>">
                                         <label for="email">Nama</label>
                                         <input type="text" readonly class="form-control" class="nama" name="nama" value="<?= $nama; ?>">
                                     </div>
@@ -48,7 +50,7 @@
                                         <label for="jenisproyek">Jenis Proyek</label>
                                         <input type="text" class="form-control" id="jenisproyek" name="jenisproyek">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="col">
                                         <label for="lokasiproyek">Lokasi Proyek</label>
                                         <input type="text" class="form-control" id="lokasiproyek" name="lokasiproyek">
                                     </div>

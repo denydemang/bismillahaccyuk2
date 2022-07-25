@@ -6,27 +6,20 @@ use App\Models\AjuanProyekModel;
 
 class DashboardKLien extends Dashboard
 {
+
     public function __construct()
     {
-        $this->username = session()->get('username');
-        $this->nama = session()->get('nama');
-        $this->alamat = session()->get('alamat');
-        $this->notelp = session()->get('notelp');
+        parent::__construct();
+        $this->datalogin['judul'] = 'Dashboard Klien';
     }
     public function index()
     {
+
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         }
         $_SESSION['aktif'] = 'home';
-        $data = [
-            'judul' => 'Dasboard Klien',
-            'nama' => $this->nama,
-            'alamat' => $this->alamat,
-            'notelp' => $this->notelp,
-            'username' => $this->username
-        ];
-        return view('dashboard/klien/welcome', $data);
+        return view('dashboard/klien/welcome', $this->datalogin);
     }
 
     public function message()
@@ -36,13 +29,37 @@ class DashboardKLien extends Dashboard
             unset($_SESSION['aktif']);
         }
         $_SESSION['aktif'] = 'message';
-        $data = [
-            'judul' => 'Dasboard Klien',
-            'nama' => $this->nama,
-            'alamat' => $this->alamat,
-            'notelp' => $this->notelp,
-            'username' => $this->username
-        ];
-        return view('dashboard/klien/message', $data);
+
+        return view('dashboard/klien/message', $this->datalogin);
+    }
+
+    //FUnction Query
+    public function simpanajuanproyek()
+    {
+        $user_id = $this->request->getVar('user_id');
+        $nama = $this->request->getVar('nama');
+        $alamat = $this->request->getVar('alamat');
+        $notelp = $this->request->getVar('notelp');
+        $namaproyek = $this->request->getVar('namaproyek');
+        $jenisproyek = $this->request->getVar('jenisproyek');
+        $lokasiproyek = $this->request->getVar('lokasiproyek');
+        $catatan = $this->request->getVar('catatan');
+
+        $AjuanProyekModel = new AjuanProyekModel();
+        $AjuanProyekModel->save([
+            'idajuan' => '',
+            'user_id' => $user_id,
+            'nama' => $nama,
+            'alamat' => $alamat,
+            'notelp' => $notelp,
+            'namaproyek' => $namaproyek,
+            'jenisproyek' => $jenisproyek,
+            'lokasiproyek' => $lokasiproyek,
+            'catatanproyek' => $catatan,
+
+
+        ]);
+        session()->setFlashdata('pesan', 'berhasildiajukan');
+        return redirect()->to(base_url('/klien'));
     }
 }

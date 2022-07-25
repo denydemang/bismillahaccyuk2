@@ -9,7 +9,7 @@ class Registrasi extends BaseController
     public function index()
     {
 
-        session()->start();
+
         $data = [
             'judul' => 'Halaman Registrasi',
             'validation' => \Config\Services::validation(),

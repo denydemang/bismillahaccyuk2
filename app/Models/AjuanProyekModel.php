@@ -7,6 +7,9 @@ use CodeIgniter\Model;
 
 class AjuanProyekModel extends Model
 {
-    protected $table = 'bahanbaku';
-    protected $primaryKey = 'idbahan';
+    protected $table = 'pengajuan_proyek';
+    protected $primaryKey = 'idajuan';
+    protected $allowedFields = [
+        'idajuan', 'user_id', 'nama', 'alamat', 'notelp', 'namaproyek', 'jenisproyek', 'lokasiproyek', 'catatanproyek'
+    ];
 }

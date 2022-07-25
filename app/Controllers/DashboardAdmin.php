@@ -7,23 +7,10 @@ use App\Models\ModelLogin;
 class DashboardAdmin extends Dashboard
 {
 
-
     public function __construct()
     {
-        $this->db = \Config\Database::connect();
-        $builder = $this->db->table('akun');
-
-        //query builder untuk mendapatkan jumlah baris di tabel
-        $builder->selectCount('user_id');
-        $jumlahdata = $builder->get();
-        $jumlahdata->getRow();
-        $getjumlahdata = $jumlahdata->getResultObject();
-        $this->jumlahdataakun = $getjumlahdata[0]->user_id;
-        //end query builder untuk mendapatkan jumlah baris di tabel
-        $this->username = session()->get('username');
-        $this->nama = session()->get('nama');
-        $this->alamat = session()->get('alamat');
-        $this->notelp = session()->get('notelp');
+        parent::__construct();
+        $this->datalogin['judul'] = 'Dashboard Admin';
     }
     public function index()
     {
@@ -32,16 +19,20 @@ class DashboardAdmin extends Dashboard
             unset($_SESSION['aktif']);
         };
         $_SESSION['aktif'] = 'welcome';
-        $data = [
-            'judul' => 'Dashboard Admin',
-            'nama' => $this->nama,
-            'alamat' => $this->alamat,
-            'notelp' => $this->notelp,
-            'username' => $this->username,
+        $this->datalogin += [
             'jumlahdataakun' => $this->jumlahdataakun
-
         ];
-        return view('dashboard/admin/welcome', $data);
+
+        return view('dashboard/admin/welcome', $this->datalogin);
+    }
+    public function ajuanproyek()
+    {
+
+        if (isset($_SESSION['aktif'])) {
+            unset($_SESSION['aktif']);
+        };
+        $_SESSION['aktif'] = 'ajuan';
+        return view('dashboard/admin/ajuanproyek', $this->datalogin);
     }
     public function datauser()
     {
@@ -56,16 +47,10 @@ class DashboardAdmin extends Dashboard
             unset($_SESSION['aktif']);
         };
         $_SESSION['aktif'] = 'datauser';
-        $data = [
-            'judul' => 'Dashboard Admin',
-            'nama' => $this->nama,
-            'alamat' => $this->alamat,
-            'notelp' => $this->notelp,
-            'username' => $this->username,
+        $this->datalogin += [
             'users' => $query->getResult(),
-
         ];
-        return view('dashboard/admin/datauser', $data);
+        return view('dashboard/admin/datauser', $this->datalogin);
     }
     public function dataproyek()
     {
@@ -73,15 +58,7 @@ class DashboardAdmin extends Dashboard
             unset($_SESSION['aktif']);
         };
         $_SESSION['aktif'] = 'dataproyek';
-        $data = [
-            'judul' => 'Dashboard Admin',
-            'nama' => $this->nama,
-            'alamat' => $this->alamat,
-            'notelp' => $this->notelp,
-            'username' => $this->username,
-
-        ];
-        return view('dashboard/admin/dataproyek', $data);
+        return view('dashboard/admin/dataproyek', $this->datalogin);
     }
     public function message()
     {
@@ -89,15 +66,10 @@ class DashboardAdmin extends Dashboard
             unset($_SESSION['aktif']);
         };
         $_SESSION['aktif'] = 'message';
-        $data = [
-            'judul' => 'Dashboard Admin',
-            'nama' => $this->nama,
-            'alamat' => $this->alamat,
-            'notelp' => $this->notelp,
-            'username' => $this->username,
-        ];
-        return view('dashboard/admin/message', $data);
+        return view('dashboard/admin/message', $this->datalogin);
     }
+
+    ////Method untuk menjalankan query
     public function deleteuser($id)
     {
         $modeluser = new ModelLogin();
@@ -135,5 +107,12 @@ class DashboardAdmin extends Dashboard
         $id = $_POST['id'];
         $getuser = new ModelLogin();
         echo json_encode($getuser->where('user_id', $id)->findAll());
+    }
+    public function detailajuanproyek()
+    {
+        if (isset($_SESSION['aktif'])) {
+            unset($_SESSION['aktif']);
+        };
+        $_SESSION['aktif'] = 'ajuan';
     }
 }

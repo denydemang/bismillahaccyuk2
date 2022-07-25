@@ -1,5 +1,4 @@
 
-
 jQuery.validator.addMethod("hanyahuruf", function(value, element) {
     return this.optional(element) || /^[a-z\s]+$/i.test(value);
     }, "Only alphabetical characters");
@@ -70,11 +69,10 @@ $(document).ready(function(){
                     required: 'Ulangi Password',
                     equalTo: 'Password Tidak Sama',
             },   
-                   
+            
         },  errorElement: "div",
         errorPlacement: function ( error, element ) {
-          
-           
+
 	        // Add the `invalid-feedback` class to the error element
 	        error.addClass( "invalid-feedback" );
             error.addClass("pesanerror");
@@ -93,7 +91,7 @@ $(document).ready(function(){
             submitHandler: function (form) {
                 form.submit();
 
-                 }
+                }
 
 
         
@@ -102,5 +100,58 @@ $(document).ready(function(){
     // End Validasi Form Registrasi
 
     //Validasi Form Ajuan Proyek
+   
+    $('#formajuanproyek').each(function(){
+        $(this).validate({
+            rules: {
+                namaproyek : {
+                    required : true,
+                },
+                jenisproyek : {
+                required : true,
+                },
+                lokasiproyek : {
+                required : true,
+                },
+                catatan : {
+                required : true,
+                }
+                
+            },
+            messages: {
+                namaproyek : {
+                    required: 'Nama Proyek Wajib Diisi'
+                },
+                jenisproyek : {
+                    required: 'Jenis Proyek Wajib Diisi'
+                },
+                lokasiproyek : {
+                    required: 'Lokasi Proyek Wajib Diisi'
+                },
+                catatan : {
+                    required: 'Catatan Wajib Diisi'
+                },
+            },
+            errorElement: "div",
+            errorPlacement: function ( error, element ) {
+
+	        // Add the `invalid-feedback` class to the error element
+	        error.addClass( "invalid-feedback" );
+	        error.insertAfter(element);
     
+	    
+	    },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" )
+        },
+        unhighlight: function (element, errorClass, validClass) {
+	        $( element ).removeClass( "is-invalid" );
+	    },
+        submitHandler: function (form) {
+            form.submit();
+
+            }
+
+        })
+    })
 })
