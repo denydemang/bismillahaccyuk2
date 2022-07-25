@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\ModelLogin;
+use App\Models\AjuanProyekModel;
 
 class DashboardAdmin extends Dashboard
 {
@@ -20,7 +21,8 @@ class DashboardAdmin extends Dashboard
         };
         $_SESSION['aktif'] = 'welcome';
         $this->datalogin += [
-            'jumlahdataakun' => $this->jumlahdataakun
+            'jumlahdataakun' => $this->jumlahdataakun,
+            'jumlahajuan' => $this->jumlahajuan,
         ];
 
         return view('dashboard/admin/welcome', $this->datalogin);
@@ -31,9 +33,19 @@ class DashboardAdmin extends Dashboard
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
+        $builder = $this->db->table('pengajuan_proyek');
+        $builder->select('*');
+        $builder->select('status_ajuan.keterangan');
+        $builder->join('status_ajuan', 'pengajuan_proyek.status_id=status_ajuan.status_id');
+        $query = $builder->get();
         $_SESSION['aktif'] = 'ajuan';
+        $this->datalogin += [
+            'dataajuan' => $query->getResult()
+        ];
+
         return view('dashboard/admin/ajuanproyek', $this->datalogin);
     }
+
     public function datauser()
     {
 
@@ -70,6 +82,46 @@ class DashboardAdmin extends Dashboard
     }
 
     ////Method untuk menjalankan query
+    public function terimaajuan($id)
+    {
+        $modelajuan = new AjuanProyekModel();
+        $modelajuan->where('idajuan', $id)->set([
+            'status_id' => '2',
+        ])->update();
+        $getData = $modelajuan->where('idajuan', $id)->find();
+        $namaproyek = $getData[0]['namaproyek'];
+        $namaklien = $getData[0]['nama'];
+        session()->setFlashdata('namaproyek', $namaproyek);
+        session()->setFlashdata('namaklien', $namaklien);
+        session()->setFlashdata('pesan', 'diterima');
+        return redirect()->to(base_url() . '/admin/ajuanproyek');
+    }
+    public function tolakajuan($id)
+    {
+        $modelajuan = new AjuanProyekModel();
+        $modelajuan->where('idajuan', $id)->set([
+            'status_id' => '3',
+        ])->update();
+        $getData = $modelajuan->where('idajuan', $id)->find();
+        $namaproyek = $getData[0]['namaproyek'];
+        $namaklien = $getData[0]['nama'];
+        session()->setFlashdata('namaproyek', $namaproyek);
+        session()->setFlashdata('namaklien', $namaklien);
+        session()->setFlashdata('pesan', 'ditolak');
+        return redirect()->to(base_url() . '/admin/ajuanproyek');
+    }
+    public function hapusajuan($id)
+    {
+        $modelajuan = new AjuanProyekModel();
+        $getData = $modelajuan->where('idajuan', $id)->find();
+        $namaproyek = $getData[0]['namaproyek'];
+        $namaklien = $getData[0]['nama'];
+        $modelajuan->delete($id);
+        session()->setFlashdata('namaproyek', $namaproyek);
+        session()->setFlashdata('namaklien', $namaklien);
+        session()->setFlashdata('pesan', 'dihapus');
+        return redirect()->to(base_url() . '/admin/ajuanproyek');
+    }
     public function deleteuser($id)
     {
         $modeluser = new ModelLogin();
@@ -114,5 +166,6 @@ class DashboardAdmin extends Dashboard
             unset($_SESSION['aktif']);
         };
         $_SESSION['aktif'] = 'ajuan';
+        $Ajuanproyekmodal = new AjuanProyekModel();
     }
 }

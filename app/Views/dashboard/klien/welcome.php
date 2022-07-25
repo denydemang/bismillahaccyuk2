@@ -31,8 +31,8 @@
                                         <input type="text" readonly class="form-control" class="nama" name="nama" value="<?= $nama; ?>">
                                     </div>
                                     <div class="col">
-                                        <label for="alamat">Alamat</label>
-                                        <input type="text" readonly class="form-control" id="alamat" name="alamat" value="<?= $alamat; ?>">
+                                        <label for="email">Email</label>
+                                        <input type="text" readonly class="form-control" id="email" name="email" value="<?= $email; ?>">
                                     </div>
                                 </div>
                                 <div class=" form-group form-row">
@@ -41,8 +41,19 @@
                                         <input type="text" readonly class="form-control" id="notelp" name="notelp" value="<?= $notelp; ?>">
                                     </div>
                                     <div class="col">
+                                        <label for="alamat">Alamat</label>
+                                        <input type="text" readonly class="form-control" id="alamat" name="alamat" value="<?= $alamat; ?>">
+                                    </div>
+                                </div>
+                                <div class="form-row form-group">
+                                    <div class="col">
                                         <label for="namaproyek">Nama Proyek</label>
                                         <input type="text" class="form-control" id="namaproyek" id="namaproyek" name="namaproyek">
+
+                                    </div>
+                                    <div class="col">
+                                        <label for="lokasiproyek">Lokasi Proyek</label>
+                                        <input type="text" class="form-control" id="lokasiproyek" name="lokasiproyek">
                                     </div>
                                 </div>
                                 <div class="form-row form-group">
@@ -51,13 +62,9 @@
                                         <input type="text" class="form-control" id="jenisproyek" name="jenisproyek">
                                     </div>
                                     <div class="col">
-                                        <label for="lokasiproyek">Lokasi Proyek</label>
-                                        <input type="text" class="form-control" id="lokasiproyek" name="lokasiproyek">
+                                        <label for="lokasiproyek">Catatan</label>
+                                        <textarea class="form-control" id="catatan" rows="2" name="catatan"></textarea>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="lokasiproyek">Catatan</label>
-                                    <textarea class="form-control" id="catatan" rows="2" name="catatan"></textarea>
                                 </div>
                                 <div class=" form-group">
                                     <label for="exampleInputFile">Masukkan File (optional)</label>

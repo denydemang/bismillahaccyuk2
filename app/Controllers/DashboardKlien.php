@@ -38,6 +38,7 @@ class DashboardKLien extends Dashboard
     {
         $user_id = $this->request->getVar('user_id');
         $nama = $this->request->getVar('nama');
+        $email = $this->request->getVar('email');
         $alamat = $this->request->getVar('alamat');
         $notelp = $this->request->getVar('notelp');
         $namaproyek = $this->request->getVar('namaproyek');
@@ -50,12 +51,14 @@ class DashboardKLien extends Dashboard
             'idajuan' => '',
             'user_id' => $user_id,
             'nama' => $nama,
+            'email' => $email,
             'alamat' => $alamat,
             'notelp' => $notelp,
             'namaproyek' => $namaproyek,
             'jenisproyek' => $jenisproyek,
             'lokasiproyek' => $lokasiproyek,
             'catatanproyek' => $catatan,
+            'status_id' => '1'
 
 
         ]);

@@ -4,7 +4,7 @@ $(document).ready(function(){
     $('.tombolhapus').click(function(){
          const user = $(this).data('user');
          const id_user =$(this).data('id');
-         console.log(id_user);
+        
             Swal.fire({
                 title: 'Yakin?',
                 text: "Akun Dengan Username "+user+" Akan Dihapus ",
@@ -47,15 +47,102 @@ $(document).ready(function(){
     var pesan = $('.pesan').data('flash')
     if(pesan == 'berhasildiajukan'){
         Swal.fire({
-            position: 'top-end',
+            position: 'center',
             icon: 'success',
             title: 'Ajuan Proyek Berhasil Dikirim',
             showConfirmButton: false,
             timer: 3000
           })
     }
-    // if(pesan == 'berhasil'){
+    // end form ajuan didaasboard klien
+    
+    //form ajuan proyek di dashboard admin
 
-    // }
+    //notif ajuan
+    const namaproyek = $('.flashdata').data('namaproyek');
+    const namaklien = $('.flashdata').data('namaklien');
+    var pesan =  $('.flashdata').data('pesan');
+    //notif jika diterima
+    if (pesan =="diterima"){
+        Swal.fire({
+            icon: 'success',
+            title: 'Ajuan Proyek Berhasil Diterima',
+            text: 'Ajuan Proyek '+namaproyek+' dengan pengaju bernama '+namaklien+' telah diterima',
+          })
+    } else if (pesan=="ditolak"){
+        Swal.fire({
+            icon: 'success',
+            title: 'Ajuan Proyek Berhasil Ditolak',
+            text: 'Ajuan Proyek '+namaproyek+' dengan pengaju bernama '+namaklien+' telah ditolak',
+          })
+    }else if (pesan=="dihapus"){
+        Swal.fire({
+            icon: 'success',
+            title: 'Ajuan Proyek Berhasil Dihapus',
+            text: 'Ajuan Proyek '+namaproyek+' dengan pengaju bernama '+namaklien+' telah dihapus',
+          })
+        }
+    //jika admin menerima ajuan
+    $('.terima').click(function(){
+        let namaproyek = $(this).data('namaproyek');
+        let namaklien = $(this).data('namaklien');
+        let idajuan =$(this).data('idajuan');
+        Swal.fire({
+            title: 'Terima Ajuan Proyek?',
+            text: "Ajuan Proyek "+namaproyek+" dengan pengaju bernama "+namaklien+" Akan Diterima",
+            icon: 'question',
+            showCancelButton: true,
+            cancelButtonText: 'Batal',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = 'http://localhost:8080/admin/terimaajuan/'+idajuan
+            }
+        })
+    })
+    //jika admin menolak ajuan
+    $('.tolak').click(function(){
+        let namaproyek = $(this).data('namaproyek');
+        let namaklien = $(this).data('namaklien');
+        let idajuan =$(this).data('idajuan');
+        Swal.fire({
+            title: 'Tolak Ajuan Proyek?',
+            text: "Ajuan Proyek "+namaproyek+" dengan pengaju bernama "+namaklien+" Akan Ditolak",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Batal',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = 'http://localhost:8080/admin/tolakajuan/'+idajuan
+            }
+        })
 
+    })
+    //jika admin menghapus
+    $('.hapusajuan').click(function(){
+        let namaproyek = $(this).data('namaproyek');
+        let namaklien = $(this).data('namaklien');
+        let idajuan =$(this).data('idajuan');
+        Swal.fire({
+            title: 'Hapus Ajuan Proyek?',
+            text: "Ajuan Proyek "+namaproyek+" dengan pengaju bernama "+namaklien+" Akan Dihapus",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Batal',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = 'http://localhost:8080/admin/hapusajuan/'+idajuan
+            }
+        })
+
+    })
+    // end form ajuan proyek di dashboard admin
 })

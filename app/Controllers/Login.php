@@ -60,6 +60,7 @@ class Login extends BaseController
                     $idlevel = $cekUserLogin['user_level'];
                     $simpan_session = [
                         'user_id' => $cekUserLogin['user_id'],
+                        'email' => $cekUserLogin['email'],
                         'username' => $cekUserLogin['user_name'],
                         'nama'  => $cekUserLogin['nama'],
                         'alamat' => $cekUserLogin['alamat'],
