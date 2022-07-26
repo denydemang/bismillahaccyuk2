@@ -12,7 +12,7 @@
     </section>
     <section class="content">
         <div class="container-fluid">
-            <div class="card card-primary">
+            <div class="card card-warning">
                 <div class="card-header">
                 </div>
                 <div class="card-body">

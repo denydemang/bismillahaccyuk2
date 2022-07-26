@@ -49,4 +49,31 @@ abstract class BaseController extends Controller
         // session_start();
         session()->start();
     }
+    public function kodeotomatis($table, $field, $kodeawal)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table($table);
+        $builder->selectMax($field);
+        $hasil = $builder->get();
+        $getData = $hasil->getResultArray();
+        $kode = $getData[0][$field];
+
+        if ($kode == null) {
+            //jika tidak ada record masukkan id awal
+            $tampilkode = $kodeawal;
+        } else {
+            //pecah string ambil bagian 3 digit angka setelah string misal USR001 Ambil 001 jadikan integer
+            $pecahkode = (int)substr($kode, 3, 3);
+            //tambahkan 1
+            $pecahkode++;
+            //buat digit angka tadi tetap berjumlah 3 walupun sudah ditambah 1 pake sprintf
+            $pecahkode = sprintf("%03s", $pecahkode);
+            //pecah string ambil 3 huruf awal misal USR001 ambil USR
+            $pecahhuruf = substr($kode, 0, 3);
+            //gabung antara string dan angka 
+            $tampilkode = $pecahhuruf . $pecahkode;
+        }
+        //tampilkan
+        return $tampilkode;
+    }
 }

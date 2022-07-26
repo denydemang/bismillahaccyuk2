@@ -45,10 +45,10 @@ class DashboardKLien extends Dashboard
         $jenisproyek = $this->request->getVar('jenisproyek');
         $lokasiproyek = $this->request->getVar('lokasiproyek');
         $catatan = $this->request->getVar('catatan');
-
+        $idajuan = $this->kodeotomatis('pengajuan_proyek', 'idajuan', 'AJP001');
         $AjuanProyekModel = new AjuanProyekModel();
-        $AjuanProyekModel->save([
-            'idajuan' => '',
+        $AjuanProyekModel->insert([
+            'idajuan' => $idajuan,
             'user_id' => $user_id,
             'nama' => $nama,
             'email' => $email,

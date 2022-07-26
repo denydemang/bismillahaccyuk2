@@ -6,6 +6,14 @@ jQuery.validator.addMethod("pwlogic", function(value, element) {
     return this.optional(element) || /\d/.test(value) && /[a-z]/i.test(value);
     }, "Harus mengandung angka dan huruf");
 
+    $.validator.addMethod( "hapeindo", function( phone_number, element ) {
+        return this.optional( element ) || phone_number.match(/^(\+62|62|0)8[1-9][0-9]{6,9}$/);
+    }, 'Nomor Hp Tidak Valid' );
+    $.validator.addMethod( "emailbener", function( email, element ) {
+        return this.optional( element ) || email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+    }, 'Email Tidak Valid' );
+    
+   
 $(document).ready(function(){
 
     //Validasi Form Registrasi
@@ -17,6 +25,7 @@ $(document).ready(function(){
                     hanyahuruf: true
             },  email: {
                     required: true,
+                    emailbener: true,
                     email: true
             },  username: {
                     required: true,
@@ -25,8 +34,9 @@ $(document).ready(function(){
                     
             }, telpon: {
                     required: true,
-                    minlength: 10,
-                    maxlength: 13
+                    // minlength: 10,
+                    // maxlength: 13,
+                    hapeindo: true,
             }, alamat: {
                     required: true,
                     minlength: 4,
@@ -47,7 +57,7 @@ $(document).ready(function(){
                     hanyahuruf: 'Nama Tidak Boleh Mengandung Angka'
             },  email: {
                     required: 'Email Tidak Boleh Kosong',
-                    email: 'Email Tidak Valid'
+                   email: 'Email Tidak Valid'
             }, username: {
                     required: 'Username Tidak Boleh Kosong',
                     minlength: 'Username Minimal 7 karakter',
@@ -55,8 +65,8 @@ $(document).ready(function(){
                     
             },  telpon: {
                     required: 'No. Telp Tidak Boleh Kosong',
-                    minlength: 'No Telp Minimal 10 digit',
-                    maxlength: 'No Telpon Maksimal 13 digit'
+                    // minlength: 'No Telp Minimal 10 digit',
+                    // maxlength: 'No Telpon Maksimal 13 digit'
             },  alamat: {
                     required: 'Alamat Tidak Boleh Kosong',  
                     minlength: 'Alamat tidak valid', 

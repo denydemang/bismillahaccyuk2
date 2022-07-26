@@ -57,9 +57,10 @@ class Dashboard extends BaseController
 
         ];
     }
+
     public function index()
     {
-
+        $this->kodeotomatis('akun', 'user_id', 'usr001');
         if (session()->idlevel == 1) {
 
             if (isset($_SESSION['aktif'])) {
