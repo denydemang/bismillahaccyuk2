@@ -21,21 +21,19 @@
                             <p>Proyek</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-bag"></i>
+                            <i class="ion ion-android-list"></i>
                         </div>
                         <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-
                 <div class="col-lg-4 col-6">
-
                     <div class="small-box bg-success">
                         <div class="inner">
                             <h3><?= $jumlahdataakun; ?></h3>
                             <p>User Terdaftar</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
+                            <i class="ion ion-person-add"></i>
                         </div>
                         <a href="<?= base_url(); ?>/admin/datauser" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
@@ -48,7 +46,7 @@
                             <p>Ajuan Proyek Belum Ditinjau</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-person-add"></i>
+                            <i class="ion ion-ios-briefcase"></i>
                         </div>
                         <a href="<?= base_url('admin/ajuanproyek'); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
