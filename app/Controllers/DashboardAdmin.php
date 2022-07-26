@@ -13,6 +13,8 @@ class DashboardAdmin extends Dashboard
         parent::__construct();
         $this->datalogin['judul'] = 'Dashboard Admin';
     }
+
+    //method Tampil View
     public function index()
     {
 
@@ -80,6 +82,8 @@ class DashboardAdmin extends Dashboard
         $_SESSION['aktif'] = 'message';
         return view('dashboard/admin/message', $this->datalogin);
     }
+
+    ////Method untuk menjalankan query
     public function detailajuanproyek()
 
     {
@@ -95,7 +99,6 @@ class DashboardAdmin extends Dashboard
         echo json_encode($getdata);
     }
 
-    ////Method untuk menjalankan query
     public function terimaajuan($id)
     {
         $modelajuan = new AjuanProyekModel();

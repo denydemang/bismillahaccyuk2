@@ -55,7 +55,7 @@
     </section>
     <section>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
@@ -69,7 +69,7 @@
                             <input type="hidden" class="form-control" id="user_id" name="user_id">
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input type="text" class="form-control" id="username" name="username">
+                                <input type="text" readonly class="form-control" id="username" name="username">
                             </div>
                             <div class="form-group">
                                 <label for="nama">Nama</label>
@@ -77,7 +77,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="text" class="form-control" id="email" name="email">
+                                <input type="text" readonly class="form-control" id="email" name="email">
                             </div>
                             <div class="form-group">
                                 <label for="alamat">Alamat</label>
