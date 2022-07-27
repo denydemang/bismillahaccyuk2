@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $judul; ?></title>
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
     <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/fontawesome-free/css/all.min.css">
@@ -182,6 +182,14 @@
                                 <i class="nav-icon fas fa-users mr-3"></i>
                                 <p>
                                     Kelola User
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url(); ?>/admin/perhitunganbiaya" class="nav-link <?= ($_SESSION['aktif'] == 'perhitunganbiaya') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-calculator mr-3"></i>
+                                <p>
+                                    Perhitungan Biaya
                                 </p>
                             </a>
                         </li>

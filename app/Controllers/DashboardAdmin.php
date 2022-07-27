@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\ModelLogin;
 use App\Models\AjuanProyekModel;
 use App\Models\ProyekModel;
+use App\Models\ProgressProyekModel;
 
 class DashboardAdmin extends Dashboard
 {
@@ -125,6 +126,14 @@ class DashboardAdmin extends Dashboard
         $_SESSION['aktif'] = 'message';
         return view('dashboard/admin/message', $this->datalogin);
     }
+    public function perhitunganbiaya()
+    {
+        if (isset($_SESSION['aktif'])) {
+            unset($_SESSION['aktif']);
+        };
+        $_SESSION['aktif'] = 'perhitunganbiaya';
+        return view('dashboard/admin/perhitunganbiaya', $this->datalogin);
+    }
 
     ////Method untuk menjalankan query
 
@@ -140,6 +149,9 @@ class DashboardAdmin extends Dashboard
         $sudahbayar = $this->request->getVar('sudahbayar');
         $belumbayar = $this->request->getVar('belumbayar');
         $modelproyek = new ProyekModel();
+        $idprogress = $this->kodeotomatis('progress_proyek', 'idprogress', 'PRG001');
+        $modelprogressproyek = new ProgressProyekModel();
+
         $modelproyek->insert([
             'idproyek' => $idproyek,
             'idajuan' => $idajuan,
@@ -150,6 +162,13 @@ class DashboardAdmin extends Dashboard
             'biaya' => $biaya,
             'sudah_bayar' => $sudahbayar,
             'belum_bayar' => $belumbayar,
+        ]);
+        $modelprogressproyek->insert([
+            'idprogress' => $idprogress,
+            'idproyek' => $idproyek,
+            'idajuan' => $idajuan,
+            'user_id' => $iduser,
+            'namaproyek' => $namaproyek,
         ]);
         $modelajuan = new AjuanProyekModel();
         $modelajuan->where('idajuan', $idajuan)->set([

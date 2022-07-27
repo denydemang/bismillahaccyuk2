@@ -122,7 +122,8 @@
                                     <?php else : ?>
                                         <td><span class="badge badge-danger">Belum Lunas</span></td>
                                     <?php endif ?>
-                                    <td><a href="" class="btn btn-primary btn-sm">detail</a></td>
+                                    <td><a href="" class="btn btn-primary btn-sm">detail</a><a href="<?= base_url(); ?>/kelolaproyek" class="btn btn-warning btn-sm">kelola</a></td>
+
                                 </tr>
                             <?php endforeach ?>
                         <?php endif; ?>

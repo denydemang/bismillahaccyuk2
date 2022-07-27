@@ -15,7 +15,7 @@ class DashboardKelolaProyek extends Dashboard
         $data = [
             'judul' => 'Dasboard Kelola Proyek'
         ];
-        return view('dashboard/kelolaproyek/keloladatabahanbaku', $data);
+        return view('dashboard/kelolaproyek/keloladatabahanbaku', $this->datalogin);
     }
     public function keloladatabahanbaku()
     {
@@ -28,7 +28,7 @@ class DashboardKelolaProyek extends Dashboard
         $data = [
             'judul' => 'Dasboard Kelola Proyek'
         ];
-        return view('dashboard/kelolaproyek/keloladatabahanbaku', $data);
+        return view('dashboard/kelolaproyek/keloladatabahanbaku', $this->datalogin);
     }
     public function kelolajenisbahanbaku()
     {
@@ -41,7 +41,7 @@ class DashboardKelolaProyek extends Dashboard
         $data = [
             'judul' => 'Dasboard Kelola Proyek'
         ];
-        return view('dashboard/kelolaproyek/kelolajenisbahanbaku', $data);
+        return view('dashboard/kelolaproyek/kelolajenisbahanbaku', $this->datalogin);
     }
     public function belibahanbaku()
     {
@@ -54,7 +54,7 @@ class DashboardKelolaProyek extends Dashboard
         $data = [
             'judul' => 'Dasboard Kelola Proyek'
         ];
-        return view('dashboard/kelolaproyek/belibahanbaku', $data);
+        return view('dashboard/kelolaproyek/belibahanbaku', $this->datalogin);
     }
     public function gunakanbahanbaku()
     {
@@ -67,7 +67,7 @@ class DashboardKelolaProyek extends Dashboard
         $data = [
             'judul' => 'Dasboard Kelola Proyek'
         ];
-        return view('dashboard/kelolaproyek/gunakanbahanbaku', $data);
+        return view('dashboard/kelolaproyek/gunakanbahanbaku', $this->datalogin);
     }
     public function kelolatenaker()
     {
@@ -80,7 +80,7 @@ class DashboardKelolaProyek extends Dashboard
         $data = [
             'judul' => 'Dasboard Kelola Proyek'
         ];
-        return view('dashboard/kelolaproyek/kelolatenaker', $data);
+        return view('dashboard/kelolaproyek/kelolatenaker', $this->datalogin);
     }
     public function transaksibop()
     {
@@ -93,7 +93,7 @@ class DashboardKelolaProyek extends Dashboard
         $data = [
             'judul' => 'Dasboard Kelola Proyek'
         ];
-        return view('dashboard/kelolaproyek/transaksibop', $data);
+        return view('dashboard/kelolaproyek/transaksibop', $this->datalogin);
     }
     public function pembayaranproyek()
     {
@@ -106,7 +106,7 @@ class DashboardKelolaProyek extends Dashboard
         $data = [
             'judul' => 'Dasboard Kelola Proyek'
         ];
-        return view('dashboard/kelolaproyek/pembayaranproyek', $data);
+        return view('dashboard/kelolaproyek/pembayaranproyek', $this->datalogin);
     }
     public function progressproyek()
     {
@@ -119,6 +119,6 @@ class DashboardKelolaProyek extends Dashboard
         $data = [
             'judul' => 'Dasboard Kelola Proyek'
         ];
-        return view('dashboard/kelolaproyek/progressproyek', $data);
+        return view('dashboard/kelolaproyek/progressproyek', $this->datalogin);
     }
 }

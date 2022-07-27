@@ -1,4 +1,25 @@
+//pengajuan proyek
+
+
 $(document).ready(function(){
+    let lineNo = 1;
+       
+            $("#add-row").click(function () {
+                markup ='<tr class="baris"><td><input class="form-control" type="text"  id="" style="width:300px"></td><td><input class="form-control line" type="text" name="number'+lineNo+'" id=""></td></tr>';
+                tableBody = $("table tbody");
+                tableBody.append(markup);
+                $('#sum').val(getSum(lineNo));
+                lineNo++;
+             
+          
+        }); 
+        function getSum(numberOfDivs) {
+            var sum = 0;
+            for (var i=0 ; i<numberOfDivs; i++) {
+              sum += parseInt(document.getElementsByName('number' + i)[0].value);
+            }
+            return sum;
+          }
 
     //Menu KelolaDatauser di Dashboard Admin
     $('.tombolhapus').click(function(){
@@ -351,4 +372,6 @@ $(document).ready(function(){
    // End Form Data Proyek Di Dashboard Admin
    
     
+    
+
 })

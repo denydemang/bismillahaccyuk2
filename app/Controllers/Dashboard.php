@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\AjuanProyekModel;
+
 class Dashboard extends BaseController
 {
 
@@ -55,6 +57,19 @@ class Dashboard extends BaseController
             'notelp' => $this->notelp,
             'username' => $this->username,
 
+
+        ];
+        $data = $this->datalogin['user_id'];
+        $ajuanproyekmodel = new AjuanProyekModel();
+        $ajuanklien = $ajuanproyekmodel->where('user_id', $data)->find();
+        $ajuanditerima = $ajuanproyekmodel->where('user_id', $data)->where('status_id', '2')->find();
+        $ajuanditolak = $ajuanproyekmodel->where('user_id', $data)->where('status_id', '3')->find();
+        $ajuandikerjakan = $ajuanproyekmodel->where('user_id', $data)->where('status_id', '4')->find();
+        $this->datalogin += [
+            'ajuanditerima' => $ajuanditerima,
+            'ajuanditolak' => $ajuanditolak,
+            'ajuandikerjakan' => $ajuandikerjakan,
+            'ajuanklien' => $ajuanklien
         ];
     }
 
