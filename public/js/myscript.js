@@ -171,6 +171,7 @@ $(document).ready(function(){
                     $('.detailhapus').hide();
                     $('.detailnamastatus').removeClass('badge-primary')
                     $('.detailnamastatus').removeClass('badge-danger')
+                    $('.detailnamastatus').removeClass('badge-success')
                     $('.detailnamastatus').addClass('badge-secondary')
                 } else if (data[0]['status_id'] =='2') {
                     $('.detailcreate').show();
@@ -179,16 +180,29 @@ $(document).ready(function(){
                     $('.detailtolak').hide();
                     $('.detailnamastatus').removeClass('badge-secondary')
                     $('.detailnamastatus').removeClass('badge-danger')
+                    $('.detailnamastatus').removeClass('badge-success')
                     $('.detailnamastatus').addClass('badge-primary')
-                } else{
+                }else if (data[0]['status_id'] =='3') {
                     $('.detailcreate').hide();
                     $('.detailterima').hide();
                     $('.detailhapus').show();
                     $('.detailtolak').hide();
-
                     $('.detailnamastatus').removeClass('badge-secondary')
                     $('.detailnamastatus').removeClass('badge-primary')
+                    $('.detailnamastatus').removeClass('badge-success')
                     $('.detailnamastatus').addClass('badge-danger')
+                   
+                } 
+                else if (data[0]['status_id'] =='4'){
+                    $('.detailcreate').hide();
+                    $('.detailterima').hide();
+                    $('.detailhapus').hide();
+                    $('.detailtolak').hide();
+                    $('.detailnamastatus').removeClass('badge-secondary')
+                    $('.detailnamastatus').removeClass('badge-danger')
+                    $('.detailnamastatus').removeClass('badge-primary')
+                    $('.detailnamastatus').addClass('badge-success')
+                    
                 }
                 $('.detailidajuan').html(data[0]['idajuan']);
                 $('.detailiduser').html(data[0]['user_id']);
@@ -226,8 +240,8 @@ $(document).ready(function(){
         })
     })
     $('.detailcreate').click(function(){
-       
-        location.href = 'http://localhost:8080/admin/buatproyek/'
+       var id = $(this).data('detailid');
+        location.href = 'http://localhost:8080/admin/dataproyek/'+id
     
     })
     $('.detailtolak').click(function(){
@@ -269,4 +283,72 @@ $(document).ready(function(){
     
     //end form detail ajuan proyek di dashboard admin
  
+
+    //Form Data Proyek Di Dashboard Admin
+    $('#idajuan').change(function(){
+        let idajuan = $(this).val();
+        $.ajax({
+            url: 'http://localhost:8080/DashboardAdmin/detailajuanproyek',
+            data: {id : idajuan},
+            method: 'post',
+            dataType: 'json',
+            success: function(data){
+               $('#user_id').val(data[0]['user_id'])
+               $('#namaproyek').val(data[0]['namaproyek'])
+               $('#jenisproyek').val(data[0]['jenisproyek'])
+               $('#nama').val(data[0]['nama'])
+            }
+
+
+        })
+    })
+    //data otomatis terisi jika ada data yang dikirim dari menu ajuan proyek
+    let getidajuan = $('.getbuatproyek').data('idajuan');
+    let getnamaklien = $('.getbuatproyek').data('namaklien');
+    let getnamaproyek = $('.getbuatproyek').data('namaproyek');
+    let getjenisproyek = $('.getbuatproyek').data('jenisproyek');
+    let getidklien = $('.getbuatproyek').data('idklien');
+    if (getidajuan !==''){
+       $('#idajuan').val(getidajuan);
+       $('#nama').val(getnamaklien);
+       $('#namaproyek').val(getnamaproyek);
+       $('#jenisproyek').val(getjenisproyek);
+       $('#user_id').val(getidklien);
+
+    }
+    function kurang(x, y){
+        var xint = parseInt(x);
+        var yint = parseInt(y);
+        
+        hasil = xint- yint;
+        return hasil
+    }
+    $('#sudahbayar').keyup(function(){
+       
+       let biaya = $('#biaya').val()
+       let sudahbayar = $('#sudahbayar').val()
+       var belumbayar = kurang(biaya,sudahbayar)
+       if (belumbayar < 0) {
+        hasil = "Input Tidak Valid"
+       } else {
+        hasil = belumbayar;
+       }
+       $('#belumbayar').val(hasil);
+    })
+    $('#biaya').keyup(function(){
+       
+       let biaya = $('#biaya').val()
+       let sudahbayar = $('#sudahbayar').val()
+       var belumbayar = kurang(biaya,sudahbayar)
+       if (belumbayar < 0) {
+        hasil = "Input Tidak Valid"
+       } else if (belumbayar > 0){
+        hasil = belumbayar;
+       }
+       $('#belumbayar').val(hasil);
+    })
+
+   // End Form Data Proyek Di Dashboard Admin
+   
+    
 })

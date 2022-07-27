@@ -1,4 +1,6 @@
-
+$.validator.addMethod( "numberonly", function( value, element ) {
+	return this.optional( element ) || /^[0-9]*$/i.test( value );
+}, "Number only please." );
 jQuery.validator.addMethod("hanyahuruf", function(value, element) {
     return this.optional(element) || /^[a-z\s]+$/i.test(value);
     }, "Only alphabetical characters");
@@ -110,7 +112,6 @@ $(document).ready(function(){
     // End Validasi Form Registrasi
 
     //Validasi Form Ajuan Proyek
-   
     $('#formajuanproyek').each(function(){
         $(this).validate({
             rules: {
@@ -140,6 +141,87 @@ $(document).ready(function(){
                 },
                 catatan : {
                     required: 'Catatan Wajib Diisi'
+                },
+            },
+            errorElement: "div",
+            errorPlacement: function ( error, element ) {
+
+	        // Add the `invalid-feedback` class to the error element
+	        error.addClass( "invalid-feedback" );
+	        error.insertAfter(element);
+    
+	    
+	    },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" )
+        },
+        unhighlight: function (element, errorClass, validClass) {
+	        $( element ).removeClass( "is-invalid" );
+	    },
+        submitHandler: function (form) {
+            form.submit();
+
+            }
+
+        })
+    })
+
+    //Validasi Form Buat Proyek
+    $('#buatproyek').each(function(){
+        $(this).validate({
+            rules: {
+                idajuan : {
+                    required : true,
+                },
+                user_id : {
+                required : true,
+                },
+                namaproyek : {
+                required : true,
+                },
+                jenisproyek : {
+                required : true,
+                },
+                nama : {
+                required : true,
+                },
+                biaya : {
+                required : true,
+                },
+                sudahbayar : {
+                required : true,
+                },
+                belumbayar : {
+                required : true,
+                numberonly :true,
+                },
+                
+            },
+            messages: {
+                idajuan : {
+                    required: 'Id Ajuan Proyek Wajib Diisi'
+                },
+                user_id : {
+                    required: 'Id Klien Proyek Wajib Diisi'
+                },
+                namaproyek : {
+                    required: 'Nama Proyek Wajib Diisi'
+                },
+                jenisproyek : {
+                    required: 'Jenis Proyek Diisi'
+                },
+                nama : {
+                    required: 'Nama Wajib Diisi'
+                },
+                biaya : {
+                    required: 'Tidak Boleh Kosong'
+                },
+                sudahbayar : {
+                    required: 'Tidak Boleh Kosong'
+                },
+                belumbayar : {
+                    required: 'Tidak Boleh Kosong',
+                    numberonly: 'Input Tidak Valid'
                 },
             },
             errorElement: "div",

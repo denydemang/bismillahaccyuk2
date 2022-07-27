@@ -45,6 +45,8 @@
                                             <td><span class="badge badge-primary"><?= $ajuan->keterangan; ?></span></td>
                                         <?php elseif ($ajuan->status_id == '3') : ?>
                                             <td><span class="badge badge-danger"><?= $ajuan->keterangan; ?></span></td>
+                                        <?php elseif ($ajuan->status_id == '4') : ?>
+                                            <td><span class="badge badge-success"><?= $ajuan->keterangan; ?></span></td>
                                         <?php endif; ?>
                                         <td><a class="btn btn-sm btn-success detailajuan" data-toggle="modal" data-target="#exampleModal" data-idajuan="<?= $ajuan->idajuan; ?>">Detail</a>
                                             <?php if ($ajuan->status_id == '1') : ?>

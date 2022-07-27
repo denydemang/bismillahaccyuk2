@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\ModelLogin;
 use App\Models\AjuanProyekModel;
+use App\Models\ProyekModel;
 
 class DashboardAdmin extends Dashboard
 {
@@ -48,6 +49,7 @@ class DashboardAdmin extends Dashboard
         return view('dashboard/admin/ajuanproyek', $this->datalogin);
     }
 
+
     public function datauser()
     {
 
@@ -66,12 +68,53 @@ class DashboardAdmin extends Dashboard
         ];
         return view('dashboard/admin/datauser', $this->datalogin);
     }
-    public function dataproyek()
+
+    public function dataproyek($id = '')
     {
+
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
         $_SESSION['aktif'] = 'dataproyek';
+        $kodeproyek = $this->kodeotomatis('proyek', 'idproyek', 'PRY001');
+        $modelajuan = new AjuanProyekModel();
+        $getdata = $modelajuan->where('status_id', '2')->findAll();
+        $modelajuan = new AjuanProyekModel();
+        $datakirim = $modelajuan->where('idajuan', $id)->where('status_id', '2')->findAll();
+        if (!empty($datakirim)) {
+            $idajuan = $datakirim[0]['idajuan'];
+            $namaproyek = $datakirim[0]['namaproyek'];
+            $jenisproyek = $datakirim[0]['jenisproyek'];
+            $namaklien = $datakirim[0]['nama'];
+            $idklien = $datakirim[0]['user_id'];
+        } else {
+            $idajuan = '';
+            $namaproyek = '';
+            $jenisproyek = '';
+            $namaklien = '';
+            $idklien = '';
+        }
+        $proyekmodel = new ProyekModel();
+        $getproyek = $proyekmodel->findAll();
+        if (empty($getproyek)) {
+            $tablekosong = 'true';
+        } else {
+            $tablekosong = 'false';
+        }
+        $this->datalogin += [
+            'dataajuan' => $getdata,
+            'kodeproyek' => $kodeproyek,
+            'datakirim' => $datakirim,
+            'idajuan' => $idajuan,
+            'namaproyek' => $namaproyek,
+            'jenisproyek' => $jenisproyek,
+            'namaklien' => $namaklien,
+            'idklien' => $idklien,
+            'proyek' => $getproyek,
+            'tablekosong' => $tablekosong
+        ];
+
+
         return view('dashboard/admin/dataproyek', $this->datalogin);
     }
     public function message()
@@ -84,6 +127,37 @@ class DashboardAdmin extends Dashboard
     }
 
     ////Method untuk menjalankan query
+
+    public function buatproyek()
+    {
+        $idproyek = $this->request->getVar('idproyek');
+        $idajuan = $this->request->getVar('idajuan');
+        $iduser = $this->request->getVar('user_id');
+        $nama = $this->request->getVar('nama');
+        $namaproyek = $this->request->getVar('namaproyek');
+        $jenisproyek = $this->request->getVar('jenisproyek');
+        $biaya = $this->request->getVar('biaya');
+        $sudahbayar = $this->request->getVar('sudahbayar');
+        $belumbayar = $this->request->getVar('belumbayar');
+        $modelproyek = new ProyekModel();
+        $modelproyek->insert([
+            'idproyek' => $idproyek,
+            'idajuan' => $idajuan,
+            'user_id' => $iduser,
+            'nama' => $nama,
+            'namaproyek' => $namaproyek,
+            'jenisproyek' => $jenisproyek,
+            'biaya' => $biaya,
+            'sudah_bayar' => $sudahbayar,
+            'belum_bayar' => $belumbayar,
+        ]);
+        $modelajuan = new AjuanProyekModel();
+        $modelajuan->where('idajuan', $idajuan)->set([
+            'status_id' => '4',
+        ])->update();
+        session()->setFlashdata('pesan', 'Proyek Dengan Id Ajuan: ' . $idajuan . ' Berhasil Dibuat');
+        return redirect()->to(base_url() . '/admin/dataproyek');
+    }
     public function detailajuanproyek()
 
     {
