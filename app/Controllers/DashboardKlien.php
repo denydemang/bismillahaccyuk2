@@ -38,7 +38,8 @@ class DashboardKLien extends Dashboard
         }
         $_SESSION['aktif'] = 'progressproyek';
         $progressproyek = new ProgressProyekModel();
-        $dataprogress = $progressproyek->findAll();
+        $user_id = $this->user_id;
+        $dataprogress = $progressproyek->where('user_id', $user_id)->find();
         $this->datalogin += [
             'dataprogress' => $dataprogress,
         ];
