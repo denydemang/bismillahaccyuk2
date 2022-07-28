@@ -16,6 +16,7 @@ class Dashboard extends BaseController
         $db,
         $jumlahdataakun,
         $jumlahajuan,
+        $jumlahproyek,
         $datalogin;
     public function __construct()
 
@@ -32,6 +33,16 @@ class Dashboard extends BaseController
         $this->jumlahdataakun = $getjumlahdata[0]->user_id;
         // end query builder untuk mendapatkan jumlah baris data di tabel akun
 
+
+        //query buider untuk mendapatkan jumlah baris data di table proyek
+        $builder = $this->db->table('proyek');
+        $builder->selectCount('idproyek');
+        $jumlahdata = $builder->get();
+        $jumlahdata->getRow();
+        $getjumlahdata = $jumlahdata->getResultObject();
+        $this->jumlahproyek = $getjumlahdata[0]->idproyek;
+
+        //query builder untuk mendapatkan jumlah baris data di table ajuan
         $builder = $this->db->table('pengajuan_proyek');
         $builder->selectCount('idajuan');
         $builder->where('status_id', '1');
@@ -39,6 +50,7 @@ class Dashboard extends BaseController
         $jumlahajuan->getRow();
         $getjumlahajuan = $jumlahajuan->getResultObject();
         $this->jumlahajuan = $getjumlahajuan[0]->idajuan;
+        //end query builder untuk mendapatkan jumlah baris data di table ajuan
 
         //menginput data user yang login
         $this->username = session()->get('username');
@@ -59,6 +71,7 @@ class Dashboard extends BaseController
 
 
         ];
+        //untuk mendapatkan data progress dan ajuan proyek berdasarkan user yang login
         $data = $this->datalogin['user_id'];
         $ajuanproyekmodel = new AjuanProyekModel();
         $ajuanklien = $ajuanproyekmodel->where('user_id', $data)->find();
@@ -71,10 +84,16 @@ class Dashboard extends BaseController
             'ajuandikerjakan' => $ajuandikerjakan,
             'ajuanklien' => $ajuanklien
         ];
+        //end untuk mendapatkan data progress dan ajuan proyek berdasarkan user yang login
     }
 
     public function index()
     {
+        $this->datalogin += [
+            'jumlahdataakun' => $this->jumlahdataakun,
+            'jumlahajuan' => $this->jumlahajuan,
+            'jumlahproyek' => $this->jumlahproyek
+        ];
         $this->kodeotomatis('akun', 'user_id', 'usr001');
         if (session()->idlevel == 1) {
 

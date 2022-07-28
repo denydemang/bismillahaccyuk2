@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $judul; ?></title>
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+    <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/daterangepicker/daterangepicker.css">
 
     <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/fontawesome-free/css/all.min.css">
 
@@ -186,7 +187,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url(); ?>/admin/perhitunganbiaya" class="nav-link <?= ($_SESSION['aktif'] == 'perhitunganbiaya') ? 'active' : '' ?>">
+                            <a href="<?= base_url(); ?>/admin/perhitunganbiaya" class=" nav-link <?= ($_SESSION['aktif'] == 'perhitunganbiaya') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-calculator mr-3"></i>
                                 <p>
                                     Perhitungan Biaya
@@ -217,10 +218,8 @@
                                 </p>
                             </a>
                         </li>
-                    </ul>
-                    <!-- ENd Bagian Item MenuSidebar -->
+                        <!-- ENd Bagian Item MenuSidebar -->
                 </nav>
-
             </div>
             <!-- End Bagian Menu Sidebar -->
         </aside>
@@ -243,7 +242,6 @@
     <script src="<?= base_url('assetslte') ?>/plugins/jquery/jquery.min.js"></script>
 
     <script src="<?= base_url('assetslte') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
     <script src="<?= base_url('assetslte') ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
@@ -251,6 +249,30 @@
     <script src="<?= base_url('js/myscript.js'); ?>"></script>
     <script src="<?= base_url('js/additional-methods.min.js'); ?>"></script>
     <script src="<?= base_url('js/validasiform.js'); ?>"></script>
+    <!-- <script src="</?= base_url('assetslte'); ?>/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script> -->
+    <script src="<?= base_url('assetslte'); ?>/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/dropzone/min/dropzone.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/select2/js/select2.full.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/moment/moment.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/jszip/jszip.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script>
+
+    </script>
+
 
 </body>
 

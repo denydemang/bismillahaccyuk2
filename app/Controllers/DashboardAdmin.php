@@ -27,6 +27,7 @@ class DashboardAdmin extends Dashboard
         $this->datalogin += [
             'jumlahdataakun' => $this->jumlahdataakun,
             'jumlahajuan' => $this->jumlahajuan,
+            'jumlahproyek' => $this->jumlahproyek
         ];
 
         return view('dashboard/admin/welcome', $this->datalogin);

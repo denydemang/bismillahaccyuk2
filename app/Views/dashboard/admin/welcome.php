@@ -17,13 +17,13 @@
                 <div class="col-lg-4 col-6">
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>0</h3>
+                            <h3><?= $jumlahproyek; ?></h3>
                             <p>Proyek</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-android-list"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?= base_url(); ?>/admin/dataproyek" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-6">
