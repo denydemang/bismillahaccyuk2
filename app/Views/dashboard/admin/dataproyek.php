@@ -1,7 +1,6 @@
 <?= $this->extend('dashboard/admin/template'); ?>
 <?= $this->section('dashboardadmin'); ?>
 <div class="content-wrapper">
-
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -88,7 +87,7 @@
                         </form>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped table-primary">
+                        <table id="tableproyek" class="table table-striped table-primary">
                             <thead>
                                 <th>No</th>
                                 <th>Id Proyek</th>
@@ -101,34 +100,34 @@
                                 <th>Aksi</th>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <?php $no = 1 ?>
-                                    <?php if ($tablekosong == 'true') : ?>
+                                <?php $no = 1 ?>
+                                <?php if ($tablekosong == 'true') : ?>
+                                    <tr>
                                         <td colspan="9">
                                             <h5 style="text-align:center">Tidak Ada Data Proyek</h5>
                                         </td>
+                                    <tr>
                                     <?php elseif ($tablekosong == 'false') : ?>
                                         <?php foreach ($proyek as $pry) : ?>
-                                <tr>
-                                    <td><?= $no++ ?></td>
-                                    <td><?= $pry['idproyek'] ?></td>
-                                    <td><?= $pry['idajuan'] ?></td>
-                                    <td><?= $pry['namaproyek'] ?></td>
-                                    <td><?= $pry['jenisproyek'] ?></td>
-                                    <td><?= $pry['nama'] ?></td>
-                                    <td><?= $pry['biaya'] ?></td>
-                                    <?php if ($pry['belum_bayar'] == 0) : ?>
-                                        <td><span class="badge badge-success">Lunas</span></td>
-                                    <?php else : ?>
-                                        <td><span class="badge badge-danger">Belum Lunas</span></td>
-                                    <?php endif ?>
-                                    <td><a href="" class="btn btn-primary btn-sm">detail</a><a href="<?= base_url(); ?>/kelolaproyek" class="btn btn-warning btn-sm">kelola</a></td>
+                                            <td><?= $no++ ?></td>
+                                            <td><?= $pry['idproyek'] ?></td>
+                                            <td><?= $pry['idajuan'] ?></td>
+                                            <td><?= $pry['namaproyek'] ?></td>
+                                            <td><?= $pry['jenisproyek'] ?></td>
+                                            <td><?= $pry['nama'] ?></td>
+                                            <td><?= $pry['biaya'] ?></td>
+                                            <?php if ($pry['belum_bayar'] == 0) : ?>
+                                                <td><span class="badge badge-success">Lunas</span></td>
+                                            <?php else : ?>
+                                                <td><span class="badge badge-danger">Belum Lunas</span></td>
+                                            <?php endif ?>
+                                            <td><a href="" class="btn btn-primary btn-sm">Detail</a><a href="<?= base_url(); ?>/kelolaproyek" class="btn btn-warning btn-sm">kelola</a></td>
 
-                                </tr>
-                            <?php endforeach ?>
-                        <?php endif; ?>
+                                    </tr>
+                                <?php endforeach ?>
+                            <?php endif; ?>
 
-                        </tr>
+                            </tr>
 
                             </tbody>
                         </table>
@@ -140,7 +139,11 @@
         </div>
     </section>
 </div>
-
+<script>
+    $(document).ready(function() {
+        $('#tableproyek').DataTable();
+    })
+</script>
 
 
 

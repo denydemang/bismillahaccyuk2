@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Controllers\TampilTable;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -39,18 +40,18 @@ class Filters extends BaseConfig
             // 'csrf',
             // 'invalidchars',
             'filterAdmin' => [
-                'except' => ['login/*', 'login', '/', 'registrasi', 'registrasi/*', 'coba', 'coba/*']
+                'except' => ['login/*', 'login', '/', 'registrasi', 'registrasi/*']
             ],
             'filterKlien' => [
-                'except' => ['login/*', 'login', '/', 'registrasi', 'registrasi/*', 'coba', 'coba/*']
+                'except' => ['login/*', 'login', '/', 'registrasi', 'registrasi/*']
             ]
         ],
         'after' => [
             'filterAdmin' => [
-                'except' => ['dashboard', 'dashboardadmin', 'dashboardadmin/*', 'dashboardkelolaproyek', 'dashboardkelolaproyek/*', 'admin', 'admin/*', 'kelolaproyek', 'kelolaproyek/*'],
+                'except' => ['dashboard', 'dashboardadmin', 'dashboardadmin/*', 'dashboardkelolaproyek', 'dashboardkelolaproyek/*', 'admin', 'admin/*', 'kelolaproyek', 'kelolaproyek/*', 'TampilTable', 'TampilTable/*'],
             ],
             'filterKlien' => [
-                'except' => ['dashboard', 'klien', 'klien/*', 'dashboadklien', 'dashboardklien/*', 'detailproyek', 'detailproyek/*', 'dashboarddetailproyek', 'dashboarddetailproyek/']
+                'except' => ['dashboard', 'klien', 'klien/*', 'dashboadklien', 'dashboardklien/*', 'detailproyek', 'detailproyek/*', 'dashboarddetailproyek', 'dashboarddetailproyek/', 'TampilTable', 'TampilTable/*']
             ],
             'toolbar',
             // 'honeypot',

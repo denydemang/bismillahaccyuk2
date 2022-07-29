@@ -13,7 +13,12 @@
     <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/fontawesome-free/css/all.min.css">
 
     <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-
+    <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <script src="<?= base_url('assetslte') ?>/plugins/jquery/jquery.min.js"></script>
+    <script src="<?= base_url('assetslte') ?>/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?= base_url('assetslte') ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <link rel="stylesheet" href="<?= base_url('assetslte') ?>/dist/css/adminlte.min.css?v=3.2.0">
     <script nonce="1a2a044e-6724-4fa0-a605-15124d71b2a4">
         (function(w, d) {
@@ -212,8 +217,6 @@
 
     </div>
 
-
-    <script src="<?= base_url('assetslte') ?>/plugins/jquery/jquery.min.js"></script>
 
     <script src="<?= base_url('assetslte') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 

@@ -18,7 +18,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped ">
+                        <table id="tableajuan" class="table table-striped table-sm ">
                             <thead>
                                 <th>No</th>
                                 <th>Id Ajuan</th>
@@ -159,5 +159,9 @@
     </section>
 
 </div>
-
+<script>
+    $(document).ready(function() {
+        $('#tableajuan').DataTable();
+    })
+</script>
 <?= $this->endSection(); ?>

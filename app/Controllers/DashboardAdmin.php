@@ -54,19 +54,19 @@ class DashboardAdmin extends Dashboard
 
     public function datauser()
     {
-
         $builder = $this->db->table('akun');
         $builder->select('*');
         $builder->select('level.levelnama');
         $builder->join('level', 'akun.user_level=level.user_level');
         $query = $builder->get();
+        $getData = $query->getResult();
 
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
         $_SESSION['aktif'] = 'datauser';
         $this->datalogin += [
-            'users' => $query->getResult(),
+            'users' => $getData,
         ];
         return view('dashboard/admin/datauser', $this->datalogin);
     }
@@ -264,6 +264,28 @@ class DashboardAdmin extends Dashboard
             ->set($data)
             ->update();
         return redirect()->to(base_url() . '/admin/datauser');
+    }
+    public function tableuser()
+    {
+        $builder = $this->db->table('akun');
+        $builder->select('*');
+        $builder->select('level.levelnama');
+        $builder->join('level', 'akun.user_level=level.user_level');
+        $query = $builder->get();
+        $getData = $query->getResult();
+        $data = [
+            'users' => $getData,
+        ];
+        $kirimAJax = [
+            'data' => view('dashboard/admin/table/tableuser', $data),
+        ];
+        echo json_encode($kirimAJax);
+        // if ($this->request->isAJAX()) {
+
+        // } else {
+
+        //     exit('Hop ANda Memasuki Wilayah Terlarang');
+        // }
     }
     public function getUser()
     {

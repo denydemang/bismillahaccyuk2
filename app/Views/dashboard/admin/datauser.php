@@ -16,38 +16,9 @@
                 <div class="card-header">
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped ">
-                            <thead>
-                                <th>No</th>
-                                <th>Id</th>
-                                <th>User Name</th>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>Alamat</th>
-                                <th>No Telpon</th>
-                                <th>Role</th>
-                                <th>Aksi</th>
-                            </thead>
-                            <tbody>
-                                <?php $no = 1 ?>
-                                <?php foreach ($users as $user) : ?>
-                                    <tr>
-                                        <td><?= $no++; ?></td>
-                                        <td><?= $user->user_id; ?></td>
-                                        <td><?= $user->user_name; ?></td>
-                                        <td><?= $user->nama; ?></td>
-                                        <td><?= $user->email; ?></td>
-                                        <td><?= $user->alamat; ?></td>
-                                        <td><?= $user->notelp; ?></td>
-                                        <td><?= $user->levelnama; ?></td>
-                                        <td><button data-id="<?= $user->user_id; ?>" class="btn btn-primary ubahuser" data-toggle="modal" data-target="#exampleModal" style="width:50px"><i class="fas fa-edit"></i></button><button class="btn btn-danger tombolhapus" data-id="<?= $user->user_id; ?>" data-user="<?= $user->user_name; ?>" style="width:50px"><i class=" fas fa-trash"></i></a></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
+                    <div id="tampiluser">
 
+                    </div>
                 </div>
 
             </div>
@@ -104,4 +75,23 @@
         </div>
     </section>
 </div>
+</body>
+
+</html>
+
+<script>
+    $(document).ready(function() {
+
+        $.ajax({
+            url: 'http://localhost:8080/TampilTable/tableuser',
+            dataType: "json",
+            success: function(response) {
+                $('#tampiluser').html(response.data);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    })
+</script>
 <?= $this->endSection(); ?>

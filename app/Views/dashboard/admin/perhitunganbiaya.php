@@ -68,15 +68,23 @@
                                         <input type="email" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputtext1">Harga</label>
+                                        <label for="exampleInputtext1">Kualitas</label>
                                         <input type="text" class="form-control">
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputtext1">Jumlah</label>
+                                        <label for="exampleInputtext1">Panjang</label>
                                         <input type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-row mb-3">
+                                    <div class="col-4">
+                                        <label for="exampleInputEmail1">Harga</label>
+                                        <input type="email" class="form-control">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="exampleInputEmail1">Jumlah Beli</label>
+                                        <input type="email" class="form-control">
+                                    </div>
                                     <div class="col-4">
                                         <label for="exampleInputEmail1">Total Harga</label>
                                         <input type="email" class="form-control">
@@ -86,42 +94,9 @@
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </form>
                         </div>
-                        <div class="table-responsive text-nowrap">
-                            <table class="table table-sm ">
-                                <thead>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Id Ajuan</th>
-                                    <th scope="col">User Id</th>
-                                    <th scope="col-2">Nama Bahan</th>
-                                    <th scope="col">Ukuran</th>
-                                    <th scope="col">Tebal</th>
-                                    <th scope="col">Jenis</th>
-                                    <th scope="col">Berat</th>
-                                    <th scope="col">Harga</th>
-                                    <th scope="col">Jumlah</th>
-                                    <th scope="col">Total Harga</th>
-                                    <th scope="col">Aksi</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>AJP001</td>
-                                        <td>USR001</td>
-                                        <td>Papan PlyWood</td>
-                                        <td>1200 x 2400</td>
-                                        <td>3m</td>
-                                        <td>Ekspor</td>
-                                        <td></td>
-                                        <td>15000</td>
-                                        <td>200</td>
-                                        <td>30000</td>
-                                        <td><button class="btn btn-sm btn-danger">Edit</button><button class="btn btn-sm btn-warning">Hapus</button></td>
-                                    </tr>
+                        <div class="tampilbahanbaku">
 
-                                </tbody>
-                            </table>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -279,33 +254,21 @@
                 </div>
             </div>
         </div>
-
-
-    </section>
-    <!-- <section class="content">
-        <div class="container-fluid">
-            <table>
-                <thead>
-                    <th>
-                        Nama Transaksi
-                    </th>
-                    <th>
-                        Biaya
-                    </th>
-                </thead>
-                <tbody>
-                    <tr class="baris">
-                        <td><input class="form-control" type="text" name="" id="" style="width:300px"></td>
-                        <td><input class="form-control line" type="text" name="number0" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"></td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-            <button id="add-row" class="btn btn-primary"><i class="fas fa-plus"></i>Tambah</button></td>
-            <div style="width:150px;">Hasil Jumlah<label for=""></label><input id="sum" type="text" class="form-control"></div>
-
-        </div>
-    </section> -->
 </div>
+<script>
+    $(document).ready(function() {
+
+        //Perhitungan BB
+        $.ajax({
+            url: 'http://localhost:8080/TampilTable/tableperhitunganbb',
+            dataType: "json",
+            success: function(response) {
+                $('.tampilbahanbaku').html(response.data);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    })
+</script>
 <?= $this->endSection(); ?>
