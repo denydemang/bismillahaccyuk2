@@ -33,7 +33,7 @@
                     <td><?= $row['harga']; ?></td>
                     <td><?= $row['jumlah_beli']; ?></td>
                     <td><?= $row['total_harga']; ?></td>
-                    <td><button class="btn btn-sm btn-danger">Edit</button><button class="btn btn-sm btn-warning">Hapus</button></td>
+                    <td><a data-id="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-danger editbb">Edit</a><button class="btn btn-sm btn-warning hapusbb">Hapus</button></td>
                 </tr>
             <?php endforeach; ?>
 

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\ModelLogin;
 use App\Models\AjuanProyekModel;
+use App\Models\PerhitunganBBModel;
 use App\Models\ProyekModel;
 use App\Models\ProgressProyekModel;
 
@@ -121,6 +122,7 @@ class DashboardAdmin extends Dashboard
     }
     public function message()
     {
+
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
@@ -129,9 +131,14 @@ class DashboardAdmin extends Dashboard
     }
     public function perhitunganbiaya()
     {
+        $modelajuan = new AjuanProyekModel();
+        $getData = $modelajuan->where('status_id', '2')->findAll();
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
+        $this->datalogin += [
+            'dataajuan' => $getData,
+        ];
         $_SESSION['aktif'] = 'perhitunganbiaya';
         return view('dashboard/admin/perhitunganbiaya', $this->datalogin);
     }
@@ -280,17 +287,99 @@ class DashboardAdmin extends Dashboard
             'data' => view('dashboard/admin/table/tableuser', $data),
         ];
         echo json_encode($kirimAJax);
-        // if ($this->request->isAJAX()) {
-
-        // } else {
-
-        //     exit('Hop ANda Memasuki Wilayah Terlarang');
-        // }
     }
     public function getUser()
     {
         $id = $_POST['id'];
         $getuser = new ModelLogin();
         echo json_encode($getuser->where('user_id', $id)->findAll());
+    }
+    public function getuseridajuan()
+    {
+        $modelajuan = new AjuanProyekModel();
+        if ($this->request->isAJAX()) {
+            $idajuan = $this->request->getVar('id');
+            $getData =  $modelajuan->where('idajuan', $idajuan)->where('status_id', '2')->find();
+            echo json_encode($getData);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function simpanperhitunganbb()
+    {
+        if ($this->request->isAJAX()) {
+            $validation = \Config\Services::validation();
+
+            $valid = $this->validate([
+                'idajuanbb' => [
+                    'label' => 'Id Ajuan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'harga' => [
+                    'label' => 'Harga',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'jumlahbeli' => [
+                    'label' => 'Jumlah Beli',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'namabahan' => [
+                    'label' => 'Nama Bahan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+            ]);
+            if (!$valid) {
+                $msg = [
+                    'error' => [
+                        'erroridajuan' => $validation->getError('idajuanbb'),
+                        'errorharga' => $validation->getError('harga'),
+                        'errorjumlahbeli' => $validation->getError('jumlahbeli'),
+                        'errornamabahan' => $validation->getError('namabahan'),
+                    ],
+                ];
+                echo json_encode($msg);
+            } else {
+                $perhitunganbbmodel = new PerhitunganBBModel();
+                $simpandata = [
+                    'id_pbb' => '',
+                    'idajuan' => $this->request->getVar('user_idbb'),
+                    'user_id' => $this->request->getVar('user_idbb'),
+                    'namaproyek' => $this->request->getVar('namaproyekbb'),
+                    'namabahan' => $this->request->getVar('namabahan'),
+                    'ukuran' => $this->request->getVar('ukuran'),
+                    'kualitas' => $this->request->getVar('kualitas'),
+                    'berat' => $this->request->getVar('berat'),
+                    'ketebalan' => $this->request->getVar('tebal'),
+                    'panjang' => $this->request->getVar('panjang'),
+                    'harga' => $this->request->getVar('harga'),
+                    'jumlah_beli' => $this->request->getVar('jumlahbeli'),
+                    'total_harga' => $this->request->getVar('totalharga'),
+
+                ];
+                $perhitunganbbmodel->insert($simpandata);
+                //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
+                //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
+                $builder = $perhitunganbbmodel->builder();
+                $getaffectedrow = $builder->db()->affectedRows();
+                $baristerpengaruh = [
+                    'affected' => $getaffectedrow,
+                ];
+                echo json_encode($baristerpengaruh);
+            }
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
     }
 }

@@ -31,67 +31,83 @@
                     </div>
                     <div class="card-body">
                         <div class="container-fluid mb-3">
-                            <form>
+                            <form action="<?= base_url(); ?>/DashboardAdmin/simpanperhitunganbb" class="perhitunganbb">
                                 <div class="form-row form-group-sm mb-3">
                                     <div class="col">
                                         <label for="idajuan">Id Ajuan</label>
-                                        <select class="form-control" id="exampleFormControlSelect1">
-                                            <option value=""></option>
+                                        <select class="form-control idajuanbb" name="idajuanbb">
+                                            <option selected disabled>Pilih Id Ajuan</option>
+                                            <?php foreach ($dataajuan as $row) : ?>
+                                                <option value="<?= $row['idajuan']; ?>"><?= $row['idajuan']; ?></option>
+                                            <?php endforeach; ?>
                                         </select>
+                                        <div class="idajuanbbinvalid invalid-feedback">
+                                        </div>
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputPassword1">User_id</label>
-                                        <input type="text" class="form-control">
+                                        <label for="user_id">User_id</label>
+                                        <input type="text" readonly class="form-control user_idbb" name="user_idbb">
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputtext1">Nama Bahan</label>
-                                        <input type="text" class="form-control">
+                                        <label for="namaproyek">Nama Proyek</label>
+                                        <input type="text" readonly class="form-control namaproyekbb" name="namaproyekbb">
                                     </div>
                                 </div>
                                 <div class="form-row mb-3">
                                     <div class="col">
-                                        <label for="exampleInputEmail1">Ukuran</label>
-                                        <input type="email" class="form-control">
+                                        <label for="namabahan">Nama Bahan</label>
+                                        <input type="text" class="form-control namabahan" name="namabahan">
+                                        <div class="namabahaninvalid invalid-feedback">
+                                        </div>
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputtext1">Tebal</label>
-                                        <input type="text" class="form-control">
+                                        <label for="ukuran">Ukuran</label>
+                                        <input type="text" class="form-control ukuran" name="ukuran">
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputtext1">Jenis</label>
-                                        <input type="text" class="form-control">
+                                        <label for="tebal">Tebal</label>
+                                        <input type="text" class="form-control tebal" name="tebal">
                                     </div>
                                 </div>
                                 <div class="form-row mb-3">
                                     <div class="col">
-                                        <label for="exampleInputEmail1">Berat</label>
-                                        <input type="email" class="form-control">
+                                        <label for="jenis">Jenis</label>
+                                        <input type="text" class="form-control jenis" name="jenis">
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputtext1">Kualitas</label>
-                                        <input type="text" class="form-control">
+                                        <label for="Berat">Berat</label>
+                                        <input type="text" class="form-control berat" name="berat">
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputtext1">Panjang</label>
-                                        <input type="text" class="form-control">
+                                        <label for="kualitas">Kualitas</label>
+                                        <input type="text" class="form-control kualitas" name="kualitas">
                                     </div>
                                 </div>
                                 <div class="form-row mb-3">
-                                    <div class="col-4">
-                                        <label for="exampleInputEmail1">Harga</label>
-                                        <input type="email" class="form-control">
+                                    <div class="col">
+                                        <label for="panjang">Panjang</label>
+                                        <input type="text" class="form-control panjang" name="panjang">
+                                    </div>
+                                    <div class="col">
+                                        <label for="harga">Harga</label>
+                                        <input type="text" class="form-control harga" name="harga" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                        <div class="hargainvalid invalid-feedback">
+                                        </div>
                                     </div>
                                     <div class="col-4">
-                                        <label for="exampleInputEmail1">Jumlah Beli</label>
-                                        <input type="email" class="form-control">
-                                    </div>
-                                    <div class="col-4">
-                                        <label for="exampleInputEmail1">Total Harga</label>
-                                        <input type="email" class="form-control">
+                                        <label for="jumlahbeli">Jumlah Beli</label>
+                                        <input type="text" class="form-control jumlahbeli" name="jumlahbeli" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                        <div class="jumlahbeliinvalid invalid-feedback">
+                                        </div>
                                     </div>
                                 </div>
-
-                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <div class="form-row mb-3">
+                                    <div class="col-6">
+                                        <label for="totalhrga">Total Harga</label>
+                                        <input type="text" readonly class="form-control totalharga" name="totalharga">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btnsimpanbb">Simpan</button>
                             </form>
                         </div>
                         <div class="tampilbahanbaku">
@@ -210,54 +226,5 @@
             </div>
         </div>
 </div>
-<script>
-    function tablepbb() {
-        //Perhitungan BB
-        $.ajax({
-            url: 'http://localhost:8080/TampilTable/tableperhitunganbb',
-            dataType: "json",
-            success: function(response) {
-                $('.tampilbahanbaku').html(response.data);
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-            }
-        });
-    }
-
-    function tablepbop() {
-        //Perhitungan BOP
-        $.ajax({
-            url: 'http://localhost:8080/TampilTable/tableperhitunganbop',
-            dataType: "json",
-            success: function(response) {
-                $('.tampilbop').html(response.data);
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-            }
-        });
-    }
-
-    function tableptenaker() {
-        //Perhitungan Tenaker
-        $.ajax({
-            url: 'http://localhost:8080/TampilTable/tableperhitungantenaker',
-            dataType: "json",
-            success: function(response) {
-                $('.tampiltenaker').html(response.data);
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-            }
-        });
-    }
-    $(document).ready(function() {
-        tablepbb();
-        tablepbop();
-        tableptenaker()
-
-
-    })
-</script>
+<script src="<?= base_url() ?>/js/perhitunganbiaya.js"></script>
 <?= $this->endSection(); ?>
