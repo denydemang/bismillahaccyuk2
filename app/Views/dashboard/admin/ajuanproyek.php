@@ -161,7 +161,17 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('#tableajuan').DataTable();
+        $('#tableajuan').DataTable({
+            "pageLength": 5,
+            "columnDefs": [{
+                orderable: false,
+                targets: [1, 2, 3, 4, 5, 6, 7]
+            }],
+            "fixedColumns": {
+                leftColumns: 1,
+                rightColumns: 1
+            },
+        });
     })
 </script>
 <?= $this->endSection(); ?>

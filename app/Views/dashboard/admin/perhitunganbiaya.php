@@ -156,34 +156,8 @@
                                 <button type="submit" class="btn btn-secondary">Simpan</button>
                             </form>
                         </div>
-                        <div class="table-responsive text-nowrap">
-                            <table class="table table-sm ">
-                                <thead>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Id Ajuan</th>
-                                    <th scope="col">User Id</th>
-                                    <th scope="col">JenisPekerjaan</th>
-                                    <th scope="col">Gaji</th>
-                                    <th scope="col">Hari</th>
-                                    <th scope="col">Total Pekerja</th>
-                                    <th scope="col">Total Gaji</th>
-                                    <th scope="col">Aksi</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>AJP001</td>
-                                        <td>USR001</td>
-                                        <td>Mandor</td>
-                                        <td>8000000</td>
-                                        <td>8</td>
-                                        <td>15</td>
-                                        <td>90000000</td>
-                                        <td><button class="btn btn-sm btn-danger">Edit</button><button class="btn btn-sm btn-warning">Hapus</button></td>
-                                    </tr>
+                        <div class="tampiltenaker">
 
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -228,27 +202,8 @@
                                 <button type="submit" class="btn btn-success">Simpan</button>
                             </form>
                         </div>
-                        <div class="table-responsive text-nowrap">
-                            <table class="table table-sm ">
-                                <thead>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Id Ajuan</th>
-                                    <th scope="col">User Id</th>
-                                    <th scope="col-2">Nama Transaksi</th>
-                                    <th scope="col">Total Biaya</th>
-                                    <th scope="col">Aksi</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>AJP001</td>
-                                        <td>USR001</td>
-                                        <td>Transportasi</td>
-                                        <td>500000</td>
-                                        <td><button class="btn btn-sm btn-danger">Edit</button><button class="btn btn-sm btn-warning">Hapus</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="tampilbop">
+
                         </div>
                     </div>
                 </div>
@@ -256,8 +211,7 @@
         </div>
 </div>
 <script>
-    $(document).ready(function() {
-
+    function tablepbb() {
         //Perhitungan BB
         $.ajax({
             url: 'http://localhost:8080/TampilTable/tableperhitunganbb',
@@ -269,6 +223,41 @@
                 alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
             }
         });
+    }
+
+    function tablepbop() {
+        //Perhitungan BOP
+        $.ajax({
+            url: 'http://localhost:8080/TampilTable/tableperhitunganbop',
+            dataType: "json",
+            success: function(response) {
+                $('.tampilbop').html(response.data);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    }
+
+    function tableptenaker() {
+        //Perhitungan Tenaker
+        $.ajax({
+            url: 'http://localhost:8080/TampilTable/tableperhitungantenaker',
+            dataType: "json",
+            success: function(response) {
+                $('.tampiltenaker').html(response.data);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    }
+    $(document).ready(function() {
+        tablepbb();
+        tablepbop();
+        tableptenaker()
+
+
     })
 </script>
 <?= $this->endSection(); ?>

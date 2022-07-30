@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Models\AjuanProyekModel;
 use App\Models\ModelLogin;
 use App\Models\PerhitunganBBModel;
+use App\Models\PerhitunganBOPModel;
+use App\Models\PerhitunganTenakerModel;
 
 class TampilTable extends Dashboard
 {
@@ -51,7 +53,41 @@ class TampilTable extends Dashboard
             echo json_encode($kirimAJax);
         } else {
 
-            exit('Hop ANda Memasuki Wilayah Terlarang');
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function tableperhitungantenaker()
+    {
+        if ($this->request->isAJAX()) {
+            $hitungtenaker = new PerhitunganTenakerModel();
+            $getData = $hitungtenaker->findAll();
+            $data = [
+                'tenaker' => $getData,
+            ];
+            $kirimAJax = [
+                'data' => view('dashboard/admin/table/tableperhitunganbiayatenaker', $data),
+            ];
+            echo json_encode($kirimAJax);
+        } else {
+
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function tableperhitunganbop()
+    {
+        if ($this->request->isAJAX()) {
+            $hitungbop = new PerhitunganBOPModel();
+            $getData = $hitungbop->findAll();
+            $data = [
+                'bop' => $getData,
+            ];
+            $kirimAJax = [
+                'data' => view('dashboard/admin/table/tableperhitunganbiayabop', $data),
+            ];
+            echo json_encode($kirimAJax);
+        } else {
+
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
         }
     }
 }
