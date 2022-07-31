@@ -163,19 +163,19 @@
                                     </div>
                                     <div class="col">
                                         <label for="gaji">Gaji</label>
-                                        <input type="text" class="form-control gaji" name="gaji">
+                                        <input type="text" class="form-control gaji" name="gaji" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                         <div class="gajiinvalid invalid-feedback">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <label for="hari">Hari</label>
-                                        <input type="text" class="form-control hari" name="hari">
+                                        <input type="text" class="form-control hari" name="hari" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                     </div>
                                 </div>
                                 <div class="form-row mb-3">
                                     <div class="col-4">
                                         <label for="totalpekerja">Total Pekerja</label>
-                                        <input type="text" class="form-control totalpekerja" name="totalpekerja">
+                                        <input type="text" class="form-control totalpekerja" name="totalpekerja" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                         <div class="totalpekerjainvalid invalid-feedback">
                                         </div>
                                     </div>
@@ -206,9 +206,9 @@
                     </div>
                     <div class="card-body">
                         <div class="container-fluid mb-3">
-                            <form>
+                            <form class="perhitunganbop" action="<?= base_url(); ?>/DashboardAdmin/simpanperhitunganbop">
                                 <?= csrf_field(); ?>
-                                <div class="form-row form-group-sm mb-3">
+                                <div class="form-row mb-3">
                                     <div class="col">
                                         <?php foreach ($dataajuan as $row) : ?>
                                             <label for="idajuanbop">Id Ajuan</label>
@@ -217,27 +217,33 @@
                                                 <option value="<?= $row['idajuan']; ?>"><?= $row['idajuan']; ?></option>
                                             </select>
                                         <?php endforeach; ?>
+                                        <div class="idajuanbopinvalid invalid-feedback">
+                                        </div>
                                     </div>
                                     <div class="col">
-                                        <label for="namaproyekbop">Nama Proyek</label>
-                                        <input type="text" class="form-control namaproyekbop" name="namaproyekbop">
+                                        <label for="user_idbop">Id User</label>
+                                        <input type="text" readonly class="form-control user_idbop" name="user_idbop">
                                     </div>
                                     <div class="col">
-                                        <label for="user_idbop">Nama Proyek</label>
-                                        <input type="text" class="form-control namaproyekbop" name="user_idbop">
+                                        <label for="namaproyek">Nama Proyek</label>
+                                        <input type="text" readonly class="form-control namaproyekbop" name="namaproyekbop">
                                     </div>
                                     <div class="col">
                                         <label for="exampleInputtext1">Nama Transaksi</label>
-                                        <input type="text" class="form-control" name="namatransaksi">
+                                        <input type="text" class="form-control namatransaksi" name="namatransaksi">
+                                        <div class="namatransaksiinvalid invalid-feedback">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-row form-group-sm mb-3">
+                                <div class="form-row mb-3">
                                     <div class="col-4">
                                         <label for="exampleInputtext1">Total Biaya</label>
-                                        <input type="text" class="form-control" name="totalbiaya">
+                                        <input type="text" class="form-control totalbiaya" name="totalbiaya" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                        <div class="totalbiayainvalid invalid-feedback">
+                                        </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-success">Simpan</button>
+                                <button type="submit" id="btnsimpanbop" class="btn btn-success btnsimpanbop">Simpan</button>
                                 <button class="btn btn-danger btncancel3">Cancel</button>
                             </form>
                         </div>
@@ -252,4 +258,5 @@
 <script src="<?= base_url() ?>/js/perhitunganbiaya.js"></script>
 <script src="<?= base_url() ?>/js/perhitunganbiayabb.js"></script>
 <script src="<?= base_url() ?>/js/perhitunganbiayatk.js"></script>
+<script src="<?= base_url() ?>/js/perhitunganbiayabop.js"></script>
 <?= $this->endSection(); ?>

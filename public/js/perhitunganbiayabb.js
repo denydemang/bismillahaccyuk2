@@ -190,6 +190,9 @@ $(document).ready(function(){
                             })
                             
                             tablepbb();
+                            $('#btnsimpan').addClass('btnsimpanbb');
+                            $('#btnsimpan').html('Simpan');
+                            $('#btnsimpan').removeClass('btnubahbb');
                             $('.namabahan').removeClass('is-invalid');
                             $('.idajuanbb').removeClass('is-invalid');
                             $('.jumlahbeli').removeClass('is-invalid');
@@ -206,102 +209,118 @@ $(document).ready(function(){
             });
             
         }
-        $('.harga').keyup(function(){
-            let harga = parseInt($(this).val());
-            let jumlahbeli = parseInt($('.jumlahbeli').val())
-            let hasil = harga * jumlahbeli;
-            $('.totalharga').val(hasil);
-        })
-        $('.jumlahbeli').keyup(function(){
-            let harga = parseInt($('.harga').val());
-            let jumlahbeli = parseInt($(this).val())
-            let hasil = harga * jumlahbeli;
-            $('.totalharga').val(hasil);
-        })
-        $(document).on('click', '.hapusbb', function(){
-                let idajuan =  $(this).data('idajuan')
-                let namaproyek = $(this).data('namaproyek')
-                let namabahan = $(this).data('namabahan')
-                let id  =  $(this).data('id')
-                Swal.fire({
-                    position: 'center',
-                    icon: 'warning',
-                    title: 'Yakin Hapus?',
-                    text: 'Berikut Id Ajuan '+idajuan+' Nama Proyek '+namaproyek+' Dan Nama Bahan '+namabahan+' Akan Dihapus!',
-                    showConfirmButton: true,
-                    showCancelButton: true,
-                    cancelButtonColor: '#d33',
-                    cancelButtonText: 'Batal',
-                    confirmButtonColor: '#3085d6',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url : "http://localhost:8080/DashboardAdmin/hapusperhitunganbb/"+id,
-                                dataType : "json",
-                                success: function(response) {
-                                    if(response >= 1){
-                                        tablepbb();
-                                        Swal.fire({
-                                            position: 'center',
-                                            icon: 'success',
-                                            title: 'Berhasil Dihapus',
-                                            text: 'Berikut Id Ajuan '+idajuan+' Nama Proyek '+namaproyek+' Dan Nama Bahan '+namabahan+' Berhasil Dihapus!',
-                                            showConfirmButton: true,
-                                            })
-                                    } else {
-                                        tablepbb();
-                                        Swal.fire({
-                                            position: 'center',
-                                            icon: 'error',
-                                            title: 'Gagal Dihapus',
-                                            text: 'Berikut Id Ajuan '+idajuan+' Nama Proyek '+namaproyek+' Dan Nama Bahan '+namabahan+' Gagal Dihapus!',
-                                            showConfirmButton: true,
-                                            })
-                                    }
-                                    
-                                },
-                                error: function(xhr, ajaxOptions, thrownError) {
-                                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                                }
-                            });
-                        }
-                    })
-                
-        })
-        $(document).on('click', '.editbb', function(){
-            let id = $(this).data('id');
-            $.ajax({
-                type: 'post',
-                data : {id : id},
-                url: 'http://localhost:8080/DashboardAdmin/getdataperhitunganbb',
-                dataType: "json",
-                success: function(response) {
-                    $('#btnsimpan').removeClass('btnsimpanbb');
-                    $('#btnsimpan').addClass('btnubahbb');
-                    $('#btnsimpan').html('Ubah');
-                    $('#btnsimpan').data('id', id);
-                    $('#idajuanbb option[value="'+response[0]['idajuan']+'"]').prop("selected",true);
-                    $('.user_idbb').val(response[0]['user_id']);
-                    $('.namaproyekbb').val(response[0]['namaproyek']);
-                    $('.namabahan').val(response[0]['namabahan']);
-                    $('.ukuran').val(response[0]['ukuran']);
-                    $('.tebal').val(response[0]['tebal']);
-                    $('.jenis').val(response[0]['jenis']);
-                    $('.berat').val(response[0]['berat']);
-                    $('.kualitas').val(response[0]['kualitas']);
-                    $('.panjang').val(response[0]['panjang']);
-                    $('.harga').val(response[0]['harga']);
-                    $('.jumlahbeli').val(response[0]['jumlah_beli']);
-                    $('.totalharga').val(response[0]['total_harga']);
-                    
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                }
-            });
-            
-        })
+  
         
         
 }) 
+$('.harga').keyup(function(){
+    let harga = parseInt($(this).val());
+    let jumlahbeli = parseInt($('.jumlahbeli').val())
+    let hasil = harga * jumlahbeli;
+    $('.totalharga').val(hasil);
+})
+$('.jumlahbeli').keyup(function(){
+    let harga = parseInt($('.harga').val());
+    let jumlahbeli = parseInt($(this).val())
+    let hasil = harga * jumlahbeli;
+    $('.totalharga').val(hasil);
+})
+$(document).on('click', '.hapusbb', function(){
+        let idajuan =  $(this).data('idajuan')
+        let namaproyek = $(this).data('namaproyek')
+        let namabahan = $(this).data('namabahan')
+        let id  =  $(this).data('id')
+        Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Yakin Hapus?',
+            text: 'Berikut Id Ajuan '+idajuan+' Nama Proyek '+namaproyek+' Dan Nama Bahan '+namabahan+' Akan Dihapus!',
+            showConfirmButton: true,
+            showCancelButton: true,
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Batal',
+            confirmButtonColor: '#3085d6',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url : "http://localhost:8080/DashboardAdmin/hapusperhitunganbb/"+id,
+                        dataType : "json",
+                        success: function(response) {
+                            if(response >= 1){
+                                $('.namabahan').removeClass('is-invalid');
+                                $('.idajuanbb').removeClass('is-invalid');
+                                $('.jumlahbeli').removeClass('is-invalid');
+                                $('.harga').removeClass('is-invalid');
+                                $(".perhitunganbb").trigger('reset'); 
+                                tablepbb();
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Berhasil Dihapus',
+                                    text: 'Berikut Id Ajuan '+idajuan+' Nama Proyek '+namaproyek+' Dan Nama Bahan '+namabahan+' Berhasil Dihapus!',
+                                    showConfirmButton: true,
+                                    })
+                            } else {
+                                $('.namabahan').removeClass('is-invalid');
+                                $('.idajuanbb').removeClass('is-invalid');
+                                $('.jumlahbeli').removeClass('is-invalid');
+                                $('.harga').removeClass('is-invalid');
+                                $(".perhitunganbb").trigger('reset'); 
+                                tablepbb();
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: 'Gagal Dihapus',
+                                    text: 'Berikut Id Ajuan '+idajuan+' Nama Proyek '+namaproyek+' Dan Nama Bahan '+namabahan+' Gagal Dihapus!',
+                                    showConfirmButton: true,
+                                    })
+                            }
+                            
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                        }
+                    });
+                }
+            })
+        
+})
+$(document).on('click', '.editbb', function(){
+    let id = $(this).data('id');
+    $.ajax({
+        type: 'post',
+        data : {id : id},
+        url: 'http://localhost:8080/DashboardAdmin/getdataperhitunganbb',
+        dataType: "json",
+        success: function(response) {
+        
+            $('.namabahan').removeClass('is-invalid');
+            $('.idajuanbb').removeClass('is-invalid');
+            $('.jumlahbeli').removeClass('is-invalid');
+            $('.harga').removeClass('is-invalid');
+            $('#btnsimpan').removeClass('btnsimpanbb');
+            $('#btnsimpan').addClass('btnubahbb');
+            $('#btnsimpan').html('Ubah');
+            $('#btnsimpan').data('id', id);
+            $('#idajuanbb option[value="'+response[0]['idajuan']+'"]').prop("selected",true);
+            $('.user_idbb').val(response[0]['user_id']);
+            $('.namaproyekbb').val(response[0]['namaproyek']);
+            $('.namabahan').val(response[0]['namabahan']);
+            $('.ukuran').val(response[0]['ukuran']);
+            $('.tebal').val(response[0]['tebal']);
+            $('.jenis').val(response[0]['jenis']);
+            $('.berat').val(response[0]['berat']);
+            $('.kualitas').val(response[0]['kualitas']);
+            $('.panjang').val(response[0]['panjang']);
+            $('.harga').val(response[0]['harga']);
+            $('.jumlahbeli').val(response[0]['jumlah_beli']);
+            $('.totalharga').val(response[0]['total_harga']);
+            
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+        }
+    });
+    
+})
 })

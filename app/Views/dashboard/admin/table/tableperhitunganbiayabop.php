@@ -5,6 +5,7 @@
                 <th scope="col">No</th>
                 <th scope="col">Id Ajuan</th>
                 <th scope="col">User Id</th>
+                <th scope="col">Nama Proyek</th>
                 <th scope="col-2">Nama Transaksi</th>
                 <th scope="col">Total Biaya</th>
                 <th scope="col">Aksi</th>
@@ -12,15 +13,17 @@
         </thead>
         <tbody>
             <?php $nomer = 1 ?>
-            <?php foreach ($bop as $row) ?>
-            <tr>
-                <th scope="row"><?= $nomer; ?></th>
-                <td><?= $row['idajuan']; ?></td>
-                <td><?= $row['user_id']; ?></td>
-                <td><?= $row['namatrans']; ?></td>
-                <td><?= $row['tot_biaya']; ?></td>
-                <td><button class="btn btn-sm btn-danger">Edit</button><button class="btn btn-sm btn-warning">Hapus</button></td>
-            </tr>
+            <?php foreach ($bop as $row) : ?>
+                <tr>
+                    <th scope="row"><?= $nomer++; ?></th>
+                    <td><?= $row['idajuan']; ?></td>
+                    <td><?= $row['user_id']; ?></td>
+                    <td><?= $row['namaproyek']; ?></td>
+                    <td><?= $row['namatrans']; ?></td>
+                    <td><?= $row['tot_biaya']; ?></td>
+                    <td><button data-id="<?= $row['id_pbop']; ?>" class="btn btn-sm btn-danger editbop">Edit</button><button data-idajuan="<?= $row['idajuan']; ?>" data-namatrans="<?= $row['namatrans']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbop']; ?>" class="btn btn-sm btn-warning hapusbop">Hapus</button></td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
     </table>
 </div>
@@ -38,5 +41,6 @@
             },
             "lengthChange": false
         });
+
     })
 </script>

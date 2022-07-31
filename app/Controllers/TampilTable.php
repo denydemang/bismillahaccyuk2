@@ -17,7 +17,7 @@ class TampilTable extends Dashboard
     }
     public function index()
     {
-          return redirect()->to(base_url('admin/perhitunganbiaya'));
+        return redirect()->to(base_url('admin/perhitunganbiaya'));
     }
     public function tableuser()
     {

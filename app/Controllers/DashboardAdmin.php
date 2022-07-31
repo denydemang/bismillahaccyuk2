@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\ModelLogin;
 use App\Models\AjuanProyekModel;
 use App\Models\PerhitunganBBModel;
+use App\Models\PerhitunganBOPModel;
 use App\Models\PerhitunganTenakerModel;
 use App\Models\ProyekModel;
 use App\Models\ProgressProyekModel;
@@ -649,8 +650,8 @@ class DashboardAdmin extends Dashboard
                     'jenispekerjaan' => $this->request->getVar('jenispekerjaan'),
                     'gaji' => $this->request->getVar('gaji'),
                     'hari' => $this->request->getVar('hari'),
-                    'totalpekerja' => $this->request->getVar('totalpekerja'),
-                    'totalgaji' => $this->request->getVar('totalgaji'),
+                    'total_pekerja' => $this->request->getVar('totalpekerja'),
+                    'total_gaji' => $this->request->getVar('totalgaji'),
 
                 ];
                 $perhitungantenakermodel->insert($simpandata);
@@ -663,6 +664,161 @@ class DashboardAdmin extends Dashboard
                 ];
                 echo json_encode($baristerpengaruh);
             }
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    //End Perhitungan Biaya Tenaker
+
+    //Perhitungan Biaya Bop
+    public function hapusperhitunganbop($id = false)
+    {
+        if ($this->request->isAJAX()) {
+            $perhitunganbop = new PerhitunganBOPModel();
+            $perhitunganbop->delete($id);
+            $builder = $perhitunganbop->builder();
+            $getaffectedrow = $builder->db()->affectedRows();
+            echo json_encode($getaffectedrow);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function updateperhitunganbop($id = false)
+    {
+        if ($this->request->isAJAX()) {
+            $validation = \Config\Services::validation();
+
+            $valid = $this->validate([
+                'namatransaksi' => [
+                    'label' => 'Nama Transaksi',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'idajuanbop' => [
+                    'label' => 'Id Ajuan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'totalbiaya' => [
+                    'label' => 'Total Biaya',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+
+            ]);
+            if (!$valid) {
+                $msg = [
+                    'error' => [
+                        'erroridajuan' => $validation->getError('idajuanbop'),
+                        'errornamatransaksi' => $validation->getError('namatransaksi'),
+                        'errortotalbiaya' => $validation->getError('totalbiaya'),
+                    ],
+                ];
+                echo json_encode($msg);
+            } else {
+                $perhitunganbopmodel = new PerhitunganBOPModel();
+                $updatedata = [
+                    'user_id' => $this->request->getVar('user_idbop'),
+                    'idajuan' => $this->request->getVar('idajuanbop'),
+                    'namaproyek' => $this->request->getVar('namaproyekbop'),
+                    'namatrans' => $this->request->getVar('namatransaksi'),
+                    'tot_biaya' => $this->request->getVar('totalbiaya'),
+
+                ];
+                $perhitunganbopmodel->where('id_pbop', $id)
+                    ->set($updatedata)
+                    ->update();
+                //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
+                //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
+                $builder = $perhitunganbopmodel->builder();
+                $getaffectedrow = $builder->db()->affectedRows();
+                $baristerpengaruh = [
+                    'affected' => $getaffectedrow,
+                    'notifnamaproyek' => $this->request->getVar('namaproyekbop'),
+                    'notifajuan' => $this->request->getVar('idajuanbop')
+                ];
+                echo json_encode($baristerpengaruh);
+            }
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function simpanperhitunganbop()
+    {
+        if ($this->request->isAJAX()) {
+            $validation = \Config\Services::validation();
+
+            $valid = $this->validate([
+                'namatransaksi' => [
+                    'label' => 'Nama Transaksi',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'idajuanbop' => [
+                    'label' => 'Id Ajuan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'totalbiaya' => [
+                    'label' => 'Total Biaya',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+
+            ]);
+            if (!$valid) {
+                $msg = [
+                    'error' => [
+                        'erroridajuan' => $validation->getError('idajuanbop'),
+                        'errornamatransaksi' => $validation->getError('namatransaksi'),
+                        'errortotalbiaya' => $validation->getError('totalbiaya'),
+                    ],
+                ];
+                echo json_encode($msg);
+            } else {
+                $perhitunganbopmodel = new PerhitunganBOPModel();
+                $simpandata = [
+                    'id_pbop' => '',
+                    'user_id' => $this->request->getVar('user_idbop'),
+                    'idajuan' => $this->request->getVar('idajuanbop'),
+                    'namaproyek' => $this->request->getVar('namaproyekbop'),
+                    'namatrans' => $this->request->getVar('namatransaksi'),
+                    'tot_biaya' => $this->request->getVar('totalbiaya'),
+
+                ];
+                $perhitunganbopmodel->insert($simpandata);
+                //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
+                //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
+                $builder = $perhitunganbopmodel->builder();
+                $getaffectedrow = $builder->db()->affectedRows();
+                $baristerpengaruh = [
+                    'affected' => $getaffectedrow,
+                ];
+                echo json_encode($baristerpengaruh);
+            }
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function getdataperhitunganbop()
+    {
+        $perhitunganbop = new PerhitunganBOPModel();
+        if ($this->request->isAJAX()) {
+            $id =  $this->request->getVar('id');
+            $getData = $perhitunganbop->where('id_pbop', $id)->find();
+            echo json_encode($getData);
         } else {
             return redirect()->to(base_url('admin/perhitunganbiaya'));
         }

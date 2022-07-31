@@ -232,6 +232,10 @@ $(document).on('click', '.edittk', function(){
         url: 'http://localhost:8080/DashboardAdmin/getdataperhitungantk',
         dataType: "json",
         success: function(response) {
+            $('.idajuantk').removeClass('is-invalid');
+            $('.jenispekerjaan').removeClass('is-invalid');
+            $('.gaji').removeClass('is-invalid');
+            $('.totalpekerja').removeClass('is-invalid');
             $('#btnsimpantk').removeClass('btnsimpantk');
             $('#btnsimpantk').addClass('btnubahtk');
             $('#btnsimpantk').html('Ubah');
@@ -274,6 +278,11 @@ $(document).on('click', '.hapustk', function(){
                     dataType : "json",
                     success: function(response) {
                         if(response >= 1){
+                            $('.jenispekerjaan').removeClass('is-invalid');
+                            $('.idajuantk').removeClass('is-invalid');
+                            $('.gaji').removeClass('is-invalid');
+                            $('.totalpekerja').removeClass('is-invalid');
+                            $(".perhitungantenaker").trigger('reset'); //jquery
                             tableptenaker();
                             Swal.fire({
                                 position: 'center',
@@ -283,6 +292,11 @@ $(document).on('click', '.hapustk', function(){
                                 showConfirmButton: true,
                                 })
                         } else {
+                            $('.jenispekerjaan').removeClass('is-invalid');
+                            $('.idajuantk').removeClass('is-invalid');
+                            $('.gaji').removeClass('is-invalid');
+                            $('.totalpekerja').removeClass('is-invalid');
+                            $(".perhitungantenaker").trigger('reset'); //jquery
                             tableptenaker();
                             Swal.fire({
                                 position: 'center',
