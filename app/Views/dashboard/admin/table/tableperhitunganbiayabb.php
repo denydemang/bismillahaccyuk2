@@ -9,6 +9,7 @@
                 <th scope="col">Ukuran</th>
                 <th scope="col">Kualitas</th>
                 <th scope="col">Berat</th>
+                <th scope="col">Jenis</th>
                 <th scope="col">Ketebalan</th>
                 <th scope="col">Panjang</th>
                 <th scope="col">Harga</th>
@@ -28,12 +29,13 @@
                     <td><?= $row['ukuran']; ?></td>
                     <td><?= $row['kualitas']; ?></td>
                     <td><?= $row['berat']; ?></td>
+                    <td><?= $row['jenis']; ?></td>
                     <td><?= $row['ketebalan']; ?></td>
                     <td><?= $row['panjang']; ?></td>
                     <td><?= $row['harga']; ?></td>
                     <td><?= $row['jumlah_beli']; ?></td>
                     <td><?= $row['total_harga']; ?></td>
-                    <td><a data-id="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-danger editbb">Edit</a><button class="btn btn-sm btn-warning hapusbb">Hapus</button></td>
+                    <td><a data-id="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-danger editbb">Edit</a><button data-idajuan="<?= $row['idajuan']; ?>" data-namabahan="<?= $row['namabahan']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-warning hapusbb">Hapus</button></td>
                 </tr>
             <?php endforeach; ?>
 

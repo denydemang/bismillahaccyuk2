@@ -35,7 +35,7 @@
                                 <div class="form-row form-group-sm mb-3">
                                     <div class="col">
                                         <label for="idajuan">Id Ajuan</label>
-                                        <select class="form-control idajuanbb" name="idajuanbb">
+                                        <select id="idajuanbb" class="form-control idajuanbb" name="idajuanbb">
                                             <option selected disabled>Pilih Id Ajuan</option>
                                             <?php foreach ($dataajuan as $row) : ?>
                                                 <option value="<?= $row['idajuan']; ?>"><?= $row['idajuan']; ?></option>
@@ -107,7 +107,7 @@
                                         <input type="text" readonly class="form-control totalharga" name="totalharga">
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary btnsimpanbb">Simpan</button>
+                                <button type="submit" id="btnsimpan" class="btn btn-primary btnsimpanbb">Simpan</button>
                             </form>
                         </div>
                         <div class="tampilbahanbaku">

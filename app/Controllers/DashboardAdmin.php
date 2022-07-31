@@ -294,6 +294,8 @@ class DashboardAdmin extends Dashboard
         $getuser = new ModelLogin();
         echo json_encode($getuser->where('user_id', $id)->findAll());
     }
+
+    //Perhitungan Biaya Bahan Baku
     public function getuseridajuan()
     {
         $modelajuan = new AjuanProyekModel();
@@ -301,6 +303,18 @@ class DashboardAdmin extends Dashboard
             $idajuan = $this->request->getVar('id');
             $getData =  $modelajuan->where('idajuan', $idajuan)->where('status_id', '2')->find();
             echo json_encode($getData);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function hapusperhitunganbb($id = false)
+    {
+        if ($this->request->isAJAX()) {
+            $perhitunganbbmodel = new PerhitunganBBModel();
+            $perhitunganbbmodel->delete($id);
+            $builder = $perhitunganbbmodel->builder();
+            $getaffectedrow = $builder->db()->affectedRows();
+            echo json_encode($getaffectedrow);
         } else {
             return redirect()->to(base_url('admin/perhitunganbiaya'));
         }
@@ -354,11 +368,12 @@ class DashboardAdmin extends Dashboard
                 $perhitunganbbmodel = new PerhitunganBBModel();
                 $simpandata = [
                     'id_pbb' => '',
-                    'idajuan' => $this->request->getVar('user_idbb'),
+                    'idajuan' => $this->request->getVar('idajuanbb'),
                     'user_id' => $this->request->getVar('user_idbb'),
                     'namaproyek' => $this->request->getVar('namaproyekbb'),
                     'namabahan' => $this->request->getVar('namabahan'),
                     'ukuran' => $this->request->getVar('ukuran'),
+                    'jenis' => $this->request->getVar('jenis'),
                     'kualitas' => $this->request->getVar('kualitas'),
                     'berat' => $this->request->getVar('berat'),
                     'ketebalan' => $this->request->getVar('tebal'),
@@ -382,4 +397,99 @@ class DashboardAdmin extends Dashboard
             return redirect()->to(base_url('admin/perhitunganbiaya'));
         }
     }
+    public function updateperhitunganbb($id = false)
+    {
+        if ($this->request->isAJAX()) {
+            $validation = \Config\Services::validation();
+
+            $valid = $this->validate([
+                'idajuanbb' => [
+                    'label' => 'Id Ajuan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'harga' => [
+                    'label' => 'Harga',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'jumlahbeli' => [
+                    'label' => 'Jumlah Beli',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'namabahan' => [
+                    'label' => 'Nama Bahan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+            ]);
+            if (!$valid) {
+                $msg = [
+                    'error' => [
+                        'erroridajuan' => $validation->getError('idajuanbb'),
+                        'errorharga' => $validation->getError('harga'),
+                        'errorjumlahbeli' => $validation->getError('jumlahbeli'),
+                        'errornamabahan' => $validation->getError('namabahan'),
+                    ],
+                ];
+                echo json_encode($msg);
+            } else {
+                $perhitunganbbmodel = new PerhitunganBBModel();
+                $updatedata = [
+                    'idajuan' => $this->request->getVar('idajuanbb'),
+                    'user_id' => $this->request->getVar('user_idbb'),
+                    'namaproyek' => $this->request->getVar('namaproyekbb'),
+                    'namabahan' => $this->request->getVar('namabahan'),
+                    'ukuran' => $this->request->getVar('ukuran'),
+                    'jenis' => $this->request->getVar('jenis'),
+                    'kualitas' => $this->request->getVar('kualitas'),
+                    'berat' => $this->request->getVar('berat'),
+                    'ketebalan' => $this->request->getVar('tebal'),
+                    'panjang' => $this->request->getVar('panjang'),
+                    'harga' => $this->request->getVar('harga'),
+                    'jumlah_beli' => $this->request->getVar('jumlahbeli'),
+                    'total_harga' => $this->request->getVar('totalharga'),
+
+                ];
+
+                $perhitunganbbmodel->where('id_pbb', $id)
+                    ->set($updatedata)
+                    ->update();
+                //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
+                //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
+                $builder = $perhitunganbbmodel->builder();
+                $getaffectedrow = $builder->db()->affectedRows();
+                $data = [
+                    'affected' => $getaffectedrow,
+                    'notifnamaproyek' => $this->request->getVar('namaproyekbb'),
+                    'notifajuan' => $this->request->getVar('idajuanbb')
+                ];
+                echo json_encode($data);
+            }
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function getdataperhitunganbb()
+
+    {
+        $perhitunganbb = new PerhitunganBBModel();
+        if ($this->request->isAJAX()) {
+            $id =  $this->request->getVar('id');
+            $getData = $perhitunganbb->where('id_pbb', $id)->find();
+            echo json_encode($getData);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    // End Perhitungan Biaya Bahan Baku
 }
