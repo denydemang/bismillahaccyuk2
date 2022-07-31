@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\ModelLogin;
 use App\Models\AjuanProyekModel;
 use App\Models\PerhitunganBBModel;
+use App\Models\PerhitunganTenakerModel;
 use App\Models\ProyekModel;
 use App\Models\ProgressProyekModel;
 
@@ -492,4 +493,178 @@ class DashboardAdmin extends Dashboard
         }
     }
     // End Perhitungan Biaya Bahan Baku
+
+    //Perhitungan Biaya Tenaga Kerja 
+    public function hapusperhitungantk($id = false)
+    {
+        if ($this->request->isAJAX()) {
+            $perhitungantkmodel = new PerhitunganTenakerModel();
+            $perhitungantkmodel->delete($id);
+            $builder = $perhitungantkmodel->builder();
+            $getaffectedrow = $builder->db()->affectedRows();
+            echo json_encode($getaffectedrow);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function updateperhitungantk($id = false)
+    {
+        if ($this->request->isAJAX()) {
+            $validation = \Config\Services::validation();
+
+            $valid = $this->validate([
+                'idajuantk' => [
+                    'label' => 'Id Ajuan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'jenispekerjaan' => [
+                    'label' => 'Jenis Pekerjaan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'gaji' => [
+                    'label' => 'Gaji',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'totalpekerja' => [
+                    'label' => 'Total Pekerja',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+            ]);
+            if (!$valid) {
+                $msg = [
+                    'error' => [
+                        'erroridajuan' => $validation->getError('idajuantk'),
+                        'errorjenispekerjaan' => $validation->getError('jenispekerjaan'),
+                        'errorgaji' => $validation->getError('gaji'),
+                        'errortotalpekerja' => $validation->getError('totalpekerja'),
+                    ],
+                ];
+                echo json_encode($msg);
+            } else {
+                $perhitungantkmodel = new PerhitunganTenakerModel();
+                $updatedata = [
+                    'idajuan' => $this->request->getVar('idajuantk'),
+                    'user_id' => $this->request->getVar('user_idtk'),
+                    'namaproyek' => $this->request->getVar('namaproyek'),
+                    'jenispekerjaan' => $this->request->getVar('jenispekerjaan'),
+                    'gaji' => $this->request->getVar('gaji'),
+                    'hari' => $this->request->getVar('hari'),
+                    'total_pekerja' => $this->request->getVar('totalpekerja'),
+                    'total_gaji' => $this->request->getVar('totalgaji'),
+
+                ];
+                $perhitungantkmodel->where('id_pbtenaker', $id)
+                    ->set($updatedata)
+                    ->update();
+                //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
+                //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
+                $builder = $perhitungantkmodel->builder();
+                $getaffectedrow = $builder->db()->affectedRows();
+                $data = [
+                    'affected' => $getaffectedrow,
+                    'notifnamaproyek' => $this->request->getVar('namaproyektk'),
+                    'notifajuan' => $this->request->getVar('idajuantk')
+                ];
+                echo json_encode($data);
+            }
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function getdataperhitungantk()
+    {
+        $perhitunganbb = new PerhitunganTenakerModel();
+        if ($this->request->isAJAX()) {
+            $id =  $this->request->getVar('id');
+            $getData = $perhitunganbb->where('id_pbtenaker', $id)->find();
+            echo json_encode($getData);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function simpanperhitungantenaker()
+    {
+        if ($this->request->isAJAX()) {
+            $validation = \Config\Services::validation();
+
+            $valid = $this->validate([
+                'idajuantk' => [
+                    'label' => 'Id Ajuan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'jenispekerjaan' => [
+                    'label' => 'Jenis Pekerjaan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'totalpekerja' => [
+                    'label' => 'Total Pekerja',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'gaji' => [
+                    'label' => 'Gaji',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+            ]);
+            if (!$valid) {
+                $msg = [
+                    'error' => [
+                        'erroridajuan' => $validation->getError('idajuantk'),
+                        'errorjenispekerjaan' => $validation->getError('jenispekerjaan'),
+                        'errortotalpekerja' => $validation->getError('totalpekerja'),
+                        'errorgaji' => $validation->getError('gaji'),
+                    ],
+                ];
+                echo json_encode($msg);
+            } else {
+                $perhitungantenakermodel = new PerhitunganTenakerModel();
+                $simpandata = [
+                    'id_pbtenaker' => '',
+                    'user_id' => $this->request->getVar('user_idtk'),
+                    'idajuan' => $this->request->getVar('idajuantk'),
+                    'namaproyek' => $this->request->getVar('namaproyektk'),
+                    'jenispekerjaan' => $this->request->getVar('jenispekerjaan'),
+                    'gaji' => $this->request->getVar('gaji'),
+                    'hari' => $this->request->getVar('hari'),
+                    'totalpekerja' => $this->request->getVar('totalpekerja'),
+                    'totalgaji' => $this->request->getVar('totalgaji'),
+
+                ];
+                $perhitungantenakermodel->insert($simpandata);
+                //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
+                //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
+                $builder = $perhitungantenakermodel->builder();
+                $getaffectedrow = $builder->db()->affectedRows();
+                $baristerpengaruh = [
+                    'affected' => $getaffectedrow,
+                ];
+                echo json_encode($baristerpengaruh);
+            }
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
 }

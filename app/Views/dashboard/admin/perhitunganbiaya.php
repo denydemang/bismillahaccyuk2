@@ -32,6 +32,7 @@
                     <div class="card-body">
                         <div class="container-fluid mb-3">
                             <form action="<?= base_url(); ?>/DashboardAdmin/simpanperhitunganbb" class="perhitunganbb">
+                                <?= csrf_field(); ?>
                                 <div class="form-row form-group-sm mb-3">
                                     <div class="col">
                                         <label for="idajuan">Id Ajuan</label>
@@ -108,6 +109,8 @@
                                     </div>
                                 </div>
                                 <button type="submit" id="btnsimpan" class="btn btn-primary btnsimpanbb">Simpan</button>
+
+                                <button class="btn btn-danger btncancel1">Cancel</button>
                             </form>
                         </div>
                         <div class="tampilbahanbaku">
@@ -128,48 +131,61 @@
                     </div>
                     <div class="card-body">
                         <div class="container-fluid mb-3">
-                            <form>
+                            <form class="perhitungantenaker" action="<?= base_url(); ?>/DashboardAdmin/simpanperhitungantenaker">
+                                <?= csrf_field(); ?>
                                 <div class="form-row form-group-sm mb-3">
                                     <div class="col">
                                         <label for="idajuan">Id Ajuan</label>
-                                        <select class="form-control" id="exampleFormControlSelect1">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
+                                        <?php foreach ($dataajuan as $row) : ?>
+                                            <select class="form-control idajuantk" name="idajuantk">
+                                                <option selected disabled>Pilih Id Ajuan</option>
+                                                <option value="<?= $row['idajuan']; ?>"><?= $row['idajuan']; ?></option>
+                                            </select>
+                                        <?php endforeach ?>
+                                        <div class="idajuantkinvalid invalid-feedback">
+                                        </div>
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputPassword1">User_id</label>
-                                        <input type="text" class="form-control">
+                                        <label for="user_idtk">User_id</label>
+                                        <input type="text" readonly class="form-control user_idtk" name="user_idtk">
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputtext1">Jenis Pekerjaan</label>
-                                        <input type="text" class="form-control">
+                                        <label for="namaproyektk">Nama Proyek</label>
+                                        <input type="text" readonly class="form-control namaproyektk" name="namaproyektk">
                                     </div>
                                 </div>
                                 <div class="form-row mb-3">
                                     <div class="col">
-                                        <label for="exampleInputEmail1">Gaji</label>
-                                        <input type="email" class="form-control">
+                                        <label for=jenispekerjaan">Jenis Pekerjaan</label>
+                                        <input type="text" class="form-control jenispekerjaan" name="jenispekerjaan">
+                                        <div class="jenispekerjaaninvalid invalid-feedback">
+                                        </div>
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputtext1">Hari</label>
-                                        <input type="text" class="form-control">
+                                        <label for="gaji">Gaji</label>
+                                        <input type="text" class="form-control gaji" name="gaji">
+                                        <div class="gajiinvalid invalid-feedback">
+                                        </div>
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputtext1">Total Pekerja</label>
-                                        <input type="text" class="form-control">
+                                        <label for="hari">Hari</label>
+                                        <input type="text" class="form-control hari" name="hari">
                                     </div>
                                 </div>
                                 <div class="form-row mb-3">
                                     <div class="col-4">
-                                        <label for="exampleInputEmail1">Total Gaji</label>
-                                        <input type="email" class="form-control">
+                                        <label for="totalpekerja">Total Pekerja</label>
+                                        <input type="text" class="form-control totalpekerja" name="totalpekerja">
+                                        <div class="totalpekerjainvalid invalid-feedback">
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="totalgaji">Total Gaji</label>
+                                        <input type="text" readonly class="form-control totalgaji" name="totalgaji">
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-secondary">Simpan</button>
+                                <button type="submit" id="btnsimpantk" class="btn btn-secondary btnsimpantk">Simpan</button>
+                                <button class="btn btn-danger btncancel2">Cancel</button>
                             </form>
                         </div>
                         <div class="tampiltenaker">
@@ -191,31 +207,38 @@
                     <div class="card-body">
                         <div class="container-fluid mb-3">
                             <form>
+                                <?= csrf_field(); ?>
                                 <div class="form-row form-group-sm mb-3">
                                     <div class="col">
-                                        <label for="idajuan">Id Ajuan</label>
-                                        <select class="form-control" id="exampleFormControlSelect1">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
+                                        <?php foreach ($dataajuan as $row) : ?>
+                                            <label for="idajuanbop">Id Ajuan</label>
+                                            <select class="form-control idajuanbop" name="idajuanbop" id="idajuanbop">
+                                                <option selected disabled>Pilih Id Ajuan</option>
+                                                <option value="<?= $row['idajuan']; ?>"><?= $row['idajuan']; ?></option>
+                                            </select>
+                                        <?php endforeach; ?>
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputPassword1">User_id</label>
-                                        <input type="text" class="form-control">
+                                        <label for="namaproyekbop">Nama Proyek</label>
+                                        <input type="text" class="form-control namaproyekbop" name="namaproyekbop">
+                                    </div>
+                                    <div class="col">
+                                        <label for="user_idbop">Nama Proyek</label>
+                                        <input type="text" class="form-control namaproyekbop" name="user_idbop">
                                     </div>
                                     <div class="col">
                                         <label for="exampleInputtext1">Nama Transaksi</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="namatransaksi">
                                     </div>
-                                    <div class="co">
+                                </div>
+                                <div class="form-row form-group-sm mb-3">
+                                    <div class="col-4">
                                         <label for="exampleInputtext1">Total Biaya</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="totalbiaya">
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-success">Simpan</button>
+                                <button class="btn btn-danger btncancel3">Cancel</button>
                             </form>
                         </div>
                         <div class="tampilbop">
@@ -227,4 +250,6 @@
         </div>
 </div>
 <script src="<?= base_url() ?>/js/perhitunganbiaya.js"></script>
+<script src="<?= base_url() ?>/js/perhitunganbiayabb.js"></script>
+<script src="<?= base_url() ?>/js/perhitunganbiayatk.js"></script>
 <?= $this->endSection(); ?>
