@@ -14,10 +14,13 @@
         <div class="container-fluid">
             <!-- Perhitungan Bahan Baku -->
             <div class="form-inline d-flex justify-content-end pr-3 mb-2">
-                <select class="form-control" id="exampleFormControlSelect1">
+                <select class="form-control" id="totalsemua">
                     <option value="Pilih Id Ajuan">Pilih Id Ajuan</option>
+                    <?php foreach ($dataajuan as $row) : ?>
+                        <option value="<?= $row['idajuan']; ?>"><?= $row['idajuan']; ?></option>
+                    <?php endforeach; ?>
                 </select>
-                <input type="text" class="form-control" placeholder="Total Biaya">
+                <input type="text" class="form-control sumbiaya" placeholder="Total Biaya">
             </div>
             <div class="col-lg-12">
                 <div class="card card-default collapsed-card">
@@ -136,12 +139,14 @@
                                 <div class="form-row form-group-sm mb-3">
                                     <div class="col">
                                         <label for="idajuan">Id Ajuan</label>
-                                        <?php foreach ($dataajuan as $row) : ?>
-                                            <select class="form-control idajuantk" name="idajuantk">
-                                                <option selected disabled>Pilih Id Ajuan</option>
+
+                                        <select class="form-control idajuantk" name="idajuantk">
+                                            <option selected disabled>Pilih Id Ajuan</option>
+                                            <?php foreach ($dataajuan as $row) : ?>
                                                 <option value="<?= $row['idajuan']; ?>"><?= $row['idajuan']; ?></option>
-                                            </select>
-                                        <?php endforeach ?>
+                                            <?php endforeach ?>
+                                        </select>
+
                                         <div class="idajuantkinvalid invalid-feedback">
                                         </div>
                                     </div>
@@ -210,13 +215,15 @@
                                 <?= csrf_field(); ?>
                                 <div class="form-row mb-3">
                                     <div class="col">
-                                        <?php foreach ($dataajuan as $row) : ?>
-                                            <label for="idajuanbop">Id Ajuan</label>
-                                            <select class="form-control idajuanbop" name="idajuanbop" id="idajuanbop">
-                                                <option selected disabled>Pilih Id Ajuan</option>
+
+                                        <label for="idajuanbop">Id Ajuan</label>
+                                        <select class="form-control idajuanbop" name="idajuanbop" id="idajuanbop">
+                                            <option selected disabled>Pilih Id Ajuan</option>
+                                            <?php foreach ($dataajuan as $row) : ?>
                                                 <option value="<?= $row['idajuan']; ?>"><?= $row['idajuan']; ?></option>
-                                            </select>
-                                        <?php endforeach; ?>
+                                            <?php endforeach; ?>
+                                        </select>
+
                                         <div class="idajuanbopinvalid invalid-feedback">
                                         </div>
                                     </div>

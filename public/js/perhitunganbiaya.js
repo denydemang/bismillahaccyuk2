@@ -41,6 +41,20 @@ function tableptenaker() {
 }
 
 $(document).ready(function() {
+    $('#totalsemua').change(function(){
+        let idajuan = $(this).val();
+        $.ajax({
+            url : "http://localhost:8080/DashboardAdmin/tampiltotal/"+idajuan,
+            dataType : "json",
+            success: function(response) {
+                $('.sumbiaya').val(response)
+                
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    })
     
     
     tablepbb();

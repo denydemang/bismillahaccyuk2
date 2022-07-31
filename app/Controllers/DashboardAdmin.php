@@ -823,4 +823,34 @@ class DashboardAdmin extends Dashboard
             return redirect()->to(base_url('admin/perhitunganbiaya'));
         }
     }
+    public function tampiltotal($id = false)
+    {
+        if ($this->request->isAJAX()) {
+            $perhitunganbop = new PerhitunganBOPModel();
+            $perhitunganbb = new PerhitunganBBModel();
+            $perhitungantk = new PerhitunganTenakerModel();
+
+            $builder1 = $perhitunganbop->builder();
+            $builder1->where('idajuan', $id)->selectSum('tot_biaya');
+            $query = $builder1->get();
+            $sumbop = $query->getResultArray();
+            $sumbop = intval($sumbop[0]['tot_biaya']);
+
+            $builder2 = $perhitunganbb->builder();
+            $builder2->where('idajuan', $id)->selectSum('total_harga');
+            $query = $builder2->get();
+            $sumbb = $query->getResultArray();
+            $sumbb = intval($sumbb[0]['total_harga']);
+
+            $builder3 = $perhitungantk->builder();
+            $builder3->where('idajuan', $id)->selectSum('total_gaji');
+            $query = $builder3->get();
+            $sumtk = $query->getResultArray();
+            $sumtk = intval($sumtk[0]['total_gaji']);
+            $sumall = $sumbb + $sumbop + $sumtk;
+            echo json_encode($sumall);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
 }
