@@ -23,10 +23,10 @@
                     <td><?= $row['user_id']; ?></td>
                     <td><?= $row['namaproyek']; ?></td>
                     <td><?= $row['jenispekerjaan']; ?></td>
-                    <td><?= $row['gaji']; ?></td>
+                    <td><?= number_format($row['gaji'], 0, ",", "."); ?></td>
                     <td><?= $row['hari']; ?></td>
                     <td><?= $row['total_pekerja']; ?></td>
-                    <td><?= $row['total_gaji']; ?></td>
+                    <td><?= number_format($row['total_gaji'], 0, ",", "."); ?></td>
                     <td><button data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbtenaker']; ?>" data-idajuan="<?= $row['idajuan']; ?>" class="btn btn-sm btn-danger edittk">Edit</button><button data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbtenaker']; ?>" data-idajuan="<?= $row['idajuan']; ?>" data-jenispekerjaan="<?= $row['jenispekerjaan']; ?>" class="btn btn-sm btn-warning hapustk">Hapus</button></td>
                 </tr>
             <?php endforeach; ?>

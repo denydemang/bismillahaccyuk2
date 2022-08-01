@@ -20,7 +20,7 @@
                     <td><?= $row['user_id']; ?></td>
                     <td><?= $row['namaproyek']; ?></td>
                     <td><?= $row['namatrans']; ?></td>
-                    <td><?= $row['tot_biaya']; ?></td>
+                    <td><?= number_format($row['tot_biaya'], 0, ",", "."); ?></td>
                     <td><button data-id="<?= $row['id_pbop']; ?>" class="btn btn-sm btn-danger editbop">Edit</button><button data-idajuan="<?= $row['idajuan']; ?>" data-namatrans="<?= $row['namatrans']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbop']; ?>" class="btn btn-sm btn-warning hapusbop">Hapus</button></td>
                 </tr>
             <?php endforeach; ?>

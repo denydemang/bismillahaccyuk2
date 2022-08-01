@@ -41,7 +41,7 @@ $(document).ready(function(){
 
                 },
                 success: function(response) {
-                   
+                    
                     if (response.error){
                         if (response.error.erroridajuan){
                             $('.idajuanbb').addClass('is-invalid');
@@ -130,7 +130,6 @@ $(document).ready(function(){
 
                 },
                 success: function(response) {
-                   
                    if (response.error){
                         if (response.error.erroridajuan){
                             $('.idajuanbb').addClass('is-invalid');
@@ -183,8 +182,8 @@ $(document).ready(function(){
                     } else {
                         Swal.fire({
                             position: 'center',
-                            icon: 'error',
-                            title: 'Data gagal Disimpan',
+                            icon: 'info',
+                            title: 'Data Tidak Ada Yang Diubah',
                             showConfirmButton: false,
                             timer: 3000
                             })
@@ -209,21 +208,70 @@ $(document).ready(function(){
             });
             
         }
-  
-        
-        
+
 }) 
+
 $('.harga').keyup(function(){
-    let harga = parseInt($(this).val());
-    let jumlahbeli = parseInt($('.jumlahbeli').val())
-    let hasil = harga * jumlahbeli;
-    $('.totalharga').val(hasil);
+    $(this).val(formatRupiahtyping($(this).val()))
+    let str = $(this).val();
+    str = str.replace(/[^0-9/]/g,'');
+    harga = parseInt(str);
+    let jumlahbeli = parseInt($('.jumlahbeli').val());
+    
+    hasil = harga * jumlahbeli
+    $('.totalharga').val(formatRupiah1(hasil));
+    //    val = val.replace('Rp','');
+    //    val = val.replace('.','');
+    //    val = val.substr(1);
+    //    val = parseInt(val);
+       
+    //    let hasil = val * jumlahbeli
+       
+       
+       
+//    let harga =  parseInt(val.replace('.',''));    
+//    
+// //    let hasil = harga * jumlahbeli;
+// //    $('.totalharga').val(formatRupiah1(9));
+        // console.log(val)
+    // l
+    // harga = parseInt(val.split('Rp ').join('').split('.').join('')); 
+    // let hasil = harga * jumlahbeli;
+    // let hasilfix
+    //  if (isNaN(hasil)){
+    //     hasilfix = 0
+    // } else {
+    //     hasilfix = formatRupiah1(hasil)
+    // }
+
+    //
+
+    
+
 })
+
 $('.jumlahbeli').keyup(function(){
-    let harga = parseInt($('.harga').val());
-    let jumlahbeli = parseInt($(this).val())
-    let hasil = harga * jumlahbeli;
-    $('.totalharga').val(hasil);
+    let val = $(this).val();
+    let harga = $('.harga').val();
+    harga = parseInt(harga.replace(/[^0-9/]/g,''));
+    let jumlahbeli = parseInt($(this).val());
+    let hasil = harga * jumlahbeli
+    
+    $('.totalharga').val(formatRupiah1(hasil));
+    
+    // let jumlahbeli = parseInt(val)
+    // let harga = $('.harga').val();
+    // harga = parseInt(harga.split('Rp ').join('').split('.').join(''))
+    // let hasil = harga * jumlahbeli;
+    // let hasilfix ;
+    //  if (isNaN(hasil)){
+    //     hasilfix =  0
+    // } else {
+    //     hasilfix = formatRupiah1(hasil)
+    // }
+
+    // $('.totalharga').val(String(hasilfix))
+
 })
 $(document).on('click', '.hapusbb', function(){
         let idajuan =  $(this).data('idajuan')
@@ -307,14 +355,17 @@ $(document).on('click', '.editbb', function(){
             $('.namaproyekbb').val(response[0]['namaproyek']);
             $('.namabahan').val(response[0]['namabahan']);
             $('.ukuran').val(response[0]['ukuran']);
-            $('.tebal').val(response[0]['tebal']);
+            $('.tebal').val(response[0]['ketebalan']);
             $('.jenis').val(response[0]['jenis']);
             $('.berat').val(response[0]['berat']);
             $('.kualitas').val(response[0]['kualitas']);
             $('.panjang').val(response[0]['panjang']);
-            $('.harga').val(response[0]['harga']);
+            let harga = parseInt(response[0]['harga'])
+            let totalharga = parseInt(response[0]['total_harga']);
+            $('.harga').val(formatRupiah1(harga))
+            $('.totalharga').val(formatRupiah1(totalharga))
             $('.jumlahbeli').val(response[0]['jumlah_beli']);
-            $('.totalharga').val(response[0]['total_harga']);
+           
             
         },
         error: function(xhr, ajaxOptions, thrownError) {

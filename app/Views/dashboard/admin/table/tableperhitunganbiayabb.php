@@ -32,9 +32,9 @@
                     <td><?= $row['jenis']; ?></td>
                     <td><?= $row['ketebalan']; ?></td>
                     <td><?= $row['panjang']; ?></td>
-                    <td><?= $row['harga']; ?></td>
+                    <td><?= number_format($row['harga'], 0, ",", "."); ?></td>
                     <td><?= $row['jumlah_beli']; ?></td>
-                    <td><?= $row['total_harga']; ?></td>
+                    <td><?= number_format($row['total_harga'], 0, ",", "."); ?></td>
                     <td><a data-id="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-danger editbb">Edit</a><button data-idajuan="<?= $row['idajuan']; ?>" data-namabahan="<?= $row['namabahan']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-warning hapusbb">Hapus</button></td>
                 </tr>
             <?php endforeach; ?>

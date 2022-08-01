@@ -143,7 +143,7 @@ $(document).ready(function(){
                                 $('.totalbiayainvalid').html('');
                             }
                         } else {
-                            if (response.affected >= 1 || response.affected == 0){
+                            if (response.affected >= 1){
                                 tablepbop();
                                 Swal.fire({
                                     position: 'center',
@@ -163,8 +163,8 @@ $(document).ready(function(){
                             } else {
                                 Swal.fire({
                                     position: 'center',
-                                    icon: 'error',
-                                    title: 'Data gagal Diubah',
+                                    icon: 'info',
+                                    title: 'Data Tidak Ada Yang Diubah',
                                     showConfirmButton: false,
                                     timer: 3000
                                     })
@@ -296,7 +296,8 @@ $(document).ready(function(){
                 $('.user_idbop').val(response[0]['user_id']);
                 $('.namaproyekbop').val(response[0]['namaproyek']);
                 $('.namatransaksi').val(response[0]['namatrans']);
-                $('.totalbiaya').val(response[0]['tot_biaya']);
+                let totbiaya = response[0]['tot_biaya'] 
+                $('.totalbiaya').val(formatRupiah1(totbiaya));
                 
                 
             },
@@ -363,6 +364,9 @@ $(document).ready(function(){
                 }
             })
         
+})
+$('.totalbiaya').keyup(function(){
+    $(this).val(formatRupiahtyping($(this).val()))
 })
 
 })

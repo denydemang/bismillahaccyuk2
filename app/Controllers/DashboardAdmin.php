@@ -323,6 +323,7 @@ class DashboardAdmin extends Dashboard
     }
     public function simpanperhitunganbb()
     {
+
         if ($this->request->isAJAX()) {
             $validation = \Config\Services::validation();
 
@@ -367,6 +368,12 @@ class DashboardAdmin extends Dashboard
                 ];
                 echo json_encode($msg);
             } else {
+                $harga = $this->request->getVar('harga');
+                $harga = (int)(filter_var($harga, FILTER_SANITIZE_NUMBER_INT));
+                $totalharga = $this->request->getVar('totalharga');
+                $totalharga = (int)(filter_var($totalharga, FILTER_SANITIZE_NUMBER_INT));
+
+
                 $perhitunganbbmodel = new PerhitunganBBModel();
                 $simpandata = [
                     'id_pbb' => '',
@@ -380,9 +387,9 @@ class DashboardAdmin extends Dashboard
                     'berat' => $this->request->getVar('berat'),
                     'ketebalan' => $this->request->getVar('tebal'),
                     'panjang' => $this->request->getVar('panjang'),
-                    'harga' => $this->request->getVar('harga'),
+                    'harga' => $harga,
                     'jumlah_beli' => $this->request->getVar('jumlahbeli'),
-                    'total_harga' => $this->request->getVar('totalharga'),
+                    'total_harga' => $totalharga,
 
                 ];
                 $perhitunganbbmodel->insert($simpandata);
@@ -445,6 +452,11 @@ class DashboardAdmin extends Dashboard
                 ];
                 echo json_encode($msg);
             } else {
+
+                $harga = $this->request->getVar('harga');
+                $harga = (int)filter_var($harga, FILTER_SANITIZE_NUMBER_INT);
+                $totalharga = $this->request->getVar('totalharga');
+                $totalharga = (int)filter_var($totalharga, FILTER_SANITIZE_NUMBER_INT);
                 $perhitunganbbmodel = new PerhitunganBBModel();
                 $updatedata = [
                     'idajuan' => $this->request->getVar('idajuanbb'),
@@ -457,9 +469,9 @@ class DashboardAdmin extends Dashboard
                     'berat' => $this->request->getVar('berat'),
                     'ketebalan' => $this->request->getVar('tebal'),
                     'panjang' => $this->request->getVar('panjang'),
-                    'harga' => $this->request->getVar('harga'),
+                    'harga' => $harga,
                     'jumlah_beli' => $this->request->getVar('jumlahbeli'),
-                    'total_harga' => $this->request->getVar('totalharga'),
+                    'total_harga' => $totalharga,
 
                 ];
 
@@ -554,16 +566,22 @@ class DashboardAdmin extends Dashboard
                 ];
                 echo json_encode($msg);
             } else {
+
+
+                $gaji = $this->request->getVar('gaji');
+                $gaji = (int)filter_var($gaji, FILTER_SANITIZE_NUMBER_INT);
                 $perhitungantkmodel = new PerhitunganTenakerModel();
+                $totalgaji = $this->request->getVar('totalgaji');
+                $totalgaji = (int)filter_var($totalgaji, FILTER_SANITIZE_NUMBER_INT);
                 $updatedata = [
                     'idajuan' => $this->request->getVar('idajuantk'),
                     'user_id' => $this->request->getVar('user_idtk'),
                     'namaproyek' => $this->request->getVar('namaproyek'),
                     'jenispekerjaan' => $this->request->getVar('jenispekerjaan'),
-                    'gaji' => $this->request->getVar('gaji'),
+                    'gaji' => $gaji,
                     'hari' => $this->request->getVar('hari'),
                     'total_pekerja' => $this->request->getVar('totalpekerja'),
-                    'total_gaji' => $this->request->getVar('totalgaji'),
+                    'total_gaji' => $totalgaji,
 
                 ];
                 $perhitungantkmodel->where('id_pbtenaker', $id)
@@ -641,6 +659,10 @@ class DashboardAdmin extends Dashboard
                 ];
                 echo json_encode($msg);
             } else {
+                $gaji = $this->request->getVar('gaji');
+                $gaji = (int)filter_var($gaji, FILTER_SANITIZE_NUMBER_INT);
+                $totalgaji = $this->request->getVar('totalgaji');
+                $totalgaji = (int)filter_var($totalgaji, FILTER_SANITIZE_NUMBER_INT);
                 $perhitungantenakermodel = new PerhitunganTenakerModel();
                 $simpandata = [
                     'id_pbtenaker' => '',
@@ -648,10 +670,10 @@ class DashboardAdmin extends Dashboard
                     'idajuan' => $this->request->getVar('idajuantk'),
                     'namaproyek' => $this->request->getVar('namaproyektk'),
                     'jenispekerjaan' => $this->request->getVar('jenispekerjaan'),
-                    'gaji' => $this->request->getVar('gaji'),
+                    'gaji' => $gaji,
                     'hari' => $this->request->getVar('hari'),
                     'total_pekerja' => $this->request->getVar('totalpekerja'),
-                    'total_gaji' => $this->request->getVar('totalgaji'),
+                    'total_gaji' => $totalgaji
 
                 ];
                 $perhitungantenakermodel->insert($simpandata);
@@ -722,13 +744,15 @@ class DashboardAdmin extends Dashboard
                 ];
                 echo json_encode($msg);
             } else {
+                $totbiaya = $this->request->getVar('totalbiaya');
+                $totbiaya = (int)filter_var($totbiaya, FILTER_SANITIZE_NUMBER_INT);
                 $perhitunganbopmodel = new PerhitunganBOPModel();
                 $updatedata = [
                     'user_id' => $this->request->getVar('user_idbop'),
                     'idajuan' => $this->request->getVar('idajuanbop'),
                     'namaproyek' => $this->request->getVar('namaproyekbop'),
                     'namatrans' => $this->request->getVar('namatransaksi'),
-                    'tot_biaya' => $this->request->getVar('totalbiaya'),
+                    'tot_biaya' => $totbiaya,
 
                 ];
                 $perhitunganbopmodel->where('id_pbop', $id)
@@ -788,6 +812,8 @@ class DashboardAdmin extends Dashboard
                 ];
                 echo json_encode($msg);
             } else {
+                $totbiaya = $this->request->getVar('totalbiaya');
+                $totbiaya = (int)filter_var($totbiaya, FILTER_SANITIZE_NUMBER_INT);
                 $perhitunganbopmodel = new PerhitunganBOPModel();
                 $simpandata = [
                     'id_pbop' => '',
@@ -795,7 +821,7 @@ class DashboardAdmin extends Dashboard
                     'idajuan' => $this->request->getVar('idajuanbop'),
                     'namaproyek' => $this->request->getVar('namaproyekbop'),
                     'namatrans' => $this->request->getVar('namatransaksi'),
-                    'tot_biaya' => $this->request->getVar('totalbiaya'),
+                    'tot_biaya' => $totbiaya,
 
                 ];
                 $perhitunganbopmodel->insert($simpandata);
@@ -848,7 +874,7 @@ class DashboardAdmin extends Dashboard
             $sumtk = $query->getResultArray();
             $sumtk = intval($sumtk[0]['total_gaji']);
             $sumall = $sumbb + $sumbop + $sumtk;
-            echo json_encode($sumall);
+            echo json_encode(number_format($sumall, 0, ",", "."));
         } else {
             return redirect()->to(base_url('admin/perhitunganbiaya'));
         }

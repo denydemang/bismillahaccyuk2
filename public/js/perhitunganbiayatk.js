@@ -162,7 +162,7 @@ $('.perhitungantenaker').submit(function(e){
                     
                    
                } else {
-                if (response.affected >= 1 || response.affected == 0){
+                if (response.affected >= 1){
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
@@ -182,8 +182,8 @@ $('.perhitungantenaker').submit(function(e){
                 } else {
                     Swal.fire({
                         position: 'center',
-                        icon: 'error',
-                        title: 'Data gagal DiUpdate',
+                        icon: 'info',
+                        title: 'Tidak Ada Data Yang Diubah',
                         showConfirmButton: false,
                         timer: 3000
                         })
@@ -212,16 +212,21 @@ $('.perhitungantenaker').submit(function(e){
       
 })
 $('.gaji').keyup(function(){
-    let gaji = parseInt($(this).val());
-    let totalpekerja = parseInt($('.totalpekerja').val())
-    let hasil = gaji * totalpekerja;
-    $('.totalgaji').val(hasil);
+    $(this).val(formatRupiahtyping($(this).val()))
+    let val = $(this).val();
+    val = val.replace(/[^0-9/]/g,'');
+    harga = parseInt(val);
+    let totalpekerja = parseInt($('.totalpekerja').val());
+    let hasil = harga * totalpekerja;
+    
+    $('.totalgaji').val(formatRupiah1(hasil));
 })
 $('.totalpekerja').keyup(function(){
-    let gaji = parseInt($('.gaji').val());
+    let gaji = $('.gaji').val();
+    gaji = parseInt(gaji.replace(/[^0-9/]/g,''))
     let totalpekerja = parseInt($(this).val())
     let hasil = gaji * totalpekerja;
-    $('.totalgaji').val(hasil);
+    $('.totalgaji').val(formatRupiah1(hasil));
 })
 $(document).on('click', '.edittk', function(){
     let id = $(this).data('id');
@@ -244,10 +249,12 @@ $(document).on('click', '.edittk', function(){
             $('.user_idtk').val(response[0]['user_id'])
             $('.namaproyektk').val(response[0]['namaproyek'])
             $('.jenispekerjaan').val(response[0]['jenispekerjaan'])
-            $('.gaji').val(response[0]['gaji'])
+            let gaji =response[0]['gaji']
+            let totalgaji =response[0]['total_gaji']
+            $('.gaji').val(formatRupiah1(gaji));
+            $('.totalgaji').val(formatRupiah1(totalgaji));
             $('.hari').val(response[0]['hari'])
             $('.totalpekerja').val(response[0]['total_pekerja'])
-            $('.totalgaji').val(response[0]['total_gaji'])
             
         },
         error: function(xhr, ajaxOptions, thrownError) {

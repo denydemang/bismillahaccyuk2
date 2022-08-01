@@ -15,12 +15,12 @@
             <!-- Perhitungan Bahan Baku -->
             <div class="form-inline d-flex justify-content-end pr-3 mb-2">
                 <select class="form-control" id="totalsemua">
-                    <option value="Pilih Id Ajuan">Pilih Id Ajuan</option>
+                    <option selected disabled value="Pilih Id Ajuan">Pilih Id Ajuan</option>
                     <?php foreach ($dataajuan as $row) : ?>
                         <option value="<?= $row['idajuan']; ?>"><?= $row['idajuan']; ?></option>
                     <?php endforeach; ?>
                 </select>
-                <input type="text" class="form-control sumbiaya" placeholder="Total Biaya">
+                <input type="text" readonly class="form-control sumbiaya" style="color: purple;font-weight:bolder;font-size:larger" placeholder="Total Biaya">
             </div>
             <div class="col-lg-12">
                 <div class="card card-default collapsed-card">
@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="col">
                                         <label for="harga">Harga</label>
-                                        <input type="text" class="form-control harga" name="harga" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                        <input type="text" class="form-control harga" name="harga">
                                         <div class="hargainvalid invalid-feedback">
                                         </div>
                                     </div>
@@ -108,7 +108,7 @@
                                 <div class="form-row mb-3">
                                     <div class="col-6">
                                         <label for="totalhrga">Total Harga</label>
-                                        <input type="text" readonly class="form-control totalharga" name="totalharga">
+                                        <input type="text" style="font-weight:bold;color:blue;font-size:20px" class="form-control totalharga" name="totalharga">
                                     </div>
                                 </div>
                                 <button type="submit" id="btnsimpan" class="btn btn-primary btnsimpanbb">Simpan</button>
@@ -168,13 +168,13 @@
                                     </div>
                                     <div class="col">
                                         <label for="gaji">Gaji</label>
-                                        <input type="text" class="form-control gaji" name="gaji" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                        <input type="text" class="form-control gaji" name="gaji">
                                         <div class="gajiinvalid invalid-feedback">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <label for="hari">Hari</label>
-                                        <input type="text" class="form-control hari" name="hari" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                        <input type="text" class="form-control hari" name="hari">
                                     </div>
                                 </div>
                                 <div class="form-row mb-3">
@@ -186,7 +186,7 @@
                                     </div>
                                     <div class="col-4">
                                         <label for="totalgaji">Total Gaji</label>
-                                        <input type="text" readonly class="form-control totalgaji" name="totalgaji">
+                                        <input type="text" readonly style="font-weight:bold;color:red;font-size:20px" readonly class="form-control totalgaji" name="totalgaji">
                                     </div>
                                 </div>
                                 <button type="submit" id="btnsimpantk" class="btn btn-secondary btnsimpantk">Simpan</button>
@@ -245,7 +245,7 @@
                                 <div class="form-row mb-3">
                                     <div class="col-4">
                                         <label for="exampleInputtext1">Total Biaya</label>
-                                        <input type="text" class="form-control totalbiaya" name="totalbiaya" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                        <input type="text" style="font-weight:bold;color:#28A745;font-size:20px" class="form-control totalbiaya" name="totalbiaya">
                                         <div class="totalbiayainvalid invalid-feedback">
                                         </div>
                                     </div>
