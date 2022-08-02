@@ -14,6 +14,15 @@
         <div class="container-fluid">
             <!-- Perhitungan Bahan Baku -->
             <div class="form-inline d-flex justify-content-end pr-3 mb-2">
+                <select class="form-control" id="printajuan">
+                    <option selected disabled value="Pilih Id Ajuan">Print Berdasarkan Ajuan</option>
+                    <?php foreach ($dataajuan as $row) : ?>
+                        <option value="<?= $row['idajuan']; ?>"><?= $row['idajuan']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <button class="btn btn-outline-primary btnajuan"><i class="fas fa-print"></i></button>
+            </div>
+            <div class="form-inline d-flex justify-content-end pr-3 mb-2">
                 <select class="form-control" id="totalsemua">
                     <option selected disabled value="Pilih Id Ajuan">Pilih Id Ajuan</option>
                     <?php foreach ($dataajuan as $row) : ?>

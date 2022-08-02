@@ -109,8 +109,13 @@ function tableptenaker() {
 }
 
 $(document).ready(function() {
- 
+    
 
+    $('.btnajuan').click(function(){
+        let idajuan =$('#printajuan').val()
+        window.open('http://localhost:8080/DashboardAdmin/printperhitunganbiaya/'+idajuan, '_blank')
+        
+    })
     $('#totalsemua').change(function(){
         let idajuan = $(this).val();
         $.ajax({
