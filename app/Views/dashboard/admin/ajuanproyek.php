@@ -159,6 +159,7 @@
     </section>
 
 </div>
+<script src="<?= base_url('js/myscript.js'); ?>"></script>
 <script>
     $(document).ready(function() {
         $('#tableajuan').DataTable({

@@ -247,7 +247,6 @@
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
     <script src="<?= base_url('assetslte') ?>/dist/js/adminlte.min.js?v=3.2.0"></script>
-    <script src="<?= base_url('js/myscript.js'); ?>"></script>
     <script src="<?= base_url('js/additional-methods.min.js'); ?>"></script>
     <script src="<?= base_url('js/validasiform.js'); ?>"></script>
     <!-- <script src="</?= base_url('assetslte'); ?>/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script> -->
