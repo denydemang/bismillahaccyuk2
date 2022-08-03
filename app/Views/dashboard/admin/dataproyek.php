@@ -121,7 +121,7 @@
                                             <?php else : ?>
                                                 <td><span class="badge badge-danger">Belum Lunas</span></td>
                                             <?php endif ?>
-                                            <td><a href="" class="btn btn-primary btn-sm">Detail</a><a href="<?= base_url(); ?>/kelolaproyek" class="btn btn-warning btn-sm">kelola</a></td>
+                                            <td><a href="" class="btn btn-primary btn-sm">Detail</a><a data-idproyek="<?= $pry['idproyek']; ?>" class="btn btn-warning btn-sm btnkelola">kelola</a></td>
 
                                     </tr>
                                 <?php endforeach ?>
@@ -142,6 +142,20 @@
 <script>
     $(document).ready(function() {
         $('#tableproyek').DataTable();
+        $('.btnkelola').click(function() {
+            let idproyek = $(this).data('idproyek')
+            $.ajax({
+                url: 'http://localhost:8080/DashboardAdmin/redirectkelola/' + idproyek,
+                dataType: "json",
+                success: function(response) {
+
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+            window.location.href = "http://localhost:8080/kelolaproyek";
+        })
     })
 </script>
 

@@ -45,8 +45,6 @@ $routes->get('/kelolaproyek', 'DashboardKelolaProyek::index');
 $routes->get('/kelolaproyek/(:any)', 'DashboardKelolaProyek::$1');
 $routes->get('/klien', 'DashboardKlien::index');
 $routes->get('/klien/(:any)', 'DashboardKlien::$1');
-$routes->get('/detailproyek', 'DashboardDetailProyek::index');
-$routes->get('/detailproyek/(:any)', 'DashboardDetailProyek::$1');
 
 
 

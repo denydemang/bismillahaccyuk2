@@ -954,4 +954,14 @@ class DashboardAdmin extends Dashboard
         // Output the generated PDF to Browser
         $dompdf->stream("dompdf_out.pdf", array("Attachment" => false));
     }
+    public function redirectkelola($idproyek)
+    {
+
+        if ($this->request->isAJAX()) {
+            session()->set('idproyek', $idproyek);
+            session()->set('kelolaproyek', 'true');
+        } else {
+            return redirect()->to(base_url('admin'));
+        }
+    }
 }

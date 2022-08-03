@@ -26,6 +26,7 @@ class Filters extends BaseConfig
         'secureheaders' => SecureHeaders::class,
         'filterAdmin'  => \App\Filters\FilterAdmin::class,
         'filterKlien'  => \App\Filters\FilterKlien::class,
+        'filterKelolaProyek'  => \App\Filters\FilterKelolaProyek::class,
     ];
 
     /**
@@ -44,7 +45,10 @@ class Filters extends BaseConfig
             ],
             'filterKlien' => [
                 'except' => ['login/*', 'login', '/', 'registrasi', 'registrasi/*']
-            ]
+            ],
+            'filterKelolaProyek' => [
+                'except' => ['admin', 'admin/*', 'DashboardAdmin', 'DashboardAdmin/*']
+            ],
         ],
         'after' => [
             'filterAdmin' => [
@@ -52,6 +56,9 @@ class Filters extends BaseConfig
             ],
             'filterKlien' => [
                 'except' => ['dashboard', 'klien', 'klien/*', 'dashboadklien', 'dashboardklien/*', 'detailproyek', 'detailproyek/*', 'dashboarddetailproyek', 'dashboarddetailproyek/', 'TampilTable', 'TampilTable/*']
+            ],
+            'filterKelolaProyek' => [
+                'except' => ['kelolaproyek', 'kelolaproyek/*']
             ],
             'toolbar',
             // 'honeypot',
