@@ -10,9 +10,6 @@ class FilterAdmin implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (session()->get('idlevel') == '') {
-            return redirect()->to(base_url() . '/login');
-        }
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)

@@ -58,7 +58,7 @@ class Filters extends BaseConfig
                 'except' => ['dashboard', 'klien', 'klien/*', 'dashboadklien', 'dashboardklien/*', 'detailproyek', 'detailproyek/*', 'dashboarddetailproyek', 'dashboarddetailproyek/', 'TampilTable', 'TampilTable/*']
             ],
             'filterKelolaProyek' => [
-                'except' => ['kelolaproyek', 'kelolaproyek/*']
+                'except' => ['DashboardKelolaProyek', 'DashboardKelolaProyek/*', 'kelolaproyek', 'kelolaproyek/*', 'TampilTable', 'TampilTable/*']
             ],
             'toolbar',
             // 'honeypot',

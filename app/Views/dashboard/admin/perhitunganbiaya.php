@@ -117,7 +117,7 @@
                                 <div class="form-row mb-3">
                                     <div class="col-6">
                                         <label for="totalhrga">Total Harga</label>
-                                        <input type="text" style="font-weight:bold;color:blue;font-size:20px" class="form-control totalharga" name="totalharga">
+                                        <input type="text" readonly style="font-weight:bold;color:blue;font-size:20px" class="form-control totalharga" name="totalharga">
                                     </div>
                                 </div>
                                 <button type="submit" id="btnsimpan" class="btn btn-primary btnsimpanbb">Simpan</button>

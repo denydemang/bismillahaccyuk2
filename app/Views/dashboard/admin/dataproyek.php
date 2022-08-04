@@ -121,7 +121,7 @@
                                             <?php else : ?>
                                                 <td><span class="badge badge-danger">Belum Lunas</span></td>
                                             <?php endif ?>
-                                            <td><a href="" class="btn btn-primary btn-sm">Detail</a><a data-idproyek="<?= $pry['idproyek']; ?>" class="btn btn-warning btn-sm btnkelola">kelola</a></td>
+                                            <td><a data-idproyek="<?= $pry['idproyek']; ?>" class="btn btn-warning btn-sm btnkelola">kelola</a></td>
 
                                     </tr>
                                 <?php endforeach ?>

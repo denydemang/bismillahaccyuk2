@@ -17,7 +17,8 @@ class Dashboard extends BaseController
         $jumlahdataakun,
         $jumlahajuan,
         $jumlahproyek,
-        $datalogin;
+        $datalogin,
+        $idproyek;
     public function __construct()
 
     {

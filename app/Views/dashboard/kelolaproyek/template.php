@@ -6,14 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $judul; ?></title>
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-
-    <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/fontawesome-free/css/all.min.css">
-
-    <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-
     <link rel="stylesheet" href="<?= base_url('assetslte') ?>/dist/css/adminlte.min.css?v=3.2.0">
+    <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="<?= base_url('DataTables') ?>/datatables.min.css">
+    <link rel="stylesheet" href="<?= base_url('DataTables') ?>/FixedColumns-4.1.0/css/fixedColumns.bootstrap4.css">
+    <link rel="stylesheet" href="<?= base_url('DataTables') ?>/Responsive-2.3.0/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="<?= base_url('DataTables') ?>/datatables.min.css">
+    <script src="<?= base_url('assetslte') ?>/plugins/jquery/jquery.min.js"></script>
+    <script src="<?= base_url('DataTables') ?>/datatables.min.js"></script>
+    <script src="<?= base_url('DataTables') ?>/FixedColumns-4.1.0/js/fixedColumns.bootstrap4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script nonce="1a2a044e-6724-4fa0-a605-15124d71b2a4">
         (function(w, d) {
             ! function(a, e, t, r) {
@@ -82,7 +86,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-sm-inline-block" style="margin-top:5px;">
-                    <h4>Dashboard Kelola Proyek</h4>
+                    <h4>Dashboard Kelola Proyek (<?= $idproyek; ?>)</h4>
                 </li>
             </ul>
             <!-- end Toggle Sidebar Dan Nama Dashboard -->
@@ -118,6 +122,11 @@
 
                 <!-- Bagian Enable Full Screen -->
                 <li class="nav-item d-none d-lg-inline">
+                    <a href="<?= base_url(); ?>/kelolaproyek/backtodataproyek" class="nav-link">
+                        <i class="fas fa-arrow-alt-circle-left mr-2" style="color:purple"></i>Back To Data Proyek
+                    </a>
+                </li>
+                <li class="nav-item d-none d-lg-inline">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
@@ -134,7 +143,7 @@
         <!-- End Bagian Navbar Atas -->
 
         <!-- Bagian SideBar -->
-        <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-7">
             <!-- Bagian Logo  Dan Judul -->
             <a href="<?= base_url() ?>/dashboard" class="brand-link">
                 <img src="<?= base_url() ?>/img/logosmall2.png" alt="AdminLTE Logo" class="brand-image img-circle" style="opacity: 1">
@@ -170,42 +179,67 @@
                     <!-- Bagian Item Menu Sidebar -->
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="<?= base_url(); ?>/admin" class="nav-link <?= ($_SESSION['aktif'] == 'welcome') ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-tachometer-alt mr-3"></i>
+                            <a href="<?= base_url() ?>/kelolaproyek" class="nav-link <?= ($_SESSION['aktif'] == 'home') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-home mr-3"></i>
                                 <p>
-                                    Dashboard
+                                    Home
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url(); ?>/admin/datauser" class="nav-link <?= ($_SESSION['aktif'] == 'datauser') ? 'active' : '' ?>">
+                            <a href="<?= base_url() ?>/kelolaproyek/bbdalamproses" class="nav-link <?= ($_SESSION['aktif'] == 'bbdalamproses') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-microchip mr-3"></i>
+                                <p>
+                                    BB Dalam Proses
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url() ?>/kelolaproyek/tenagakerja" class="nav-link <?= ($_SESSION['aktif'] == 'tenagakerja') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-users mr-3"></i>
                                 <p>
-                                    Kelola User
+                                    Tenaga Kerja
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url(); ?>/admin/ajuanproyek" class="nav-link <?= ($_SESSION['aktif'] == 'ajuan') ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-hand-holding-usd mr-3"></i>
+                            <a href="<?= base_url() ?>/kelolaproyek/progressproyek" class="nav-link  <?= ($_SESSION['aktif'] == 'progressproyek') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-hourglass mr-3"></i>
                                 <p>
-                                    Ajuan Proyek
+                                    Progress Proyek
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url(); ?>/admin/dataproyek" class="nav-link <?= ($_SESSION['aktif'] == 'dataproyek') ? 'active' : '' ?>">
-                                <i class="nav-icon fas fas fa-toolbox mr-3"></i>
+                            <a href="<?= base_url(); ?>/kelolaproyek/pembayaranproyek" class="nav-link  <?= ($_SESSION['aktif'] == 'pembayaranproyek') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-money-bill mr-3"></i>
                                 <p>
-                                    Data Proyek
+                                    Pembayaran Proyek
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url(); ?>/admin/message" class="nav-link <?= ($_SESSION['aktif'] == 'message') ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-envelope mr-3"></i>
+                            <a href="<?= base_url(); ?>/kelolaproyek/penggunaanmesin" class="nav-link  <?= ($_SESSION['aktif'] == 'penggunaanmesin') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-tools mr-3"></i>
                                 <p>
-                                    Message
+                                    Penggunaan Mesin
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url(); ?>/kelolaproyek/laporanhpp" class="nav-link <?= ($_SESSION['aktif'] == 'laporanhpp') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-clipboard mr-3"></i>
+                                <p>
+                                    Laporan HPP
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-header">Back</li>
+                        <li class="nav-item">
+                            <a href="<?= base_url(); ?>/kelolaproyek/backtodataproyek" class="nav-link">
+                                <i class="fas fa-arrow-alt-circle-left mr-3"></i>
+                                <p>
+                                    Back To Data Proyek
                                 </p>
                             </a>
                         </li>
@@ -232,18 +266,16 @@
     </div>
 
 
-    <script src="<?= base_url('assetslte') ?>/plugins/jquery/jquery.min.js"></script>
-
     <script src="<?= base_url('assetslte') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
     <script src="<?= base_url('assetslte') ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
     <script src="<?= base_url('assetslte') ?>/dist/js/adminlte.min.js?v=3.2.0"></script>
-    <script src="<?= base_url('js/myscript.js'); ?>"></script>
     <script src="<?= base_url('js/additional-methods.min.js'); ?>"></script>
     <script src="<?= base_url('js/validasiform.js'); ?>"></script>
-
+    <!-- <script src="</?= base_url('assetslte'); ?>/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script> -->
+    <script src="<?= base_url('assetslte'); ?>/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+    <script src="<?= base_url('assetslte'); ?>/plugins/dropzone/min/dropzone.min.js"></script>
 </body>
 
 </html>

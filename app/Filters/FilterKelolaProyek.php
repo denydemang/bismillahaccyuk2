@@ -10,9 +10,9 @@ class FilterKelolaProyek implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        // if (session()->get('kelolaproyek') == 'false') {
-        //     return redirect()->to(base_url() . '/admin');
-        // }
+        if (session()->get('kelolaproyek') == 'false') {
+            return redirect()->to(base_url() . '/DashboardAdmin');
+        }
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)

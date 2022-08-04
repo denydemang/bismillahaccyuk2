@@ -5,9 +5,14 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Pembayaran Proyek</h1>
+                    <h1>Laporan HPP</h1>
                 </div>
             </div>
+        </div>
+    </section>
+    <section>
+        <div class="container-fluid">
+
         </div>
     </section>
 </div>

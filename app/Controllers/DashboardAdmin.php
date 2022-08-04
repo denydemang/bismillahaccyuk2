@@ -107,9 +107,12 @@ class DashboardAdmin extends Dashboard
             $namaklien = '';
             $idklien = '';
         }
-        $proyekmodel = new ProyekModel();
-        $getproyek = $proyekmodel->findAll();
-        if (empty($getproyek)) {
+        $builder = $this->db->table('proyek');
+        $builder->select('*');
+        $builder->join('pengajuan_proyek', 'proyek.idajuan=pengajuan_proyek.idajuan');
+        $query = $builder->get();
+        $hasil = $query->getResultArray();
+        if (empty($hasil)) {
             $tablekosong = 'true';
         } else {
             $tablekosong = 'false';
@@ -123,7 +126,7 @@ class DashboardAdmin extends Dashboard
             'jenisproyek' => $jenisproyek,
             'namaklien' => $namaklien,
             'idklien' => $idklien,
-            'proyek' => $getproyek,
+            'proyek' => $hasil,
             'tablekosong' => $tablekosong
         ];
 
@@ -888,6 +891,7 @@ class DashboardAdmin extends Dashboard
         }
     }
     public function printperhitunganbiaya($id = false)
+
     {
         $perhitunganbop = new PerhitunganBOPModel();
         $perhitunganbb = new PerhitunganBBModel();

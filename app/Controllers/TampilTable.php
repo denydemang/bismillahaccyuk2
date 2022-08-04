@@ -7,13 +7,20 @@ use App\Models\ModelLogin;
 use App\Models\PerhitunganBBModel;
 use App\Models\PerhitunganBOPModel;
 use App\Models\PerhitunganTenakerModel;
+use App\Models\TenakerModel;
 
 class TampilTable extends Dashboard
 {
 
     public function __construct()
     {
+
         parent::__construct();
+        $this->idproyek = session()->get('idproyek');
+
+        $this->datalogin += [
+            'idproyek' => $this->idproyek,
+        ];
     }
     public function index()
     {
@@ -89,6 +96,23 @@ class TampilTable extends Dashboard
         } else {
 
             return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function tabletenaker()
+    {
+        if ($this->request->isAJAX()) {
+            $tenakermodel = new TenakerModel();
+            $hasil = $tenakermodel->where('idproyek', $this->idproyek)->findAll();
+            $data = [
+                'datatenaker' => $hasil,
+            ];
+            $kirimAJax = [
+                'data' => view('dashboard/kelolaproyek/table/tabletenaker', $data),
+            ];
+            echo json_encode($kirimAJax);
+        } else {
+
+            return redirect()->to(base_url('kelolaproyek'));
         }
     }
 }

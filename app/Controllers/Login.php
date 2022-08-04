@@ -65,7 +65,7 @@ class Login extends BaseController
                         'nama'  => $cekUserLogin['nama'],
                         'alamat' => $cekUserLogin['alamat'],
                         'notelp' => $cekUserLogin['notelp'],
-                        'idlevel' => $idlevel
+                        'idlevel' => $idlevel,
                     ];
                     session()->set($simpan_session);
                     return redirect()->to(base_url() . '/dashboard');
