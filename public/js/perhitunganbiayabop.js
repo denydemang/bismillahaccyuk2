@@ -1,8 +1,16 @@
+
+const base_url = "http://localhost:8080/"
+function clear(){
+    $('.namatransaksi').removeClass('is-invalid');
+    $('.idajuanbop').removeClass('is-invalid');
+    $('.totalbiaya').removeClass('is-invalid');
+    $(".perhitunganbop").trigger('reset'); //jquery
+}
 $(document).ready(function(){
     $('.idajuanbop').change(function(){
         let id = $(this).val();
         $.ajax({
-            url : "http://localhost:8080/DashboardAdmin/getuseridajuan",
+            url : base_url+"DashboardAdmin/getuseridajuan",
             type: "post",
             data : {id:id},
             dataType : "json",
@@ -73,10 +81,8 @@ $(document).ready(function(){
                                     $('#btnsimpanbop').addClass('btnsimpanbop');
                                     $('#btnsimpanbop').html('Simpan');
                                     $('#btnsimpanbop').removeClass('btnubahbop');
-                                    $('.namatransaksi').removeClass('is-invalid');
-                                    $('.idajuanbop').removeClass('is-invalid');
-                                    $('.totalbiaya').removeClass('is-invalid');
-                                    $(".perhitunganbop").trigger('reset'); //jquery
+                                    clear()
+                                   
                             } else {
                                 Swal.fire({
                                     position: 'center',
@@ -90,10 +96,7 @@ $(document).ready(function(){
                                     $('#btnsimpanbop').addClass('btnsimpanbop');
                                     $('#btnsimpanbop').html('Simpan');
                                     $('#btnsimpanbop').removeClass('btnubahbop');
-                                    $('.namatransaksi').removeClass('is-invalid');
-                                    $('.idajuanbop').removeClass('is-invalid');
-                                    $('.totalbiaya').removeClass('is-invalid');
-                                    $(".perhitunganbop").trigger('reset'); //jquery
+                                    clear()
                             }
                         }
                     
@@ -106,7 +109,7 @@ $(document).ready(function(){
             $.ajax({
                 type:'post',
                 data: $(this).serialize(),
-                url :'http://localhost:8080/DashBoardAdmin/updateperhitunganbop/'+id,
+                url :base_url+'DashBoardAdmin/updateperhitunganbop/'+id,
                 dataType : "json",
                 
                 beforeSend: function(){
@@ -156,10 +159,7 @@ $(document).ready(function(){
                                     $('#btnsimpanbop').addClass('btnsimpanbop');
                                     $('#btnsimpanbop').html('Simpan');
                                     $('#btnsimpanbop').removeClass('btnubahbop');
-                                    $('.namatransaksi').removeClass('is-invalid');
-                                    $('.idajuanbop').removeClass('is-invalid');
-                                    $('.totalbiaya').removeClass('is-invalid');
-                                    $(".perhitunganbop").trigger('reset'); //jquery
+                                    clear()
                             } else {
                                 Swal.fire({
                                     position: 'center',
@@ -173,10 +173,7 @@ $(document).ready(function(){
                                     $('#btnsimpanbop').addClass('btnsimpanbop');
                                     $('#btnsimpanbop').html('Simpan');
                                     $('#btnsimpanbop').removeClass('btnubahbop');
-                                    $('.namatransaksi').removeClass('is-invalid');
-                                    $('.idajuanbop').removeClass('is-invalid');
-                                    $('.totalbiaya').removeClass('is-invalid');
-                                    $(".perhitunganbop").trigger('reset'); //jquery
+                                    clear()
                             }
                         }
                     
@@ -187,91 +184,7 @@ $(document).ready(function(){
             });
 
         }
-        
-        // if ($('#btnsimpanbop').hasClass('btnsimpanbop')){
-        //     $.ajax({
-        //         type: "post",
-        //         url : $(this).attr('action'),
-        //         data : $(this).serialize(),
-        //         dataType : "json",
-        //         beforeSend: function(){
-        //             $('.btnsimpanbop').attr('disable','disabled');
-        //             $('.btnsimpanbop').html('Menyimpan..');
-    
-        //         },
-        //         complete: function(){
-        //             $('.btnsimpanbop').removeAttr('disable');
-        //             $('.btnsimpanbop').html('Simpan');
-    
-        //         },
-        //         success: function(response) {
-        //             if (response.error){
-        //                 if (response.error.erroridajuan){
-        //                     $('.idajuanbop').addClass('is-invalid');
-        //                     $('.idajuanbopinvalid').html(response.error.erroridajuan);
-        //                 } else {
-        //                     $('.idajuanbop').removeClass('is-invalid');
-        //                     $('.idajuanbopinvalid').html('');
-        //                 }
-        //                 if(response.error.errornamatransaksi){
-        //                     $('.namatransaksi').addClass('is-invalid');
-        //                     $('.namatransaksiinvalid').html(response.error.errornamatransaksi);
-        //                 } else {
-        //                     $('.namatransaksi').removeClass('is-invalid');
-        //                     $('.namatransaksiinvalid').html('');
-        //                 }
-        //                 if(response.error.errortotalbiaya){
-        //                     $('.totalbiaya').addClass('is-invalid');
-        //                     $('.totalbiayainvalid').html(response.error.errortotalbiaya);
-        //                 } else {
-        //                     $('.totalbiaya').removeClass('is-invalid');
-        //                     $('.totalbiayainvalid').html('');
-        //                 }
-                        
-        //            } else {
-        //             if (response.affected >= 1){
-        //                 Swal.fire({
-        //                     position: 'center',
-        //                     icon: 'success',
-        //                     title: 'Berhasil Disimpan',
-        //                     showConfirmButton: true,
-        //                     })
-        //                     tablepbop();
-        //                     $('#btnsimpanbop').addClass('btnsimpanbop');
-        //                     $('#btnsimpanbop').html('Simpan');
-        //                     $('#btnsimpanbop').removeClass('btnubahbop');
-        //                     $('.jenispekerjaan').removeClass('is-invalid');
-        //                     $('.idajuantk').removeClass('is-invalid');
-        //                     $('.gaji').removeClass('is-invalid');
-        //                     $('.totalpekerja').removeClass('is-invalid');
-        //                     $(".perhitungantenaker").trigger('reset'); //jquery
-        //             } else {
-        //                 Swal.fire({
-        //                     position: 'center',
-        //                     icon: 'error',
-        //                     title: 'Data gagal Disimpan',
-        //                     showConfirmButton: false,
-        //                     timer: 3000
-        //                     })
-                            
-        //                     tableptenaker();
-        //                     $('#btnsimpantk').addClass('btnsimpantk');
-        //                     $('#btnsimpantk').html('Simpan');
-        //                     $('#btnsimpantk').removeClass('btnubahtk');
-        //                     $('.namatransaksi').removeClass('is-invalid');
-        //                     $('.idajuanbop').removeClass('is-invalid');
-        //                     $('.totalbiaya').removeClass('is-invalid');
-        //                     $(".perhitunganbop").trigger('reset'); //jquery
-        //             }
-        //            }
-        //         },
-        //         error: function(xhr, ajaxOptions, thrownError) {
-        //             alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-        //         }
-        //     });
-        // } else {
 
-        // }
         
     })
 
@@ -282,7 +195,7 @@ $(document).ready(function(){
         $.ajax({
             type: 'post',
             data : {id : id},
-            url: 'http://localhost:8080/DashboardAdmin/getdataperhitunganbop',
+            url: base_url+'DashboardAdmin/getdataperhitunganbop',
             dataType: "json",
             success: function(response) {
                 $('.namatransaksi').removeClass('is-invalid');
@@ -325,14 +238,11 @@ $(document).ready(function(){
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url : "http://localhost:8080/DashboardAdmin/hapusperhitunganbop/"+id,
+                        url : base_url+"DashboardAdmin/hapusperhitunganbop/"+id,
                         dataType : "json",
                         success: function(response) {
                             if(response >= 1){
-                                $('.namatransaksi').removeClass('is-invalid');
-                                $('.idajuanbop').removeClass('is-invalid');
-                                $('.totalbiaya').removeClass('is-invalid');
-                                $(".perhitunganbop").trigger('reset'); //jquer
+                                clear()
                                 tablepbop();
                                 Swal.fire({
                                     position: 'center',
@@ -342,10 +252,7 @@ $(document).ready(function(){
                                     showConfirmButton: true,
                                     })
                             } else {
-                                $('.namatransaksi').removeClass('is-invalid');
-                                $('.idajuanbop').removeClass('is-invalid');
-                                $('.totalbiaya').removeClass('is-invalid');
-                                $(".perhitunganbop").trigger('reset'); //jquer
+                                clear()
                                 tablepbop();
                                 Swal.fire({
                                     position: 'center',

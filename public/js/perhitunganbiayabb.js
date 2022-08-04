@@ -1,4 +1,11 @@
-
+const base_url = "http://localhost:8080/"
+function bersih(){
+    $('.namabahan').removeClass('is-invalid');
+    $('.idajuanbb').removeClass('is-invalid');
+    $('.jumlahbeli').removeClass('is-invalid');
+    $('.harga').removeClass('is-invalid');
+    $(".perhitunganbb").trigger('reset'); //jquery
+}
 $(document).ready(function(){
        //BAHAN BAKU
     //jika memilih id ajuan field user id dan nama proyek otomatis terisi
@@ -83,11 +90,8 @@ $(document).ready(function(){
                             timer: 3000
                             })
                             tablepbb();
-                            $('.namabahan').removeClass('is-invalid');
-                            $('.idajuanbb').removeClass('is-invalid');
-                            $('.jumlahbeli').removeClass('is-invalid');
-                            $('.harga').removeClass('is-invalid');
-                            $(".perhitunganbb").trigger('reset'); //jquery
+                            bersih()
+                           
                     } else {
                         Swal.fire({
                             position: 'center',
@@ -98,11 +102,7 @@ $(document).ready(function(){
                             })
                             
                             tablepbb();
-                            $('.namabahan').removeClass('is-invalid');
-                            $('.idajuanbb').removeClass('is-invalid');
-                            $('.jumlahbeli').removeClass('is-invalid');
-                            $('.harga').removeClass('is-invalid');
-                            $(".perhitunganbb").trigger('reset'); 
+                            bersih() 
                     }
                         
                    }
@@ -115,7 +115,7 @@ $(document).ready(function(){
             
         } else {
             $.ajax({
-                url : 'http://localhost:8080/DashBoardAdmin/updateperhitunganbb/'+id,
+                url : base_url+'DashBoardAdmin/updateperhitunganbb/'+id,
                 type: "post",
                 data : $(this).serialize(),
                 dataType : "json",
@@ -174,12 +174,7 @@ $(document).ready(function(){
                             $('#btnsimpan').addClass('btnsimpanbb');
                             $('#btnsimpan').html('Simpan');
                             $('#btnsimpan').removeClass('btnubahbb');
-                            $('.namabahan').removeClass('is-invalid');
-                            $('.idajuanbb').removeClass('is-invalid');
-                            $('.jumlahbeli').removeClass('is-invalid');
-                            $('.harga').removeClass('is-invalid');
-                            $(".perhitunganbb").trigger('reset'); //jquery
-                    } else {
+                            bersih()
                         Swal.fire({
                             position: 'center',
                             icon: 'info',
@@ -192,11 +187,7 @@ $(document).ready(function(){
                             $('#btnsimpan').addClass('btnsimpanbb');
                             $('#btnsimpan').html('Simpan');
                             $('#btnsimpan').removeClass('btnubahbb');
-                            $('.namabahan').removeClass('is-invalid');
-                            $('.idajuanbb').removeClass('is-invalid');
-                            $('.jumlahbeli').removeClass('is-invalid');
-                            $('.harga').removeClass('is-invalid');
-                            $(".perhitunganbb").trigger('reset'); 
+                            bersih()
                     }
                         
                          }
@@ -291,7 +282,7 @@ $(document).on('click', '.hapusbb', function(){
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url : "http://localhost:8080/DashboardAdmin/hapusperhitunganbb/"+id,
+                        url : base_url+"DashboardAdmin/hapusperhitunganbb/"+id,
                         dataType : "json",
                         success: function(response) {
                             if(response >= 1){
@@ -338,7 +329,7 @@ $(document).on('click', '.editbb', function(){
     $.ajax({
         type: 'post',
         data : {id : id},
-        url: 'http://localhost:8080/DashboardAdmin/getdataperhitunganbb',
+        url: base_url+'DashboardAdmin/getdataperhitunganbb',
         dataType: "json",
         success: function(response) {
         
