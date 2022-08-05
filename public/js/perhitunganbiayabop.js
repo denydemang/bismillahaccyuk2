@@ -1,5 +1,4 @@
 
-const base_url = "http://localhost:8080/"
 function clear(){
     $('.namatransaksi').removeClass('is-invalid');
     $('.idajuanbop').removeClass('is-invalid');

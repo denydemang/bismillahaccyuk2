@@ -1,4 +1,4 @@
-const base_url = "http://localhost:8080/"
+
 function bersih(){
     $('.namabahan').removeClass('is-invalid');
     $('.idajuanbb').removeClass('is-invalid');

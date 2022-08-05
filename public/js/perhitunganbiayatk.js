@@ -3,7 +3,7 @@
 $('.idajuantk').change(function(){
     let id = $(this).val();
     $.ajax({
-        url : "http://localhost:8080/DashboardAdmin/getuseridajuan",
+        url : base_url+"DashboardAdmin/getuseridajuan",
         type: "post",
         data : {id:id},
         dataType : "json",
@@ -114,7 +114,7 @@ $('.perhitungantenaker').submit(function(e){
     } 
     else {
         $.ajax({
-            url : 'http://localhost:8080/DashBoardAdmin/updateperhitungantk/'+id,
+            url : base_url+'DashBoardAdmin/updateperhitungantk/'+id,
             type: "post",
             data : $(this).serialize(),
             dataType : "json",
@@ -234,7 +234,7 @@ $(document).on('click', '.edittk', function(){
     $.ajax({
         type: 'post',
         data : {id : id},
-        url: 'http://localhost:8080/DashboardAdmin/getdataperhitungantk',
+        url: base_url+'DashboardAdmin/getdataperhitungantk',
         dataType: "json",
         success: function(response) {
             $('.idajuantk').removeClass('is-invalid');
@@ -281,7 +281,7 @@ $(document).on('click', '.hapustk', function(){
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url : "http://localhost:8080/DashboardAdmin/hapusperhitungantk/"+id,
+                    url : base_url+"DashboardAdmin/hapusperhitungantk/"+id,
                     dataType : "json",
                     success: function(response) {
                         if(response >= 1){
