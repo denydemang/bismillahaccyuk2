@@ -61,10 +61,6 @@ class DashboardKLien extends Dashboard
     public function simpanajuanproyek()
     {
         $user_id = $this->request->getVar('user_id');
-        $nama = $this->request->getVar('nama');
-        $email = $this->request->getVar('email');
-        $alamat = $this->request->getVar('alamat');
-        $notelp = $this->request->getVar('notelp');
         $namaproyek = $this->request->getVar('namaproyek');
         $jenisproyek = $this->request->getVar('jenisproyek');
         $lokasiproyek = $this->request->getVar('lokasiproyek');
@@ -74,10 +70,6 @@ class DashboardKLien extends Dashboard
         $AjuanProyekModel->insert([
             'idajuan' => $idajuan,
             'user_id' => $user_id,
-            'nama' => $nama,
-            'email' => $email,
-            'alamat' => $alamat,
-            'notelp' => $notelp,
             'namaproyek' => $namaproyek,
             'jenisproyek' => $jenisproyek,
             'lokasiproyek' => $lokasiproyek,

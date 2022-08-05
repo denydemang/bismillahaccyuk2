@@ -75,7 +75,11 @@ class Dashboard extends BaseController
         //untuk mendapatkan data progress dan ajuan proyek berdasarkan user yang login
         $data = $this->datalogin['user_id'];
         $ajuanproyekmodel = new AjuanProyekModel();
-        $ajuanklien = $ajuanproyekmodel->where('user_id', $data)->find();
+        $builder = $ajuanproyekmodel->builder();
+        $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
+        $query = $builder->where('pengajuan_proyek.user_id', $data)->get();
+        $ajuanklien = $query->getResultArray();
+
         $ajuanditerima = $ajuanproyekmodel->where('user_id', $data)->where('status_id', '2')->find();
         $ajuanditolak = $ajuanproyekmodel->where('user_id', $data)->where('status_id', '3')->find();
         $ajuandikerjakan = $ajuanproyekmodel->where('user_id', $data)->where('status_id', '4')->find();

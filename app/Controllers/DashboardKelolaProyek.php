@@ -21,6 +21,7 @@ class DashboardKelolaProyek extends Dashboard
         $builder = $this->db->table('proyek');
         $builder->select('*');
         $builder->join('pengajuan_proyek', 'proyek.idajuan=pengajuan_proyek.idajuan');
+        $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
         $builder->where('idproyek', $this->idproyek);
         $query = $builder->get();
         $hasil = $query->getResultArray();

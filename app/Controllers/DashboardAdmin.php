@@ -910,58 +910,58 @@ class DashboardAdmin extends Dashboard
     public function printperhitunganbiaya($id = false)
 
     {
-        $perhitunganbop = new PerhitunganBOPModel();
-        $perhitunganbb = new PerhitunganBBModel();
-        $perhitungantk = new PerhitunganTenakerModel();
+        // $perhitunganbop = new PerhitunganBOPModel();
+        // $perhitunganbb = new PerhitunganBBModel();
+        // $perhitungantk = new PerhitunganTenakerModel();
 
-        $builder1 = $perhitunganbop->builder();
-        $builder1->where('idajuan', $id)->selectSum('tot_biaya');
-        $query = $builder1->get();
-        $sumbop = $query->getResultArray();
-        $sumbop = intval($sumbop[0]['tot_biaya']);
+        // $builder1 = $perhitunganbop->builder();
+        // $builder1->where('idajuan', $id)->selectSum('tot_biaya');
+        // $query = $builder1->get();
+        // $sumbop = $query->getResultArray();
+        // $sumbop = intval($sumbop[0]['tot_biaya']);
 
-        $builder2 = $perhitunganbb->builder();
-        $builder2->where('idajuan', $id)->selectSum('total_harga');
-        $query = $builder2->get();
-        $sumbb = $query->getResultArray();
-        $sumbb = intval($sumbb[0]['total_harga']);
+        // $builder2 = $perhitunganbb->builder();
+        // $builder2->where('idajuan', $id)->selectSum('total_harga');
+        // $query = $builder2->get();
+        // $sumbb = $query->getResultArray();
+        // $sumbb = intval($sumbb[0]['total_harga']);
 
-        $builder3 = $perhitungantk->builder();
-        $builder3->where('idajuan', $id)->selectSum('total_gaji');
-        $query = $builder3->get();
-        $sumtk = $query->getResultArray();
-        $sumtk = intval($sumtk[0]['total_gaji']);
-        $sumall = $sumbb + $sumbop + $sumtk;
-        $perhitunganbbmodel = new PerhitunganBBModel();
-        $getdatabb = $perhitunganbbmodel->where('idajuan', $id)->findAll();
-        $perhitungantenakermodel = new PerhitunganTenakerModel();
-        $getdatatk = $perhitungantenakermodel->where('idajuan', $id)->findAll();
-        $perhitunganbopmodel = new PerhitunganBOPModel();
-        $getdatabop = $perhitunganbopmodel->where('idajuan', $id)->findAll();
-        $pengajuanproyekmodel = new AjuanProyekModel();
-        $builder = $pengajuanproyekmodel->builder();
+        // $builder3 = $perhitungantk->builder();
+        // $builder3->where('idajuan', $id)->selectSum('total_gaji');
+        // $query = $builder3->get();
+        // $sumtk = $query->getResultArray();
+        // $sumtk = intval($sumtk[0]['total_gaji']);
+        // $sumall = $sumbb + $sumbop + $sumtk;
+        // $perhitunganbbmodel = new PerhitunganBBModel();
+        // $getdatabb = $perhitunganbbmodel->where('idajuan', $id)->findAll();
+        // $perhitungantenakermodel = new PerhitunganTenakerModel();
+        // $getdatatk = $perhitungantenakermodel->where('idajuan', $id)->findAll();
+        // $perhitunganbopmodel = new PerhitunganBOPModel();
+        // $getdatabop = $perhitunganbopmodel->where('idajuan', $id)->findAll();
+        // $pengajuanproyekmodel = new AjuanProyekModel();
+        // $builder = $pengajuanproyekmodel->builder();
 
-        $builder->select('nama,alamat,email,notelp')->where('status_id', '2')->where('idajuan', $id);
-        $query = $builder->get();
-        $getdatauser = $query->getResultArray();
+        // $builder->select('nama,alamat,email,notelp')->where('status_id', '2')->where('idajuan', $id);
+        // $query = $builder->get();
+        // $getdatauser = $query->getResultArray();
 
-        $getdatabop = $perhitunganbopmodel->where('idajuan', $id)->findAll();
-        // dd($getdatauser);
-        $data = [
-            'bb' => $getdatabb,
-            'tk' => $getdatatk,
-            'bop' => $getdatabop,
-            'user' => $getdatauser,
-            'sumbop' => $sumbop,
-            'sumbb' => $sumbb,
-            'sumtk' => $sumtk,
-            'sumall' => $sumall
+        // $getdatabop = $perhitunganbopmodel->where('idajuan', $id)->findAll();
+        // // dd($getdatauser);
+        // $data = [
+        //     'bb' => $getdatabb,
+        //     'tk' => $getdatatk,
+        //     'bop' => $getdatabop,
+        //     'user' => $getdatauser,
+        //     'sumbop' => $sumbop,
+        //     'sumbb' => $sumbb,
+        //     'sumtk' => $sumtk,
+        //     'sumall' => $sumall
 
-        ];
+        // ];
 
 
         // instantiate and use the dompdf class
-        $html = view('dashboard/admin/printperhitunganbiaya', $data);
+        $html = view('dashboard/admin/printperhitunganbiaya');
         $dompdf = new Dompdf();
 
         $dompdf->loadHtml($html);
