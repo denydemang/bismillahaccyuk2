@@ -53,7 +53,10 @@ class DashboardAdmin extends Dashboard
         $builder->select('*');
         $builder->select('status_ajuan.keterangan');
         $builder->join('status_ajuan', 'pengajuan_proyek.status_id=status_ajuan.status_id');
+        $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
         $query = $builder->get();
+
+
         $_SESSION['aktif'] = 'ajuan';
         $this->datalogin += [
             'dataajuan' => $query->getResult()
@@ -93,7 +96,14 @@ class DashboardAdmin extends Dashboard
         $modelajuan = new AjuanProyekModel();
         $getdata = $modelajuan->where('status_id', '2')->findAll();
         $modelajuan = new AjuanProyekModel();
-        $datakirim = $modelajuan->where('idajuan', $id)->where('status_id', '2')->findAll();
+        $builder = $this->db->table('pengajuan_proyek');
+        $builder->select('*');
+        $builder->select('status_ajuan.keterangan');
+        $builder->join('status_ajuan', 'pengajuan_proyek.status_id=status_ajuan.status_id');
+        $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
+        $builder->where('idajuan', $id);
+        $query = $builder->get();
+        $datakirim = $query->getResultArray();
         if (!empty($datakirim)) {
             $idajuan = $datakirim[0]['idajuan'];
             $namaproyek = $datakirim[0]['namaproyek'];
@@ -110,6 +120,7 @@ class DashboardAdmin extends Dashboard
         $builder = $this->db->table('proyek');
         $builder->select('*');
         $builder->join('pengajuan_proyek', 'proyek.idajuan=pengajuan_proyek.idajuan');
+        $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
         $query = $builder->get();
         $hasil = $query->getResultArray();
         if (empty($hasil)) {
@@ -163,9 +174,7 @@ class DashboardAdmin extends Dashboard
         $idproyek = $this->request->getVar('idproyek');
         $idajuan = $this->request->getVar('idajuan');
         $iduser = $this->request->getVar('user_id');
-        $nama = $this->request->getVar('nama');
         $namaproyek = $this->request->getVar('namaproyek');
-        $jenisproyek = $this->request->getVar('jenisproyek');
         $biaya = $this->request->getVar('biaya');
         $sudahbayar = $this->request->getVar('sudahbayar');
         $belumbayar = $this->request->getVar('belumbayar');
@@ -176,10 +185,6 @@ class DashboardAdmin extends Dashboard
         $modelproyek->insert([
             'idproyek' => $idproyek,
             'idajuan' => $idajuan,
-            'user_id' => $iduser,
-            'nama' => $nama,
-            'namaproyek' => $namaproyek,
-            'jenisproyek' => $jenisproyek,
             'biaya' => $biaya,
             'sudah_bayar' => $sudahbayar,
             'belum_bayar' => $belumbayar,
@@ -206,6 +211,7 @@ class DashboardAdmin extends Dashboard
         $builder->select('*');
         $builder->select('status_ajuan.keterangan');
         $builder->join('status_ajuan', 'pengajuan_proyek.status_id=status_ajuan.status_id');
+        $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
         $builder->where('idajuan', $id);
         $query = $builder->get();
         $getdata = $query->getResult();
@@ -213,15 +219,18 @@ class DashboardAdmin extends Dashboard
         echo json_encode($getdata);
     }
 
-    public function terimaajuan($id)
+    public function terimaajuan($id = false)
     {
         $modelajuan = new AjuanProyekModel();
-        $modelajuan->where('idajuan', $id)->set([
-            'status_id' => '2',
-        ])->update();
-        $getData = $modelajuan->where('idajuan', $id)->find();
-        $namaproyek = $getData[0]['namaproyek'];
-        $namaklien = $getData[0]['nama'];
+        $modelajuan->where('idajuan', $id)->set(['status_id' => 2])->update();
+
+        $getData = $this->db->table('pengajuan_proyek');
+        $getData->select('*');
+        $getData->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
+        $query =  $getData->where('idajuan', 'AJP001')->get();
+        $hasil = $query->getResultArray();
+        $namaproyek = $hasil[0]['namaproyek'];
+        $namaklien = $hasil[0]['nama'];
         session()->setFlashdata('namaproyek', $namaproyek);
         session()->setFlashdata('namaklien', $namaklien);
         session()->setFlashdata('pesan', 'diterima');
@@ -233,9 +242,13 @@ class DashboardAdmin extends Dashboard
         $modelajuan->where('idajuan', $id)->set([
             'status_id' => '3',
         ])->update();
-        $getData = $modelajuan->where('idajuan', $id)->find();
-        $namaproyek = $getData[0]['namaproyek'];
-        $namaklien = $getData[0]['nama'];
+        $getData = $this->db->table('pengajuan_proyek');
+        $getData->select('*');
+        $getData->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
+        $query =  $getData->where('idajuan', 'AJP001')->get();
+        $hasil = $query->getResultArray();
+        $namaproyek = $hasil[0]['namaproyek'];
+        $namaklien = $hasil[0]['nama'];
         session()->setFlashdata('namaproyek', $namaproyek);
         session()->setFlashdata('namaklien', $namaklien);
         session()->setFlashdata('pesan', 'ditolak');
@@ -244,9 +257,13 @@ class DashboardAdmin extends Dashboard
     public function hapusajuan($id)
     {
         $modelajuan = new AjuanProyekModel();
-        $getData = $modelajuan->where('idajuan', $id)->find();
-        $namaproyek = $getData[0]['namaproyek'];
-        $namaklien = $getData[0]['nama'];
+        $getData = $this->db->table('pengajuan_proyek');
+        $getData->select('*');
+        $getData->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
+        $query =  $getData->where('idajuan', 'AJP001')->get();
+        $hasil = $query->getResultArray();
+        $namaproyek = $hasil[0]['namaproyek'];
+        $namaklien = $hasil[0]['nama'];
         $modelajuan->delete($id);
         session()->setFlashdata('namaproyek', $namaproyek);
         session()->setFlashdata('namaklien', $namaklien);

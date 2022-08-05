@@ -65,6 +65,7 @@ $(document).ready(function(){
         let namaproyek = $(this).data('namaproyek');
         let namaklien = $(this).data('namaklien');
         let idajuan =$(this).data('idajuan');
+        
         Swal.fire({
             title: 'Terima Ajuan Proyek?',
             text: "Ajuan Proyek "+namaproyek+" dengan pengaju bernama "+namaklien+" Akan Diterima",
