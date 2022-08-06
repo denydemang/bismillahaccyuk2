@@ -330,10 +330,16 @@ class DashboardAdmin extends Dashboard
     //Perhitungan Biaya Bahan Baku
     public function getuseridajuan()
     {
+
         $modelajuan = new AjuanProyekModel();
+
         if ($this->request->isAJAX()) {
             $idajuan = $this->request->getVar('id');
-            $getData =  $modelajuan->where('idajuan', $idajuan)->where('status_id', '2')->find();
+            $builder = $modelajuan->builder();
+            $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
+            $builder->where('idajuan', $idajuan)->where('status_id', '2');
+            $builder = $builder->get();
+            $getData = $builder->getResultArray();
             echo json_encode($getData);
         } else {
             return redirect()->to(base_url('admin/perhitunganbiaya'));
@@ -408,8 +414,6 @@ class DashboardAdmin extends Dashboard
                 $simpandata = [
                     'id_pbb' => '',
                     'idajuan' => $this->request->getVar('idajuanbb'),
-                    'user_id' => $this->request->getVar('user_idbb'),
-                    'namaproyek' => $this->request->getVar('namaproyekbb'),
                     'namabahan' => $this->request->getVar('namabahan'),
                     'ukuran' => $this->request->getVar('ukuran'),
                     'jenis' => $this->request->getVar('jenis'),
@@ -490,8 +494,6 @@ class DashboardAdmin extends Dashboard
                 $perhitunganbbmodel = new PerhitunganBBModel();
                 $updatedata = [
                     'idajuan' => $this->request->getVar('idajuanbb'),
-                    'user_id' => $this->request->getVar('user_idbb'),
-                    'namaproyek' => $this->request->getVar('namaproyekbb'),
                     'namabahan' => $this->request->getVar('namabahan'),
                     'ukuran' => $this->request->getVar('ukuran'),
                     'jenis' => $this->request->getVar('jenis'),
@@ -527,9 +529,14 @@ class DashboardAdmin extends Dashboard
 
     {
         $perhitunganbb = new PerhitunganBBModel();
+
+
         if ($this->request->isAJAX()) {
             $id =  $this->request->getVar('id');
-            $getData = $perhitunganbb->where('id_pbb', $id)->find();
+            $builder = $perhitunganbb->builder();
+            $builder->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan');
+            $builder = $builder->where('id_pbb', $id)->get();
+            $getData = $builder->getResultArray();
             echo json_encode($getData);
         } else {
             return redirect()->to(base_url('admin/perhitunganbiaya'));
@@ -605,8 +612,6 @@ class DashboardAdmin extends Dashboard
                 $totalgaji = (int)filter_var($totalgaji, FILTER_SANITIZE_NUMBER_INT);
                 $updatedata = [
                     'idajuan' => $this->request->getVar('idajuantk'),
-                    'user_id' => $this->request->getVar('user_idtk'),
-                    'namaproyek' => $this->request->getVar('namaproyek'),
                     'jenispekerjaan' => $this->request->getVar('jenispekerjaan'),
                     'gaji' => $gaji,
                     'hari' => $this->request->getVar('hari'),
@@ -634,10 +639,13 @@ class DashboardAdmin extends Dashboard
     }
     public function getdataperhitungantk()
     {
-        $perhitunganbb = new PerhitunganTenakerModel();
+        $perhitungantenaker = new PerhitunganTenakerModel();
         if ($this->request->isAJAX()) {
             $id =  $this->request->getVar('id');
-            $getData = $perhitunganbb->where('id_pbtenaker', $id)->find();
+            $builder = $perhitungantenaker->builder();
+            $builder =  $builder->join('pengajuan_proyek', 'perhitungantenaker.idajuan=pengajuan_proyek.idajuan')->where('id_pbtenaker', $id);
+            $builder = $builder->get();
+            $getData = $builder->getResultArray();
             echo json_encode($getData);
         } else {
             return redirect()->to(base_url('admin/perhitunganbiaya'));
@@ -696,9 +704,7 @@ class DashboardAdmin extends Dashboard
                 $perhitungantenakermodel = new PerhitunganTenakerModel();
                 $simpandata = [
                     'id_pbtenaker' => '',
-                    'user_id' => $this->request->getVar('user_idtk'),
                     'idajuan' => $this->request->getVar('idajuantk'),
-                    'namaproyek' => $this->request->getVar('namaproyektk'),
                     'jenispekerjaan' => $this->request->getVar('jenispekerjaan'),
                     'gaji' => $gaji,
                     'hari' => $this->request->getVar('hari'),
@@ -778,9 +784,7 @@ class DashboardAdmin extends Dashboard
                 $totbiaya = (int)filter_var($totbiaya, FILTER_SANITIZE_NUMBER_INT);
                 $perhitunganbopmodel = new PerhitunganBOPModel();
                 $updatedata = [
-                    'user_id' => $this->request->getVar('user_idbop'),
                     'idajuan' => $this->request->getVar('idajuanbop'),
-                    'namaproyek' => $this->request->getVar('namaproyekbop'),
                     'namatrans' => $this->request->getVar('namatransaksi'),
                     'tot_biaya' => $totbiaya,
 
@@ -847,9 +851,7 @@ class DashboardAdmin extends Dashboard
                 $perhitunganbopmodel = new PerhitunganBOPModel();
                 $simpandata = [
                     'id_pbop' => '',
-                    'user_id' => $this->request->getVar('user_idbop'),
                     'idajuan' => $this->request->getVar('idajuanbop'),
-                    'namaproyek' => $this->request->getVar('namaproyekbop'),
                     'namatrans' => $this->request->getVar('namatransaksi'),
                     'tot_biaya' => $totbiaya,
 
@@ -873,7 +875,10 @@ class DashboardAdmin extends Dashboard
         $perhitunganbop = new PerhitunganBOPModel();
         if ($this->request->isAJAX()) {
             $id =  $this->request->getVar('id');
-            $getData = $perhitunganbop->where('id_pbop', $id)->find();
+            $builder = $perhitunganbop->builder();
+            $builder = $builder->join('pengajuan_proyek', 'perhitunganbop.idajuan=pengajuan_proyek.idajuan')->where('id_pbop', $id)->get();
+            $getData = $builder->getResultArray();
+
             echo json_encode($getData);
         } else {
             return redirect()->to(base_url('admin/perhitunganbiaya'));

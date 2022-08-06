@@ -175,6 +175,7 @@ $(document).ready(function(){
                             $('#btnsimpan').html('Simpan');
                             $('#btnsimpan').removeClass('btnubahbb');
                             bersih()
+                    } else {
                         Swal.fire({
                             position: 'center',
                             icon: 'info',
