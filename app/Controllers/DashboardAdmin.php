@@ -1000,12 +1000,8 @@ class DashboardAdmin extends Dashboard
     }
     public function redirectkelola($idproyek)
     {
-
-        if ($this->request->isAJAX()) {
-            session()->set('idproyek', $idproyek);
-            session()->set('kelolaproyek', 'true');
-        } else {
-            return redirect()->to(base_url('admin'));
-        }
+        session()->set('kelolaproyek', 'true');
+        session()->set('idproyek', $idproyek);
+        return redirect()->to(base_url('kelolaproyek'));
     }
 }

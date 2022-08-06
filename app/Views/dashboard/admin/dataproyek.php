@@ -140,26 +140,15 @@
     </section>
 </div>
 <script src="<?= base_url('js/myscript.js'); ?>"></script>
+
 <script>
     $(document).ready(function() {
         $('#tableproyek').DataTable();
         $('.btnkelola').click(function() {
-            let idproyek = $(this).data('idproyek')
-            $.ajax({
-                url: 'http://localhost:8080/DashboardAdmin/redirectkelola/' + idproyek,
-                dataType: "json",
-                success: function(response) {
-
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                }
-            });
-            window.location.href = "http://localhost:8080/kelolaproyek";
-        })
-    })
+            let idproyek = $(this).data('idproyek');
+            window.location.href = 'http://localhost:8080/DashboardAdmin/redirectkelola/' + idproyek
+        });
+    });
 </script>
-
-
 
 <?= $this->endSection(); ?>
