@@ -51,7 +51,10 @@ class TampilTable extends Dashboard
     {
         if ($this->request->isAJAX()) {
             $hitungbb = new PerhitunganBBModel();
-            $getData = $hitungbb->findAll();
+            $builder = $hitungbb->builder();
+            $builder = $builder->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan');
+            $builder = $builder->get();
+            $getData = $builder->getResultArray();
             $data = [
                 'bahanbaku' => $getData,
             ];
@@ -60,7 +63,6 @@ class TampilTable extends Dashboard
             ];
             echo json_encode($kirimAJax);
         } else {
-
             return redirect()->to(base_url('admin/perhitunganbiaya'));
         }
     }
@@ -68,7 +70,10 @@ class TampilTable extends Dashboard
     {
         if ($this->request->isAJAX()) {
             $hitungtenaker = new PerhitunganTenakerModel();
-            $getData = $hitungtenaker->findAll();
+            $builder = $hitungtenaker->builder();
+            $builder = $builder->join('pengajuan_proyek', 'perhitungantenaker.idajuan=pengajuan_proyek.idajuan');
+            $builder = $builder->get();
+            $getData = $builder->getResultArray();
             $data = [
                 'tenaker' => $getData,
             ];
@@ -85,7 +90,10 @@ class TampilTable extends Dashboard
     {
         if ($this->request->isAJAX()) {
             $hitungbop = new PerhitunganBOPModel();
-            $getData = $hitungbop->findAll();
+            $builder = $hitungbop->builder();
+            $builder = $builder->join('pengajuan_proyek', 'perhitunganbop.idajuan=pengajuan_proyek.idajuan');
+            $builder = $builder->get();
+            $getData = $builder->getResultArray();
             $data = [
                 'bop' => $getData,
             ];
