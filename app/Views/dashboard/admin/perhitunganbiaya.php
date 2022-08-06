@@ -219,6 +219,8 @@
                         </div>
                     </div>
                     <div class="card-body">
+
+                        <div class="pesanprint" id="pesanprint" data-pesan="<?= session()->getFlashdata('pesanprint'); ?>"></div>
                         <div class="container-fluid mb-3">
                             <form class="perhitunganbop" action="<?= base_url(); ?>/DashboardAdmin/simpanperhitunganbop">
                                 <?= csrf_field(); ?>

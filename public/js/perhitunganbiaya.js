@@ -1,6 +1,7 @@
 
 const base_url = "http://localhost:8080/"
 //   Cek Type Variabel
+
 var getType = (function() {
 
     var objToString = ({}).toString ,
@@ -118,6 +119,17 @@ $(document).ready(function() {
         window.open('http://localhost:8080/DashboardAdmin/printperhitunganbiaya/'+idajuan, '_blank')
         
     })
+    if ( ($('#pesanprint').data('pesan'))) {
+        let pesan = $('#pesanprint').data('pesan');
+        Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: pesan,
+            showConfirmButton: false,
+            timer: 4000
+            })
+    }
+   
     $('#totalsemua').change(function(){
         let idajuan = $(this).val();
         $.ajax({

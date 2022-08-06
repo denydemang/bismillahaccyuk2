@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Example 1</title>
+    <title><?= $user[0]['idajuan']; ?></title>
     <style>
         .clearfix:after {
             content: "";
@@ -86,7 +86,7 @@
 
         #project div {
             white-space: nowrap;
-            font-size: 1.3em;
+            font-size: 1.2em;
             margin-left: 10px;
         }
 
@@ -172,18 +172,20 @@
         </div>
         <h1>PERKIRAAN PERHITUNGAN BIAYA </h1>
         <div id="company" class="clearfix">
-            <div>Company Name</div>
-            <div>455 Foggy Heights,<br /> AZ 85004, US</div>
-            <div>(602) 519-0450</div>
-            <div><a href="mailto:company@example.com">company@example.com</a></div>
+            <div>PT ADIKA JAYA ENGINEERING</div>
+            <div>Office : Jl. Gemah Kumala No 16 Pedurungan Semarang 50191</div>
+            <div>Workshop : Jl. Kyai Selan RT 06 RW 03 Ds. Penyangkringan <br> Karangmulyo Kec. Pegandon Kab. Kendal 51357</div>
+            <div>+62 821-1458-7645</div>
+            <div><a>adikajayaengineering@gmail.com</a></div>
         </div>
         <div id="project">
-            <div><span>PROJECT</span> Website development</div>
-            <div><span>CLIENT</span> John Doe</div>
-            <div><span>ADDRESS</span> 796 Silver Harbour, TX 79273, US</div>
-            <div><span>EMAIL</span> <a href="mailto:john@example.com">john@example.com</a></div>
-            <div><span>DATE</span> August 17, 2015</div>
-            <div><span>DUE DATE</span> September 17, 2015</div>
+            <div><span>PROJECT</span> <?= strtoupper($user[0]['namaproyek']); ?></div>
+            <div><span>ID AJUAN</span> <?= $user[0]['idajuan']; ?></div>
+            <div><span>CLIENT</span> <?= strtoupper($user[0]['nama']); ?></div>
+            <div><span>ALAMAT</span> <?= $user[0]['alamat']; ?></div>
+            <div><span>EMAIL</span> <a><?= $user[0]['email']; ?></a></div>
+            <div><span>No TELP</span> <?= $user[0]['notelp']; ?></div>
+            <div><span>TANGGAL</span> <?= $tanggal; ?> </div>
         </div>
     </header>
     <main>
@@ -204,31 +206,81 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="service">Besi</td>
-                    <td class="service">15 x 15 cm</td>
-                    <td class="service">Baik</td>
-                    <td class="service">Ekspor</td>
-                    <td class="service">25 kg</td>
-                    <td class="service">18 mm</td>
-                    <td class="service">50 m</td>
-                    <td class="service">RP 1.000.000</td>
-                    <td class="service">25</td>
-                    <td class="total">$1,040.00</td>
-                </tr>
+                <?php foreach ($bb as $row) : ?>
+                    <tr>
+                        <td class="service"><?= $row['namabahan']; ?></td>
+                        <td class="service"><?= $row['ukuran']; ?></td>
+                        <td class="service"><?= $row['kualitas']; ?></td>
+                        <td class="service"><?= $row['jenis']; ?></td>
+                        <td class="service"><?= $row['berat']; ?></td>
+                        <td class="service"><?= $row['ketebalan']; ?></td>
+                        <td class="service"><?= $row['panjang']; ?></td>
+                        <td class="service">Rp <?= number_format($row['harga'], 0, '', '.'); ?>,-</td>
+                        <td class="service"><?= $row['jumlah_beli']; ?></td>
+                        <td class="total">Rp <?= number_format($row['total_harga'], 0, '', '.'); ?>,-</td>
+                    </tr>
+                <?php endforeach; ?>
                 <tr>
                     <td colspan="9">SUBTOTAL</td>
-                    <td class="total">$5,200.00</td>
+                    <td class="total">Rp <?= number_format($sumbb, 0, '', '.'); ?>,-</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2 style="margin-top:20px">Biaya Operasional</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th class="desc">Nama Biaya</th>
+                    <th class="total">Total Biaya</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($bop as $row) : ?>
+                    <tr>
+                        <td class="desc"><?= $row['namatrans']; ?></td>
+                        <td class="total">Rp <?= number_format($row['tot_biaya'], 0, '', '.'); ?>,-</td>
+                    </tr>
+                <?php endforeach; ?>
+                <tr>
+                    <td colspan="1">SUBTOTAL</td>
+                    <td class="total">Rp <?= number_format($sumbop, 0, '', '.'); ?>,-</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2 style="margin-top:40px">Biaya Tenaga Kerja</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th class="service">Jenis Pekerjaan</th>
+                    <th class="service">Gaji</th>
+                    <th class="service">Hari</th>
+                    <th class="service">Total Pekerja</th>
+                    <th class="total">Total Gaji</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($tk as $row) : ?>
+                    <tr>
+                        <td class="service"><?= $row['jenispekerjaan']; ?></td>
+                        <td class="service">Rp <?= number_format($row['gaji'], 0, '', '.'); ?>,-</td>
+                        <td class="service"><?= $row['hari']; ?></td>
+                        <td class="service"><?= $row['total_pekerja']; ?></td>
+                        <td class="total">Rp <?= number_format($row['total_gaji'], 0, '', '.'); ?>,-</td>
+                    </tr>
+                <?php endforeach; ?>
+                <tr>
+                    <td colspan="4">SUBTOTAL</td>
+                    <td class="total">Rp <?= number_format($sumtk, 0, '', '.'); ?>,-</td>
                 </tr>
                 <tr>
-                    <td colspan="9" class="grand total">TOTAL BIAYA KESELURUHAN</td>
-                    <td class="grand total">$6,500.00</td>
+                    <td colspan="4" class="grand total">TOTAL BIAYA KESELURUHAN</td>
+                    <td class="grand total">Rp <?= number_format($sumall, 0, '', '.'); ?>,-</td>
                 </tr>
             </tbody>
         </table>
         <div id="notices">
             <div>Catatan Dari Klien:</div>
-            <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+            <div class="notice"><?= $user[0]['catatanproyek']; ?></div>
         </div>
     </main>
     <footer>

@@ -154,7 +154,9 @@ class DashboardAdmin extends Dashboard
         return view('dashboard/admin/message', $this->datalogin);
     }
     public function perhitunganbiaya()
+
     {
+
         $modelajuan = new AjuanProyekModel();
         $getData = $modelajuan->where('status_id', '2')->findAll();
         if (isset($_SESSION['aktif'])) {
@@ -907,73 +909,89 @@ class DashboardAdmin extends Dashboard
             return redirect()->to(base_url('admin/perhitunganbiaya'));
         }
     }
-    public function printperhitunganbiaya($id = false)
+    public function printperhitunganbiaya($id = '')
 
     {
-        // $perhitunganbop = new PerhitunganBOPModel();
-        // $perhitunganbb = new PerhitunganBBModel();
-        // $perhitungantk = new PerhitunganTenakerModel();
-
-        // $builder1 = $perhitunganbop->builder();
-        // $builder1->where('idajuan', $id)->selectSum('tot_biaya');
-        // $query = $builder1->get();
-        // $sumbop = $query->getResultArray();
-        // $sumbop = intval($sumbop[0]['tot_biaya']);
-
-        // $builder2 = $perhitunganbb->builder();
-        // $builder2->where('idajuan', $id)->selectSum('total_harga');
-        // $query = $builder2->get();
-        // $sumbb = $query->getResultArray();
-        // $sumbb = intval($sumbb[0]['total_harga']);
-
-        // $builder3 = $perhitungantk->builder();
-        // $builder3->where('idajuan', $id)->selectSum('total_gaji');
-        // $query = $builder3->get();
-        // $sumtk = $query->getResultArray();
-        // $sumtk = intval($sumtk[0]['total_gaji']);
-        // $sumall = $sumbb + $sumbop + $sumtk;
-        // $perhitunganbbmodel = new PerhitunganBBModel();
-        // $getdatabb = $perhitunganbbmodel->where('idajuan', $id)->findAll();
-        // $perhitungantenakermodel = new PerhitunganTenakerModel();
-        // $getdatatk = $perhitungantenakermodel->where('idajuan', $id)->findAll();
-        // $perhitunganbopmodel = new PerhitunganBOPModel();
-        // $getdatabop = $perhitunganbopmodel->where('idajuan', $id)->findAll();
-        // $pengajuanproyekmodel = new AjuanProyekModel();
-        // $builder = $pengajuanproyekmodel->builder();
-
-        // $builder->select('nama,alamat,email,notelp')->where('status_id', '2')->where('idajuan', $id);
-        // $query = $builder->get();
-        // $getdatauser = $query->getResultArray();
-
-        // $getdatabop = $perhitunganbopmodel->where('idajuan', $id)->findAll();
-        // // dd($getdatauser);
-        // $data = [
-        //     'bb' => $getdatabb,
-        //     'tk' => $getdatatk,
-        //     'bop' => $getdatabop,
-        //     'user' => $getdatauser,
-        //     'sumbop' => $sumbop,
-        //     'sumbb' => $sumbb,
-        //     'sumtk' => $sumtk,
-        //     'sumall' => $sumall
-
-        // ];
 
 
-        // instantiate and use the dompdf class
-        $html = view('dashboard/admin/printperhitunganbiaya');
-        $dompdf = new Dompdf();
+        date_default_timezone_set('Asia/Jakarta');
+        $tanggal = $this->tanggal_indonesia(date('Y-m-d'));
+        $perhitunganbop = new PerhitunganBOPModel();
+        $perhitunganbb = new PerhitunganBBModel();
+        $perhitungantk = new PerhitunganTenakerModel();
 
-        $dompdf->loadHtml($html);
 
-        // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A4', 'landscape');
+        $builder1 = $perhitunganbop->builder();
+        $builder1->where('idajuan', $id)->selectSum('tot_biaya');
+        $query = $builder1->get();
+        $sumbop = $query->getResultArray();
+        $sumbop = intval($sumbop[0]['tot_biaya']);
 
-        // Render the HTML as PDF
-        $dompdf->render();
 
-        // Output the generated PDF to Browser
-        $dompdf->stream("dompdf_out.pdf", array("Attachment" => false));
+        $builder2 = $perhitunganbb->builder();
+        $builder2->where('idajuan', $id)->selectSum('total_harga');
+        $query = $builder2->get();
+        $sumbb = $query->getResultArray();
+        $sumbb = intval($sumbb[0]['total_harga']);
+
+        $builder3 = $perhitungantk->builder();
+        $builder3->where('idajuan', $id)->selectSum('total_gaji');
+        $query = $builder3->get();
+        $sumtk = $query->getResultArray();
+        $sumtk = intval($sumtk[0]['total_gaji']);
+
+        $sumall = $sumbb + $sumbop + $sumtk;
+
+
+        $perhitunganbbmodel = new PerhitunganBBModel();
+        $getdatabb = $perhitunganbbmodel->where('idajuan', $id)->findAll();
+
+        $perhitungantenakermodel = new PerhitunganTenakerModel();
+        $getdatatk = $perhitungantenakermodel->where('idajuan', $id)->findAll();
+
+        $perhitunganbopmodel = new PerhitunganBOPModel();
+        $getdatabop = $perhitunganbopmodel->where('idajuan', $id)->findAll();
+
+        $pengajuanproyekmodel = new AjuanProyekModel();
+        $builder = $pengajuanproyekmodel->builder();
+        $builder = $builder->select('*');
+        $builder = $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->where('idajuan', $id);
+        $query = $builder->get();
+        $getdatauser = $query->getResultArray();
+
+        if (empty($sumbb && $sumbop && $sumtk && $sumall && $getdatauser)) {
+            session()->setFlashdata('pesanprint', 'Data Belum Terisi Semua !, Silakan Lengkapi Data!');
+            return redirect()->to(base_url() . '/admin/perhitunganbiaya');
+        } else {
+            $data = [
+                'bb' => $getdatabb,
+                'tk' => $getdatatk,
+                'bop' => $getdatabop,
+                'user' => $getdatauser,
+                'sumbop' => $sumbop,
+                'tanggal' => $tanggal,
+                'sumbb' => $sumbb,
+                'sumtk' => $sumtk,
+                'sumall' => $sumall
+
+            ];
+
+            // instantiate and use the dompdf class
+            $html = view('dashboard/admin/printperhitunganbiaya', $data);
+            $dompdf = new Dompdf();
+
+            $dompdf->loadHtml($html);
+
+            // (Optional) Setup the paper size and orientation
+            $dompdf->setPaper('A4', 'landscape');
+
+            // Render the HTML as PDF
+            $dompdf->render();
+
+            // Output the generated PDF to Browser
+
+            $dompdf->stream('Proposal Ajuan' . '-' . $getdatauser[0]['idajuan'] . '-' . $getdatauser[0]['nama'] . ".pdf", array("Attachment" => false));
+        };
     }
     public function redirectkelola($idproyek)
     {
