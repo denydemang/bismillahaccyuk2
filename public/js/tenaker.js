@@ -362,7 +362,6 @@ $(document).ready(function(){
  })
  $(document).on('click', '#btndetailtenaker', function(){
     let idtenaker = $(this).data('id');
-    let namatenaker = $(this).data('namatk');
     
     $.ajax({
         url : base_url+"DashboardKelolaProyek/detailtenaker/"+idtenaker,
@@ -490,8 +489,4 @@ $(document).ready(function(){
             alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
         }
     });
- })
-
- $('#inputbayar2').keyup(function(){
-   
  })

@@ -10,6 +10,7 @@ use App\Models\PerhitunganTenakerModel;
 use App\Models\ProyekModel;
 use App\Models\ProgressProyekModel;
 use App\Models\TenakerModel;
+use App\Models\BahanBakuProsesModel;
 
 class DashboardKelolaProyek extends Dashboard
 {
@@ -134,12 +135,15 @@ class DashboardKelolaProyek extends Dashboard
         if ($this->request->isAJAX()) {
             $data = [
                 'idproyek' => $this->idproyek,
-                'idtenaker' => $this->kodeotomatis('tenaker', 'idtenaker', 'TKJ001')
+                'idtenaker' => $this->kodeotomatis('tenaker', 'idtenaker', 'TKJ001'),
+                'idbeli' => $this->kodeotomatis('belibahan', 'idbelibahan', 'BBB001')
 
             ];
             echo json_encode($data);
         }
     }
+
+    // Pengelolaan Tenaga Kerja
     public function simpantenaker()
     {
         if ($this->request->isAJAX()) {
@@ -243,8 +247,6 @@ class DashboardKelolaProyek extends Dashboard
     }
     public function detailtenaker($idtk = false)
     {
-
-
         if ($this->request->isAJAX()) {
             $tenakermodel = new TenakerModel();
             $getdata = $tenakermodel->where('idproyek', $this->idproyek)->where('idtenaker', $idtk)->find();
@@ -379,6 +381,199 @@ class DashboardKelolaProyek extends Dashboard
 
             $result = $tenakermodel->where('idtenaker', $idtenaker)->find();
             echo json_encode($result);
+        } else {
+            return redirect()->to(base_url('kelolaproyek/tenagakerja'));
+        }
+    }
+    // End Pengelolaan Tenaker
+
+    //Bahan Baku dalam Proses
+    public function simpanbbproses()
+    {
+        if ($this->request->isAJAX()) {
+            $validation = \Config\Services::validation();
+            $valid = $this->validate([
+                'namabahan' => [
+                    'label' => 'Nama Bahan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong'
+                    ]
+                ],
+                'harga' => [
+                    'label' => 'Harga',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong'
+                    ]
+                ],
+                'jumlah_beli' => [
+                    'label' => 'Jumlah Beli',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong'
+                    ]
+                ],
+                'tgl_beli' => [
+                    'label' => 'Tanggal Beli',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong'
+                    ]
+                ],
+            ]);
+            if (!$valid) {
+                $data = [
+                    'errors' => [
+                        'namabahan' => $validation->getError('namabahan'),
+                        'harga' => $validation->getError('harga'),
+                        'jumlah_beli' => $validation->getError('jumlah_beli'),
+                        'tgl_beli' => $validation->getError('tgl_beli'),
+                    ]
+                ];
+                echo json_encode($data);
+            } else {
+                $bahanbakuproses = new BahanBakuProsesModel();
+                $harga = $this->request->getVar('harga');
+                $harga = (int)(filter_var($harga, FILTER_SANITIZE_NUMBER_INT));
+                $jumlah_beli = $this->request->getVar('jumlah_beli');
+                $jumlah_beli = (int)(filter_var($jumlah_beli, FILTER_SANITIZE_NUMBER_INT));
+                $simpandata = [
+                    'idbelibahan' => $this->request->getVar('idbelibahan'),
+                    'idproyek' => $this->request->getVar('idproyek'),
+                    'namabahan' => $this->request->getVar('namabahan'),
+                    'tgl_beli' => $this->request->getVar('tgl_beli'),
+                    'ukuran' => $this->request->getVar('ukuran'),
+                    'kualitas' => $this->request->getVar('kualitas'),
+                    'jenis' => $this->request->getVar('jenis'),
+                    'berat' => $this->request->getVar('berat'),
+                    'ketebalan' => $this->request->getVar('ketebalan'),
+                    'panjang' => $this->request->getVar('panjang'),
+                    'harga' => $harga,
+                    'jumlah_beli' => $jumlah_beli,
+
+                ];
+                $bahanbakuproses->insert($simpandata);
+
+                // query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
+                // optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
+                $builder = $bahanbakuproses->builder();
+                $hasil = $builder->db()->affectedRows();
+                $baristerpengaruh = [
+                    'affected' => $hasil,
+                ];
+                echo json_encode($baristerpengaruh);
+            }
+        } else {
+            return redirect()->to(base_url('kelolaproyek/bbdalamproses'));
+        }
+    }
+    public function detailbbproses($id = '')
+    {
+        if ($this->request->isAJAX()) {
+            $detailbbproses = new BahanBakuProsesModel();
+            $builder = $detailbbproses->builder();
+            $builder = $builder->select('*');
+            $builder = $builder->join('proyek', 'belibahan.idproyek=proyek.idproyek')->join('pengajuan_proyek', 'proyek.idajuan=pengajuan_proyek.idajuan')->having('belibahan.idbelibahan', $id)->having('belibahan.idproyek', $this->idproyek)->get();
+            $getdata = $builder->getResultArray();
+            echo json_encode($getdata);
+        } else {
+            return redirect()->to(base_url('kelolaproyek/bbdalamproses'));
+        }
+    }
+    public function updatebbproses($id = false)
+    {
+        if ($this->request->isAJAX()) {
+            $validation = \Config\Services::validation();
+            $valid = $this->validate([
+                'namabahan' => [
+                    'label' => 'Nama Bahan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong'
+                    ]
+                ],
+                'harga' => [
+                    'label' => 'Harga',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong'
+                    ]
+                ],
+                'jumlah_beli' => [
+                    'label' => 'Jumlah Beli',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong'
+                    ]
+                ],
+                'tgl_beli' => [
+                    'label' => 'Tanggal Beli',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong'
+                    ]
+                ],
+            ]);
+            if (!$valid) {
+                $data = [
+                    'errors' => [
+                        'namabahanss' => $validation->getError('namabahan'),
+                        'harga' => $validation->getError('harga'),
+                        'jumlah_beli' => $validation->getError('jumlah_beli'),
+                        'tgl_beli' => $validation->getError('tgl_beli'),
+                    ]
+                ];
+                echo json_encode($data);
+            } else {
+                $bahanbakuproses = new BahanBakuProsesModel();
+                $harga = $this->request->getVar('harga');
+                $harga = (int)(filter_var($harga, FILTER_SANITIZE_NUMBER_INT));
+                $jumlah_beli = $this->request->getVar('jumlah_beli');
+                $jumlah_beli = (int)(filter_var($jumlah_beli, FILTER_SANITIZE_NUMBER_INT));
+                $simpandata = [
+                    'namabahan' => $this->request->getVar('namabahan'),
+                    'tgl_beli' => $this->request->getVar('tgl_beli'),
+                    'ukuran' => $this->request->getVar('ukuran'),
+                    'kualitas' => $this->request->getVar('kualitas'),
+                    'jenis' => $this->request->getVar('jenis'),
+                    'berat' => $this->request->getVar('berat'),
+                    'ketebalan' => $this->request->getVar('ketebalan'),
+                    'panjang' => $this->request->getVar('panjang'),
+                    'harga' => $harga,
+                    'jumlah_beli' => $jumlah_beli,
+
+                ];
+                $bahanbakuproses->where('idbelibahan', $id)->set($simpandata)->update();
+
+
+                // query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
+                // optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
+                $builder = $bahanbakuproses->builder();
+                $hasil = $builder->db()->affectedRows();
+                $baristerpengaruh = [
+                    'affected' => $hasil,
+                    'notifidbeli' => $this->request->getVar('idbelibahan'),
+                    'notifnamabahan' => $this->request->getVar('namabahan'),
+                ];
+                echo json_encode($baristerpengaruh);
+            }
+        } else {
+            return redirect()->to(base_url('kelolaproyek/bbdalamproses'));
+        }
+    }
+    public function hapusbbproses($id = false)
+    {
+        if ($this->request->isAjax()) {
+
+            $bbproses = new BahanBakuProsesModel();
+            $bbproses->delete($id);
+            $builder = $bbproses->builder();
+            $hasil = $builder->db()->affectedRows();
+            $baristerpengaruh = [
+                'affected' => $hasil,
+            ];
+            echo json_encode($baristerpengaruh);
         } else {
             return redirect()->to(base_url('kelolaproyek/tenagakerja'));
         }

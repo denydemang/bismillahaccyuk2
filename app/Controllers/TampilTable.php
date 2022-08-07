@@ -8,6 +8,7 @@ use App\Models\PerhitunganBBModel;
 use App\Models\PerhitunganBOPModel;
 use App\Models\PerhitunganTenakerModel;
 use App\Models\TenakerModel;
+use App\Models\BahanBakuProsesModel;
 
 class TampilTable extends Dashboard
 {
@@ -121,6 +122,19 @@ class TampilTable extends Dashboard
         } else {
 
             return redirect()->to(base_url('kelolaproyek'));
+        }
+    }
+    public function tablebbproses()
+    {
+        if ($this->request->isAJAX()) {
+            $bbdalamproses = new BahanBakuProsesModel();
+            $bb = [
+                'databb' => $bbdalamproses->tampildata(),
+            ];
+            $data = [
+                'databb' => view('dashboard/kelolaproyek/table/tablebbproses', $bb)
+            ];
+            echo json_encode($data);
         }
     }
 }

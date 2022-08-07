@@ -14,8 +14,10 @@
     <link rel="stylesheet" href="<?= base_url('DataTables') ?>/FixedColumns-4.1.0/css/fixedColumns.bootstrap4.css">
     <link rel="stylesheet" href="<?= base_url('DataTables') ?>/Responsive-2.3.0/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="<?= base_url('DataTables') ?>/datatables.min.css">
+    <link rel="stylesheet" href="<?= base_url('DataTables') ?>/DateTime-1.1.2/css/dataTables.dateTime.css">
     <script src="<?= base_url('assetslte') ?>/plugins/jquery/jquery.min.js"></script>
     <script src="<?= base_url('DataTables') ?>/datatables.min.js"></script>
+    <script src="<?= base_url('DataTables/DateTime-1.1.2/js/dataTables.dateTime.min.js'); ?>"></script>
     <script src="<?= base_url('DataTables') ?>/FixedColumns-4.1.0/js/fixedColumns.bootstrap4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script nonce="1a2a044e-6724-4fa0-a605-15124d71b2a4">
@@ -268,14 +270,13 @@
 
     <script src="<?= base_url('assetslte') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="<?= base_url('assetslte') ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
     <script src="<?= base_url('assetslte') ?>/dist/js/adminlte.min.js?v=3.2.0"></script>
     <script src="<?= base_url('js/additional-methods.min.js'); ?>"></script>
     <script src="<?= base_url('js/validasiform.js'); ?>"></script>
     <!-- <script src="</?= base_url('assetslte'); ?>/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script> -->
-    <script src="<?= base_url('assetslte'); ?>/plugins/bs-stepper/js/bs-stepper.min.js"></script>
-    <script src="<?= base_url('assetslte'); ?>/plugins/dropzone/min/dropzone.min.js"></script>
+    <!-- <script src="</?= base_url('assetslte'); ?>/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+    <script src="</?/= base_url('assetslte'); ?>/plugins/dropzone/min/dropzone.min.js"></script> -->
 </body>
 
 </html>

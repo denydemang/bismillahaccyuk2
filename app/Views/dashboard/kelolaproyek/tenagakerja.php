@@ -37,6 +37,7 @@
                         </div>
                         <div class="modal-body">
                             <form class="formtenaker" action="<?= base_url('DashboardKelolaProyek/simpantenaker'); ?>">
+                                <?= csrf_field(); ?>
                                 <div class="form-row mb-3">
                                     <div class="col">
                                         <label for="idtenaker">ID Tenaker</label>

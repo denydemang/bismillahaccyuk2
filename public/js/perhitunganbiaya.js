@@ -72,7 +72,7 @@ const formatRupiah1 = (money) => {
 function tablepbb() {
     //Perhitungan BB
     $.ajax({
-        url: 'http://localhost:8080/TampilTable/tableperhitunganbb',
+        url: base_url+'TampilTable/tableperhitunganbb',
         dataType: "json",
         success: function(response) {
             $('.tampilbahanbaku').html(response.data);
@@ -86,7 +86,7 @@ function tablepbb() {
 function tablepbop() {
     //Perhitungan BOP
     $.ajax({
-        url: 'http://localhost:8080/TampilTable/tableperhitunganbop',
+        url: base_url+'TampilTable/tableperhitunganbop',
         dataType: "json",
         success: function(response) {
             $('.tampilbop').html(response.data);
@@ -100,7 +100,7 @@ function tablepbop() {
 function tableptenaker() {
     //Perhitungan Tenaker
     $.ajax({
-        url: 'http://localhost:8080/TampilTable/tableperhitungantenaker',
+        url: base_url+'TampilTable/tableperhitungantenaker',
         dataType: "json",
         success: function(response) {
             $('.tampiltenaker').html(response.data);
@@ -116,7 +116,7 @@ $(document).ready(function() {
 
     $('.btnajuan').click(function(){
         let idajuan =$('#printajuan').val()
-        window.open('http://localhost:8080/DashboardAdmin/printperhitunganbiaya/'+idajuan, '_blank')
+        window.open(base_url+'DashboardAdmin/printperhitunganbiaya/'+idajuan, '_blank')
         
     })
     if ( ($('#pesanprint').data('pesan'))) {
@@ -133,7 +133,7 @@ $(document).ready(function() {
     $('#totalsemua').change(function(){
         let idajuan = $(this).val();
         $.ajax({
-            url : "http://localhost:8080/DashboardAdmin/tampiltotal/"+idajuan,
+            url : base_url+"DashboardAdmin/tampiltotal/"+idajuan,
             dataType : "json",
             success: function(response) {
                 $('.sumbiaya').val('Rp. '+response+' ,-')
