@@ -24381,7 +24381,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
   background-color: #d2d6de;
   border: 1px solid #d2d6de;
   color: #444;
-  margin: 5px 0 0 50px;
+  margin: 5px 0 0 0px;
   padding: 5px 10px;
   position: relative;
 }
@@ -24410,7 +24410,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 
 .right .direct-chat-text {
   margin-left: 0;
-  margin-right: 50px;
+  margin-right: 0px;
 }
 
 .right .direct-chat-text::after, .right .direct-chat-text::before {

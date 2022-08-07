@@ -10,6 +10,17 @@
             </div>
         </div>
     </section>
+    <div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>CHATTING</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <div class="container">
         <section class="content">
             <div class="col col-lg-6">
@@ -30,157 +41,193 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="direct-chat-messages">
+                        <div id="didpesan" class="direct-chat-messages">
+                        <?php foreach ($massage2 as $msg2) : ?>
+                            <?php if($msg2['id_admin']!=0) { ?>
+                            <?php echo 
+                            '<div class="direct-chat-msg">
+                                <div class="direct-chat-infos clearfix">
+                                    <span class="direct-chat-name float-left">Admin</span>
+                                </div>
+                                <div class="direct-chat-text">'
+                                    .$msg2['pesan'].'
+                                </div>
+                            </div>'
+                            ?>
+                            <?php } ?>
 
-                            <div class="direct-chat-msg">
+                            <?php if($msg2['id_admin']==0) { ?>
+                            <?php echo
+                            '<div class="direct-chat-msg right">
                                 <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-left">Admin</span>
-                                    <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                                    <span class="direct-chat-name float-right">klien</span></div>
+                                <div class="direct-chat-text">'
+                                    .$msg2['pesan'].'                                
                                 </div>
-                                <img class="direct-chat-img" src="<?= base_url('assetslte') ?>/dist/img/user1-128x128.jpg" alt="message user image">
-                                <div class="direct-chat-text">
-                                    Tawaran Sedang Kami Tinjau
-                                </div>
-                            </div>
-                            <div class="direct-chat-msg right">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-right">Klien</span>
-                                    <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                                </div>
-                                <img class="direct-chat-img" src="<?= base_url('assetslte') ?>/dist/img/user3-128x128.jpg" alt="message user image">
-                                <div class="direct-chat-text">
-                                    Oke Kak Saya Tunggu
-                                </div>
-                            </div>
-                            <div class="direct-chat-msg">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-left">Admin</span>
-                                    <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
-                                </div>
-                                <img class="direct-chat-img" src="<?= base_url('assetslte') ?>/dist/img/user1-128x128.jpg" alt="message user image">
-                                <div class="direct-chat-text">
-                                    Mohon Ditunggu Ya
-                                </div>
-                            </div>
-                            <div class="direct-chat-msg right">
-                                <div class="direct-chat-infos clearfix">
-                                    <span class="direct-chat-name float-right">Klien</span>
-                                    <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
-                                </div>
-                                <img class="direct-chat-img" src="<?= base_url('assetslte') ?>/dist/img/user3-128x128.jpg" alt="message user image">
-                                <div class="direct-chat-text">
-                                    Siap Kak
-                                </div>
-                            </div>
+                            </div>'
+                            ?>
+                            <?php } ?>
+                            <?php endforeach; ?>                       
                         </div>
+
                         <div class="direct-chat-contacts">
                             <ul class="contacts-list">
                                 <li>
-                                    <a href="#">
+                                    <?php foreach ($akun as $ak) : ?>
+                                        <?php if($ak['user_level']==2) { ?>
+                                        <a href="<?= base_url('admin/message/'.$ak['user_id']) ?>" data-uid="<?= $ak['user_id'];?>" class="klikklien">
+                                        <!-- <a href="<?= base_url('admin/message/'.$ak['user_id']) ?>"> -->
+                                        <!-- <a href="" data-uid="<?= $ak['user_id'];?>" class="klikklien"> -->
                                         <img class="contacts-list-img" src="<?= base_url('assetslte') ?>/dist/img/user1-128x128.jpg" alt="User Avatar">
                                         <div class="contacts-list-info">
                                             <span class="contacts-list-name">
-                                                Count Dracula
+                                            <?= $ak['user_name']; ?>
                                                 <small class="contacts-list-date float-right">2/28/2015</small>
                                             </span>
                                             <span class="contacts-list-msg">How have you been? I was...</span>
                                         </div>
-
+                                        <?php } ?>
                                     </a>
+                                    <?php endforeach; ?>
                                 </li>
-
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="<?= base_url('assetslte') ?>/dist/img/user7-128x128.jpg" alt="User Avatar">
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Sarah Doe
-                                                <small class="contacts-list-date float-right">2/23/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">I will be waiting for...</span>
-                                        </div>
-
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="<?= base_url('assetslte') ?>/dist/img/user3-128x128.jpg" alt="User Avatar">
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Nadia Jolie
-                                                <small class="contacts-list-date float-right">2/20/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">I'll call you back at...</span>
-                                        </div>
-
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="<?= base_url('assetslte') ?>/dist/img/user5-128x128.jpg" alt="User Avatar">
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Nora S. Vans
-                                                <small class="contacts-list-date float-right">2/10/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">Where is your new...</span>
-                                        </div>
-
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="<?= base_url('assetslte') ?>/dist/img/user6-128x128.jpg" alt="User Avatar">
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                John K.
-                                                <small class="contacts-list-date float-right">1/27/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">Can I take a look at...</span>
-                                        </div>
-
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="#">
-                                        <img class="contacts-list-img" src="<?= base_url('assetslte') ?>/dist/img/user8-128x128.jpg" alt="User Avatar">
-                                        <div class="contacts-list-info">
-                                            <span class="contacts-list-name">
-                                                Kenneth M.
-                                                <small class="contacts-list-date float-right">1/4/2015</small>
-                                            </span>
-                                            <span class="contacts-list-msg">Never mind I found...</span>
-                                        </div>
-
-                                    </a>
-                                </li>
-
                             </ul>
-
                         </div>
-
                     </div>
 
                     <div class="card-footer">
-                        <form action="#" method="post">
+                        <?php // foreach ($klik as $kl) : ?>
+                        <!-- <form action="<?//= base_url('/DashboardAdmin/store/'); ?>" method="post"> -->
+                        <!-- <form action="<?//= base_url('/DashboardAdmin/message/'.$kl->id_client); ?>" method="post"> -->
+                        <?php //endforeach; ?>    
                             <div class="input-group">
-                                <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                                <?php foreach ($klik as $kl) : ?>
+                                <input type="hidden" id="id_admin" name="id_admin" value="<?php echo $kl->id_admin;?>" class="form-control">
+                                <input type="hidden" id="id_client" name="id_client" value="<?php echo $kl->id_client;?>" class="form-control">
+                                <input type="hidden" id="nama_user" name="nama_user" value="<?= $username;?>" class="form-control">
+                                <?php endforeach; ?>
+                                <input type="text" id="pesan" name="pesan" placeholder="Type Message ..." class="form-control">
                                 <span class="input-group-append">
-                                    <button type="button" class="btn btn-primary">Send</button>
+                                    <button type="submit" class="store btn btn-primary">Send</button>
+                                    <!-- <button type="submit" class="btn btn-primary">Send</button> -->
+                                
                                 </span>
                             </div>
                         </form>
                     </div>
-
+                    
                 </div>
             </div>
-
         </section>
     </div>
-
 </div>
+</div>
+    
+<script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+<script src="/assetslte/plugins/jquery/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    Pusher.logToConsole = true;
+
+        // var pusher = new Pusher('e0bd82d32cf9d6ef3c0f', {
+            var pusher = new Pusher('40ffd99f64d712cc1ceb', {
+            cluster: 'ap1'
+            });
+
+        // var idus=$(this).data('id_client');
+        var idus=$('#id_client').val()
+        console.log(idus);
+        var channel = pusher.subscribe(idus);
+
+        channel.bind('my-event', function(data) {
+            // alert(JSON.stringify(data));
+            console.log('ber');
+            addData(data);
+            hapuschat();
+        });
+            function addData(data){
+                console.log('adddata'+data[0].id_admin);
+                var str='';
+                for(var z in data){
+                    str +=
+                    (data[z].id_admin != '0') ?
+                    // '<div class="direct-chat-msg"><div class="direct-chat-infos clearfix"><span class="direct-chat-name float-left">Admin</span><span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span></div><img class="direct-chat-img" src="<?php base_url('assetslte/dist/img/user1-128x128.jpg')?>" alt="message user image"><div class="direct-chat-text">'+data[z].pesan+'</div></div>' :
+                    // '<div class="direct-chat-msg right"><div class="direct-chat-infos clearfix"><span class="direct-chat-name float-right">Klien</span><span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span></div><img class="direct-chat-img" src="<?php base_url('assetslte/dist/img/user3-128x128.jpg')?>" alt="message user image"><div id="pesan" name="pesan" class="direct-chat-text">'+data[z].pesan+'</div></div>';
+                    '<div class="direct-chat-msg">'+
+                        '<div class="direct-chat-infos clearfix">'+
+                            '<span class="direct-chat-name float-left">Admin</span>'+
+                            '<span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>'+
+                        '</div>'+
+                        // '<img class="direct-chat-img" src='+windows.location('assetslte/dist/img/user1-128x128.jpg')+' alt="message user image">'+
+                        '<div class="direct-chat-text">'
+                        +data[z].pesan+
+                        '</div>'+
+                    '</div>' :
+                    '<div class="direct-chat-msg right">'+
+                        '<div class="direct-chat-infos clearfix">'+
+                            '<span class="direct-chat-name float-right">Klien</span>'+
+                            '<span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>'+
+                        '</div>'+
+                        // '<img class="direct-chat-img" src='+windows.location('assetslte/dist/img/user3-128x128.jpg')+' alt="message user image">'+
+                        '<div class="direct-chat-text">'
+                            +data[z].pesan+                                
+                        '</div>'+
+                    '</div>';
+                }
+                // window.location.href;
+                // console.log('alamt'+window.location.href);
+                $('#didpesan').html(str);
+                // $('#didpesan').html(response);
+                }
+            function hapuschat(){
+                document.getElementById('pesan').value='';
+                }
+//     console.log('halo');
+    // Pusher.logToConsole = true;
+
+    // var pusher = new Pusher('e0bd82d32cf9d6ef3c0f', {
+    //     cluster: 'ap1'
+    //     });
+
+    // var idus=$(this).data('id_client');
+    // console.log(idus);
+    // var channel = pusher.subscribe(idus);
+
+    // channel.bind('my-event', function(data) {
+    //     alert(JSON.stringify(data));
+    //     addData(data);
+    //     hapuschat()
+    //     });
+    //     function addData(data){
+    //         var str='';
+    //         for(var z in data){
+    //             str +=
+    //             (data[z].id_admin === '0') ?
+    //             '<div class="direct-chat-msg"><div class="direct-chat-infos clearfix"><span class="direct-chat-name float-left">Admin</span><span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span></div><img class="direct-chat-img" src="<?= base_url('assetslte') ?>/dist/img/user1-128x128.jpg" alt="message user image"><div class="direct-chat-text">'+$data[z].pesan+'</div></div>':
+    //             '<div class="direct-chat-msg right"><div class="direct-chat-infos clearfix"><span class="direct-chat-name float-right">Klien</span><span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span></div><img class="direct-chat-img" src="<?= base_url('assetslte') ?>/dist/img/user3-128x128.jpg" alt="message user image"><div id="pesan" name="pesan" class="direct-chat-text">'+$data[z].pesan+'</div></div>';
+    //         }
+    //         $('#didpesan').html(str);
+    //     }
+    //     function hapuschat(){
+    //         document.getElementById('pesan').value='';
+    //     }
+})
+</script>
+<!-- <script>
+
+//     function store(){
+//         var value = {
+//             id_client: $('#id_client').val(),
+//             id_admin: $('#id_admin').val(),
+//             pesan: $('#pesan').val()	
+//         }
+//         $.ajax({
+//             // url: '<?//= site_url();?>/DashboardAdmin/store',
+//             url: 'http://localhost:8080/DashboardAdmin/store',
+//             type: 'POST',
+//             data: value,
+//             dataType: 'JSON'
+//         });
+// } -->
+<!-- </script> -->
 <?= $this->endSection(); ?>

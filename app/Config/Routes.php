@@ -47,6 +47,7 @@ $routes->get('/klien', 'DashboardKlien::index');
 $routes->get('/klien/(:any)', 'DashboardKlien::$1');
 $routes->get('/detailproyek', 'DashboardDetailProyek::index');
 $routes->get('/detailproyek/(:any)', 'DashboardDetailProyek::$1');
+// $routes->get('Pusher' , 'Pusher\Pusher::class');
 
 
 

@@ -59,6 +59,7 @@ class Login extends BaseController
                 if (password_verify($pass, $passwordUser)) {
                     $idlevel = $cekUserLogin['user_level'];
                     $simpan_session = [
+                        'user_id' => $cekUserLogin['user_id'],
                         'username' => $cekUserLogin['user_name'],
                         'nama'  => $cekUserLogin['nama'],
                         'alamat' => $cekUserLogin['alamat'],
