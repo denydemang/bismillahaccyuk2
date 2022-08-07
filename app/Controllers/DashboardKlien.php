@@ -6,10 +6,15 @@ use App\Models\massagemodel;
 require VENDORPATH . '/autoload.php';
 use Pusher;
 
+use App\Models\AjuanProyekModel;
+use App\Models\ProgressProyekModel;
+
 class DashboardKLien extends Dashboard
 {
+
     public function __construct()
     {
+<<<<<<< HEAD
         $this->db = \Config\Database::connect();
 
         $this->user_id = session()->get('user_id');
@@ -17,6 +22,11 @@ class DashboardKLien extends Dashboard
         $this->nama = session()->get('nama');
         $this->alamat = session()->get('alamat');
         $this->notelp = session()->get('notelp');
+=======
+        parent::__construct();
+
+        $this->datalogin['judul'] = 'Dashboard Klien';
+>>>>>>> 11c201eee95eba0f92577075e2d8ca9748faf997
     }
     public function index()
     {
@@ -24,22 +34,43 @@ class DashboardKLien extends Dashboard
             unset($_SESSION['aktif']);
         }
         $_SESSION['aktif'] = 'home';
-        $data = [
-            'judul' => 'Dasboard Klien',
-            'nama' => $this->nama,
-            'alamat' => $this->alamat,
-            'notelp' => $this->notelp,
-            'username' => $this->username
-        ];
-        return view('dashboard/klien/welcome', $data);
+        return view('dashboard/klien/welcome', $this->datalogin);
     }
+    public function ajuanproyek()
+    {
 
+<<<<<<< HEAD
     public function message($id=0)
+=======
+        if (isset($_SESSION['aktif'])) {
+            unset($_SESSION['aktif']);
+        }
+        $_SESSION['aktif'] = 'ajuanproyek';
+        return view('dashboard/klien/pengajuanproyek', $this->datalogin);
+    }
+    public function progressproyek()
+    {
+        if (isset($_SESSION['aktif'])) {
+            unset($_SESSION['aktif']);
+        }
+        $_SESSION['aktif'] = 'progressproyek';
+        $progressproyek = new ProgressProyekModel();
+        $user_id = $this->user_id;
+        $dataprogress = $progressproyek->where('user_id', $user_id)->find();
+        $this->datalogin += [
+            'dataprogress' => $dataprogress,
+        ];
+
+        return view('dashboard/klien/progressproyek', $this->datalogin);
+    }
+    public function message()
+>>>>>>> 11c201eee95eba0f92577075e2d8ca9748faf997
     {
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         }
         $_SESSION['aktif'] = 'message';
+<<<<<<< HEAD
         $modelmassage=new massagemodel();
         // $tampung=$modelmassage->findAll();
         $tampung=$modelmassage->where('id_client', $this->user_id)->findAll();
@@ -63,6 +94,43 @@ class DashboardKLien extends Dashboard
             'klik' => $query->getResult() //NULL 
         ];
         return view('dashboard/klien/message', $data);
+=======
+
+        return view('dashboard/klien/message', $this->datalogin);
+    }
+
+    //FUnction Query
+    public function simpanajuanproyek()
+    {
+        $user_id = $this->request->getVar('user_id');
+        $nama = $this->request->getVar('nama');
+        $email = $this->request->getVar('email');
+        $alamat = $this->request->getVar('alamat');
+        $notelp = $this->request->getVar('notelp');
+        $namaproyek = $this->request->getVar('namaproyek');
+        $jenisproyek = $this->request->getVar('jenisproyek');
+        $lokasiproyek = $this->request->getVar('lokasiproyek');
+        $catatan = $this->request->getVar('catatan');
+        $idajuan = $this->kodeotomatis('pengajuan_proyek', 'idajuan', 'AJP001');
+        $AjuanProyekModel = new AjuanProyekModel();
+        $AjuanProyekModel->insert([
+            'idajuan' => $idajuan,
+            'user_id' => $user_id,
+            'nama' => $nama,
+            'email' => $email,
+            'alamat' => $alamat,
+            'notelp' => $notelp,
+            'namaproyek' => $namaproyek,
+            'jenisproyek' => $jenisproyek,
+            'lokasiproyek' => $lokasiproyek,
+            'catatanproyek' => $catatan,
+            'status_id' => '1'
+
+
+        ]);
+        session()->setFlashdata('pesan', 'berhasildiajukan');
+        return redirect()->to(base_url('/klien'));
+>>>>>>> 11c201eee95eba0f92577075e2d8ca9748faf997
     }
 
     public function kirimpesan($id=NULL)

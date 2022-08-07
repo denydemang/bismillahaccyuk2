@@ -60,7 +60,7 @@
                         <button type="submit" class="btn btn-primary"><i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk</button>
                         <a href="<?= base_url(); ?>" type="submit" class="btn btn-danger"><i class="fa-solid fa-house"></i>
                             Kembali</a>
-                        <?php if (!session()->getFlashdata()) : ?>
+                        <?php if (!session()->getFlashdata('pesan')) : ?>
                             <div class="mt-2">
                                 <small>Belum Punya Akun ? <a href="<?= base_url(); ?>/registrasi">Registrasi</a></small>
                             </div>

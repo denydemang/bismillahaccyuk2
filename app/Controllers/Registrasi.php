@@ -9,7 +9,6 @@ class Registrasi extends BaseController
     public function index()
     {
 
-        session()->start();
         $data = [
             'judul' => 'Halaman Registrasi',
             'validation' => \Config\Services::validation(),
@@ -47,9 +46,10 @@ class Registrasi extends BaseController
             $password = $this->request->getVar('password');
             $passwordacak = password_hash($password, PASSWORD_BCRYPT);
 
+            $user_id = $this->kodeotomatis('akun', 'user_id', 'USR001');
 
-            $modelLogin->save([
-                'user_id' => '',
+            $modelLogin->insert([
+                'user_id' => $user_id,
                 'email' => $email,
                 'user_name' => $username,
                 'nama' =>  $nama,
@@ -58,6 +58,23 @@ class Registrasi extends BaseController
                 'password' => $passwordacak,
                 'user_level' => 2
             ]);
+            //jangan menggunan method save jika field primary key bukan auto increment 
+            //mending gunakan insert nanti data tidak akan masuk ke database
+            // $modelLogin->save([
+            //     'user_id' => '',
+            //     'email' => $email,
+            //     'user_name' => $username,
+            //     'nama' =>  $nama,
+            //     'notelp' => $telpon,
+            //     'alamat' => $alamat,
+            //     'password' => $passwordacak,
+            //     'user_level' => 2
+            // ]);
+
+            //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
+            //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
+            // $builder = $modelLogin->builder();
+            // $builder->db()->affectedRows();
             session()->setFlashdata('pesan', 'Akun Telah Berhasil Dibuat! Silakan Login');
             return redirect()->to(base_url() . '/login');
         }
