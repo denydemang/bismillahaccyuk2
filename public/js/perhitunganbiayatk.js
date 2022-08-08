@@ -70,6 +70,13 @@ $('.perhitungantenaker').submit(function(e){
                         $('.gaji').removeClass('is-invalid');
                         $('.gaji').html('');
                     }
+                    if(response.error.errorhari){
+                        $('.hari').addClass('is-invalid');
+                        $('.hariinvalid').html(response.error.errorhari);
+                    } else {
+                        $('.hari').removeClass('is-invalid');
+                        $('.hari').html('');
+                    }
                     
                } else {
                 if (response.affected >= 1){
@@ -86,6 +93,7 @@ $('.perhitungantenaker').submit(function(e){
                         $('.jenispekerjaan').removeClass('is-invalid');
                         $('.idajuantk').removeClass('is-invalid');
                         $('.gaji').removeClass('is-invalid');
+                        $('.hari').removeClass('is-invalid');
                         $('.totalpekerja').removeClass('is-invalid');
                         $(".perhitungantenaker").trigger('reset'); //jquery
                 } else {
@@ -104,6 +112,7 @@ $('.perhitungantenaker').submit(function(e){
                         $('.jenispekerjaan').removeClass('is-invalid');
                         $('.idajuantk').removeClass('is-invalid');
                         $('.gaji').removeClass('is-invalid');
+                        $('.hari').removeClass('is-invalid');
                         $('.totalpekerja').removeClass('is-invalid');
                         $(".perhitungantenaker").trigger('reset'); //jquery
                 }
@@ -159,6 +168,13 @@ $('.perhitungantenaker').submit(function(e){
                         $('.totalpekerja').removeClass('is-invalid');
                         $('.totalpekerja').html('');
                     }
+                    if(response.error.errorhari){
+                        $('.hari').addClass('is-invalid');
+                        $('.hariinvalid').html(response.error.errorhari);
+                    } else {
+                        $('.hari').removeClass('is-invalid');
+                        $('.hari').html('');
+                    }
                     
                    
                } else {
@@ -177,6 +193,7 @@ $('.perhitungantenaker').submit(function(e){
                         $('.idajuantk').removeClass('is-invalid');
                         $('.jenispekerjaan').removeClass('is-invalid');
                         $('.gaji').removeClass('is-invalid');
+                        $('.hari').removeClass('is-invalid');
                         $('.totalpekerja').removeClass('is-invalid');
                         $(".perhitungantenaker").trigger('reset'); //jquery
                 } else {
@@ -194,6 +211,7 @@ $('.perhitungantenaker').submit(function(e){
                         $('.idajuantk').removeClass('is-invalid');
                         $('.jenispekerjaan').removeClass('is-invalid');
                         $('.gaji').removeClass('is-invalid');
+                        $('.hari').removeClass('is-invalid');
                         $('.totalpekerja').removeClass('is-invalid');
                         $(".perhitungantenaker").trigger('reset'); //jquery
                        
@@ -222,10 +240,21 @@ $('.gaji').keyup(function(){
     $('.totalgaji').val(formatRupiah1(hasil));
 })
 $('.totalpekerja').keyup(function(){
+    let hari  = $('.hari').val();
+    hari = parseInt(hari.replace(/[^0-9/]/g,''))
     let gaji = $('.gaji').val();
     gaji = parseInt(gaji.replace(/[^0-9/]/g,''))
     let totalpekerja = parseInt($(this).val())
-    let hasil = gaji * totalpekerja;
+    let hasil = gaji * totalpekerja * hari;
+    $('.totalgaji').val(formatRupiah1(hasil));
+})
+$('.hari').keyup(function(){
+    let hari = $(this).val();
+    hari =  parseInt(hari.replace(/[^0-9/]/g,''))
+    let gaji = $('.gaji').val();
+    gaji = parseInt(gaji.replace(/[^0-9/]/g,''))
+    let totalpekerja = parseInt($(this).val())
+    let hasil = gaji * totalpekerja * hari;
     $('.totalgaji').val(formatRupiah1(hasil));
 })
 $(document).on('click', '.edittk', function(){

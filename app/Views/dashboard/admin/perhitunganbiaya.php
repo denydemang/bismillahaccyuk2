@@ -184,6 +184,8 @@
                                     <div class="col">
                                         <label for="hari">Hari</label>
                                         <input type="text" class="form-control hari" name="hari">
+                                        <div class="hariinvalid invalid-feedback">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-row mb-3">

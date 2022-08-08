@@ -9,6 +9,10 @@ use App\Models\PerhitunganBOPModel;
 use App\Models\PerhitunganTenakerModel;
 use App\Models\TenakerModel;
 use App\Models\BahanBakuProsesModel;
+use App\Models\PerhitunganBBRevisiModel;
+use App\Models\PerhitunganBOPRevisiModel;
+use App\Models\PerhitunganTenakerRevisiModel;
+
 
 class TampilTable extends Dashboard
 {
@@ -135,6 +139,65 @@ class TampilTable extends Dashboard
                 'databb' => view('dashboard/kelolaproyek/table/tablebbproses', $bb)
             ];
             echo json_encode($data);
+        }
+    }
+    public function tableperhitunganbbrevisi()
+    {
+        if ($this->request->isAJAX()) {
+            $hitungbbrevisi = new PerhitunganBBRevisiModel();
+            $builder = $hitungbbrevisi->builder();
+            $join = $builder->select('perhitunganbbrevisi.* ,pengajuan_proyek.idajuan,pengajuan_proyek.user_id, pengajuan_proyek.namaproyek')
+                ->join('perhitunganbahanbaku', 'perhitunganbbrevisi.id_pbb=perhitunganbahanbaku.id_pbb')
+                ->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan')->get()->getResultArray();
+
+            $getData = $join;
+            $data = [
+                'bahanbaku' => $getData,
+            ];
+            $kirimAJax = [
+                'data' => view('dashboard/admin/table/tablepbbrevisi', $data),
+            ];
+            echo json_encode($kirimAJax);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiayarevisi'));
+        }
+    }
+    public function tableperhitunganboprevisi()
+    {
+        if ($this->request->isAJAX()) {
+            $hitungboprevisi = new PerhitunganBOPRevisiModel();
+            $builder = $hitungboprevisi->builder();
+            $join = $builder->select('perhitunganboprevisi.* ,pengajuan_proyek.idajuan,pengajuan_proyek.user_id, pengajuan_proyek.namaproyek')
+                ->join('perhitunganbop', 'perhitunganboprevisi.id_pbop=perhitunganbop.id_pbop')
+                ->join('pengajuan_proyek', 'perhitunganbop.idajuan=pengajuan_proyek.idajuan')->get()->getResultArray();
+            $data = [
+                'bop' => $join
+            ];
+            $kirimAJax = [
+                'data' => view('dashboard/admin/table/tableboprevisi', $data),
+            ];
+            echo json_encode($kirimAJax);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiayarevisi'));
+        }
+    }
+    public function tableperhitungantenakerrevisi()
+    {
+        if ($this->request->isAJAX()) {
+            $hitungtkrevisi = new PerhitunganTenakerRevisiModel();
+            $builder = $hitungtkrevisi->builder();
+            $join = $builder->select('perhitungantenakerrevisi.* ,pengajuan_proyek.idajuan,pengajuan_proyek.user_id, pengajuan_proyek.namaproyek')
+                ->join('perhitungantenaker', 'perhitungantenakerrevisi.id_pbtenaker=perhitungantenaker.id_pbtenaker')
+                ->join('pengajuan_proyek', 'perhitungantenaker.idajuan=pengajuan_proyek.idajuan')->get()->getResultArray();
+            $data = [
+                'tenaker' => $join
+            ];
+            $kirimAJax = [
+                'data' => view('dashboard/admin/table/tablepbtenakerrevisi', $data),
+            ];
+            echo json_encode($kirimAJax);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiayarevisi'));
         }
     }
 }

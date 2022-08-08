@@ -154,16 +154,21 @@ class DashboardAdmin extends Dashboard
         return view('dashboard/admin/message', $this->datalogin);
     }
     public function perhitunganbiayarevisi()
-
     {
+        $perhitunganbb = new PerhitunganBBModel();
+        $perhitungantenaker = new PerhitunganTenakerModel();
+        $perhitunganbop = new PerhitunganBOPModel();
+        $getidpbb = $perhitunganbb->select('id_pbb')->findAll();
+        $getidpbtenaker = $perhitungantenaker->select('id_pbtenaker')->findAll();
+        $getidpbop =  $perhitunganbop->select('id_pbop')->findAll();
 
-        $modelajuan = new AjuanProyekModel();
-        $getData = $modelajuan->where('status_id', '2')->findAll();
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
         $this->datalogin += [
-            'dataajuan' => $getData,
+            'getidpbb' => $getidpbb,
+            'getidpbtenaker' => $getidpbtenaker,
+            'getidpbop' => $getidpbop,
         ];
         $_SESSION['aktif'] = 'perhitunganbiayarevisi';
         return view('dashboard/admin/perhitunganrevisi', $this->datalogin);
@@ -700,6 +705,13 @@ class DashboardAdmin extends Dashboard
                         'required' => '{field} Tidak Boleh Kosong'
                     ],
                 ],
+                'hari' => [
+                    'label' => 'Hari',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
             ]);
             if (!$valid) {
                 $msg = [
@@ -708,6 +720,7 @@ class DashboardAdmin extends Dashboard
                         'errorjenispekerjaan' => $validation->getError('jenispekerjaan'),
                         'errortotalpekerja' => $validation->getError('totalpekerja'),
                         'errorgaji' => $validation->getError('gaji'),
+                        'errorhari' => $validation->getError('hari'),
                     ],
                 ];
                 echo json_encode($msg);
@@ -865,7 +878,7 @@ class DashboardAdmin extends Dashboard
                 $totbiaya = $this->request->getVar('totalbiaya');
                 $totbiaya = (int)filter_var($totbiaya, FILTER_SANITIZE_NUMBER_INT);
                 $perhitunganbopmodel = new PerhitunganBOPModel();
-                $id_pbop = $this->kodeotomatis('perhitungantenaker', 'id_pbtenaker', 'PBO001');
+                $id_pbop = $this->kodeotomatis('perhitunganbop', 'id_pbop', 'PBO001');
                 $simpandata = [
                     'id_pbop' => $id_pbop,
                     'idajuan' => $this->request->getVar('idajuanbop'),
