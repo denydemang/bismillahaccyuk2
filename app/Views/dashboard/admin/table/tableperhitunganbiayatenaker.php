@@ -3,6 +3,7 @@
         <thead>
             <tr>
                 <th scope="col">No</th>
+                <th scope="col">ID Biaya TK</th>
                 <th scope="col">Id Ajuan</th>
                 <th scope="col">User Id</th>
                 <th scope="col">Nama Proyek</th>
@@ -19,6 +20,7 @@
             <?php foreach ($tenaker as $row) : ?>
                 <tr>
                     <th scope="row"><?= $nomer++; ?></th>
+                    <td><?= $row['id_pbtenaker']; ?></td>
                     <td><?= $row['idajuan']; ?></td>
                     <td><?= $row['user_id']; ?></td>
                     <td><?= $row['namaproyek']; ?></td>
@@ -27,7 +29,7 @@
                     <td><?= $row['hari']; ?></td>
                     <td><?= $row['total_pekerja']; ?></td>
                     <td><?= number_format($row['total_gaji'], 0, ",", "."); ?></td>
-                    <td><button data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbtenaker']; ?>" data-idajuan="<?= $row['idajuan']; ?>" class="btn btn-sm btn-danger edittk">Edit</button><button data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbtenaker']; ?>" data-idajuan="<?= $row['idajuan']; ?>" data-jenispekerjaan="<?= $row['jenispekerjaan']; ?>" class="btn btn-sm btn-warning hapustk">Hapus</button></td>
+                    <td><button data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbtenaker']; ?>" data-idajuan="<?= $row['idajuan']; ?>" data-jenispekerjaan="<?= $row['jenispekerjaan']; ?>" class="btn btn-sm btn-warning hapustk">Hapus</button></td>
                 </tr>
             <?php endforeach; ?>
 

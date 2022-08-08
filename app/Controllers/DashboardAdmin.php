@@ -153,8 +153,22 @@ class DashboardAdmin extends Dashboard
         $_SESSION['aktif'] = 'message';
         return view('dashboard/admin/message', $this->datalogin);
     }
-    public function perhitunganbiaya()
+    public function perhitunganbiayarevisi()
 
+    {
+
+        $modelajuan = new AjuanProyekModel();
+        $getData = $modelajuan->where('status_id', '2')->findAll();
+        if (isset($_SESSION['aktif'])) {
+            unset($_SESSION['aktif']);
+        };
+        $this->datalogin += [
+            'dataajuan' => $getData,
+        ];
+        $_SESSION['aktif'] = 'perhitunganbiayarevisi';
+        return view('dashboard/admin/perhitunganrevisi', $this->datalogin);
+    }
+    public function perhitunganbiaya()
     {
 
         $modelajuan = new AjuanProyekModel();
@@ -168,6 +182,7 @@ class DashboardAdmin extends Dashboard
         $_SESSION['aktif'] = 'perhitunganbiaya';
         return view('dashboard/admin/perhitunganbiaya', $this->datalogin);
     }
+
 
     ////Method untuk menjalankan query
 
@@ -408,11 +423,11 @@ class DashboardAdmin extends Dashboard
                 $harga = (int)(filter_var($harga, FILTER_SANITIZE_NUMBER_INT));
                 $totalharga = $this->request->getVar('totalharga');
                 $totalharga = (int)(filter_var($totalharga, FILTER_SANITIZE_NUMBER_INT));
-
+                $idpbb = $this->kodeotomatis('perhitunganbahanbaku', 'id_pbb', 'PBB001');
 
                 $perhitunganbbmodel = new PerhitunganBBModel();
                 $simpandata = [
-                    'id_pbb' => '',
+                    'id_pbb' => $idpbb,
                     'idajuan' => $this->request->getVar('idajuanbb'),
                     'namabahan' => $this->request->getVar('namabahan'),
                     'ukuran' => $this->request->getVar('ukuran'),
@@ -702,8 +717,9 @@ class DashboardAdmin extends Dashboard
                 $totalgaji = $this->request->getVar('totalgaji');
                 $totalgaji = (int)filter_var($totalgaji, FILTER_SANITIZE_NUMBER_INT);
                 $perhitungantenakermodel = new PerhitunganTenakerModel();
+                $id_pbtenaker = $this->kodeotomatis('perhitungantenaker', 'id_pbtenaker', 'PBT001');
                 $simpandata = [
-                    'id_pbtenaker' => '',
+                    'id_pbtenaker' => $id_pbtenaker,
                     'idajuan' => $this->request->getVar('idajuantk'),
                     'jenispekerjaan' => $this->request->getVar('jenispekerjaan'),
                     'gaji' => $gaji,
@@ -849,8 +865,9 @@ class DashboardAdmin extends Dashboard
                 $totbiaya = $this->request->getVar('totalbiaya');
                 $totbiaya = (int)filter_var($totbiaya, FILTER_SANITIZE_NUMBER_INT);
                 $perhitunganbopmodel = new PerhitunganBOPModel();
+                $id_pbop = $this->kodeotomatis('perhitungantenaker', 'id_pbtenaker', 'PBO001');
                 $simpandata = [
-                    'id_pbop' => '',
+                    'id_pbop' => $id_pbop,
                     'idajuan' => $this->request->getVar('idajuanbop'),
                     'namatrans' => $this->request->getVar('namatransaksi'),
                     'tot_biaya' => $totbiaya,

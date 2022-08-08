@@ -200,6 +200,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="<?= base_url(); ?>/admin/perhitunganbiayarevisi" class=" nav-link <?= ($_SESSION['aktif'] == 'perhitunganbiayarevisi') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-calculator mr-3"></i>
+                                <p>
+                                    P. Biaya Revisi
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?= base_url(); ?>/admin/ajuanproyek" class="nav-link <?= ($_SESSION['aktif'] == 'ajuan') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-hand-holding-usd mr-3"></i>
                                 <p>

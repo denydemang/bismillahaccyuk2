@@ -3,6 +3,7 @@
         <thead>
             <tr>
                 <th scope="col">No</th>
+                <th scope="col">ID Biaya BB</th>
                 <th scope="col">Id Ajuan</th>
                 <th scope="col">User Id</th>
                 <th scope="col-2">Nama Bahan</th>
@@ -23,6 +24,7 @@
             <?php foreach ($bahanbaku as $row) : ?>
                 <tr>
                     <th scope="row"><?= $nomor++; ?></th>
+                    <td><?= $row['id_pbb']; ?></td>
                     <td><?= $row['idajuan']; ?></td>
                     <td><?= $row['user_id']; ?></td>
                     <td><?= $row['namabahan']; ?></td>
@@ -35,7 +37,7 @@
                     <td><?= number_format($row['harga'], 0, ",", "."); ?></td>
                     <td><?= $row['jumlah_beli']; ?></td>
                     <td><?= number_format($row['total_harga'], 0, ",", "."); ?></td>
-                    <td><a data-id="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-danger editbb">Edit</a><button data-idajuan="<?= $row['idajuan']; ?>" data-namabahan="<?= $row['namabahan']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-warning hapusbb">Hapus</button></td>
+                    <td><button data-idajuan="<?= $row['idajuan']; ?>" data-namabahan="<?= $row['namabahan']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-warning hapusbb">Hapus</button></td>
                 </tr>
             <?php endforeach; ?>
 
