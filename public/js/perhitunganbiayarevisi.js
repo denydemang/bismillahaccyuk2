@@ -97,6 +97,16 @@ $(document).ready(function(){
     tablepbb()
     tablepbop()
     tableptenaker()
+    $('.btncancel1').click(function(){
+        bersihbb();
+    })
+    $('.btncancel2').click(function(){
+        bersihtk()
+        
+    })
+    $('.btncancel3').click(function(){
+        bersihbop()
+    })
     $('.id_pbb').change(function(){
         let id = $(this).val();
         $.ajax({
@@ -105,19 +115,27 @@ $(document).ready(function(){
             data : {id:id},
             dataType : "json",
             success: function(response) {
-                console.log(response);
+            
                 $('.idajuanbb').val(response[0]['idajuan'])
                 $('.user_idbb').val(response[0]['user_id'])
                 $('.namaproyekbb').val(response[0]['namaproyek'])
                 $('.namabahan').val(response[0]['namabahan'])
                 $('.ukuran').val(response[0]['ukuran'])
+                $('.ukuran').data('ukuran', response[0]['ukuran'])
                 $('.tebal').val(response[0]['ketebalan'])
+                $('.tebal').data('tebal',response[0]['ketebalan'])
                 $('.jenis').val(response[0]['jenis'])
+                $('.jenis').data('jenis',response[0]['jenis'])
                 $('.berat').val(response[0]['berat'])
+                $('.berat').data('berat',response[0]['berat'])
                 $('.kualitas').val(response[0]['kualitas'])
+                $('.kualitas').data('kualitas', response[0]['kualitas'])
                 $('.panjang').val(response[0]['panjang'])
+                $('.panjang').data('panjang', response[0]['panjang'])
                 $('.harga').val(formatRupiah1(response[0]['harga']))
+                $('.harga').data('harga',parseInt(response[0]['harga']))
                 $('.jumlahbeli').val(response[0]['jumlah_beli'])
+                $('.jumlahbeli').data('jumlahbeli',parseInt(response[0]['jumlah_beli']))
                 $('.totalharga').val(formatRupiah1(response[0]['total_harga']))
                 
             },
@@ -141,9 +159,14 @@ $(document).ready(function(){
                 $('.user_idtk').val(response[0]['user_id'])
                 $('.namaproyektk').val(response[0]['namaproyek'])
                 $('.jenispekerjaan').val(response[0]['jenispekerjaan'])
+                $('.jenispekerjaan').data('jenispekerjaan',response[0]['jenispekerjaan'])
                 $('.gaji').val(formatRupiah1(parseInt(response[0]['gaji'])))
+                $('.gaji').data('gaji',parseInt(response[0]['gaji']))
+                $('.gaji').data(formatRupiah1(parseInt(response[0]['gaji'])))
                 $('.hari').val(response[0]['hari'])
+                $('.hari').data('hari', response[0]['hari'])
                 $('.totalpekerja').val(response[0]['total_pekerja'])
+                $('.totalpekerja').data('totalpekerja',response[0]['total_pekerja'])
                 $('.totalgaji').val(formatRupiah1(parseInt(response[0]['total_gaji'])));
                 
             },
@@ -168,6 +191,7 @@ $(document).ready(function(){
                 $('.namaproyekbop').val(response[0]['namaproyek'])
                 $('.namatransaksi').val(response[0]['namatrans'])
                 $('.totalbiaya').val(formatRupiah1(parseInt(response[0]['tot_biaya'])))
+                $('.totalbiaya').data('totalbiaya',response[0]['tot_biaya'])
                
                 
             },

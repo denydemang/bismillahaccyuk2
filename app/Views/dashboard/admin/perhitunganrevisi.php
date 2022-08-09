@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-body">
                         <div class="container-fluid mb-3">
-                            <form action="<?= base_url(); ?>/DashboardAdmin/simpanrevisibb" class="oerhitunganbbrevisi">
+                            <form action="<?= base_url(); ?>/DashboardAdmin/simpanrevisibb" class="perhitunganbbrevisi">
                                 <?= csrf_field(); ?>
                                 <div class="form-row form-group mb-3">
                                     <div class="col">
@@ -108,7 +108,7 @@
                                     </div>
                                 </div>
                                 <button type="submit" id="btnsimpan" class="btn btn-primary btnsimpanbb">Revisi</button>
-                                <button class="btn btn-danger btncancel1">Cancel</button>
+                                <button type="button" class="btn btn-danger btncancel1">Cancel</button>
                             </form>
                         </div>
                         <div class="tampilbahanbakurevisi">
@@ -159,9 +159,7 @@
                                     </div>
                                     <div class="col">
                                         <label for=jenispekerjaan">Jenis Pekerjaan</label>
-                                        <input type="text" class="form-control jenispekerjaan" name="jenispekerjaan">
-                                        <div class="jenispekerjaaninvalid invalid-feedback">
-                                        </div>
+                                        <input type="text" readonly class="form-control jenispekerjaan" name="jenispekerjaan">
                                     </div>
                                     <div class="col">
                                         <label for="gaji">Gaji</label>
@@ -174,6 +172,8 @@
                                     <div class="col">
                                         <label for="hari">Hari</label>
                                         <input type="text" class="form-control hari" name="hari">
+                                        <div class="hariinvalid invalid-feedback">
+                                        </div>
                                     </div>
                                     <div class="col">
                                         <label for="totalpekerja">Total Pekerja</label>
@@ -187,7 +187,7 @@
                                     </div>
                                 </div>
                                 <button type="submit" id="btnsimpantk" class="btn btn-secondary btnsimpantk">Revisi</button>
-                                <button class="btn btn-danger btncancel2">Cancel</button>
+                                <button type="button" class="btn btn-danger btncancel2">Cancel</button>
                             </form>
                         </div>
                         <div class="tampiltenakerrevisi">
@@ -208,7 +208,7 @@
                     </div>
                     <div class="card-body">
                         <div class="container-fluid mb-3">
-                            <form class="perhitunganboprevisi" action="<?= base_url(); ?>/DashboardAdmin/simpanperhitunganboprevisi">
+                            <form class="perhitunganboprevisi" action="<?= base_url(); ?>/DashboardAdmin/simpanboprevisi">
                                 <?= csrf_field(); ?>
                                 <div class="form-row form-group mb-3">
                                     <div class="col">
@@ -238,9 +238,7 @@
                                     </div>
                                     <div class="col">
                                         <label for="exampleInputtext1">Nama Transaksi</label>
-                                        <input type="text" class="form-control namatransaksi" name="namatransaksi">
-                                        <div class="namatransaksiinvalid invalid-feedback">
-                                        </div>
+                                        <input type="text" readonly class="form-control namatransaksi" name="namatransaksi">
                                     </div>
                                     <div class="col">
                                         <label for="exampleInputtext1">Total Biaya</label>
@@ -250,7 +248,7 @@
                                     </div>
                                 </div>
                                 <button type="submit" id="btnsimpanbop" class="btn btn-success btnsimpanbop">Revisi</button>
-                                <button class="btn btn-danger btncancel3">Cancel</button>
+                                <button type="button" class="btn btn-danger btncancel3">Cancel</button>
                             </form>
                         </div>
                         <div class="tampilboprevisi">
@@ -262,6 +260,9 @@
         </div>
 </div>
 <script src="<?= base_url() ?>/js/perhitunganbiayarevisi.js"></script>
+<script src="<?= base_url() ?>/js/perhitunganbbrevisi.js"></script>
+<script src="<?= base_url() ?>/js/perhitunganboprevisi.js"></script>
+<script src="<?= base_url() ?>/js/perhitungantkrevisi.js"></script>
 <!-- <script src="<//?= base_url() ?>/js/perhitunganbiaya.js"></script>
 <script src="<//?= base_url() ?>/js/perhitunganbiayabb.js"></script>
 <script src="<//?= base_url() ?>/js/perhitunganbiayatk.js"></script>

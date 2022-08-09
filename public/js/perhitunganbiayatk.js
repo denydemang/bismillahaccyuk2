@@ -230,31 +230,35 @@ $('.perhitungantenaker').submit(function(e){
       
 })
 $('.gaji').keyup(function(){
+    
+    
     $(this).val(formatRupiahtyping($(this).val()))
-    let val = $(this).val();
-    val = val.replace(/[^0-9/]/g,'');
-    harga = parseInt(val);
-    let totalpekerja = parseInt($('.totalpekerja').val());
-    let hasil = harga * totalpekerja;
+    var  val = $(this).val();
+    gaji = parseInt(val.replace(/[^0-9/]/g,''))
+    let hari  = $('.hari').val();
+    hari = parseInt(hari)
+    let totalpekerja = parseInt($('.totalpekerja').val())
+    let hasil = (hari * totalpekerja  * gaji ) ;
     
     $('.totalgaji').val(formatRupiah1(hasil));
 })
+
 $('.totalpekerja').keyup(function(){
     let hari  = $('.hari').val();
-    hari = parseInt(hari.replace(/[^0-9/]/g,''))
-    let gaji = $('.gaji').val();
-    gaji = parseInt(gaji.replace(/[^0-9/]/g,''))
+    hari = parseInt(hari)
+    let val = $('.gaji').val();
+    gaji = parseInt(val.replace(/[^0-9/]/g,''))
     let totalpekerja = parseInt($(this).val())
-    let hasil = gaji * totalpekerja * hari;
+    let hasil = (gaji * totalpekerja * hari);
     $('.totalgaji').val(formatRupiah1(hasil));
 })
 $('.hari').keyup(function(){
     let hari = $(this).val();
-    hari =  parseInt(hari.replace(/[^0-9/]/g,''))
-    let gaji = $('.gaji').val();
-    gaji = parseInt(gaji.replace(/[^0-9/]/g,''))
-    let totalpekerja = parseInt($(this).val())
-    let hasil = gaji * totalpekerja * hari;
+    hari =  parseInt(hari)
+    let val = $('.gaji').val();
+    gaji = parseInt(val.replace(/[^0-9/]/g,''))
+    let totalpekerja = parseInt($('.totalpekerja').val())
+    let hasil = (gaji * totalpekerja * hari);
     $('.totalgaji').val(formatRupiah1(hasil));
 })
 $(document).on('click', '.edittk', function(){
