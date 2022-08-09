@@ -161,9 +161,11 @@ class DashboardAdmin extends Dashboard
     {
 
         if (!empty($id)) {
-
             $ambilhuruf = substr($id, 0, 3);
             if ($ambilhuruf == 'PBB') {
+                $bukaform = [
+                    'bukaform' => 'bahanbaku'
+                ];
                 $bb = new PerhitunganBBModel();
                 $builder = $bb->builder();
                 $builder->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan');
@@ -204,6 +206,9 @@ class DashboardAdmin extends Dashboard
                     'total_gaji' =>  '',
                 ];
             } elseif ($ambilhuruf == 'PBO') {
+                $bukaform = [
+                    'bukaform' => 'bop'
+                ];
                 $bop = new PerhitunganBOPModel();
                 $builder = $bop->builder();
                 $builder->join('pengajuan_proyek', 'perhitunganbop.idajuan=pengajuan_proyek.idajuan');
@@ -244,6 +249,10 @@ class DashboardAdmin extends Dashboard
                     'total_gaji' =>  '',
                 ];
             } elseif ($ambilhuruf == 'PBT') {
+                $bukaform = [
+                    'bukaform' => 'tenaker'
+                ];
+                session()->getFlashdata('bukaform', 'tenaker');
                 $tk = new PerhitunganTenakerModel();
                 $builder = $tk->builder();
                 $builder->join('pengajuan_proyek', 'perhitungantenaker.idajuan=pengajuan_proyek.idajuan');
@@ -284,6 +293,9 @@ class DashboardAdmin extends Dashboard
                     'total_harga' =>  '',
                 ];
             } else {
+                $bukaform = [
+                    'bukaform' => ''
+                ];
                 $getDataBOP = [
                     'id_pbop' =>  '',
                     'idajuan' =>  '',
@@ -321,6 +333,9 @@ class DashboardAdmin extends Dashboard
                 ];
             }
         } else {
+            $bukaform = [
+                'bukaform' => ''
+            ];
             $getDataBOP = [
                 'id_pbop' =>  '',
                 'idajuan' =>  '',
@@ -363,7 +378,8 @@ class DashboardAdmin extends Dashboard
         $this->datalogin += [
             'bb' =>  $getDataBB,
             'bop' => $getDataBOP,
-            'tk' => $getDataTK
+            'tk' => $getDataTK,
+            'bukaform' => $bukaform
         ];
         $_SESSION['aktif'] = 'perhitunganbiayarevisi';
         return view('dashboard/admin/perhitunganrevisi', $this->datalogin);

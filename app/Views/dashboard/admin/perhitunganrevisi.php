@@ -8,6 +8,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>Perhitungan Biaya Revisi</h1>
+                    <div class="bukaform" data-bukaform="<?= $bukaform['bukaform']; ?>"></div>
                 </div>
             </div>
         </div>
@@ -57,35 +58,35 @@
                                     </div>
                                     <div class="col">
                                         <label for="ukuran">Ukuran</label>
-                                        <input type="text" class="form-control ukuran" name="ukuran" value="<?= $bb['ukuran'] ?>">
+                                        <input type="text" class="form-control ukuran" data-ukuran="<?= $bb['ukuran'] ?>" name="ukuran" value="<?= $bb['ukuran'] ?>">
                                     </div>
                                 </div>
                                 <div class="form-row form-group mb-3">
                                     <div class="col">
                                         <label for="tebal">Tebal</label>
-                                        <input type="text" class="form-control tebal" name="tebal" value="<?= $bb['ketebalan'] ?>">
+                                        <input type="text" class="form-control tebal" data-tebal="<?= $bb['ketebalan'] ?>" name="tebal" value="<?= $bb['ketebalan'] ?>">
                                     </div>
                                     <div class="col">
                                         <label for="jenis">Jenis</label>
-                                        <input type="text" class="form-control jenis" name="jenis" value="<?= $bb['jenis'] ?>">
+                                        <input type="text" class="form-control jenis" data-jenis="<?= $bb['jenis'] ?>" name="jenis" value="<?= $bb['jenis'] ?>">
                                     </div>
                                     <div class="col">
                                         <label for="Berat">Berat</label>
-                                        <input type="text" class="form-control berat" name="berat" value="<?= $bb['berat'] ?>">
+                                        <input type="text" class="form-control berat" data-berat="<?= $bb['berat'] ?>" name="berat" value="<?= $bb['berat'] ?>">
                                     </div>
                                 </div>
                                 <div class="form-row form-group mb-3">
                                     <div class="col">
                                         <label for="kualitas">Kualitas</label>
-                                        <input type="text" class="form-control kualitas" name="kualitas" value="<?= $bb['kualitas'] ?>">
+                                        <input type="text" class="form-control kualitas" data-kualitas="<?= $bb['kualitas'] ?>" name="kualitas" value="<?= $bb['kualitas'] ?>">
                                     </div>
                                     <div class="col">
                                         <label for="panjang">Panjang</label>
-                                        <input type="text" class="form-control panjang" name="panjang" value="<?= $bb['panjang'] ?>">
+                                        <input type="text" class="form-control panjang" data-panjang="<?= $bb['panjang'] ?>" name="panjang" value="<?= $bb['panjang'] ?>">
                                     </div>
                                     <div class="col">
                                         <label for="harga">Harga</label>
-                                        <input type="text" class="form-control harga" name="harga" value="<?= empty($bb['harga']) ? '' : "Rp " . number_format(intval($bb['harga']), 0, '', '.') ?>">
+                                        <input type="text" class="form-control harga" name="harga" data-harga="<?= $bb['harga'] ?>" value="<?= empty($bb['harga']) ? '' : "Rp " . number_format(intval($bb['harga']), 0, '', '.') ?>">
                                         <div class="hargainvalid invalid-feedback">
                                         </div>
                                     </div>
@@ -93,7 +94,7 @@
                                 <div class="form-row form-group mb-3">
                                     <div class="col-4">
                                         <label for="jumlahbeli">Jumlah Beli</label>
-                                        <input type="text" class="form-control jumlahbeli" name="jumlahbeli" value="<?= $bb['jumlah_beli'] ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                        <input type="text" class="form-control jumlahbeli" name="jumlahbeli" data-jumlahbeli="<?= $bb['jumlah_beli'] ?>" value="<?= $bb['jumlah_beli'] ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                         <div class="jumlahbeliinvalid invalid-feedback">
                                         </div>
                                     </div>
@@ -153,7 +154,7 @@
                                     </div>
                                     <div class="col">
                                         <label for="gaji">Gaji</label>
-                                        <input type="text" class="form-control gaji" name="gaji" value="<?= $tk['gaji'] ?>">
+                                        <input type="text" class="form-control gaji" name="gaji" data-gaji="<?= $tk['gaji']; ?>" value="<?= empty($tk['gaji']) ? '' : "Rp " . number_format(intval($tk['gaji']), 0, '', '.') ?>">
                                         <div class="gajiinvalid invalid-feedback">
                                         </div>
                                     </div>
@@ -161,13 +162,13 @@
                                 <div class="form-row mb-3">
                                     <div class="col">
                                         <label for="hari">Hari</label>
-                                        <input type="text" class="form-control hari" name="hari" value="<?= $tk['hari'] ?>">
+                                        <input type="text" class="form-control hari" name="hari" data-hari="<?= $tk['hari']; ?>" value="<?= $tk['hari'] ?>">
                                         <div class="hariinvalid invalid-feedback">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <label for="totalpekerja">Total Pekerja</label>
-                                        <input type="text" class="form-control totalpekerja" name="totalpekerja" value="<?= $tk['total_pekerja'] ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                        <input type="text" class="form-control totalpekerja" name="totalpekerja" data-totalpekerja="<?= $tk['total_pekerja']; ?>" value="<?= $tk['total_pekerja'] ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                         <div class="totalpekerjainvalid invalid-feedback">
                                         </div>
                                     </div>
@@ -223,11 +224,11 @@
                                     </div>
                                     <div class="col">
                                         <label for="exampleInputtext1">Nama Transaksi</label>
-                                        <input type="text" readonly class="form-control namatransaksi" name="namatransaksi" value="<?= $bop['namatrans']; ?>">
+                                        <input type="text" readonly class="form-control namatransaksi" data-namatransaksi="<?= $bop['namatrans']; ?>" name="namatransaksi" value="<?= $bop['namatrans']; ?>">
                                     </div>
                                     <div class="col">
                                         <label for="exampleInputtext1">Total Biaya</label>
-                                        <input type="text" style="font-weight:bold;color:#28A745;font-size:20px" class="form-control totalbiaya" name="totalbiaya" value="<?= empty($bop['tot_biaya']) ? '' : "Rp " . number_format(intval($bop['tot_biaya']), 0, '', '.'); ?>">
+                                        <input type="text" style="font-weight:bold;color:#28A745;font-size:20px" data-totalbiaya="<?= $bop['tot_biaya']; ?>" class="form-control totalbiaya" name="totalbiaya" value="<?= empty($bop['tot_biaya']) ? '' : "Rp " . number_format(intval($bop['tot_biaya']), 0, '', '.'); ?>">
                                         <div class=" totalbiayainvalid invalid-feedback">
                                         </div>
                                     </div>
@@ -254,9 +255,18 @@
 <script src="<//?= base_url() ?>/js/perhitunganbiayabop.js"></script> -->
 <script>
     $(document).ready(function() {
-        $('.bbrevisicard').CardWidget("toggle")
-        $('.boprevisicard').CardWidget("toggle")
-        $('.tkrevisicard').CardWidget("toggle")
+        b = $('.bukaform').data('bukaform');
+        if (b == 'tenaker') {
+            $('.tkrevisicard').CardWidget("toggle");
+        } else if (b == 'bahanbaku') {
+            $('.bbrevisicard').CardWidget("toggle");
+        } else if (b == 'bop') {
+            $('.boprevisicard').CardWidget("toggle");
+        }
+
+        // 
+        // 
+        // 
     })
 </script>
 <?= $this->endSection(); ?>

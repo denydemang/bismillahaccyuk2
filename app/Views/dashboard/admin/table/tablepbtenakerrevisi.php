@@ -38,3 +38,20 @@
         </tbody>
     </table>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#tenaker').DataTable({
+            "pageLength": 3,
+            "columnDefs": [{
+                orderable: false,
+                targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            }],
+            "fixedColumns": {
+                leftColumns: 1,
+                rightColumns: 2
+            },
+            "lengthChange": false
+        });
+
+    })
+</script>
