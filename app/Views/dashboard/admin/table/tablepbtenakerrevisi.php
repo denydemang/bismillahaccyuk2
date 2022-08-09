@@ -12,6 +12,7 @@
                 <th scope="col">Hari</th>
                 <th scope="col">Total Pekerja</th>
                 <th scope="col">Total Gaji</th>
+                <th scope="col">Revisi</th>
                 <th scope="col">Aksi</th>
             </tr>
         </thead>

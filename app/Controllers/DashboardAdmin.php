@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 
-
 use App\Models\ModelLogin;
 use App\Models\AjuanProyekModel;
 use App\Models\PerhitunganBBModel;
@@ -17,6 +16,7 @@ use App\Models\ProgressProyekModel;
 // reference the Dompdf namespace
 use Dompdf\Dompdf;
 use Dompdf\Options;
+
 
 
 class DashboardAdmin extends Dashboard
@@ -90,6 +90,7 @@ class DashboardAdmin extends Dashboard
 
     public function dataproyek($id = '')
     {
+
 
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
@@ -956,7 +957,9 @@ class DashboardAdmin extends Dashboard
         $perhitunganbop = new PerhitunganBOPModel();
         $perhitunganbb = new PerhitunganBBModel();
         $perhitungantk = new PerhitunganTenakerModel();
-
+        $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
+        $perhitungantkrevisi = new PerhitunganTenakerRevisiModel();
+        $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
 
         $builder1 = $perhitunganbop->builder();
         $builder1->where('idajuan', $id)->selectSum('tot_biaya');
@@ -1000,6 +1003,7 @@ class DashboardAdmin extends Dashboard
             session()->setFlashdata('pesanprint', 'Data Belum Terisi Semua !, Silakan Lengkapi Data!');
             return redirect()->to(base_url() . '/admin/perhitunganbiaya');
         } else {
+
             $data = [
                 'bb' => $getdatabb,
                 'tk' => $getdatatk,
@@ -1191,7 +1195,7 @@ class DashboardAdmin extends Dashboard
                 $totbiaya = $this->request->getVar('totalbiaya');
                 $totbiaya = (int)filter_var($totbiaya, FILTER_SANITIZE_NUMBER_INT);
                 $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
-                $id_pbopr = $this->kodeotomatis('perhitunganboprevisi', 'id_pbopr', 'PBR001');
+                $id_pbopr = $this->kodeotomatis('perhitunganboprevisi', 'id_pbopr', 'POR001');
                 $simpandata = [
                     'id_pbopr' => $id_pbopr,
                     'id_pbop' => $this->request->getVar('id_pbop'),
@@ -1329,4 +1333,9 @@ class DashboardAdmin extends Dashboard
             return redirect()->to(base_url('admin/perhitunganbiayarevisi'));
         }
     }
+    // public function coba()
+    // {
+    //     $bbrevisi = new PerhitunganBBRevisiModel();
+    //     $builder =
+    // }
 }

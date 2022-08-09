@@ -1,3 +1,6 @@
+<?php
+
+use App\Models\PerhitunganBOPRevisiModel; ?>
 <div class="table-responsive text-nowrap">
     <table class="table bop table-sm">
         <thead>
@@ -9,10 +12,18 @@
                 <th scope="col">Nama Proyek</th>
                 <th scope="col-2">Nama Transaksi</th>
                 <th scope="col">Total Biaya</th>
+                <th scope="col">Revisi</th>
                 <th scope="col">Aksi</th>
             </tr>
         </thead>
         <tbody>
+            <?php function getjumlahrevisibop($idpbop)
+            {
+                $perhitunganrevisimodel = new PerhitunganBOPRevisiModel();
+                $builder = $perhitunganrevisimodel->builder();
+                $get = $builder->like('id_pbop', $idpbop)->countAllResults();
+                return $get;
+            } ?>
             <?php $nomer = 1 ?>
             <?php foreach ($bop as $row) : ?>
                 <tr>
@@ -23,6 +34,7 @@
                     <td><?= $row['namaproyek']; ?></td>
                     <td><?= $row['namatrans']; ?></td>
                     <td><?= number_format($row['tot_biaya'], 0, ",", "."); ?></td>
+                    <td><span class="badge badge-success"><?= getjumlahrevisibop($row['id_pbop']) ?></span></td>
                     <td><button data-idajuan="<?= $row['idajuan']; ?>" data-namatrans="<?= $row['namatrans']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbop']; ?>" class="btn btn-sm btn-warning hapusbop">Hapus</button></td>
                 </tr>
             <?php endforeach; ?>
@@ -35,11 +47,11 @@
             "pageLength": 3,
             "columnDefs": [{
                 orderable: false,
-                targets: [1, 2, 3, 4, 5]
+                targets: [1, 2, 3, 4, 5, 6, 7, 8]
             }],
             "fixedColumns": {
                 leftColumns: 1,
-                rightColumns: 1
+                rightColumns: 2
             },
             "lengthChange": false
         });

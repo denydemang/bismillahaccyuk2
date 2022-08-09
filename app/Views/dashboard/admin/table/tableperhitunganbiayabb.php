@@ -1,4 +1,7 @@
 <div class="table-responsive text-nowrap">
+    <?php
+
+    use App\Models\PerhitunganBBRevisiModel; ?>
     <table id="bahanbaku" class="table table-sm ">
         <thead>
             <tr>
@@ -16,11 +19,20 @@
                 <th scope="col">Harga</th>
                 <th scope="col">Jumlah Beli</th>
                 <th scope="col">Total Harga</th>
+                <th scope="col">Revisi</th>
                 <th scope="col">Aksi</th>
             </tr>
         </thead>
         <tbody>
             <?php $nomor = 1 ?>
+            <?php function getjumlahrevisibb($idpbb)
+            {
+                $perhitunganrevisimodel = new PerhitunganBBRevisiModel();
+                $builder = $perhitunganrevisimodel->builder();
+                $get = $builder->like('id_pbb', $idpbb)->countAllResults();
+                return $get;
+            } ?>
+
             <?php foreach ($bahanbaku as $row) : ?>
                 <tr>
                     <th scope="row"><?= $nomor++; ?></th>
@@ -37,6 +49,7 @@
                     <td><?= number_format($row['harga'], 0, ",", "."); ?></td>
                     <td><?= $row['jumlah_beli']; ?></td>
                     <td><?= number_format($row['total_harga'], 0, ",", "."); ?></td>
+                    <td><span class="badge badge-success"><?= getjumlahrevisibb($row['id_pbb']); ?></span></td>
                     <td><button data-idajuan="<?= $row['idajuan']; ?>" data-namabahan="<?= $row['namabahan']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-warning hapusbb">Hapus</button></td>
                 </tr>
             <?php endforeach; ?>
@@ -51,11 +64,11 @@
             "pageLength": 3,
             "columnDefs": [{
                 orderable: false,
-                targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                targets: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
             }],
             "fixedColumns": {
                 leftColumns: 1,
-                rightColumns: 1
+                rightColumns: 3,
             },
             "lengthChange": false
         });

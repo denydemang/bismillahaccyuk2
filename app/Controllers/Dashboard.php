@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\AjuanProyekModel;
+use App\Models\PerhitunganBBRevisiModel;
+
 
 class Dashboard extends BaseController
 {
@@ -122,6 +124,13 @@ class Dashboard extends BaseController
             $this->datalogin['judul'] = 'Dashboard Klien';
             return view('dashboard/klien/welcome', $this->datalogin);
         };
+    }
+    public function GetJumlahBBRevisi($idpbb)
+    {
+        $perhitunganrevisimodel = new PerhitunganBBRevisiModel();
+        $builder = $perhitunganrevisimodel->builder();
+        $get = $builder->like('id_pbb', $idpbb)->countAllResults();
+        return $get;
     }
     function tanggal_indonesia($tanggal)
     {

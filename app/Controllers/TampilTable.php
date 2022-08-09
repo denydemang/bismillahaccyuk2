@@ -60,6 +60,7 @@ class TampilTable extends Dashboard
             $builder = $builder->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan');
             $builder = $builder->get();
             $getData = $builder->getResultArray();
+
             $data = [
                 'bahanbaku' => $getData,
             ];
@@ -148,7 +149,7 @@ class TampilTable extends Dashboard
             $builder = $hitungbbrevisi->builder();
             $join = $builder->select('perhitunganbbrevisi.* ,pengajuan_proyek.idajuan,pengajuan_proyek.user_id, pengajuan_proyek.namaproyek')
                 ->join('perhitunganbahanbaku', 'perhitunganbbrevisi.id_pbb=perhitunganbahanbaku.id_pbb')
-                ->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan')->get()->getResultArray();
+                ->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan')->where('status_revisi', '1')->get()->getResultArray();
 
             $getData = $join;
             $data = [
