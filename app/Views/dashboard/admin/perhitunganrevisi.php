@@ -28,9 +28,9 @@
                         <div class="container-fluid mb-3">
                             <form action="<?= base_url(); ?>/DashboardAdmin/simpanrevisibb" class="oerhitunganbbrevisi">
                                 <?= csrf_field(); ?>
-                                <div class="form-row form-group-sm mb-3">
+                                <div class="form-row form-group mb-3">
                                     <div class="col">
-                                        <label for="id_pbb">Id Biaya Bahan Baku</label>
+                                        <label for="id_pbb">Id Biaya BB</label>
                                         <select id="id_pbb" class="form-control id_pbb" name="id_pbb">
                                             <option selected disabled>Pilih Id Bahan baku</option>
                                             <?php foreach ($getidpbb as $row) : ?>
@@ -48,9 +48,8 @@
                                         <label for="user_idbb">User_id</label>
                                         <input type="text" readonly class="form-control user_idbb" name="user_idbb">
                                     </div>
-
                                 </div>
-                                <div class="form-row mb-3">
+                                <div class="form-row form-group mb-3">
                                     <div class="col">
                                         <label for="namaproyekbb">Nama Proyek</label>
                                         <input type="text" readonly class="form-control namaproyekbb" name="namaproyekbb">
@@ -66,7 +65,7 @@
                                         <input type="text" class="form-control ukuran" name="ukuran">
                                     </div>
                                 </div>
-                                <div class="form-row mb-3">
+                                <div class="form-row form-group mb-3">
                                     <div class="col">
                                         <label for="tebal">Tebal</label>
                                         <input type="text" class="form-control tebal" name="tebal">
@@ -80,7 +79,7 @@
                                         <input type="text" class="form-control berat" name="berat">
                                     </div>
                                 </div>
-                                <div class="form-row mb-3">
+                                <div class="form-row form-group mb-3">
                                     <div class="col">
                                         <label for="kualitas">Kualitas</label>
                                         <input type="text" class="form-control kualitas" name="kualitas">
@@ -96,14 +95,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-row mb-3">
+                                <div class="form-row form-group mb-3">
                                     <div class="col-4">
                                         <label for="jumlahbeli">Jumlah Beli</label>
                                         <input type="text" class="form-control jumlahbeli" name="jumlahbeli" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                         <div class="jumlahbeliinvalid invalid-feedback">
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <label for="totalhrga">Total Harga</label>
                                         <input type="text" readonly style="font-weight:bold;color:blue;font-size:20px" class="form-control totalharga" name="totalharga">
                                     </div>
@@ -132,7 +131,7 @@
                         <div class="container-fluid mb-3">
                             <form class="perhitungantenakerrevisi" action="<?= base_url(); ?>/DashboardAdmin/simpanperhitungantenakerrevisi">
                                 <?= csrf_field(); ?>
-                                <div class="form-row form-group-sm mb-3">
+                                <div class="form-row form-group mb-3">
                                     <div class="col">
                                         <label for="id_pbtenaker">ID Biaya TK</label>
                                         <select class="form-control id_pbtenaker" name="id_pbtenaker">
@@ -152,12 +151,12 @@
                                         <label for="user_idtk">User_id</label>
                                         <input type="text" readonly class="form-control user_idtk" name="user_idtk">
                                     </div>
+                                </div>
+                                <div class="form-row form-group mb-3">
                                     <div class="col">
                                         <label for="namaproyektk">Nama Proyek</label>
                                         <input type="text" readonly class="form-control namaproyektk" name="namaproyektk">
                                     </div>
-                                </div>
-                                <div class="form-row mb-3">
                                     <div class="col">
                                         <label for=jenispekerjaan">Jenis Pekerjaan</label>
                                         <input type="text" class="form-control jenispekerjaan" name="jenispekerjaan">
@@ -170,19 +169,19 @@
                                         <div class="gajiinvalid invalid-feedback">
                                         </div>
                                     </div>
+                                </div>
+                                <div class="form-row mb-3">
                                     <div class="col">
                                         <label for="hari">Hari</label>
                                         <input type="text" class="form-control hari" name="hari">
                                     </div>
-                                </div>
-                                <div class="form-row mb-3">
-                                    <div class="col-4">
+                                    <div class="col">
                                         <label for="totalpekerja">Total Pekerja</label>
                                         <input type="text" class="form-control totalpekerja" name="totalpekerja" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                         <div class="totalpekerjainvalid invalid-feedback">
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col">
                                         <label for="totalgaji">Total Gaji</label>
                                         <input type="text" readonly style="font-weight:bold;color:red;font-size:20px" readonly class="form-control totalgaji" name="totalgaji">
                                     </div>
@@ -211,7 +210,7 @@
                         <div class="container-fluid mb-3">
                             <form class="perhitunganboprevisi" action="<?= base_url(); ?>/DashboardAdmin/simpanperhitunganboprevisi">
                                 <?= csrf_field(); ?>
-                                <div class="form-row mb-3">
+                                <div class="form-row form-group mb-3">
                                     <div class="col">
                                         <label for="id_pbop">Id Biaya OP</label>
                                         <select class="form-control id_pbop" name="id_pbop" id="id_pbop">
@@ -232,7 +231,7 @@
                                         <input type="text" readonly class="form-control user_idbop" name="user_idbop">
                                     </div>
                                 </div>
-                                <div class="form-row mb-3">
+                                <div class="form-row form-group mb-3">
                                     <div class="col">
                                         <label for="namaproyek">Nama Proyek</label>
                                         <input type="text" readonly class="form-control namaproyekbop" name="namaproyekbop">
@@ -243,9 +242,7 @@
                                         <div class="namatransaksiinvalid invalid-feedback">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-row mb-3">
-                                    <div class="col-4">
+                                    <div class="col">
                                         <label for="exampleInputtext1">Total Biaya</label>
                                         <input type="text" style="font-weight:bold;color:#28A745;font-size:20px" class="form-control totalbiaya" name="totalbiaya">
                                         <div class="totalbiayainvalid invalid-feedback">

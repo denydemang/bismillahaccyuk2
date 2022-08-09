@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Models\ModelLogin;
 use App\Models\AjuanProyekModel;
 use App\Models\PerhitunganBBModel;
+use App\Models\PerhitunganBBRevisiModel;
 use App\Models\PerhitunganBOPModel;
 use App\Models\PerhitunganTenakerModel;
 use App\Models\ProyekModel;
@@ -948,7 +949,6 @@ class DashboardAdmin extends Dashboard
 
     {
 
-
         date_default_timezone_set('Asia/Jakarta');
         $tanggal = $this->tanggal_indonesia(date('Y-m-d'));
         $perhitunganbop = new PerhitunganBOPModel();
@@ -1033,5 +1033,48 @@ class DashboardAdmin extends Dashboard
         session()->set('kelolaproyek', 'true');
         session()->set('idproyek', $idproyek);
         return redirect()->to(base_url('kelolaproyek'));
+    }
+
+    //Perhitungan Biaya revisi
+    public function getdatapbb()
+    {
+        $bbmodel = new PerhitunganBBModel();
+
+        if ($this->request->isAJAX()) {
+            $id_pbb = $this->request->getVar('id');
+            $builder = $bbmodel->builder();
+            $builder->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan');
+            $getData = $builder->where('id_pbb', $id_pbb)->get()->getResultArray();
+            echo json_encode($getData);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function getdatapbtk()
+    {
+        $tkmodel = new PerhitunganTenakerModel();
+        if ($this->request->isAJAX()) {
+            $id_pbtk = $this->request->getVar('id');
+            $builder = $tkmodel->builder();
+            $builder->join('pengajuan_proyek', 'perhitungantenaker.idajuan=pengajuan_proyek.idajuan');
+            $getData = $builder->where('id_pbtenaker', $id_pbtk)->get()->getResultArray();
+            echo json_encode($getData);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function getdatapbop()
+    {
+
+        $bopmodel = new PerhitunganBOPModel();
+        if ($this->request->isAJAX()) {
+            $id_pbop = $this->request->getVar('id');
+            $builder = $bopmodel->builder();
+            $builder->join('pengajuan_proyek', 'perhitunganbop.idajuan=pengajuan_proyek.idajuan');
+            $getData = $builder->where('id_pbop', $id_pbop)->get()->getResultArray();
+            echo json_encode($getData);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
     }
 }

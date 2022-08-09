@@ -64,6 +64,8 @@ const formatRupiah1 = (money) => {
     });
 }
 
+
+
 function tablepbop() {
     //Perhitungan BOP
     $.ajax({
@@ -95,4 +97,85 @@ $(document).ready(function(){
     tablepbb()
     tablepbop()
     tableptenaker()
+    $('.id_pbb').change(function(){
+        let id = $(this).val();
+        $.ajax({
+            url : "http://localhost:8080/DashboardAdmin/getdatapbb",
+            type: "post",
+            data : {id:id},
+            dataType : "json",
+            success: function(response) {
+                console.log(response);
+                $('.idajuanbb').val(response[0]['idajuan'])
+                $('.user_idbb').val(response[0]['user_id'])
+                $('.namaproyekbb').val(response[0]['namaproyek'])
+                $('.namabahan').val(response[0]['namabahan'])
+                $('.ukuran').val(response[0]['ukuran'])
+                $('.tebal').val(response[0]['ketebalan'])
+                $('.jenis').val(response[0]['jenis'])
+                $('.berat').val(response[0]['berat'])
+                $('.kualitas').val(response[0]['kualitas'])
+                $('.panjang').val(response[0]['panjang'])
+                $('.harga').val(formatRupiah1(response[0]['harga']))
+                $('.jumlahbeli').val(response[0]['jumlah_beli'])
+                $('.totalharga').val(formatRupiah1(response[0]['total_harga']))
+                
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+        
+    })
+
+    $('.id_pbtenaker').change(function(){
+        let id = $(this).val();
+        $.ajax({
+            url : "http://localhost:8080/DashboardAdmin/getdatapbtk",
+            type: "post",
+            data : {id:id},
+            dataType : "json",
+            success: function(response) {
+                   
+                $('.idajuantk').val(response[0]['idajuan'])
+                $('.user_idtk').val(response[0]['user_id'])
+                $('.namaproyektk').val(response[0]['namaproyek'])
+                $('.jenispekerjaan').val(response[0]['jenispekerjaan'])
+                $('.gaji').val(formatRupiah1(parseInt(response[0]['gaji'])))
+                $('.hari').val(response[0]['hari'])
+                $('.totalpekerja').val(response[0]['total_pekerja'])
+                $('.totalgaji').val(formatRupiah1(parseInt(response[0]['total_gaji'])));
+                
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+        
+    })
+
+    $('.id_pbop').change(function(){
+        let id = $(this).val();
+        $.ajax({
+            url : "http://localhost:8080/DashboardAdmin/getdatapbop",
+            type: "post",
+            data : {id:id},
+            dataType : "json",
+            success: function(response) {
+                   
+                $('.idajuanbop').val(response[0]['idajuan'])
+                $('.user_idbop').val(response[0]['user_id'])
+                $('.namaproyekbop').val(response[0]['namaproyek'])
+                $('.namatransaksi').val(response[0]['namatrans'])
+                $('.totalbiaya').val(formatRupiah1(parseInt(response[0]['tot_biaya'])))
+               
+                
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+        
+    })
+
 })
