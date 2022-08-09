@@ -356,5 +356,9 @@ $(document).on('click', '.hapustk', function(){
         })
     
 })
+$(document).on('click', '.revisitk', function(){
+    let id_pbtenaker = $(this).data('id_pbtenaker')
+    window.location.href = base_url+'DashboardAdmin/perhitunganbiayarevisi/' + id_pbtenaker;
+})
     })
     

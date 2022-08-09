@@ -366,4 +366,8 @@ $(document).on('click', '.editbb', function(){
     });
     
 })
+$(document).on('click', '.revisibb', function(){
+    let id_pbb = $(this).data('id_pbb')
+    window.location.href = base_url+'DashboardAdmin/perhitunganbiayarevisi/' + id_pbb;
+})
 })

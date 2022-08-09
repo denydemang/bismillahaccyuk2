@@ -6,6 +6,7 @@ function clear(){
     $(".perhitunganbop").trigger('reset'); //jquery
 }
 $(document).ready(function(){
+
     $('.idajuanbop').change(function(){
         let id = $(this).val();
         $.ajax({
@@ -273,6 +274,10 @@ $(document).ready(function(){
 })
 $('.totalbiaya').keyup(function(){
     $(this).val(formatRupiahtyping($(this).val()))
+})
+$(document).on('click', '.revisibop', function(){
+    let id_pbop = $(this).data('id_pbop')
+    window.location.href = base_url+'DashboardAdmin/perhitunganbiayarevisi/' + id_pbop;
 })
 
 })

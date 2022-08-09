@@ -157,22 +157,213 @@ class DashboardAdmin extends Dashboard
         $_SESSION['aktif'] = 'message';
         return view('dashboard/admin/message', $this->datalogin);
     }
-    public function perhitunganbiayarevisi()
+    public function perhitunganbiayarevisi($id = '')
     {
-        $perhitunganbb = new PerhitunganBBModel();
-        $perhitungantenaker = new PerhitunganTenakerModel();
-        $perhitunganbop = new PerhitunganBOPModel();
-        $getidpbb = $perhitunganbb->select('id_pbb')->findAll();
-        $getidpbtenaker = $perhitungantenaker->select('id_pbtenaker')->findAll();
-        $getidpbop =  $perhitunganbop->select('id_pbop')->findAll();
 
+        if (!empty($id)) {
+
+            $ambilhuruf = substr($id, 0, 3);
+            if ($ambilhuruf == 'PBB') {
+                $bb = new PerhitunganBBModel();
+                $builder = $bb->builder();
+                $builder->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan');
+                $getarraybb = $builder->where('id_pbb', $id)->get()->getResultArray();
+                $getDataBB = [
+                    'id_pbb' =>  $getarraybb[0]['id_pbb'],
+                    'idajuan' =>  $getarraybb[0]['idajuan'],
+                    'user_id' =>  $getarraybb[0]['user_id'],
+                    'namaproyek' =>  $getarraybb[0]['namaproyek'],
+                    'namabahan' =>  $getarraybb[0]['namabahan'],
+                    'ukuran' =>  $getarraybb[0]['ukuran'],
+                    'kualitas' =>  $getarraybb[0]['kualitas'],
+                    'jenis' =>  $getarraybb[0]['jenis'],
+                    'berat' =>  $getarraybb[0]['berat'],
+                    'ketebalan' =>  $getarraybb[0]['ketebalan'],
+                    'panjang' =>  $getarraybb[0]['panjang'],
+                    'harga' =>  $getarraybb[0]['harga'],
+                    'jumlah_beli' =>  $getarraybb[0]['jumlah_beli'],
+                    'total_harga' =>  $getarraybb[0]['total_harga'],
+                ];
+                $getDataBOP = [
+                    'id_pbop' =>  '',
+                    'idajuan' =>  '',
+                    'user_id' =>  '',
+                    'namaproyek' =>  '',
+                    'namatrans' =>  '',
+                    'tot_biaya' =>  '',
+                ];
+                $getDataTK = [
+                    'id_pbtenaker' =>  '',
+                    'idajuan' =>  '',
+                    'user_id' => '',
+                    'namaproyek' =>  '',
+                    'jenispekerjaan' =>  '',
+                    'gaji' =>  '',
+                    'hari' => '',
+                    'total_pekerja' => '',
+                    'total_gaji' =>  '',
+                ];
+            } elseif ($ambilhuruf == 'PBO') {
+                $bop = new PerhitunganBOPModel();
+                $builder = $bop->builder();
+                $builder->join('pengajuan_proyek', 'perhitunganbop.idajuan=pengajuan_proyek.idajuan');
+                $getarraybop = $builder->where('id_pbop', $id)->get()->getResultArray();
+                $getDataBOP = [
+                    'id_pbop' =>  $getarraybop[0]['id_pbop'],
+                    'idajuan' =>  $getarraybop[0]['idajuan'],
+                    'user_id' =>  $getarraybop[0]['user_id'],
+                    'namaproyek' =>  $getarraybop[0]['namaproyek'],
+                    'namatrans' =>  $getarraybop[0]['namatrans'],
+                    'tot_biaya' =>  $getarraybop[0]['tot_biaya'],
+                ];
+                $getDataBB = [
+                    'id_pbb' =>  '',
+                    'idajuan' => '',
+                    'user_id' => '',
+                    'namaproyek' =>  '',
+                    'namabahan' =>  '',
+                    'ukuran' =>  '',
+                    'kualitas' =>  '',
+                    'jenis' =>  '',
+                    'berat' => '',
+                    'ketebalan' => '',
+                    'panjang' =>  '',
+                    'harga' =>  '',
+                    'jumlah_beli' => '',
+                    'total_harga' =>  '',
+                ];
+                $getDataTK = [
+                    'id_pbtenaker' =>  '',
+                    'idajuan' =>  '',
+                    'user_id' => '',
+                    'namaproyek' =>  '',
+                    'jenispekerjaan' =>  '',
+                    'gaji' =>  '',
+                    'hari' => '',
+                    'total_pekerja' => '',
+                    'total_gaji' =>  '',
+                ];
+            } elseif ($ambilhuruf == 'PBT') {
+                $tk = new PerhitunganTenakerModel();
+                $builder = $tk->builder();
+                $builder->join('pengajuan_proyek', 'perhitungantenaker.idajuan=pengajuan_proyek.idajuan');
+                $getarraytk = $builder->where('id_pbtenaker', $id)->get()->getResultArray();
+                $getDataTK = [
+                    'id_pbtenaker' =>  $getarraytk[0]['id_pbtenaker'],
+                    'idajuan' =>  $getarraytk[0]['idajuan'],
+                    'user_id' =>  $getarraytk[0]['user_id'],
+                    'namaproyek' =>  $getarraytk[0]['namaproyek'],
+                    'jenispekerjaan' =>  $getarraytk[0]['jenispekerjaan'],
+                    'gaji' =>  $getarraytk[0]['gaji'],
+                    'hari' =>  $getarraytk[0]['hari'],
+                    'total_pekerja' =>  $getarraytk[0]['total_pekerja'],
+                    'total_gaji' =>  $getarraytk[0]['total_gaji'],
+                ];
+                $getDataBOP = [
+                    'id_pbop' =>  '',
+                    'idajuan' =>  '',
+                    'user_id' =>  '',
+                    'namaproyek' =>  '',
+                    'namatrans' =>  '',
+                    'tot_biaya' =>  '',
+                ];
+                $getDataBB = [
+                    'id_pbb' =>  '',
+                    'idajuan' => '',
+                    'user_id' => '',
+                    'namaproyek' =>  '',
+                    'namabahan' =>  '',
+                    'ukuran' =>  '',
+                    'kualitas' =>  '',
+                    'jenis' =>  '',
+                    'berat' => '',
+                    'ketebalan' => '',
+                    'panjang' =>  '',
+                    'harga' =>  '',
+                    'jumlah_beli' => '',
+                    'total_harga' =>  '',
+                ];
+            } else {
+                $getDataBOP = [
+                    'id_pbop' =>  '',
+                    'idajuan' =>  '',
+                    'user_id' =>  '',
+                    'namaproyek' =>  '',
+                    'namatrans' =>  '',
+                    'tot_biaya' =>  '',
+                ];
+                $getDataBB = [
+                    'id_pbb' =>  '',
+                    'idajuan' => '',
+                    'user_id' => '',
+                    'namaproyek' =>  '',
+                    'namabahan' =>  '',
+                    'ukuran' =>  '',
+                    'kualitas' =>  '',
+                    'jenis' =>  '',
+                    'berat' => '',
+                    'ketebalan' => '',
+                    'panjang' =>  '',
+                    'harga' =>  '',
+                    'jumlah_beli' => '',
+                    'total_harga' =>  '',
+                ];
+                $getDataTK = [
+                    'id_pbtenaker' =>  '',
+                    'idajuan' =>  '',
+                    'user_id' => '',
+                    'namaproyek' =>  '',
+                    'jenispekerjaan' =>  '',
+                    'gaji' =>  '',
+                    'hari' => '',
+                    'total_pekerja' => '',
+                    'total_gaji' =>  '',
+                ];
+            }
+        } else {
+            $getDataBOP = [
+                'id_pbop' =>  '',
+                'idajuan' =>  '',
+                'user_id' =>  '',
+                'namaproyek' =>  '',
+                'namatrans' =>  '',
+                'tot_biaya' =>  '',
+            ];
+            $getDataBB = [
+                'id_pbb' =>  '',
+                'idajuan' => '',
+                'user_id' => '',
+                'namaproyek' =>  '',
+                'namabahan' =>  '',
+                'ukuran' =>  '',
+                'kualitas' =>  '',
+                'jenis' =>  '',
+                'berat' => '',
+                'ketebalan' => '',
+                'panjang' =>  '',
+                'harga' =>  '',
+                'jumlah_beli' => '',
+                'total_harga' =>  '',
+            ];
+            $getDataTK = [
+                'id_pbtenaker' =>  '',
+                'idajuan' =>  '',
+                'user_id' => '',
+                'namaproyek' =>  '',
+                'jenispekerjaan' =>  '',
+                'gaji' =>  '',
+                'hari' => '',
+                'total_pekerja' => '',
+                'total_gaji' =>  '',
+            ];
+        }
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
         $this->datalogin += [
-            'getidpbb' => $getidpbb,
-            'getidpbtenaker' => $getidpbtenaker,
-            'getidpbop' => $getidpbop,
+            'bb' =>  $getDataBB,
+            'bop' => $getDataBOP,
+            'tk' => $getDataTK
         ];
         $_SESSION['aktif'] = 'perhitunganbiayarevisi';
         return view('dashboard/admin/perhitunganrevisi', $this->datalogin);
