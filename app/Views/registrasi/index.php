@@ -44,13 +44,13 @@
                                 <div class="row">
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="nama">Nama</label>
+                                            <label class="form-label" for="nama">Nama *</label>
                                             <input type="text" id="nama" class="form-control" name="nama" autocomplete="off" value="<?= old('nama'); ?>" />
                                         </div>
                                     </div>
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="email">Email</label>
+                                            <label class="form-label" for="email">Email *</label>
                                             <input type="email" class="form-control <?= ($validation->hasError('email')) ? 'is-invalid' : ''; ?>" name="email" autocomplete="off" value="<?= old('email'); ?>" />
 
                                         </div>
@@ -59,13 +59,13 @@
                                 <div class="row mt-3">
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="username">Username</label>
+                                            <label class="form-label" for="username">Username *</label>
                                             <input type="text" id="username" class="form-control <?= ($validation->hasError('username')) ? 'is-invalid' : ''; ?>" name="username" autocomplete="off" value="<?= old('username'); ?>" />
                                         </div>
                                     </div>
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="notelp">No Telepon</label>
+                                            <label class="form-label" for="notelp">No Telepon *</label>
                                             <input type="text" id="notelp" class="form-control" autocomplete="off" name="telpon" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="<?= old('telpon'); ?>" />
 
                                         </div>
@@ -73,31 +73,32 @@
                                 </div>
                                 <div class="mt-2 mb-3 d-flex mt-2 flex-row align-items-center mb-4">
                                     <div class="form-outline flex-fill mb-0">
-                                        <label class="form-label" for="alamat">Alamat</label>
+                                        <label class="form-label" for="alamat">Alamat *</label>
                                         <input type="text" id="alamat" class="form-control" name="alamat" value="<?= old('alamat'); ?>" />
                                     </div>
                                 </div>
                                 <div class="row mt-2 pt-2">
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="password">Password</label>
+                                            <label class="form-label" for="password">Password *</label>
                                             <input type="password" id="password" class="form-control" name="password" autocomplete="off" />
 
                                         </div>
                                     </div>
                                     <div class=" col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="konfirpw">Konfirmasi Password</label>
+                                            <label class="form-label" for="konfirpw">Konfirmasi Password *</label>
                                             <input type="password" id="konfirpw" class="form-control" name="konfirpassword" autocomplete="off" />
 
                                         </div>
                                     </div>
                                 </div>
-
+                                <small class="form-text text-muted" style="color:red!important;">* <em>Form Wajib Diisi</em></small>
                                 <div class=" w-100 mt-4 mb-5">
                                     <button type="submit" class="btn btn-primary w-100 mb-3">Register</button>
                                     <small class="text-center d-block text-center">Sudah Punya Akun ? <a href="<?= base_url(); ?>/login">Log In</a></small>
                                 </div>
+
 
                             </form>
 

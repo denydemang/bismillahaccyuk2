@@ -64,7 +64,7 @@ use App\Models\PerhitunganTenakerRevisiModel; ?>
             }],
             "fixedColumns": {
                 leftColumns: 1,
-                rightColumns: 3
+                rightColumns: 2
             },
             "lengthChange": false
         });

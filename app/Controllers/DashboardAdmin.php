@@ -506,7 +506,7 @@ class DashboardAdmin extends Dashboard
     {
 
         $modelajuan = new AjuanProyekModel();
-        $getData = $modelajuan->where('status_id', '2')->findAll();
+        $getData = $modelajuan->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->findAll();
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };

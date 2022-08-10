@@ -31,7 +31,42 @@
                 </select>
                 <input type="text" readonly class="form-control sumbiaya" style="color: purple;font-weight:bolder;font-size:larger" placeholder="Total Biaya">
             </div>
-            <div class="col-lg-12">
+
+            <div class="col-lg-12 dropdown">
+                <button class="btn btn-info mb-2 dropdown-toggle" data-toggle="dropdown"> Daftar Ajuan Proyek</button>
+                <div class="dropdown-menu dropdown-menu-lg">
+                    <div class="card" style="width:600px !important">
+                        <div class="card-header">
+                            <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
+                        </div>
+                        <div class="card-body table-responsive p-0" style="height: 200px;width:600px !important">
+                            <table class="table table-head-fixed text-nowrap daftarajuan">
+                                <thead>
+                                    <tr>
+                                        <th>ID AJUAN</th>
+                                        <th>Nama Proyek</th>
+                                        <th>Jenis Proyek</th>
+                                        <th>Nama Klien</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($dataajuan as $row) : ?>
+                                        <tr>
+                                            <td><?= $row['idajuan']; ?></td>
+                                            <td><?= $row['namaproyek']; ?></td>
+                                            <td><?= $row['jenisproyek']; ?></td>
+                                            <td><?= $row['nama']; ?></td>
+                                        </tr>
+                                    <?php endforeach ?>
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class=" col-lg-12">
                 <div class="card card-default collapsed-card">
                     <div class="card-header bg-primary">
                         <h3 class="card-title">Perhitungan Biaya Bahan Baku</h3>
@@ -47,7 +82,7 @@
                                 <?= csrf_field(); ?>
                                 <div class="form-row form-group-sm mb-3">
                                     <div class="col">
-                                        <label for="idajuan">Id Ajuan</label>
+                                        <label for="idajuan">Id Ajuan *</label>
                                         <select id="idajuanbb" class="form-control idajuanbb" name="idajuanbb">
                                             <option selected disabled>Pilih Id Ajuan</option>
                                             <?php foreach ($dataajuan as $row) : ?>
@@ -68,7 +103,7 @@
                                 </div>
                                 <div class="form-row mb-3">
                                     <div class="col">
-                                        <label for="namabahan">Nama Bahan</label>
+                                        <label for="namabahan">Nama Bahan *</label>
                                         <input type="text" class="form-control namabahan" name="namabahan">
                                         <div class="namabahaninvalid invalid-feedback">
                                         </div>
@@ -102,13 +137,13 @@
                                         <input type="text" class="form-control panjang" name="panjang">
                                     </div>
                                     <div class="col">
-                                        <label for="harga">Harga</label>
+                                        <label for="harga">Harga *</label>
                                         <input type="text" class="form-control harga" name="harga">
                                         <div class="hargainvalid invalid-feedback">
                                         </div>
                                     </div>
                                     <div class="col-4">
-                                        <label for="jumlahbeli">Jumlah Beli</label>
+                                        <label for="jumlahbeli">Jumlah Beli *</label>
                                         <input type="text" class="form-control jumlahbeli" name="jumlahbeli" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                         <div class="jumlahbeliinvalid invalid-feedback">
                                         </div>
@@ -147,7 +182,7 @@
                                 <?= csrf_field(); ?>
                                 <div class="form-row form-group-sm mb-3">
                                     <div class="col">
-                                        <label for="idajuan">Id Ajuan</label>
+                                        <label for="idajuan">Id Ajuan *</label>
 
                                         <select class="form-control idajuantk" name="idajuantk">
                                             <option selected disabled>Pilih Id Ajuan</option>
@@ -164,25 +199,25 @@
                                         <input type="text" readonly class="form-control user_idtk" name="user_idtk">
                                     </div>
                                     <div class="col">
-                                        <label for="namaproyektk">Nama Proyek</label>
+                                        <label for="namaproyektk">Nama Proyek *</label>
                                         <input type="text" readonly class="form-control namaproyektk" name="namaproyektk">
                                     </div>
                                 </div>
                                 <div class="form-row mb-3">
                                     <div class="col">
-                                        <label for=jenispekerjaan">Jenis Pekerjaan</label>
+                                        <label for=jenispekerjaan">Jenis Pekerjaan *</label>
                                         <input type="text" class="form-control jenispekerjaan" name="jenispekerjaan">
                                         <div class="jenispekerjaaninvalid invalid-feedback">
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <label for="gaji">Gaji</label>
+                                        <label for="gaji">Gaji *</label>
                                         <input type="text" class="form-control gaji" name="gaji">
                                         <div class="gajiinvalid invalid-feedback">
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <label for="hari">Hari</label>
+                                        <label for="hari">Hari *</label>
                                         <input type="text" class="form-control hari" name="hari">
                                         <div class="hariinvalid invalid-feedback">
                                         </div>
@@ -190,7 +225,7 @@
                                 </div>
                                 <div class="form-row mb-3">
                                     <div class="col-4">
-                                        <label for="totalpekerja">Total Pekerja</label>
+                                        <label for="totalpekerja">Total Pekerja *</label>
                                         <input type="text" class="form-control totalpekerja" name="totalpekerja" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                         <div class="totalpekerjainvalid invalid-feedback">
                                         </div>
@@ -229,7 +264,7 @@
                                 <div class="form-row mb-3">
                                     <div class="col">
 
-                                        <label for="idajuanbop">Id Ajuan</label>
+                                        <label for="idajuanbop">Id Ajuan *</label>
                                         <select class="form-control idajuanbop" name="idajuanbop" id="idajuanbop">
                                             <option selected disabled>Pilih Id Ajuan</option>
                                             <?php foreach ($dataajuan as $row) : ?>
@@ -249,7 +284,7 @@
                                         <input type="text" readonly class="form-control namaproyekbop" name="namaproyekbop">
                                     </div>
                                     <div class="col">
-                                        <label for="exampleInputtext1">Nama Transaksi</label>
+                                        <label for="exampleInputtext1">Nama Transaksi *</label>
                                         <input type="text" class="form-control namatransaksi" name="namatransaksi">
                                         <div class="namatransaksiinvalid invalid-feedback">
                                         </div>
@@ -257,7 +292,7 @@
                                 </div>
                                 <div class="form-row mb-3">
                                     <div class="col-4">
-                                        <label for="exampleInputtext1">Total Biaya</label>
+                                        <label for="exampleInputtext1">Total Biaya *</label>
                                         <input type="text" style="font-weight:bold;color:#28A745;font-size:20px" class="form-control totalbiaya" name="totalbiaya">
                                         <div class="totalbiayainvalid invalid-feedback">
                                         </div>
