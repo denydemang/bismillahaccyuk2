@@ -20,6 +20,26 @@ $(document).ready(function(){
             return sum;
           }
 
+    // $('.store').click(function(){
+    //     console.log('storeklik');
+            
+    //     var value = {
+    //         id_admin: $('#id_admin').val(),
+    //         id_client: $('#id_client').val(),
+    //         nama_user: $('#nama_user').val(),
+    //         nama_client: $('#nama_client').val(),
+    //         pesan: $('#pesan').val(),	
+    //     }
+    //     $.ajax({
+    //         // url: '<?= site_url(/DashboardAdmin/store);?>',
+    //         // url: 'http://localhost:8080/DashboardAdmin/message/'+id_client,
+    //         url: 'http://localhost:8080/DashboardAdmin/store',
+    //         type: 'POST',
+    //         data: value,
+    //         // dataType: 'json',
+    //     })
+        
+    // })
     //form ajuan proyek di dashboard klien
     var pesan = $('.pesan').data('flash')
     if(pesan == 'berhasildiajukan'){
