@@ -16,7 +16,11 @@ use App\Models\ProgressProyekModel;
 // reference the Dompdf namespace
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use App\Models\massagemodel;
 
+require VENDORPATH . '/autoload.php';
+
+use Pusher;
 
 
 class DashboardAdmin extends Dashboard
@@ -91,7 +95,6 @@ class DashboardAdmin extends Dashboard
     public function dataproyek($id = '')
     {
 
-
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
@@ -148,18 +151,78 @@ class DashboardAdmin extends Dashboard
 
         return view('dashboard/admin/dataproyek', $this->datalogin);
     }
-    public function message()
+    public function message($id = NULL)
     {
-
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
         $_SESSION['aktif'] = 'message';
-        return view('dashboard/admin/message', $this->datalogin);
+
+        $modelmassage = new massagemodel();
+        $tampung = $modelmassage->findAll();
+
+        $tampung2 = $modelmassage->where('id_client', $id)->findAll(); //NULL
+        $modelakun = new ModelLogin();
+        $akun = $modelakun->findAll();
+
+        // $id_client = $id;
+        // $builder = $this->db->table('chat');
+        // $builder->select('id_admin, id_client, nama_user')
+        // ->where('id_client', $id_client)
+        // ->where('id_admin !=', 0);
+        // $query = $builder->get(1, 0); //NULL
+
+        $data = [
+            'judul' => 'Dashboard Admin',
+            'id_admin' => NULL,
+            'username' => NULL,
+            'nama_client' => NULL,
+            'id_client' => NULL,
+            'akun' => $akun,
+            'massage' => $tampung,
+            'massage2' => $tampung2, //NULL
+            // 'klik' => $query->getResult() //NULL 
+        ];
+        if ($id != NULL) {
+            $modelmassage2 = new massagemodel();
+            $tampung2 = $modelmassage2->where('id_client', $id)->findAll();
+            $tampung = $modelmassage->findAll();
+
+            $akunclient = $modelakun->select('user_name')->where('user_id', $id)->get()->getResult();
+            $nama_client = array_column($akunclient, 'user_name');
+
+            // $id_client = $id;
+            // $builder = $this->db->table('chat');
+            // $builder->select('id_admin, id_client, nama_user')
+            // ->where('id_client', $id_client)
+            // ->where('id_admin !=', 0);
+            // $query = $builder->get(1, 0);//1 baris
+            // echo '<script>console.log('.print_r($query->getResult()).')</script>';
+
+            // echo '<script>console.log('.$nama_client[0].')</script>';
+            // echo '<script>console.log('.$id_client.')</script>';
+
+            $data2 = [
+                'judul' => 'Dashboard Admin',
+                'id_admin' => $this->user_id,
+                'username' => $this->username,
+                'nama_client' => $nama_client[0],
+                'id_client' => $id,
+                'akun' => $akun,
+                'massage' => $tampung,
+                'massage2' => $tampung2,
+                // 'klik' => $query->getResult()
+            ];
+
+            return view('dashboard/admin/message', $data2);
+        }
+
+
+        return view('dashboard/admin/message', $data);
     }
+
     public function perhitunganbiayarevisi($id = '')
     {
-
         if (!empty($id)) {
             $ambilhuruf = substr($id, 0, 3);
             if ($ambilhuruf == 'PBB') {
@@ -384,6 +447,61 @@ class DashboardAdmin extends Dashboard
         $_SESSION['aktif'] = 'perhitunganbiayarevisi';
         return view('dashboard/admin/perhitunganrevisi', $this->datalogin);
     }
+
+    public function store()
+    {
+        $modelmassage = new massagemodel();
+
+        $id_admin = $_POST['id_admin'];
+        $id_client = $_POST['id_client'];
+        $nama_user = $_POST['nama_user'];
+        $nama_client = $_POST['nama_client'];
+        $pesan = $_POST['pesan'];
+
+        echo '<script>console.log(' . $id_client . ')</script>';
+
+        $data = array(
+            'id_admin' => $id_admin,
+            'id_client' => $id_client,
+            'nama_user' => $nama_user,
+            'nama_client' => $nama_client,
+            'pesan' => $pesan,
+        );
+
+        $options = array(
+            'cluster' => 'ap1',
+            'useTLS' => true
+        );
+        // $pusher = new Pusher\Pusher(
+        // 'e0bd82d32cf9d6ef3c0f',
+        // '143094503bcdc550b65b',
+        // '1197215',
+        // $options
+        // );
+        $pusher = new Pusher\Pusher(
+            '40ffd99f64d712cc1ceb',
+            '6fa3735fd7909ba7255c',
+            '1456878',
+            $options
+        );
+
+
+        $modelmassage->insert($data);
+
+        $builder = $this->db->table('chat');
+        $builder->select('*')
+            ->where('id_client', $id_client);
+        // ->where('id_admin !=', 0);
+        $query = $builder->get()->getResult();
+
+        foreach ($query as $key) {
+            $data_pusher[] = $key;
+        }
+
+        $pusher->trigger($id_client, 'my-event', $data_pusher);
+        echo json_encode($query);
+    }
+
     public function perhitunganbiaya()
     {
 
