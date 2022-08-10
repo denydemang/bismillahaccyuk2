@@ -655,6 +655,7 @@ class DashboardAdmin extends Dashboard
                     'harga' => $harga,
                     'jumlah_beli' => $this->request->getVar('jumlahbeli'),
                     'total_harga' => $totalharga,
+                    'revisi_id' => 1,
 
                 ];
                 $perhitunganbbmodel->insert($simpandata);
@@ -949,7 +950,8 @@ class DashboardAdmin extends Dashboard
                     'gaji' => $gaji,
                     'hari' => $this->request->getVar('hari'),
                     'total_pekerja' => $this->request->getVar('totalpekerja'),
-                    'total_gaji' => $totalgaji
+                    'total_gaji' => $totalgaji,
+                    'revisi_id' => 1
 
                 ];
                 $perhitungantenakermodel->insert($simpandata);
@@ -1095,6 +1097,7 @@ class DashboardAdmin extends Dashboard
                     'idajuan' => $this->request->getVar('idajuanbop'),
                     'namatrans' => $this->request->getVar('namatransaksi'),
                     'tot_biaya' => $totbiaya,
+                    'revisi_id' => 1
 
                 ];
                 $perhitunganbopmodel->insert($simpandata);
@@ -1330,6 +1333,7 @@ class DashboardAdmin extends Dashboard
                 ];
                 echo json_encode($msg);
             } else {
+
                 $harga = $this->request->getVar('harga');
                 $harga = (int)(filter_var($harga, FILTER_SANITIZE_NUMBER_INT));
                 $totalharga = $this->request->getVar('totalharga');
@@ -1337,6 +1341,7 @@ class DashboardAdmin extends Dashboard
                 $id_pbbr = $this->kodeotomatis('perhitunganbbrevisi', 'id_pbbr', 'PBR001');
 
                 $pbbrevisi = new PerhitunganBBRevisiModel();
+                $pbb = new PerhitunganBBModel();
                 $simpandata = [
                     'id_pbbr' => $id_pbbr,
                     'id_pbb' => $this->request->getVar('id_pbb'),
@@ -1350,9 +1355,12 @@ class DashboardAdmin extends Dashboard
                     'harga' => $harga,
                     'jumlah_beli' => $this->request->getVar('jumlahbeli'),
                     'total_harga' => $totalharga,
+                    'revisi_id' => 3
 
                 ];
                 $pbbrevisi->insert($simpandata);
+                $builder = $pbb->builder();
+                $builder->set('revisi_id', 2)->where('id_pbb', $this->request->getVar('id_pbb'))->update();
                 // query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
                 // optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
                 $builder = $pbbrevisi->builder();
@@ -1403,14 +1411,18 @@ class DashboardAdmin extends Dashboard
                 $totbiaya = (int)filter_var($totbiaya, FILTER_SANITIZE_NUMBER_INT);
                 $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
                 $id_pbopr = $this->kodeotomatis('perhitunganboprevisi', 'id_pbopr', 'POR001');
+                $pob = new PerhitunganBOPModel();
                 $simpandata = [
                     'id_pbopr' => $id_pbopr,
                     'id_pbop' => $this->request->getVar('id_pbop'),
                     'namatrans' => $this->request->getVar('namatransaksi'),
                     'tot_biaya' => $totbiaya,
+                    'revisi_id' => 3
 
                 ];
                 $perhitunganboprevisi->insert($simpandata);
+                $builder = $pob->builder();
+                $builder->set('revisi_id', 2)->where('id_pbop', $this->request->getVar('id_pbop'))->update();
                 //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
                 //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
                 $builder = $perhitunganboprevisi->builder();
@@ -1478,6 +1490,7 @@ class DashboardAdmin extends Dashboard
                 $totalgaji = (int)filter_var($totalgaji, FILTER_SANITIZE_NUMBER_INT);
                 $perhitungatkrevisi = new PerhitunganTenakerRevisiModel();
                 $id_pbtenakerr = $this->kodeotomatis('perhitungantenakerrevisi', 'id_pbtenakerr', 'PTR001');
+                $tk = new PerhitunganTenakerModel();
                 $simpandata = [
                     'id_pbtenakerr' =>  $id_pbtenakerr,
                     'id_pbtenaker' => $this->request->getVar('id_pbtenaker'),
@@ -1485,10 +1498,14 @@ class DashboardAdmin extends Dashboard
                     'gaji' => $gaji,
                     'hari' => $this->request->getVar('hari'),
                     'total_pekerja' => $this->request->getVar('totalpekerja'),
-                    'total_gaji' => $totalgaji
+                    'total_gaji' => $totalgaji,
+                    'revisi_id' => 3
 
                 ];
                 $perhitungatkrevisi->insert($simpandata);
+
+                $builder = $tk->builder();
+                $builder->set('revisi_id', 2)->where('id_pbtenaker', $this->request->getVar('id_pbtenaker'))->update();
                 //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
                 //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
                 $builder = $perhitungatkrevisi->builder();

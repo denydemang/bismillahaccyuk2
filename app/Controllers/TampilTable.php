@@ -149,7 +149,7 @@ class TampilTable extends Dashboard
             $builder = $hitungbbrevisi->builder();
             $join = $builder->select('perhitunganbbrevisi.* ,pengajuan_proyek.idajuan,pengajuan_proyek.user_id, pengajuan_proyek.namaproyek')
                 ->join('perhitunganbahanbaku', 'perhitunganbbrevisi.id_pbb=perhitunganbahanbaku.id_pbb')
-                ->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan')->where('status_revisi', '1')->get()->getResultArray();
+                ->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan')->where('perhitunganbbrevisi.revisi_id', 3)->get()->getResultArray();
 
             $getData = $join;
             $data = [
@@ -170,7 +170,7 @@ class TampilTable extends Dashboard
             $builder = $hitungboprevisi->builder();
             $join = $builder->select('perhitunganboprevisi.* ,pengajuan_proyek.idajuan,pengajuan_proyek.user_id, pengajuan_proyek.namaproyek')
                 ->join('perhitunganbop', 'perhitunganboprevisi.id_pbop=perhitunganbop.id_pbop')
-                ->join('pengajuan_proyek', 'perhitunganbop.idajuan=pengajuan_proyek.idajuan')->get()->getResultArray();
+                ->join('pengajuan_proyek', 'perhitunganbop.idajuan=pengajuan_proyek.idajuan')->where('perhitunganboprevisi.revisi_id', 3)->get()->getResultArray();
             $data = [
                 'bop' => $join
             ];
@@ -189,7 +189,7 @@ class TampilTable extends Dashboard
             $builder = $hitungtkrevisi->builder();
             $join = $builder->select('perhitungantenakerrevisi.* ,pengajuan_proyek.idajuan,pengajuan_proyek.user_id, pengajuan_proyek.namaproyek')
                 ->join('perhitungantenaker', 'perhitungantenakerrevisi.id_pbtenaker=perhitungantenaker.id_pbtenaker')
-                ->join('pengajuan_proyek', 'perhitungantenaker.idajuan=pengajuan_proyek.idajuan')->get()->getResultArray();
+                ->join('pengajuan_proyek', 'perhitungantenaker.idajuan=pengajuan_proyek.idajuan')->where('perhitungantenakerrevisi.revisi_id', 3)->get()->getResultArray();
             $data = [
                 'tenaker' => $join
             ];

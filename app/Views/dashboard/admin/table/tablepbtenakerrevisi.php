@@ -30,6 +30,7 @@
                     <td><?= $row['total_pekerja']; ?></td>
                     <td><?= number_format($row['total_gaji'], 0, ",", "."); ?></td>
                     <td>
+                        <button data-id="<?= $row['id_pbtenakerr']; ?>" data-idtenaker="<?= $row['id_pbtenaker']; ?>" data-jenispekerjaan="<?= $row['jenispekerjaan']; ?>" class="btn btn-sm btn-success edittk">Edit</button>
                         <button data-id="<?= $row['id_pbtenakerr']; ?>" data-idtenaker="<?= $row['id_pbtenaker']; ?>" data-jenispekerjaan="<?= $row['jenispekerjaan']; ?>" class="btn btn-sm btn-warning hapustk">Hapus</button>
                     </td>
                 </tr>

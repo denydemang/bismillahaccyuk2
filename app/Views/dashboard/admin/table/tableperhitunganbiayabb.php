@@ -51,7 +51,9 @@
                     <td><?= number_format($row['total_harga'], 0, ",", "."); ?></td>
                     <td><span class="badge badge-success"><?= getjumlahrevisibb($row['id_pbb']); ?></span></td>
                     <td>
-                        <button data-id_pbb="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-secondary revisibb">Revisi</button>
+                        <?php if ($row['revisi_id'] == 1) : ?>
+                            <button data-id_pbb="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-secondary revisibb">Revisi</button>
+                        <?php endif ?>
                         <button data-idajuan="<?= $row['idajuan']; ?>" data-namabahan="<?= $row['namabahan']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-warning hapusbb">Hapus</button>
                     </td>
                 </tr>

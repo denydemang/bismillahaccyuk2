@@ -43,7 +43,9 @@ use App\Models\PerhitunganTenakerRevisiModel; ?>
                     <td><?= number_format($row['total_gaji'], 0, ",", "."); ?></td>
                     <td><span class="badge badge-primary"><?= getjumlahrevisitk($row['id_pbtenaker']) ?></span></td>
                     <td>
-                        <button data-id_pbtenaker="<?= $row['id_pbtenaker']; ?>" class="btn btn-sm btn-secondary revisitk">Revisi</button>
+                        <?php if ($row['revisi_id'] == 1) : ?>
+                            <button data-id_pbtenaker="<?= $row['id_pbtenaker']; ?>" class="btn btn-sm btn-secondary revisitk">Revisi</button>
+                        <?php endif ?>
                         <button data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbtenaker']; ?>" data-idajuan="<?= $row['idajuan']; ?>" data-jenispekerjaan="<?= $row['jenispekerjaan']; ?>" class="btn btn-sm btn-warning hapustk">Hapus</button>
                     </td>
                 </tr>

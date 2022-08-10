@@ -1,0 +1,35 @@
+ id_pbb
+idajuanbb
+user_idbb
+namaproyekbb
+namabahan
+ukuran
+tebal
+jenis
+berat
+kualitas
+panjang
+harga
+jumlahbeli
+totalharga
+
+ id_pbtenaker
+idajuantk
+ user_idtk
+namaproyektk
+jenispekerjaan
+gaji
+hari
+totalpekerja
+totalgaji
+
+id_pbop
+idajuanbop
+user_idbop
+namaproyekbop
+namatransaksi
+totalbiaya
+
+
+$pbbrevisi->insert($simpandata);
+                $pbb->where('id_pbb', $this->request->getVar('id_pbb'))->set('revisi_id', 2)->update();

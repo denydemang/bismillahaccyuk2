@@ -38,6 +38,7 @@
                     <td><?= $row['jumlah_beli']; ?></td>
                     <td><?= number_format($row['total_harga'], 0, ",", "."); ?></td>
                     <td>
+                        <button data-id="<?= $row['id_pbbr']; ?>" data-namabahan="<?= $row['namabahan']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-idbiaya="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-success editbb">Edit</button>
                         <button data-id="<?= $row['id_pbbr']; ?>" data-namabahan="<?= $row['namabahan']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-idbiaya="<?= $row['id_pbb']; ?>" class="btn btn-sm btn-warning hapusbb">Hapus</button>
                     </td>
                 </tr>

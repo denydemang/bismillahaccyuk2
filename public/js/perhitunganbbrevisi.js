@@ -2,7 +2,18 @@ function bersihbb(){
     $('.id_pbb').removeClass('is-invalid');
     $('.harga').removeClass('is-invalid');
     $('.jumlahbeli').removeClass('is-invalid');
-    $(".perhitunganbbrevisi").trigger('reset'); //jquery
+    $('.id_pbb').val('');
+    $('.idajuanbb').val('');
+    $('.namaproyekbb').val('');
+    $('.namabahan').val('');
+    $('.ukuran').val('');
+    $('.tebal').val('');
+    $('.jenis').val('');
+    $('.berat').val('');
+    $('.kualitas').val('');
+    $('.panjang').val('');
+    $('.jumlahbeli').val('');
+    $('.totalharga').val('');
 }
 
 $(document).ready(function(){

@@ -24,6 +24,7 @@
                     <td><?= $row['namatrans']; ?></td>
                     <td><?= number_format($row['tot_biaya'], 0, ",", "."); ?></td>
                     <td>
+                        <button data-id="<?= $row['id_pbopr']; ?>" data-namatrans="<?= $row['namatrans']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-idbiaya="<?= $row['id_pbop']; ?>" class="btn btn-sm btn-success editbop">Edit</button>
                         <button data-id="<?= $row['id_pbopr']; ?>" data-namatrans="<?= $row['namatrans']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-idbiaya="<?= $row['id_pbop']; ?>" class="btn btn-sm btn-warning hapusbop">Hapus</button>
                     </td>
                 </tr>

@@ -36,7 +36,9 @@ use App\Models\PerhitunganBOPRevisiModel; ?>
                     <td><?= number_format($row['tot_biaya'], 0, ",", "."); ?></td>
                     <td><span class="badge badge-success"><?= getjumlahrevisibop($row['id_pbop']) ?></span></td>
                     <td>
-                        <button data-id_pbop="<?= $row['id_pbop']; ?>" class="btn btn-sm btn-secondary revisibop">Revisi</button>
+                        <?php if ($row['revisi_id'] == 1) : ?>
+                            <button data-id_pbop="<?= $row['id_pbop']; ?>" class="btn btn-sm btn-secondary revisibop">Revisi</button>
+                        <?php endif; ?>
                         <button data-idajuan="<?= $row['idajuan']; ?>" data-namatrans="<?= $row['namatrans']; ?>" data-namaproyek="<?= $row['namaproyek']; ?>" data-id="<?= $row['id_pbop']; ?>" class="btn btn-sm btn-warning hapusbop">Hapus</button>
                     </td>
                 </tr>
