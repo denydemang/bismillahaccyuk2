@@ -223,177 +223,188 @@ class DashboardAdmin extends Dashboard
 
     public function perhitunganbiayarevisi($id = '')
     {
+
         if (!empty($id)) {
-            $ambilhuruf = substr($id, 0, 3);
-            if ($ambilhuruf == 'PBB') {
-                $bukaform = [
-                    'bukaform' => 'bahanbaku'
-                ];
-                $bb = new PerhitunganBBModel();
-                $builder = $bb->builder();
-                $builder->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan');
-                $getarraybb = $builder->where('id_pbb', $id)->get()->getResultArray();
-                $getDataBB = [
-                    'id_pbb' =>  $getarraybb[0]['id_pbb'],
-                    'idajuan' =>  $getarraybb[0]['idajuan'],
-                    'user_id' =>  $getarraybb[0]['user_id'],
-                    'namaproyek' =>  $getarraybb[0]['namaproyek'],
-                    'namabahan' =>  $getarraybb[0]['namabahan'],
-                    'ukuran' =>  $getarraybb[0]['ukuran'],
-                    'kualitas' =>  $getarraybb[0]['kualitas'],
-                    'jenis' =>  $getarraybb[0]['jenis'],
-                    'berat' =>  $getarraybb[0]['berat'],
-                    'ketebalan' =>  $getarraybb[0]['ketebalan'],
-                    'panjang' =>  $getarraybb[0]['panjang'],
-                    'harga' =>  $getarraybb[0]['harga'],
-                    'jumlah_beli' =>  $getarraybb[0]['jumlah_beli'],
-                    'total_harga' =>  $getarraybb[0]['total_harga'],
-                ];
-                $getDataBOP = [
-                    'id_pbop' =>  '',
-                    'idajuan' =>  '',
-                    'user_id' =>  '',
-                    'namaproyek' =>  '',
-                    'namatrans' =>  '',
-                    'tot_biaya' =>  '',
-                ];
-                $getDataTK = [
-                    'id_pbtenaker' =>  '',
-                    'idajuan' =>  '',
-                    'user_id' => '',
-                    'namaproyek' =>  '',
-                    'jenispekerjaan' =>  '',
-                    'gaji' =>  '',
-                    'hari' => '',
-                    'total_pekerja' => '',
-                    'total_gaji' =>  '',
-                ];
-            } elseif ($ambilhuruf == 'PBO') {
-                $bukaform = [
-                    'bukaform' => 'bop'
-                ];
-                $bop = new PerhitunganBOPModel();
-                $builder = $bop->builder();
-                $builder->join('pengajuan_proyek', 'perhitunganbop.idajuan=pengajuan_proyek.idajuan');
-                $getarraybop = $builder->where('id_pbop', $id)->get()->getResultArray();
-                $getDataBOP = [
-                    'id_pbop' =>  $getarraybop[0]['id_pbop'],
-                    'idajuan' =>  $getarraybop[0]['idajuan'],
-                    'user_id' =>  $getarraybop[0]['user_id'],
-                    'namaproyek' =>  $getarraybop[0]['namaproyek'],
-                    'namatrans' =>  $getarraybop[0]['namatrans'],
-                    'tot_biaya' =>  $getarraybop[0]['tot_biaya'],
-                ];
-                $getDataBB = [
-                    'id_pbb' =>  '',
-                    'idajuan' => '',
-                    'user_id' => '',
-                    'namaproyek' =>  '',
-                    'namabahan' =>  '',
-                    'ukuran' =>  '',
-                    'kualitas' =>  '',
-                    'jenis' =>  '',
-                    'berat' => '',
-                    'ketebalan' => '',
-                    'panjang' =>  '',
-                    'harga' =>  '',
-                    'jumlah_beli' => '',
-                    'total_harga' =>  '',
-                ];
-                $getDataTK = [
-                    'id_pbtenaker' =>  '',
-                    'idajuan' =>  '',
-                    'user_id' => '',
-                    'namaproyek' =>  '',
-                    'jenispekerjaan' =>  '',
-                    'gaji' =>  '',
-                    'hari' => '',
-                    'total_pekerja' => '',
-                    'total_gaji' =>  '',
-                ];
-            } elseif ($ambilhuruf == 'PBT') {
-                $bukaform = [
-                    'bukaform' => 'tenaker'
-                ];
-                session()->getFlashdata('bukaform', 'tenaker');
-                $tk = new PerhitunganTenakerModel();
-                $builder = $tk->builder();
-                $builder->join('pengajuan_proyek', 'perhitungantenaker.idajuan=pengajuan_proyek.idajuan');
-                $getarraytk = $builder->where('id_pbtenaker', $id)->get()->getResultArray();
-                $getDataTK = [
-                    'id_pbtenaker' =>  $getarraytk[0]['id_pbtenaker'],
-                    'idajuan' =>  $getarraytk[0]['idajuan'],
-                    'user_id' =>  $getarraytk[0]['user_id'],
-                    'namaproyek' =>  $getarraytk[0]['namaproyek'],
-                    'jenispekerjaan' =>  $getarraytk[0]['jenispekerjaan'],
-                    'gaji' =>  $getarraytk[0]['gaji'],
-                    'hari' =>  $getarraytk[0]['hari'],
-                    'total_pekerja' =>  $getarraytk[0]['total_pekerja'],
-                    'total_gaji' =>  $getarraytk[0]['total_gaji'],
-                ];
-                $getDataBOP = [
-                    'id_pbop' =>  '',
-                    'idajuan' =>  '',
-                    'user_id' =>  '',
-                    'namaproyek' =>  '',
-                    'namatrans' =>  '',
-                    'tot_biaya' =>  '',
-                ];
-                $getDataBB = [
-                    'id_pbb' =>  '',
-                    'idajuan' => '',
-                    'user_id' => '',
-                    'namaproyek' =>  '',
-                    'namabahan' =>  '',
-                    'ukuran' =>  '',
-                    'kualitas' =>  '',
-                    'jenis' =>  '',
-                    'berat' => '',
-                    'ketebalan' => '',
-                    'panjang' =>  '',
-                    'harga' =>  '',
-                    'jumlah_beli' => '',
-                    'total_harga' =>  '',
-                ];
+            $bbrevisi = new PerhitunganBBRevisiModel();
+            $hasilbb = $bbrevisi->where('id_pbb', $id)->findAll();
+            $tkrevisi = new PerhitunganTenakerRevisiModel();
+            $hasiltk = $tkrevisi->where('id_pbtenaker', $id)->findAll();
+            $boprevisi = new PerhitunganBOPRevisiModel();
+            $hasilbop = $boprevisi->where('id_pbop', $id)->findAll();
+            if ((!empty($hasilbb) || !empty($hasilbop) || !empty($hasiltk))) {
+                return redirect()->to(base_url('admin/perhitunganbiayarevisi'));
             } else {
-                $bukaform = [
-                    'bukaform' => ''
-                ];
-                $getDataBOP = [
-                    'id_pbop' =>  '',
-                    'idajuan' =>  '',
-                    'user_id' =>  '',
-                    'namaproyek' =>  '',
-                    'namatrans' =>  '',
-                    'tot_biaya' =>  '',
-                ];
-                $getDataBB = [
-                    'id_pbb' =>  '',
-                    'idajuan' => '',
-                    'user_id' => '',
-                    'namaproyek' =>  '',
-                    'namabahan' =>  '',
-                    'ukuran' =>  '',
-                    'kualitas' =>  '',
-                    'jenis' =>  '',
-                    'berat' => '',
-                    'ketebalan' => '',
-                    'panjang' =>  '',
-                    'harga' =>  '',
-                    'jumlah_beli' => '',
-                    'total_harga' =>  '',
-                ];
-                $getDataTK = [
-                    'id_pbtenaker' =>  '',
-                    'idajuan' =>  '',
-                    'user_id' => '',
-                    'namaproyek' =>  '',
-                    'jenispekerjaan' =>  '',
-                    'gaji' =>  '',
-                    'hari' => '',
-                    'total_pekerja' => '',
-                    'total_gaji' =>  '',
-                ];
+                $ambilhuruf = substr($id, 0, 3);
+                if ($ambilhuruf == 'PBB') {
+                    $bukaform = [
+                        'bukaform' => 'bahanbaku'
+                    ];
+                    $bb = new PerhitunganBBModel();
+                    $builder = $bb->builder();
+                    $builder->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan');
+                    $getarraybb = $builder->where('id_pbb', $id)->get()->getResultArray();
+                    $getDataBB = [
+                        'id_pbb' =>  $getarraybb[0]['id_pbb'],
+                        'idajuan' =>  $getarraybb[0]['idajuan'],
+                        'user_id' =>  $getarraybb[0]['user_id'],
+                        'namaproyek' =>  $getarraybb[0]['namaproyek'],
+                        'namabahan' =>  $getarraybb[0]['namabahan'],
+                        'ukuran' =>  $getarraybb[0]['ukuran'],
+                        'kualitas' =>  $getarraybb[0]['kualitas'],
+                        'jenis' =>  $getarraybb[0]['jenis'],
+                        'berat' =>  $getarraybb[0]['berat'],
+                        'ketebalan' =>  $getarraybb[0]['ketebalan'],
+                        'panjang' =>  $getarraybb[0]['panjang'],
+                        'harga' =>  $getarraybb[0]['harga'],
+                        'jumlah_beli' =>  $getarraybb[0]['jumlah_beli'],
+                        'total_harga' =>  $getarraybb[0]['total_harga'],
+                    ];
+                    $getDataBOP = [
+                        'id_pbop' =>  '',
+                        'idajuan' =>  '',
+                        'user_id' =>  '',
+                        'namaproyek' =>  '',
+                        'namatrans' =>  '',
+                        'tot_biaya' =>  '',
+                    ];
+                    $getDataTK = [
+                        'id_pbtenaker' =>  '',
+                        'idajuan' =>  '',
+                        'user_id' => '',
+                        'namaproyek' =>  '',
+                        'jenispekerjaan' =>  '',
+                        'gaji' =>  '',
+                        'hari' => '',
+                        'total_pekerja' => '',
+                        'total_gaji' =>  '',
+                    ];
+                } elseif ($ambilhuruf == 'PBO') {
+                    $bukaform = [
+                        'bukaform' => 'bop'
+                    ];
+                    $bop = new PerhitunganBOPModel();
+                    $builder = $bop->builder();
+                    $builder->join('pengajuan_proyek', 'perhitunganbop.idajuan=pengajuan_proyek.idajuan');
+                    $getarraybop = $builder->where('id_pbop', $id)->get()->getResultArray();
+                    $getDataBOP = [
+                        'id_pbop' =>  $getarraybop[0]['id_pbop'],
+                        'idajuan' =>  $getarraybop[0]['idajuan'],
+                        'user_id' =>  $getarraybop[0]['user_id'],
+                        'namaproyek' =>  $getarraybop[0]['namaproyek'],
+                        'namatrans' =>  $getarraybop[0]['namatrans'],
+                        'tot_biaya' =>  $getarraybop[0]['tot_biaya'],
+                    ];
+                    $getDataBB = [
+                        'id_pbb' =>  '',
+                        'idajuan' => '',
+                        'user_id' => '',
+                        'namaproyek' =>  '',
+                        'namabahan' =>  '',
+                        'ukuran' =>  '',
+                        'kualitas' =>  '',
+                        'jenis' =>  '',
+                        'berat' => '',
+                        'ketebalan' => '',
+                        'panjang' =>  '',
+                        'harga' =>  '',
+                        'jumlah_beli' => '',
+                        'total_harga' =>  '',
+                    ];
+                    $getDataTK = [
+                        'id_pbtenaker' =>  '',
+                        'idajuan' =>  '',
+                        'user_id' => '',
+                        'namaproyek' =>  '',
+                        'jenispekerjaan' =>  '',
+                        'gaji' =>  '',
+                        'hari' => '',
+                        'total_pekerja' => '',
+                        'total_gaji' =>  '',
+                    ];
+                } elseif ($ambilhuruf == 'PBT') {
+                    $bukaform = [
+                        'bukaform' => 'tenaker'
+                    ];
+                    session()->getFlashdata('bukaform', 'tenaker');
+                    $tk = new PerhitunganTenakerModel();
+                    $builder = $tk->builder();
+                    $builder->join('pengajuan_proyek', 'perhitungantenaker.idajuan=pengajuan_proyek.idajuan');
+                    $getarraytk = $builder->where('id_pbtenaker', $id)->get()->getResultArray();
+                    $getDataTK = [
+                        'id_pbtenaker' =>  $getarraytk[0]['id_pbtenaker'],
+                        'idajuan' =>  $getarraytk[0]['idajuan'],
+                        'user_id' =>  $getarraytk[0]['user_id'],
+                        'namaproyek' =>  $getarraytk[0]['namaproyek'],
+                        'jenispekerjaan' =>  $getarraytk[0]['jenispekerjaan'],
+                        'gaji' =>  $getarraytk[0]['gaji'],
+                        'hari' =>  $getarraytk[0]['hari'],
+                        'total_pekerja' =>  $getarraytk[0]['total_pekerja'],
+                        'total_gaji' =>  $getarraytk[0]['total_gaji'],
+                    ];
+                    $getDataBOP = [
+                        'id_pbop' =>  '',
+                        'idajuan' =>  '',
+                        'user_id' =>  '',
+                        'namaproyek' =>  '',
+                        'namatrans' =>  '',
+                        'tot_biaya' =>  '',
+                    ];
+                    $getDataBB = [
+                        'id_pbb' =>  '',
+                        'idajuan' => '',
+                        'user_id' => '',
+                        'namaproyek' =>  '',
+                        'namabahan' =>  '',
+                        'ukuran' =>  '',
+                        'kualitas' =>  '',
+                        'jenis' =>  '',
+                        'berat' => '',
+                        'ketebalan' => '',
+                        'panjang' =>  '',
+                        'harga' =>  '',
+                        'jumlah_beli' => '',
+                        'total_harga' =>  '',
+                    ];
+                } else {
+                    $bukaform = [
+                        'bukaform' => ''
+                    ];
+                    $getDataBOP = [
+                        'id_pbop' =>  '',
+                        'idajuan' =>  '',
+                        'user_id' =>  '',
+                        'namaproyek' =>  '',
+                        'namatrans' =>  '',
+                        'tot_biaya' =>  '',
+                    ];
+                    $getDataBB = [
+                        'id_pbb' =>  '',
+                        'idajuan' => '',
+                        'user_id' => '',
+                        'namaproyek' =>  '',
+                        'namabahan' =>  '',
+                        'ukuran' =>  '',
+                        'kualitas' =>  '',
+                        'jenis' =>  '',
+                        'berat' => '',
+                        'ketebalan' => '',
+                        'panjang' =>  '',
+                        'harga' =>  '',
+                        'jumlah_beli' => '',
+                        'total_harga' =>  '',
+                    ];
+                    $getDataTK = [
+                        'id_pbtenaker' =>  '',
+                        'idajuan' =>  '',
+                        'user_id' => '',
+                        'namaproyek' =>  '',
+                        'jenispekerjaan' =>  '',
+                        'gaji' =>  '',
+                        'hari' => '',
+                        'total_pekerja' => '',
+                        'total_gaji' =>  '',
+                    ];
+                }
             }
         } else {
             $bukaform = [
@@ -892,9 +903,61 @@ class DashboardAdmin extends Dashboard
             return redirect()->to(base_url('admin/perhitunganbiaya'));
         }
     }
+
     // End Perhitungan Biaya Bahan Baku
 
     //Perhitungan Biaya Tenaga Kerja 
+    public function getdataperhitunganbbrevisi()
+    {
+        $perhitunganbbrevisi = new PerhitunganBBRevisiModel();
+
+
+        if ($this->request->isAJAX()) {
+            $id =  $this->request->getVar('id');
+            $builder = $perhitunganbbrevisi->builder();
+            $builder->select('perhitunganbbrevisi.*,pengajuan_proyek.namaproyek,pengajuan_proyek.user_id,pengajuan_proyek.idajuan')->join('perhitunganbahanbaku', 'perhitunganbbrevisi.id_pbb=perhitunganbahanbaku.id_pbb')
+                ->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan');
+            $builder = $builder->where('id_pbbr', $id)->get();
+            $getData = $builder->getResultArray();
+            echo json_encode($getData);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function getdataperhitungantkrevisi()
+    {
+        $perhitungantkrevisi = new PerhitunganTenakerRevisiModel();
+
+
+        if ($this->request->isAJAX()) {
+            $id =  $this->request->getVar('id');
+            $builder = $perhitungantkrevisi->builder();
+            $builder->select('perhitungantenakerrevisi.*,pengajuan_proyek.namaproyek,pengajuan_proyek.user_id,pengajuan_proyek.idajuan')->join('perhitungantenaker', 'perhitungantenakerrevisi.id_pbtenaker=perhitungantenaker.id_pbtenaker')
+                ->join('pengajuan_proyek', 'perhitungantenaker.idajuan=pengajuan_proyek.idajuan');
+            $builder = $builder->where('id_pbtenakerr', $id)->get();
+            $getData = $builder->getResultArray();
+            echo json_encode($getData);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
+    public function getdataperhitunganboprevisi($id = false)
+    {
+        $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
+
+
+        if ($this->request->isAJAX()) {
+            $id =  $this->request->getVar('id');
+            $builder = $perhitunganboprevisi->builder();
+            $builder->select('perhitunganboprevisi.*,pengajuan_proyek.namaproyek,pengajuan_proyek.user_id,pengajuan_proyek.idajuan')->join('perhitunganbop', 'perhitunganboprevisi.id_pbop=perhitunganbop.id_pbop')
+                ->join('pengajuan_proyek', 'perhitunganbop.idajuan=pengajuan_proyek.idajuan');
+            $builder = $builder->where('id_pbopr', $id)->get();
+            $getData = $builder->getResultArray();
+            echo json_encode($getData);
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
     public function hapusperhitungantk($id = false)
     {
         if ($this->request->isAJAX()) {
@@ -1642,22 +1705,26 @@ class DashboardAdmin extends Dashboard
     public function hapuspbbrevisi($id = false)
     {
         if ($this->request->isAJAX()) {
+            $perhitunganbb = new PerhitunganBBModel();
+            $perhitunganbb->builder()->where('id_pbb', $id)->set('revisi_id', 1)->update();
             $perhitunganbbrevisi = new PerhitunganBBRevisiModel();
-            $perhitunganbbrevisi->delete($id);
-            $builder = $perhitunganbbrevisi->builder();
-            $getaffectedrow = $builder->db()->affectedRows();
+            $affected = new PerhitunganBBRevisiModel();
+            $perhitunganbbrevisi->builder()->where('id_pbb', $id)->delete();
+            $getaffectedrow = $affected->builder()->db()->affectedRows();
             echo json_encode($getaffectedrow);
         } else {
-            return redirect()->to(base_url('admin/perhitunganbiaya'));
+            return redirect()->to(base_url('admin/perhitunganbiayarevisi'));
         }
     }
     public function hapuspboprevisi($id = false)
     {
         if ($this->request->isAJAX()) {
+            $perhitunganbop = new PerhitunganBOPModel();
+            $perhitunganbop->builder()->where('id_pbop', $id)->set('revisi_id', 1)->update();
             $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
-            $perhitunganboprevisi->delete($id);
-            $builder = $perhitunganboprevisi->builder();
-            $getaffectedrow = $builder->db()->affectedRows();
+            $affected = new PerhitunganBOPRevisiModel();
+            $perhitunganboprevisi->builder()->where('id_pbop', $id)->delete();
+            $getaffectedrow = $affected->builder()->db()->affectedRows();
             echo json_encode($getaffectedrow);
         } else {
             return redirect()->to(base_url('admin/perhitunganbiayarevisi'));
@@ -1666,18 +1733,269 @@ class DashboardAdmin extends Dashboard
     public function hapusptkrevisi($id = false)
     {
         if ($this->request->isAJAX()) {
+            $perhitungantenaker = new PerhitunganTenakerModel();
+            $perhitungantenaker->builder()->where('id_pbtenaker', $id)->set('revisi_id', 1)->update();
             $perhitungantkrevisi = new PerhitunganTenakerRevisiModel();
-            $perhitungantkrevisi->delete($id);
-            $builder = $perhitungantkrevisi->builder();
-            $getaffectedrow = $builder->db()->affectedRows();
+            $affected = new PerhitunganTenakerRevisiModel();
+            $perhitungantkrevisi->builder()->where('id_pbtenaker', $id)->delete();
+            $getaffectedrow = $affected->builder()->db()->affectedRows();
             echo json_encode($getaffectedrow);
         } else {
             return redirect()->to(base_url('admin/perhitunganbiayarevisi'));
         }
     }
-    // public function coba()
-    // {
-    //     $bbrevisi = new PerhitunganBBRevisiModel();
-    //     $builder =
-    // }
+    public function updaterevisibb($id = false)
+    {
+        if ($this->request->isAJAX()) {
+            $validation = \Config\Services::validation();
+
+            $valid = $this->validate([
+                'idajuanbb' => [
+                    'label' => 'Id Ajuan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ], 'id_pbb' => [
+                    'label' => 'Id Biaya',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'harga' => [
+                    'label' => 'Harga',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'jumlahbeli' => [
+                    'label' => 'Jumlah Beli',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'namabahan' => [
+                    'label' => 'Nama Bahan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+            ]);
+            if (!$valid) {
+                $msg = [
+                    'error' => [
+                        'erroridajuan' => $validation->getError('idajuanbb'),
+                        'errorid_pbb' => $validation->getError('id_pbb'),
+                        'errorharga' => $validation->getError('harga'),
+                        'errorjumlahbeli' => $validation->getError('jumlahbeli'),
+                        'errornamabahan' => $validation->getError('namabahan'),
+                    ],
+                ];
+                echo json_encode($msg);
+            } else {
+
+                $harga = $this->request->getVar('harga');
+                $harga = (int)filter_var($harga, FILTER_SANITIZE_NUMBER_INT);
+                $totalharga = $this->request->getVar('totalharga');
+                $totalharga = (int)filter_var($totalharga, FILTER_SANITIZE_NUMBER_INT);
+                $id_pbbr = $this->kodeotomatis('perhitunganbbrevisi', 'id_pbbr', 'PBR001');
+                $perhitunganbbrevisi = new PerhitunganBBRevisiModel();
+                $simpandata = [
+                    'id_pbbr' => $id_pbbr,
+                    'id_pbb' => $this->request->getVar('id_pbb'),
+                    'namabahan' => $this->request->getVar('namabahan'),
+                    'ukuran' => $this->request->getVar('ukuran'),
+                    'jenis' => $this->request->getVar('jenis'),
+                    'kualitas' => $this->request->getVar('kualitas'),
+                    'berat' => $this->request->getVar('berat'),
+                    'ketebalan' => $this->request->getVar('tebal'),
+                    'panjang' => $this->request->getVar('panjang'),
+                    'harga' => $harga,
+                    'jumlah_beli' => $this->request->getVar('jumlahbeli'),
+                    'total_harga' => $totalharga,
+                    'revisi_id' => 3
+
+                ];
+                $perhitunganbbrevisi->insert($simpandata);
+
+                $perhitunganbbrevisi->builder()->where('id_pbbr', $id)->set('revisi_id', 2)->update();
+                //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
+                //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
+                $builder = $perhitunganbbrevisi->builder();
+                $getaffectedrow = $builder->db()->affectedRows();
+                $data = [
+                    'affected' => $getaffectedrow,
+                    'notifnamaproyek' => $this->request->getVar('namaproyekbb'),
+                    'notifajuan' => $this->request->getVar('idajuanbb')
+                ];
+                echo json_encode($data);
+            }
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiayarevisi'));
+        }
+    }
+    public function updaterevisitk($id = false)
+    {
+        if ($this->request->isAJAX()) {
+            $validation = \Config\Services::validation();
+
+            $valid = $this->validate([
+                'idajuantk' => [
+                    'label' => 'Id Ajuan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ], 'id_pbtenaker' => [
+                    'label' => 'Id Biaya',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'jenispekerjaan' => [
+                    'label' => 'Jenis Pekerjaan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'gaji' => [
+                    'label' => 'Gaji',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'totalpekerja' => [
+                    'label' => 'Total Pekerja',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+            ]);
+            if (!$valid) {
+                $msg = [
+                    'error' => [
+                        'erroridajuan' => $validation->getError('idajuantk'),
+                        'erroridtenaker' => $validation->getError('id_pbtenaker'),
+                        'errorjenispekerjaan' => $validation->getError('jenispekerjaan'),
+                        'errorgaji' => $validation->getError('gaji'),
+                        'errortotalpekerja' => $validation->getError('totalpekerja'),
+                    ],
+                ];
+                echo json_encode($msg);
+            } else {
+
+
+                $gaji = $this->request->getVar('gaji');
+                $gaji = (int)filter_var($gaji, FILTER_SANITIZE_NUMBER_INT);
+                $perhitungantkrevisi = new PerhitunganTenakerRevisiModel();
+                $totalgaji = $this->request->getVar('totalgaji');
+                $totalgaji = (int)filter_var($totalgaji, FILTER_SANITIZE_NUMBER_INT);
+                $id_pbtenakerr = $this->kodeotomatis('perhitungantenakerrevisi', 'id_pbtenakerr', 'PTR001');
+                $simpandata = [
+                    'id_pbtenakerr' => $id_pbtenakerr,
+                    'id_pbtenaker' => $this->request->getVar('id_pbtenaker'),
+                    'jenispekerjaan' => $this->request->getVar('jenispekerjaan'),
+                    'gaji' => $gaji,
+                    'hari' => $this->request->getVar('hari'),
+                    'total_pekerja' => $this->request->getVar('totalpekerja'),
+                    'total_gaji' => $totalgaji,
+                    'revisi_id' => 3
+
+                ];
+
+
+                $perhitungantkrevisi->insert($simpandata);
+                $perhitungantkrevisi->builder()->where('id_pbtenakerr', $id)->set('revisi_id', 2)->update();
+                // untuk memberitahu bahwa ada baris data yang bertambah di database, 
+                //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
+                $builder = $perhitungantkrevisi->builder();
+                $getaffectedrow = $builder->db()->affectedRows();
+                $data = [
+                    'affected' => $getaffectedrow,
+                    'notifnamaproyek' => $this->request->getVar('namaproyektk'),
+                    'notifajuan' => $this->request->getVar('idajuantk')
+                ];
+                echo json_encode($data);
+            }
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiayarevisi'));
+        }
+    }
+    public function updaterevisibop($id = false)
+    {
+        if ($this->request->isAJAX()) {
+            $validation = \Config\Services::validation();
+
+            $valid = $this->validate([
+                'namatransaksi' => [
+                    'label' => 'Nama Transaksi',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'idajuanbop' => [
+                    'label' => 'Id Ajuan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+                'totalbiaya' => [
+                    'label' => 'Total Biaya',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => '{field} Tidak Boleh Kosong'
+                    ],
+                ],
+
+            ]);
+            if (!$valid) {
+                $msg = [
+                    'error' => [
+                        'erroridajuan' => $validation->getError('idajuanbop'),
+                        'errornamatransaksi' => $validation->getError('namatransaksi'),
+                        'errortotalbiaya' => $validation->getError('totalbiaya'),
+                    ],
+                ];
+                echo json_encode($msg);
+            } else {
+                $totbiaya = $this->request->getVar('totalbiaya');
+                $totbiaya = (int)filter_var($totbiaya, FILTER_SANITIZE_NUMBER_INT);
+                $boprevisimodel = new PerhitunganBOPRevisiModel();
+                $id_pbopr = $this->kodeotomatis('perhitunganboprevisi', 'id_pbopr', 'POR001');
+                $simpandata = [
+                    'id_pbopr' => $id_pbopr,
+                    'id_pbop' => $this->request->getVar('id_pbop'),
+                    'namatrans' => $this->request->getVar('namatransaksi'),
+                    'tot_biaya' => $totbiaya,
+                    'revisi_id' => 3
+
+                ];
+
+                $boprevisimodel->insert($simpandata);
+                $boprevisimodel->builder()->where('id_pbopr', $id)->set('revisi_id', 2)->update();
+                //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
+                //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
+                $builder = $boprevisimodel->builder();
+                $getaffectedrow = $builder->db()->affectedRows();
+                $baristerpengaruh = [
+                    'affected' => $getaffectedrow,
+                    'notifnamaproyek' => $this->request->getVar('namaproyekbop'),
+                    'notifajuan' => $this->request->getVar('idajuanbop')
+                ];
+                echo json_encode($baristerpengaruh);
+            }
+        } else {
+            return redirect()->to(base_url('admin/perhitunganbiaya'));
+        }
+    }
 }

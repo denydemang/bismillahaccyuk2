@@ -6,14 +6,19 @@ function bersihbb(){
     $('.idajuanbb').val('');
     $('.namaproyekbb').val('');
     $('.namabahan').val('');
+    $('.user_idbb').val('');
     $('.ukuran').val('');
     $('.tebal').val('');
     $('.jenis').val('');
+    $('.harga').val('');
     $('.berat').val('');
     $('.kualitas').val('');
     $('.panjang').val('');
     $('.jumlahbeli').val('');
     $('.totalharga').val('');
+    $('#btnsimpan').addClass('btnsimpanbb');
+    $('#btnsimpan').html('Revisi');
+
 }
 
 $(document).ready(function(){
@@ -112,8 +117,8 @@ $(document).ready(function(){
                 })
             
         } else {
-        //     let id = $('#btnsimpan').data('id');
-        // if ( $('#btnsimpan').hasClass('btnsimpanbb')){
+            let id = $('#btnsimpan').data('id');
+         if ( $('#btnsimpan').hasClass('btnsimpanbb')){
             $.ajax({
                 url : $(this).attr('action'),
                 type: "post",
@@ -184,93 +189,99 @@ $(document).ready(function(){
                 }
             });
             
-        // } else {
-        //     $.ajax({
-        //         url : base_url+'DashBoardAdmin/updaterevisibb/'+id,
-        //         type: "post",
-        //         data : $(this).serialize(),
-        //         dataType : "json",
-        //         beforeSend: function(){
-        //             $('.btnubahbb').attr('disable','disabled');
-        //             $('.btnubahbb').html('Mengupdate..');
+        } else {
+            $.ajax({
+                url : base_url+'DashBoardAdmin/updaterevisibb/'+id,
+                type: "post",
+                data : $(this).serialize(),
+                dataType : "json",
+                beforeSend: function(){
+                    $('.btnubahbb').attr('disable','disabled');
+                    $('.btnubahbb').html('Merevisi Ulang..');
 
-        //         },
-        //         complete: function(){
-        //             $('.btnubahbb').removeAttr('disable');
-        //             $('.btnubahbb').html('Ubah');
+                },
+                complete: function(){
+                    $('.btnubahbb').removeAttr('disable');
+                    $('.btnubahbb').html('Revisi Lagi');
 
-        //         },
-        //         success: function(response) {
-        //            if (response.error){
-        //                 if (response.error.erroridajuan){
-        //                     $('.idajuanbb').addClass('is-invalid');
-        //                     $('.idajuanbbinvalid').html(response.error.erroridajuan);
-        //                 } else {
-        //                     $('.idajuanbb').removeClass('is-invalid');
-        //                     $('.idajuanbbinvalid').html('');
-        //                 }
-        //                 if(response.error.errorharga){
-        //                     $('.harga').addClass('is-invalid');
-        //                     $('.hargainvalid').html(response.error.errorharga);
-        //                 } else {
-        //                     $('.harga').removeClass('is-invalid');
-        //                     $('.hargainvalid').html('');
-        //                 }
-        //                 if(response.error.errorjumlahbeli){
-        //                     $('.jumlahbeli').addClass('is-invalid');
-        //                     $('.jumlahbeliinvalid').html(response.error.errorjumlahbeli);
-        //                 } else {
-        //                     $('.jumlahbeli').removeClass('is-invalid');
-        //                     $('.jumlahbeliinvalid').html('');
-        //                 }
-        //                 if(response.error.errornamabahan){
-        //                     $('.namabahan').addClass('is-invalid');
-        //                     $('.namabahaninvalid').html(response.error.errornamabahan);
-        //                 } else {
-        //                     $('.namabahan').removeClass('is-invalid');
-        //                     $('.namabahaninvalid').html('');
-        //                 }
+                },
+                success: function(response) {
+                   if (response.error){
+                        if (response.error.erroridajuan){
+                            $('.idajuanbb').addClass('is-invalid');
+                            $('.idajuanbbinvalid').html(response.error.erroridajuan);
+                        } else {
+                            $('.idajuanbb').removeClass('is-invalid');
+                            $('.idajuanbbinvalid').html('');
+                        }  if (response.error.errorid_pbb){
+                            $('.id_pbb').addClass('is-invalid');
+                            $('.id_pbbinvalid').html(response.error.errorid_pbb);
+                        } else {
+                            $('.id_pbb').removeClass('is-invalid');
+                            $('.id_pbbinvalid').html('');
+                        }
+                        if(response.error.errorharga){
+                            $('.harga').addClass('is-invalid');
+                            $('.hargainvalid').html(response.error.errorharga);
+                        } else {
+                            $('.harga').removeClass('is-invalid');
+                            $('.hargainvalid').html('');
+                        }
+                        if(response.error.errorjumlahbeli){
+                            $('.jumlahbeli').addClass('is-invalid');
+                            $('.jumlahbeliinvalid').html(response.error.errorjumlahbeli);
+                        } else {
+                            $('.jumlahbeli').removeClass('is-invalid');
+                            $('.jumlahbeliinvalid').html('');
+                        }
+                        if(response.error.errornamabahan){
+                            $('.namabahan').addClass('is-invalid');
+                            $('.namabahaninvalid').html(response.error.errornamabahan);
+                        } else {
+                            $('.namabahan').removeClass('is-invalid');
+                            $('.namabahaninvalid').html('');
+                        }
                         
                        
-        //            } else {
-        //             if (response.affected >= 1){
-        //                 Swal.fire({
-        //                     position: 'center',
-        //                     icon: 'success',
-        //                     title: 'Berhasil Diupdate',
-        //                     text: 'Id Ajuan '+response.notifajuan+', Nama Proyek '+response.notifnamaproyek+' Berhasil Diupdate!',
-        //                     showConfirmButton: true,
-        //                     })
-        //                     tablepbb();
-        //                     $('#btnsimpan').addClass('btnsimpanbb');
-        //                     $('#btnsimpan').html('Simpan');
-        //                     $('#btnsimpan').removeClass('btnubahbb');
-        //                     bersih()
-        //             } else {
-        //                 Swal.fire({
-        //                     position: 'center',
-        //                     icon: 'info',
-        //                     title: 'Data Tidak Ada Yang Diubah',
-        //                     showConfirmButton: false,
-        //                     timer: 3000
-        //                     })
+                   } else {
+                    if (response.affected >= 1){
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Berhasil Diupdate',
+                            text: 'Id Ajuan '+response.notifajuan+', Nama Proyek '+response.notifnamaproyek+' Berhasil Diupdate!',
+                            showConfirmButton: true,
+                            })
+                            tablepbb();
+                            bersihbb()
+                           
+                    } else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'info',
+                            title: 'Data Tidak Ada Yang Diubah',
+                            showConfirmButton: false,
+                            timer: 3000
+                            })
                             
-        //                     tablepbb();
-        //                     $('#btnsimpan').addClass('btnsimpanbb');
-        //                     $('#btnsimpan').html('Simpan');
-        //                     $('#btnsimpan').removeClass('btnubahbb');
-        //                     bersih()
-        //             }
+                            tablepbb();
+                            bersihbb()
+                            $('#btnsimpan').addClass('btnsimpanbb');
+                            $('#btnsimpan').html('Simpan');
+                            $('#btnsimpan').removeClass('btnubahbb');
+                            tablepbb();
+                            bersihbb()
+                    }
                         
-        //                  }
+                         }
                     
-        //         },
-        //         error: function(xhr, ajaxOptions, thrownError) {
-        //             alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-        //         }
-        //     });
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
             
-        // }
+        }
             
         }
         
@@ -298,7 +309,7 @@ $(document).on('click', '.hapusbb', function(){
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url : base_url+"DashboardAdmin/hapuspbbrevisi/"+idfix,
+                    url : base_url+"DashboardAdmin/hapuspbbrevisi/"+id_pbb,
                     dataType : "json",
                     success: function(response) {
                          if(response >= 1){
@@ -331,6 +342,56 @@ $(document).on('click', '.hapusbb', function(){
                 });
             }
         })
+    
+})
+$(document).on('click', '.editbb', function(){
+    let id = $(this).data('id');
+    $.ajax({
+        type: 'post',
+        data : {id : id},
+        url: base_url+'DashboardAdmin/getdataperhitunganbbrevisi',
+        dataType: "json",
+        success: function(response) {
+        
+            $('.namabahan').removeClass('is-invalid');
+            $('.idajuanbb').removeClass('is-invalid');
+            $('.id_pbb').removeClass('is-invalid');
+            $('.jumlahbeli').removeClass('is-invalid');
+            $('.harga').removeClass('is-invalid');
+            $('#btnsimpan').removeClass('btnsimpanbb');
+            $('#btnsimpan').html('Revisi Lagi');
+            $('#btnsimpan').data('id', id);
+            $('.user_idbb').val(response[0]['user_id']);
+            $('.id_pbb').val(response[0]['id_pbb']);
+            $('.idajuanbb').val(response[0]['idajuan']);
+            $('.namaproyekbb').val(response[0]['namaproyek']);
+            $('.namabahan').val(response[0]['namabahan']);
+            $('.ukuran').val(response[0]['ukuran']);
+            $('.ukuran').data('ukuran',response[0]['ukuran']);
+            $('.tebal').val(response[0]['ketebalan']);
+            $('.tebal').data('tebal',response[0]['ketebalan']);
+            $('.jenis').val(response[0]['jenis']);
+            $('.jenis').data('jenis',response[0]['jenis']);
+            $('.berat').val(response[0]['berat']);
+            $('.berat').data('berat',response[0]['berat']);
+            $('.kualitas').val(response[0]['kualitas']);
+            $('.kualitas').data('kualitas',response[0]['kualitas']);
+            $('.panjang').val(response[0]['panjang']);
+            $('.panjang').data('panjang',response[0]['panjang']);
+            let harga = parseInt(response[0]['harga'])
+            let totalharga = parseInt(response[0]['total_harga']);
+            $('.harga').val(formatRupiah1(harga))
+            $('.harga').data('harga', response[0]['harga'])
+            $('.totalharga').val(formatRupiah1(totalharga))
+            $('.jumlahbeli').val(response[0]['jumlah_beli']);
+            $('.jumlahbeli').data('jumlahbeli',response[0]['jumlah_beli']);
+           
+            
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+        }
+    });
     
 })
 
