@@ -7,25 +7,43 @@ function clear(){
 }
 $(document).ready(function(){
 
-    $('.idajuanbop').change(function(){
-        let id = $(this).val();
+    $('.btnidajuantk').click(function(){
+        let id = $(this).data('id');
         $.ajax({
-            url : base_url+"DashboardAdmin/getuseridajuan",
-            type: "post",
-            data : {id:id},
-            dataType : "json",
-            success: function(response) {
-                $('.user_idbop').val(response[0]['user_id']);
-                $('.namaproyekbop').val(response[0]['namaproyek']);
+                    url : "http://localhost:8080/DashboardAdmin/getuseridajuan",
+                    type: "post",
+                    data : {id:id},
+                    dataType : "json",
+                    success: function(response) {
+                        $('.idajuantk').val(response[0]['idajuan']);
+                        $('.user_idtk').val(response[0]['user_id']);
+                        $('.namaproyektk').val(response[0]['namaproyek']);
+                        
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    }
+                });
+    })
+    // $('.idajuanbop').change(function(){
+    //     let id = $(this).val();
+    //     $.ajax({
+    //         url : base_url+"DashboardAdmin/getuseridajuan",
+    //         type: "post",
+    //         data : {id:id},
+    //         dataType : "json",
+    //         success: function(response) {
+    //             $('.user_idbop').val(response[0]['user_id']);
+    //             $('.namaproyekbop').val(response[0]['namaproyek']);
                 
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-            }
-        });
+    //         },
+    //         error: function(xhr, ajaxOptions, thrownError) {
+    //             alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+    //         }
+    //     });
 
         
-    })
+    // })
     $('.perhitunganbop').submit(function(e){
         let id = $('#btnsimpanbop').data('id');
         e.preventDefault();

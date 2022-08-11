@@ -1,24 +1,42 @@
     $(document).ready(function(){
 //Perhitungna Tenaga Kerja
-$('.idajuantk').change(function(){
-    let id = $(this).val();
+$('.btnidajuanbop').click(function(){
+    let id = $(this).data('id');
     $.ajax({
-        url : base_url+"DashboardAdmin/getuseridajuan",
-        type: "post",
-        data : {id:id},
-        dataType : "json",
-        success: function(response) {
-            $('.user_idtk').val(response[0]['user_id']);
-            $('.namaproyektk').val(response[0]['namaproyek']);
+                url : "http://localhost:8080/DashboardAdmin/getuseridajuan",
+                type: "post",
+                data : {id:id},
+                dataType : "json",
+                success: function(response) {
+                    $('.idajuanbop').val(response[0]['idajuan']);
+                    $('.user_idbop').val(response[0]['user_id']);
+                    $('.namaproyekbop').val(response[0]['namaproyek']);
+                    
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+})
+// $('.idajuantk').change(function(){
+//     let id = $(this).val();
+//     $.ajax({
+//         url : base_url+"DashboardAdmin/getuseridajuan",
+//         type: "post",
+//         data : {id:id},
+//         dataType : "json",
+//         success: function(response) {
+//             $('.user_idtk').val(response[0]['user_id']);
+//             $('.namaproyektk').val(response[0]['namaproyek']);
             
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-        }
-    });
+//         },
+//         error: function(xhr, ajaxOptions, thrownError) {
+//             alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+//         }
+//     });
 
     
-})
+// })
 $('.perhitungantenaker').submit(function(e){
         e.preventDefault(); 
         let id = $('#btnsimpantk').data('id');

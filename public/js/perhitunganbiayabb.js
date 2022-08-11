@@ -9,25 +9,43 @@ function bersih(){
 $(document).ready(function(){
        //BAHAN BAKU
     //jika memilih id ajuan field user id dan nama proyek otomatis terisi
-    $('.idajuanbb').change(function(){
-        let id = $(this).val();
+    $('.btnidajuanbb').click(function(){
+        let id = $(this).data('id');
         $.ajax({
-            url : "http://localhost:8080/DashboardAdmin/getuseridajuan",
-            type: "post",
-            data : {id:id},
-            dataType : "json",
-            success: function(response) {
-                $('.user_idbb').val(response[0]['user_id']);
-                $('.namaproyekbb').val(response[0]['namaproyek']);
+                    url : "http://localhost:8080/DashboardAdmin/getuseridajuan",
+                    type: "post",
+                    data : {id:id},
+                    dataType : "json",
+                    success: function(response) {
+                        $('.idajuanbb').val(response[0]['idajuan']);
+                        $('.user_idbb').val(response[0]['user_id']);
+                        $('.namaproyekbb').val(response[0]['namaproyek']);
+                        
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    }
+                });
+    })
+    // $('.idajuanbb').change(function(){
+    //     let id = $(this).val();
+    //     $.ajax({
+    //         url : "http://localhost:8080/DashboardAdmin/getuseridajuan",
+    //         type: "post",
+    //         data : {id:id},
+    //         dataType : "json",
+    //         success: function(response) {
+    //             $('.user_idbb').val(response[0]['user_id']);
+    //             $('.namaproyekbb').val(response[0]['namaproyek']);
                 
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-            }
-        });
+    //         },
+    //         error: function(xhr, ajaxOptions, thrownError) {
+    //             alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+    //         }
+    //     });
 
         
-    })
+    // })
     $('.perhitunganbb').submit(function(e){
         e.preventDefault();
         let id = $('#btnsimpan').data('id');
