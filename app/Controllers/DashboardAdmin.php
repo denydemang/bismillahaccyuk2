@@ -1998,4 +1998,21 @@ class DashboardAdmin extends Dashboard
             return redirect()->to(base_url('admin/perhitunganbiaya'));
         }
     }
+    public function downloadfile($nama = false)
+    {
+        $file_path = 'fileclient/' . $nama;
+        $ctype = "application/octet-stream";
+        header("Pragma:public");
+        header("Expired:0");
+        header("Cache-Control:must-revalidate");
+        header("Content-Control:public");
+        header("Content-Description: File Transfer");
+        header("Content-Type: $ctype");
+        header("Content-Disposition:attachment; filename=\"" . basename($file_path) . "\"");
+        header("Content-Transfer-Encoding:binary");
+        header("Content-Length:" . filesize($file_path));
+        flush();
+        readfile($file_path);
+        exit();
+    }
 }

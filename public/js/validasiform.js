@@ -14,7 +14,16 @@ jQuery.validator.addMethod("pwlogic", function(value, element) {
     $.validator.addMethod( "emailbener", function( email, element ) {
         return this.optional( element ) || email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
     }, 'Email Tidak Valid' );
-    
+$.validator.addMethod('filesize', function (value, element,param) {
+   
+        var size=element.files[0].size;
+       
+        size=size/1024;
+        size=Math.round(size);
+        return this.optional(element) || size <=param ;
+        
+      }, 'File size must be less than {0}');
+      
    
 $(document).ready(function(){
 
@@ -126,6 +135,11 @@ $(document).ready(function(){
                 },
                 catatan : {
                 required : true,
+                },
+                uploadfile : {
+                    required : true, 
+                    extension: "jpg,jpeg,png,pdf,rar,docx,doc,zip",
+                    filesize: 10000,
                 }
                 
             },
@@ -141,15 +155,28 @@ $(document).ready(function(){
                 },
                 catatan : {
                     required: 'Catatan Wajib Diisi'
+                },   
+                uploadfile : {
+                    required: 'Silakan Upload File Pendukung',
+                    extension: 'Masukkan File Gambar, Pdf , Atau rar',
+                    filesize: 'File Tidak Boleh Melebihi 10MB'
                 },
+              
             },
             errorElement: "div",
             errorPlacement: function ( error, element ) {
+                // if (element.is(":file")) {
+                //     error.appendTo( element.parents('.jeniskelamin') );
 
+                // } else {
+                    
 	        // Add the `invalid-feedback` class to the error element
-	        error.addClass( "invalid-feedback" );
-	        error.insertAfter(element);
+                error.addClass( "invalid-feedback" );
+                error.insertAfter(element);
     
+
+                // }
+
 	    
 	    },
         highlight: function ( element, errorClass, validClass ) {

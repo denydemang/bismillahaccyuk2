@@ -1,3 +1,4 @@
+const base_url = 'http://localhost:8080/'
 $(document).ready(function(){
   
     let lineNo = 1;
@@ -213,7 +214,8 @@ $(document).ready(function(){
                 $('.detailalamat').html(data[0]['alamat']);
                 $('.detailtelp').html(data[0]['notelp']);
                 $('.detailcatatanproyek').html(data[0]['catatanproyek']);
-                
+                $('.uploadfile').html('<a href="http://localhost:8080/admin/downloadfile/'+data[0]['file_upload']+'">'+data[0]['file_upload']+'</a>');
+                         
             }
 
 

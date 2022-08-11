@@ -51,7 +51,7 @@
                         <div class="card-header">
                             <h3 class="card-title">Form Ajukan Proyek</h3>
                         </div>
-                        <form id="formajuanproyek" method="post" action="<?= base_url('/DashboardKlien/simpanajuanproyek'); ?>">
+                        <form id="formajuanproyek" method="post" action="<?= base_url('/DashboardKlien/simpanajuanproyek'); ?>" enctype="multipart/form-data">
                             <?= csrf_field(); ?>
                             <div class="card-body">
                                 <div class="form-row form-group">
@@ -96,23 +96,18 @@
                                         <textarea class="form-control" id="catatan" rows="2" name="catatan"></textarea>
                                     </div>
                                 </div>
-                                <div class=" form-group">
-                                    <label for="exampleInputFile">Masukkan File</label>
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="exampleInputFile">
-                                            <label class="custom-file-label" for="exampleInputFile">Pilih File</label>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">Upload</span>
-                                        </div>
+                                <div class="form-group ">
+                                    <div class="custom-file col-8">
+                                        <label for="exampleFormControlFile1">Pilih File *</label>
+                                        <input type="file" class="form-control-file" id="exampleFormControlFile1" name="uploadfile">
+                                        <small id="emailHelp" class="form-text text-muted">Masukkan File Pendukung Untuk Deskripsi Lebih Detail Dari Proyek yang diajukan (Bisa berupa Gambar Atau Pdf)</small>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="card-footer">
+                            <div class="card-footer mb-2">
                                 <button type="submit" class="btn btn-primary">Ajukan Proyek</button>
                             </div>
+
                         </form>
                     </div>
                 </div>

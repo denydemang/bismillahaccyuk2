@@ -139,8 +139,20 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <strong><i class="far fa-file-alt mr-1"></i>Catatan</strong>
-                                <p class="text-muted detailcatatanproyek">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+                                <div class="row">
+                                    <div class="col">
+                                        <strong><i class="far fa-file-alt mr-1"></i>Catatan</strong>
+                                        <p class="text-muted detailcatatanproyek">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+                                    </div>
+                                    <div class="col">
+                                        <strong><i class="fas fa-download mr-1"></i>File Lampiran</strong>
+                                        <p class="text-muted uploadfile mr-1">
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+
                             </div>
 
                         </div>
