@@ -57,6 +57,7 @@ class TampilTable extends Dashboard
         if ($this->request->isAJAX()) {
             $hitungbb = new PerhitunganBBModel();
             $builder = $hitungbb->builder();
+            $builder = $builder->select('perhitunganbahanbaku.*,pengajuan_proyek.user_id,pengajuan_proyek.idajuan,pengajuan_proyek.namaproyek');
             $builder = $builder->join('pengajuan_proyek', 'perhitunganbahanbaku.idajuan=pengajuan_proyek.idajuan');
             $builder = $builder->get();
             $getData = $builder->getResultArray();
@@ -77,9 +78,11 @@ class TampilTable extends Dashboard
         if ($this->request->isAJAX()) {
             $hitungtenaker = new PerhitunganTenakerModel();
             $builder = $hitungtenaker->builder();
+            $builder = $builder->select('perhitungantenaker.*,pengajuan_proyek.user_id,pengajuan_proyek.idajuan,pengajuan_proyek.namaproyek');
             $builder = $builder->join('pengajuan_proyek', 'perhitungantenaker.idajuan=pengajuan_proyek.idajuan');
             $builder = $builder->get();
             $getData = $builder->getResultArray();
+            // dd($getData);
             $data = [
                 'tenaker' => $getData,
             ];
@@ -97,6 +100,7 @@ class TampilTable extends Dashboard
         if ($this->request->isAJAX()) {
             $hitungbop = new PerhitunganBOPModel();
             $builder = $hitungbop->builder();
+            $builder = $builder->select('perhitunganbop.*,pengajuan_proyek.user_id,pengajuan_proyek.idajuan,pengajuan_proyek.namaproyek');
             $builder = $builder->join('pengajuan_proyek', 'perhitunganbop.idajuan=pengajuan_proyek.idajuan');
             $builder = $builder->get();
             $getData = $builder->getResultArray();

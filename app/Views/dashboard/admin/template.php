@@ -224,6 +224,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="<?= base_url(); ?>/admin/kirimemail" class="nav-link <?= ($_SESSION['aktif'] == 'kirimemail') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-at mr-3"></i>
+                                <p>
+                                    Kirim Email
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?= base_url(); ?>/admin/message" class="nav-link <?= ($_SESSION['aktif'] == 'message') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-envelope mr-3"></i>
                                 <p>

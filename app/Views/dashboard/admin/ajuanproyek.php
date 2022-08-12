@@ -27,6 +27,7 @@
                                 <th>Lokasi Proyek</th>
                                 <th>Nama Klien</th>
                                 <th>Status</th>
+                                <th>Tinjauan</th>
                                 <th>Aksi</th>
                             </thead>
                             <tbody>
@@ -47,6 +48,11 @@
                                             <td><span class="badge badge-danger"><?= $ajuan->keterangan; ?></span></td>
                                         <?php elseif ($ajuan->status_id == '4') : ?>
                                             <td><span class="badge badge-success"><?= $ajuan->keterangan; ?></span></td>
+                                        <?php endif; ?>
+                                        <?php if ($ajuan->revisi_id == '0') : ?>
+                                            <td><span class="badge badge-warning">Belum Dihitung</span></td>
+                                        <?php elseif ($ajuan->revisi_id == '1') : ?>
+                                            <td><span class="badge badge-success">Sudah Dihitung</span></td>
                                         <?php endif; ?>
                                         <td><a class="btn btn-sm btn-success detailajuan" data-toggle="modal" data-target="#exampleModal" data-idajuan="<?= $ajuan->idajuan; ?>">Detail</a>
                                             <?php if ($ajuan->status_id == '1') : ?>
@@ -159,6 +165,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" data-detailid="5" class="btn btn-primary detailcreate">Create Project</button>
+                        <button type="button" data-detailid="5" class="btn btn-primary detailhitung">Buat Perhitungan</button>
                         <button type="button" data-detailid="5" class="btn btn-primary detailterima">Terima</button>
                         <button type="button" data-detailid="5" class="btn btn-danger detailtolak">Tolak</button>
                         <button type="button" data-detailid="5" class="btn btn-warning detailhapus">Hapus</button>

@@ -181,6 +181,7 @@ $(document).ready(function(){
 	    },
         highlight: function ( element, errorClass, validClass ) {
             $( element ).addClass( "is-invalid" )
+            
         },
         unhighlight: function (element, errorClass, validClass) {
 	        $( element ).removeClass( "is-invalid" );
@@ -220,7 +221,6 @@ $(document).ready(function(){
                 },
                 belumbayar : {
                 required : true,
-                numberonly :true,
                 },
                 
             },
@@ -248,7 +248,6 @@ $(document).ready(function(){
                 },
                 belumbayar : {
                     required: 'Tidak Boleh Kosong',
-                    numberonly: 'Input Tidak Valid'
                 },
             },
             errorElement: "div",
@@ -257,6 +256,68 @@ $(document).ready(function(){
 	        // Add the `invalid-feedback` class to the error element
 	        error.addClass( "invalid-feedback" );
 	        error.insertAfter(element);
+    
+	    
+	    },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" )
+        },
+        unhighlight: function (element, errorClass, validClass) {
+	        $( element ).removeClass( "is-invalid" );
+	    },
+        submitHandler: function (form) {
+            form.submit();
+
+            }
+
+        })
+    })
+
+    //Validasi Kirim Email
+    $('#formkirimemail').each(function(){
+        $(this).validate({
+            rules: {
+                penerimaemail : {
+                    required : true,
+                },
+                subjectemail : {
+                required : true,
+                },
+                pesanemail : {
+                required : true,
+                },
+                uploadfileemail: {
+                required : true,
+                extension: "jpg,jpeg,png,pdf,rar,docx,doc,zip",
+                filesize: 5000,
+                },
+                
+            },
+            messages: {
+                penerimaemail : {
+                    required: 'Penerima Email Wajib Diisi'
+                },
+                subjectemail : {
+                    required: 'Subject Email Wajib Diisi'
+                },
+                pesanemail : {
+                    required: 'Silakan Tulis Pesan Ke Klien'
+                },
+                uploadfileemail : {
+                    required: 'Silakan Upload File',
+                    extension: "Masukkan File Gambar atau Pdf",
+                    filesize: 'File maksimal 5mb',
+                },
+            },
+            errorElement: "div",
+            errorPlacement: function ( error, element ) {
+                
+
+	        // Add the `invalid-feedback` class to the error element
+	        error.addClass( "invalid-feedback" );
+	        error.insertAfter(element);
+                
+
     
 	    
 	    },

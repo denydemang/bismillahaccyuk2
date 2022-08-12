@@ -11,7 +11,7 @@
         </div>
     </section>
     <section class="content">
-        <div class="getbuatproyek" data-idajuan="<?= $idajuan; ?>" data-namaproyek="<?= $namaproyek; ?>" data-jenisproyek="<?= $jenisproyek; ?>" data-idklien="<?= $idklien; ?>" data-namaklien="<?= $namaklien; ?>">
+        <div class="getbuatproyek" data-idajuan="<?= $idajuan; ?>" data-namaproyek="<?= $namaproyek; ?>" data-jenisproyek="<?= $jenisproyek; ?>" data-idklien="<?= $idklien; ?>" data-namaklien="<?= $namaklien; ?>" data-biaya="<?= $biaya; ?>">
         </div>
         <div class="container-fluid">
             <div class="card card-danger">
@@ -33,18 +33,47 @@
                             <form id="buatproyek" method="post" action="<?= base_url(); ?>/DashboardAdmin/buatproyek">
                                 <?= csrf_field(); ?>
                                 <div class="form-row form-group">
+                                    <div class="col dropdown">
+                                        <button type="button" data-toggle="dropdown" class="btn btn-info">Pilih Id Ajuan <i class="bg-info mb-2 dropdown-toggle"></i></button>
+                                        <div class="dropdown-menu dropdown-menu-lg">
+                                            <div class="card" style="width:max-content">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
+                                                </div>
+                                                <div class="card-body p-3">
+                                                    <table class="table text-nowrap daftarajuan">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>ID AJUAN</th>
+                                                                <th>Nama Proyek</th>
+                                                                <th>Jenis Proyek</th>
+                                                                <th>Nama Klien</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php foreach ($dataajuan as $row) : ?>
+                                                                <tr>
+                                                                    <td><button type="button" data-id="<?= $row['idajuan']; ?>" class="badge badge-primary btnidajuanproyek"><?= $row['idajuan']; ?></button></td>
+                                                                    <td><?= $row['namaproyek']; ?></td>
+                                                                    <td><?= $row['jenisproyek']; ?></td>
+                                                                    <td><?= $row['nama']; ?></td>
+                                                                </tr>
+                                                            <?php endforeach ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row form-group">
                                     <div class="col">
                                         <label for="idproyek">Id Proyek</label>
                                         <input type="text" readonly class="form-control" name="idproyek" id="idproyek" value="<?= $kodeproyek; ?>">
                                     </div>
                                     <div class="col">
                                         <label for="idajuan">Id Ajuan</label>
-                                        <select class="form-control" name="idajuan" id="idajuan">
-                                            <option disabled selected>Pilih Id Ajuan</option>
-                                            <?php foreach ($dataajuan as $dataaju) : ?>
-                                                <option id="<?= $dataaju['idajuan']; ?>" value="<?= $dataaju['idajuan']; ?>"><?= $dataaju['idajuan']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                        <input class="form-control" readonly name="idajuan" id="idajuan">
                                     </div>
                                 </div>
                                 <div class="form-row form-group">
@@ -69,15 +98,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="biaya">Biaya</label>
-                                    <input type="text" class="form-control" name="biaya" id="biaya" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                    <input type="text" style="font-weight: bolder; color:purple" readonly class="form-control" name="biaya" id="biaya">
                                 </div>
                                 <div class="form-group">
                                     <label for="sudahbayar">Sudah Bayar</label>
-                                    <input type="text" name="sudahbayar" class="form-control" id="sudahbayar" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                    <input type="text" style="font-weight: bolder; color:green" name="sudahbayar" class="form-control" id="sudahbayar">
                                 </div>
                                 <div class="form-group">
                                     <label for="belumbayar">Belum Bayar</label>
-                                    <input type="text" readonly name="belumbayar" class="form-control" id="belumbayar">
+                                    <input type="text" style="font-weight: bold; color:red" readonly name="belumbayar" class="form-control" id="belumbayar">
                                 </div>
                         </div>
 
@@ -101,33 +130,25 @@
                             </thead>
                             <tbody>
                                 <?php $no = 1 ?>
-                                <?php if ($tablekosong == 'true') : ?>
-                                    <tr>
-                                        <td colspan="9">
-                                            <h5 style="text-align:center">Tidak Ada Data Proyek</h5>
-                                        </td>
-                                    <tr>
-                                    <?php elseif ($tablekosong == 'false') : ?>
-                                        <?php foreach ($proyek as $pry) : ?>
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $pry['idproyek'] ?></td>
-                                            <td><?= $pry['idajuan'] ?></td>
-                                            <td><?= $pry['namaproyek'] ?></td>
-                                            <td><?= $pry['jenisproyek'] ?></td>
-                                            <td><?= $pry['nama'] ?></td>
-                                            <td><?= $pry['biaya'] ?></td>
-                                            <?php if ($pry['belum_bayar'] == 0) : ?>
-                                                <td><span class="badge badge-success">Lunas</span></td>
-                                            <?php else : ?>
-                                                <td><span class="badge badge-danger">Belum Lunas</span></td>
-                                            <?php endif ?>
-                                            <td><a data-idproyek="<?= $pry['idproyek']; ?>" class="btn btn-warning btn-sm btnkelola">kelola</a></td>
+
+                                <?php foreach ($proyek as $pry) : ?>
+                                    <td><?= $no++ ?></td>
+                                    <td><?= $pry['idproyek'] ?></td>
+                                    <td><?= $pry['idajuan'] ?></td>
+                                    <td><?= $pry['namaproyek'] ?></td>
+                                    <td><?= $pry['jenisproyek'] ?></td>
+                                    <td><?= $pry['nama'] ?></td>
+                                    <td><?= $pry['biaya'] ?></td>
+                                    <?php if ($pry['belum_bayar'] == 0) : ?>
+                                        <td><span class="badge badge-success">Lunas</span></td>
+                                    <?php else : ?>
+                                        <td><span class="badge badge-danger">Belum Lunas</span></td>
+                                    <?php endif ?>
+                                    <td><a data-idproyek="<?= $pry['idproyek']; ?>" class="btn btn-warning btn-sm btnkelola">kelola</a></td>
 
                                     </tr>
                                 <?php endforeach ?>
-                            <?php endif; ?>
-
-                            </tr>
+                                </tr>
 
                             </tbody>
                         </table>
@@ -148,6 +169,15 @@
             let idproyek = $(this).data('idproyek');
             window.location.href = 'http://localhost:8080/DashboardAdmin/redirectkelola/' + idproyek
         });
+        $('.daftarajuan').DataTable({
+            "lengthChange": false,
+            "info": false,
+            "paging": false,
+            "fixedHeader": true,
+            "scrollY": '150px',
+            "scrollX": true,
+            // "scrollCollapse": true,
+        })
     });
 </script>
 

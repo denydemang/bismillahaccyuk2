@@ -12,4 +12,10 @@ class ModelLogin extends Model
     protected $allowedFields = [
         'user_id', 'user_name', 'nama', 'email', 'alamat', 'notelp', 'password', 'user_level'
     ];
+    public function getalluser()
+    {
+        $users = new ModelLogin();
+        $data = $users->findAll();
+        return $data;
+    }
 }

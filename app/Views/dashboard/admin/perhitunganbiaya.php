@@ -31,9 +31,8 @@
             </select>
             <input type="text" readonly class="form-control sumbiaya" style="color: purple;font-weight:bolder;font-size:larger" placeholder="Total Biaya">
          </div>
-
          <div class=" col-lg-12">
-            <div class="card card-default collapsed-card">
+            <div class="card card-default collapsed-card perhitunganbbcard">
                <div class="card-header bg-primary">
                   <h3 class="card-title">Perhitungan Biaya Bahan Baku</h3>
                   <div class="card-tools">
@@ -54,14 +53,13 @@
                                     <div class="card-header">
                                        <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
                                     </div>
-                                    <div class="card-body table-responsive p-3" style="height: 200px;width:600px !important">
-                                       <table class="table table-head-fixed text-nowrap daftarajuan">
+                                    <div class="card-body p-3">
+                                       <table class="table text-nowrap daftarajuan">
                                           <thead>
-                                             <tr>
-                                                <th>ID AJUAN</th>
-                                                <th>Nama Proyek</th>
-                                                <th>Jenis Proyek</th>
-                                                <th>Nama Klien</th>
+                                             <th>ID AJUAN</th>
+                                             <th>Nama Proyek</th>
+                                             <th>Jenis Proyek</th>
+                                             <th>Nama Klien</th>
                                              </tr>
                                           </thead>
                                           <tbody>
@@ -176,36 +174,34 @@
                      <form class="perhitungantenaker" action="<?= base_url(); ?>/DashboardAdmin/simpanperhitungantenaker">
                         <?= csrf_field(); ?>
                         <div class="form-row form-group-sm mb-3">
-                           <div class="col-4">
-                              <div class="dropdown">
-                                 <button type="button" data-toggle="dropdown" class="btn btn-info">Pilih Id Ajuan <i class="bg-info mb-2 dropdown-toggle"></i></button>
-                                 <div class="dropdown-menu dropdown-menu-lg">
-                                    <div class="card" style="width:600px !important">
-                                       <div class="card-header">
-                                          <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
-                                       </div>
-                                       <div class="card-body table-responsive p-3" style="height: 200px;width:600px !important">
-                                          <table class="table table-head-fixed text-nowrap daftarajuan">
-                                             <thead>
+                           <div class="col-lg-12 dropdown">
+                              <button type="button" data-toggle="dropdown" class="btn btn-info">Pilih Id Ajuan <i class="bg-info mb-2 dropdown-toggle"></i></button>
+                              <div class="dropdown-menu dropdown-menu-lg">
+                                 <div class="card" style="width:600px !important">
+                                    <div class="card-header">
+                                       <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
+                                    </div>
+                                    <div class="card-body p-3">
+                                       <table class="table text-nowrap daftarajuan">
+                                          <thead>
+                                             <tr>
+                                                <th>ID AJUAN</th>
+                                                <th>Nama Proyek</th>
+                                                <th>Jenis Proyek</th>
+                                                <th>Nama Klien</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <?php foreach ($dataajuan as $row) : ?>
                                                 <tr>
-                                                   <th>ID AJUAN</th>
-                                                   <th>Nama Proyek</th>
-                                                   <th>Jenis Proyek</th>
-                                                   <th>Nama Klien</th>
+                                                   <td><button type="button" data-id="<?= $row['idajuan']; ?>" class="badge badge-primary btnidajuantk"><?= $row['idajuan']; ?></button></td>
+                                                   <td><?= $row['namaproyek']; ?></td>
+                                                   <td><?= $row['jenisproyek']; ?></td>
+                                                   <td><?= $row['nama']; ?></td>
                                                 </tr>
-                                             </thead>
-                                             <tbody>
-                                                <?php foreach ($dataajuan as $row) : ?>
-                                                   <tr>
-                                                      <td><button data-id="<?= $row['idajuan']; ?>" type="button" class="badge badge-primary btnidajuantk"><?= $row['idajuan']; ?></button></td>
-                                                      <td><?= $row['namaproyek']; ?></td>
-                                                      <td><?= $row['jenisproyek']; ?></td>
-                                                      <td><?= $row['nama']; ?></td>
-                                                   </tr>
-                                                <?php endforeach ?>
-                                             </tbody>
-                                          </table>
-                                       </div>
+                                             <?php endforeach ?>
+                                          </tbody>
+                                       </table>
                                     </div>
                                  </div>
                               </div>
@@ -242,7 +238,7 @@
                            </div>
                            <div class="col">
                               <label for="hari">Hari *</label>
-                              <input type="text" class="form-control hari" name="hari">
+                              <input type="text" class="form-control hari" name="hari" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                               <div class="hariinvalid invalid-feedback">
                               </div>
                            </div>
@@ -284,37 +280,35 @@
                   <div class="container-fluid mb-3">
                      <form class="perhitunganbop" action="<?= base_url(); ?>/DashboardAdmin/simpanperhitunganbop">
                         <?= csrf_field(); ?>
-                        <div class="form-row form-group">
-                           <div class="col-4">
-                              <div class="dropdown">
-                                 <button type="button" data-toggle="dropdown" class="btn btn-info">Pilih Id Ajuan <i class="bg-info mb-2 dropdown-toggle"></i></button>
-                                 <div class="dropdown-menu dropdown-menu-lg">
-                                    <div class="card" style="width:600px !important">
-                                       <div class="card-header">
-                                          <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
-                                       </div>
-                                       <div class="card-body table-responsive p-3" style="height: 200px;width:600px !important">
-                                          <table class="table table-head-fixed text-nowrap daftarajuan">
-                                             <thead>
+                        <div class="form-row form-group-sm mb-3">
+                           <div class="col-lg-12 dropdown">
+                              <button type="button" data-toggle="dropdown" class="btn btn-info">Pilih Id Ajuan <i class="bg-info mb-2 dropdown-toggle"></i></button>
+                              <div class="dropdown-menu dropdown-menu-lg">
+                                 <div class="card" style="width:600px !important">
+                                    <div class="card-header">
+                                       <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
+                                    </div>
+                                    <div class="card-body p-3">
+                                       <table class="table text-nowrap daftarajuan">
+                                          <thead>
+                                             <tr>
+                                                <th>ID AJUAN</th>
+                                                <th>Nama Proyek</th>
+                                                <th>Jenis Proyek</th>
+                                                <th>Nama Klien</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <?php foreach ($dataajuan as $row) : ?>
                                                 <tr>
-                                                   <th>ID AJUAN</th>
-                                                   <th>Nama Proyek</th>
-                                                   <th>Jenis Proyek</th>
-                                                   <th>Nama Klien</th>
+                                                   <td><button type="button" data-id="<?= $row['idajuan']; ?>" class="badge badge-primary btnidajuanbop"><?= $row['idajuan']; ?></button></td>
+                                                   <td><?= $row['namaproyek']; ?></td>
+                                                   <td><?= $row['jenisproyek']; ?></td>
+                                                   <td><?= $row['nama']; ?></td>
                                                 </tr>
-                                             </thead>
-                                             <tbody>
-                                                <?php foreach ($dataajuan as $row) : ?>
-                                                   <tr>
-                                                      <td><button type="button" data-id="<?= $row['idajuan']; ?>" class="badge badge-primary btnidajuanbop"><?= $row['idajuan']; ?></button></td>
-                                                      <td><?= $row['namaproyek']; ?></td>
-                                                      <td><?= $row['jenisproyek']; ?></td>
-                                                      <td><?= $row['nama']; ?></td>
-                                                   </tr>
-                                                <?php endforeach ?>
-                                             </tbody>
-                                          </table>
-                                       </div>
+                                             <?php endforeach ?>
+                                          </tbody>
+                                       </table>
                                     </div>
                                  </div>
                               </div>
@@ -361,12 +355,28 @@
             </div>
          </div>
       </div>
+      <div class="datakirim" data-idajuan="<?= $datakirim['idajuan']; ?>" data-user_id="<?= $datakirim['user_id']; ?>" data-namaproyek="<?= $datakirim['namaproyek']; ?>"></div>
 </div>
 <script>
-   $('.daftarajuan').DataTable({
-      "lengthChange": false,
-      "info": false,
-      "paging": false
+   $(document).ready(function() {
+      $('.daftarajuan').DataTable({
+         "lengthChange": false,
+         "info": false,
+         "paging": false,
+         "scrollY": '150px',
+         "scrollX": true,
+         "scrollCollapse": true,
+      })
+      let idajuan = $('.datakirim').data('idajuan')
+      let userid = $('.datakirim').data('user_id')
+      let namaproyek = $('.datakirim').data('namaproyek')
+      if (idajuan) {
+         $('.idajuanbb').val(idajuan);
+         $('.user_idbb').val(userid);
+         $('.namaproyekbb').val(namaproyek);
+         $('.perhitunganbbcard').CardWidget("toggle");
+      }
+
    })
 </script>
 <script src="<?= base_url() ?>/js/perhitunganbiaya.js"></script>

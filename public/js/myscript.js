@@ -1,3 +1,23 @@
+
+
+const formatRupiahtyping = (money) => {
+    angka = money.replace(/[^,\d]/g, "");
+  if (isNaN(angka)){
+    angka = 0;
+  }
+    return new Intl.NumberFormat('id-ID',
+      { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }
+    ).format(angka);
+ }
+const formatRupiah1 = (money) => {
+  if (isNaN(money)){
+    money = 0;
+  }
+    return new Intl.NumberFormat('id-ID',
+      { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }
+    ).format(money);
+ }
+
 const base_url = 'http://localhost:8080/'
 $(document).ready(function(){
   
@@ -156,6 +176,7 @@ $(document).ready(function(){
         $('.detailterima').data('detailid',idajuan);
         $('.detailtolak').data('detailid',idajuan);
         $('.detailhapus').data('detailid',idajuan);
+        $('.detailhitung').data('detailid',idajuan);
 
         $.ajax({
             url: 'http://localhost:8080/DashboardAdmin/detailajuanproyek',
@@ -163,58 +184,86 @@ $(document).ready(function(){
             method: 'post',
             dataType: 'json',
             success: function(data){
-                if (data[0]['status_id'] =='1'){
-                    $('.detailterima').show();
-                    $('.detailtolak').show();
+                if (data.data[0]['revisi_id'] =='0' && data.data[0]['status_id'] =='2'){
                     $('.detailcreate').hide();
-                    $('.detailhapus').hide();
-                    $('.detailnamastatus').removeClass('badge-primary')
-                    $('.detailnamastatus').removeClass('badge-danger')
-                    $('.detailnamastatus').removeClass('badge-success')
-                    $('.detailnamastatus').addClass('badge-secondary')
-                } else if (data[0]['status_id'] =='2') {
-                    $('.detailcreate').show();
                     $('.detailterima').hide();
                     $('.detailhapus').hide();
                     $('.detailtolak').hide();
+                    $('.detailhitung').show();
                     $('.detailnamastatus').removeClass('badge-secondary')
                     $('.detailnamastatus').removeClass('badge-danger')
                     $('.detailnamastatus').removeClass('badge-success')
                     $('.detailnamastatus').addClass('badge-primary')
-                }else if (data[0]['status_id'] =='3') {
-                    $('.detailcreate').hide();
-                    $('.detailterima').hide();
-                    $('.detailhapus').show();
-                    $('.detailtolak').hide();
-                    $('.detailnamastatus').removeClass('badge-secondary')
-                    $('.detailnamastatus').removeClass('badge-primary')
-                    $('.detailnamastatus').removeClass('badge-success')
-                    $('.detailnamastatus').addClass('badge-danger')
-                   
-                } 
-                else if (data[0]['status_id'] =='4'){
-                    $('.detailcreate').hide();
+                } else if(data.data[0]['revisi_id'] =='1' && data.data[0]['status_id'] =='2'){
+                    $('.detailcreate').show();
                     $('.detailterima').hide();
                     $('.detailhapus').hide();
                     $('.detailtolak').hide();
+                    $('.detailhitung').hide();
                     $('.detailnamastatus').removeClass('badge-secondary')
                     $('.detailnamastatus').removeClass('badge-danger')
-                    $('.detailnamastatus').removeClass('badge-primary')
-                    $('.detailnamastatus').addClass('badge-success')
+                    $('.detailnamastatus').removeClass('badge-success')
+                    $('.detailnamastatus').addClass('badge-primary')
+                }else {
+                    if (data.data[0]['status_id'] =='1'){
+                        $('.detailterima').show();
+                        $('.detailtolak').show();
+                        $('.detailcreate').hide();
+                        $('.detailhapus').hide();
+                        $('.detailhitung').hide();
+                        $('.detailnamastatus').removeClass('badge-primary')
+                        $('.detailnamastatus').removeClass('badge-danger')
+                        $('.detailnamastatus').removeClass('badge-success')
+                        $('.detailnamastatus').addClass('badge-secondary')
+                    } else if (data.data[0]['status_id'] =='2') {
+                        $('.detailcreate').hide();
+                        $('.detailterima').hide();
+                        $('.detailhapus').hide();
+                        $('.detailtolak').hide();
+                        $('.detailhitung').hide();
+                        $('.detailnamastatus').removeClass('badge-secondary')
+                        $('.detailnamastatus').removeClass('badge-danger')
+                        $('.detailnamastatus').removeClass('badge-success')
+                        $('.detailnamastatus').addClass('badge-primary')
+                    }else if (data.data[0]['status_id'] =='3') {
+                        $('.detailcreate').hide();
+                        $('.detailterima').hide();
+                        $('.detailhapus').show();
+                        $('.detailtolak').hide();
+                        $('.detailhitung').hide();
+                        $('.detailnamastatus').removeClass('badge-secondary')
+                        $('.detailnamastatus').removeClass('badge-primary')
+                        $('.detailnamastatus').removeClass('badge-success')
+                        $('.detailnamastatus').addClass('badge-danger')
+                       
+                    } 
+                    else if (data.data[0]['status_id'] =='4'){
+                        $('.detailcreate').hide();
+                        $('.detailterima').hide();
+                        $('.detailhapus').hide();
+                        $('.detailtolak').hide();
+                        $('.detailhitung').hide();
+                        $('.detailnamastatus').removeClass('badge-secondary')
+                        $('.detailnamastatus').removeClass('badge-danger')
+                        $('.detailnamastatus').removeClass('badge-primary')
+                        $('.detailnamastatus').addClass('badge-success')
+                        
+                    }
                     
                 }
-                $('.detailidajuan').html(data[0]['idajuan']);
-                $('.detailiduser').html(data[0]['user_id']);
-                $('.detailnamaproyek').html(data[0]['namaproyek']);
-                $('.detailnamastatus').html(data[0]['keterangan']);
-                $('.detailjenisproyek').html(data[0]['jenisproyek']);
-                $('.detaillokasiproyek').html(data[0]['lokasiproyek']);
-                $('.detailnama').html(data[0]['nama']);
-                $('.detailemail').html(data[0]['email']);
-                $('.detailalamat').html(data[0]['alamat']);
-                $('.detailtelp').html(data[0]['notelp']);
-                $('.detailcatatanproyek').html(data[0]['catatanproyek']);
-                $('.uploadfile').html('<a href="http://localhost:8080/admin/downloadfile/'+data[0]['file_upload']+'">'+data[0]['file_upload']+'</a>');
+               
+                $('.detailidajuan').html(data.data[0]['idajuan']);
+                $('.detailiduser').html(data.data[0]['user_id']);
+                $('.detailnamaproyek').html(data.data[0]['namaproyek']);
+                $('.detailnamastatus').html(data.data[0]['keterangan']);
+                $('.detailjenisproyek').html(data.data[0]['jenisproyek']);
+                $('.detaillokasiproyek').html(data.data[0]['lokasiproyek']);
+                $('.detailnama').html(data.data[0]['nama']);
+                $('.detailemail').html(data.data[0]['email']);
+                $('.detailalamat').html(data.data[0]['alamat']);
+                $('.detailtelp').html(data.data[0]['notelp']);
+                $('.detailcatatanproyek').html(data.data[0]['catatanproyek']);
+                $('.uploadfile').html('<a href="http://localhost:8080/admin/downloadfile/'+data.data[0]['file_upload']+'">'+data.data[0]['file_upload']+'</a>');
                          
             }
 
@@ -223,6 +272,10 @@ $(document).ready(function(){
           
     })
     //aksi di form modal detail ajuan
+    $('.detailhitung').click(function(){
+        let id = $(this).data('detailid');
+        location.href=base_url+"admin/perhitunganbiaya/"+id
+    })
     $('.detailterima').click(function(){
         let id = $(this).data('detailid');
         Swal.fire({
@@ -235,13 +288,13 @@ $(document).ready(function(){
             confirmButtonText: 'Ya'
         }).then((result) => {
             if (result.isConfirmed) {
-                location.href = 'http://localhost:8080/admin/terimaajuan/'+id
+                location.href = base_url+'admin/terimaajuan/'+id
             }
         })
     })
     $('.detailcreate').click(function(){
        var id = $(this).data('detailid');
-        location.href = 'http://localhost:8080/admin/dataproyek/'+id
+        location.href = base_url+'admin/dataproyek/'+id
     
     })
     $('.detailtolak').click(function(){
@@ -256,7 +309,7 @@ $(document).ready(function(){
             confirmButtonText: 'Ya'
         }).then((result) => {
             if (result.isConfirmed) {
-                location.href = 'http://localhost:8080/admin/tolakajuan/'+id
+                location.href = base_url+'admin/tolakajuan/'+id
             }
         })
     })
@@ -272,7 +325,7 @@ $(document).ready(function(){
             confirmButtonText: 'Ya'
         }).then((result) => {
             if (result.isConfirmed) {
-                location.href = 'http://localhost:8080/admin/hapusajuan/'+id
+                location.href = base_url+'admin/hapusajuan/'+id
             }
         })
     })
@@ -285,18 +338,20 @@ $(document).ready(function(){
  
 
     //Form Data Proyek Di Dashboard Admin
-    $('#idajuan').change(function(){
-        let idajuan = $(this).val();
+    $('.btnidajuanproyek').click(function(){
+        let idajuan = $(this).data('id');
         $.ajax({
-            url: 'http://localhost:8080/DashboardAdmin/detailajuanproyek',
+            url: base_url+'DashboardAdmin/detailajuanproyek',
             data: {id : idajuan},
             method: 'post',
             dataType: 'json',
-            success: function(data){
-               $('#user_id').val(data[0]['user_id'])
-               $('#namaproyek').val(data[0]['namaproyek'])
-               $('#jenisproyek').val(data[0]['jenisproyek'])
-               $('#nama').val(data[0]['nama'])
+            success: function(data){          
+               $('#user_id').val(data.data[0]['user_id'])
+               $('#idajuan').val(data.data[0]['idajuan'])
+               $('#namaproyek').val(data.data[0]['namaproyek'])
+               $('#jenisproyek').val(data.data[0]['jenisproyek'])
+               $('#nama').val(data.data[0]['nama'])
+               $('#biaya').val(formatRupiah1(data.biaya))
             }
 
 
@@ -308,13 +363,14 @@ $(document).ready(function(){
     let getnamaproyek = $('.getbuatproyek').data('namaproyek');
     let getjenisproyek = $('.getbuatproyek').data('jenisproyek');
     let getidklien = $('.getbuatproyek').data('idklien');
+    let getbiaya = $('.getbuatproyek').data('biaya');
     if (getidajuan !==''){
        $('#idajuan').val(getidajuan);
        $('#nama').val(getnamaklien);
        $('#namaproyek').val(getnamaproyek);
        $('#jenisproyek').val(getjenisproyek);
        $('#user_id').val(getidklien);
-
+       $('#biaya').val(formatRupiah1(parseInt(getbiaya)));
     }
     function kurang(x, y){
         var xint = parseInt(x);
@@ -324,29 +380,25 @@ $(document).ready(function(){
         return hasil
     }
     $('#sudahbayar').keyup(function(){
-       
-       let biaya = $('#biaya').val()
-       let sudahbayar = $('#sudahbayar').val()
+
+       $(this).val(formatRupiahtyping($(this).val()))
+       let str = $('#biaya').val()
+       str = str.replace(/[^0-9/]/g,'');
+       let biaya= parseInt(str);
+       let str2 =$(this).val();
+       str2 = str2.replace(/[^0-9/]/g,'')
+       let sudahbayar = parseInt(str2)
        var belumbayar = kurang(biaya,sudahbayar)
-       if (belumbayar < 0) {
-        hasil = "Input Tidak Valid"
+       if ( belumbayar < 0 ){
+        $('#belumbayar').val(formatRupiah1(0));
+        $('#sudahbayar').val(formatRupiah1(0));
        } else {
-        hasil = belumbayar;
+
+           $('#belumbayar').val(formatRupiah1(belumbayar));
        }
-       $('#belumbayar').val(hasil);
+     
     })
-    $('#biaya').keyup(function(){
-       
-       let biaya = $('#biaya').val()
-       let sudahbayar = $('#sudahbayar').val()
-       var belumbayar = kurang(biaya,sudahbayar)
-       if (belumbayar < 0) {
-        hasil = "Input Tidak Valid"
-       } else if (belumbayar > 0){
-        hasil = belumbayar;
-       }
-       $('#belumbayar').val(hasil);
-    })
+   
 
    // End Form Data Proyek Di Dashboard Admin
    

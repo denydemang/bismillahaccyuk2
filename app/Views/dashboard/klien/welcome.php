@@ -103,6 +103,7 @@
                                         <small id="emailHelp" class="form-text text-muted">Masukkan File Pendukung Untuk Deskripsi Lebih Detail Dari Proyek yang diajukan (Bisa berupa Gambar Atau Pdf)</small>
                                     </div>
                                 </div>
+
                             </div>
                             <div class="card-footer mb-2">
                                 <button type="submit" class="btn btn-primary">Ajukan Proyek</button>

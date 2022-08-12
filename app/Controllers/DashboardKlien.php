@@ -159,6 +159,7 @@ class DashboardKLien extends Dashboard
             'catatanproyek' => $catatan,
             'status_id' => '1',
             'file_upload' => $randomname,
+            'revisi_id' => '0'
 
 
         ]);

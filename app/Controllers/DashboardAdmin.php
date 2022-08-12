@@ -13,7 +13,13 @@ use App\Models\PerhitunganTenakerModel;
 use App\Models\PerhitunganTenakerRevisiModel;
 use App\Models\ProyekModel;
 use App\Models\ProgressProyekModel;
-// reference the Dompdf namespace
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+//Load Composer's autoloader
+
+
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Models\massagemodel;
@@ -37,6 +43,7 @@ class DashboardAdmin extends Dashboard
     //method Tampil View
     public function index()
     {
+
 
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
@@ -101,7 +108,7 @@ class DashboardAdmin extends Dashboard
         $_SESSION['aktif'] = 'dataproyek';
         $kodeproyek = $this->kodeotomatis('proyek', 'idproyek', 'PRY001');
         $modelajuan = new AjuanProyekModel();
-        $getdata = $modelajuan->where('status_id', '2')->findAll();
+        $getData = $modelajuan->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->where('revisi_id', 1)->findAll();
         $modelajuan = new AjuanProyekModel();
         $builder = $this->db->table('pengajuan_proyek');
         $builder->select('*');
@@ -111,18 +118,21 @@ class DashboardAdmin extends Dashboard
         $builder->where('idajuan', $id);
         $query = $builder->get();
         $datakirim = $query->getResultArray();
+        $biaya = $this->gettotbiaya($id);
         if (!empty($datakirim)) {
             $idajuan = $datakirim[0]['idajuan'];
             $namaproyek = $datakirim[0]['namaproyek'];
             $jenisproyek = $datakirim[0]['jenisproyek'];
             $namaklien = $datakirim[0]['nama'];
             $idklien = $datakirim[0]['user_id'];
+            $biayaproyek = $biaya;
         } else {
             $idajuan = '';
             $namaproyek = '';
             $jenisproyek = '';
             $namaklien = '';
             $idklien = '';
+            $biayaproyek = '';
         }
         $builder = $this->db->table('proyek');
         $builder->select('*');
@@ -130,13 +140,8 @@ class DashboardAdmin extends Dashboard
         $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
         $query = $builder->get();
         $hasil = $query->getResultArray();
-        if (empty($hasil)) {
-            $tablekosong = 'true';
-        } else {
-            $tablekosong = 'false';
-        }
         $this->datalogin += [
-            'dataajuan' => $getdata,
+            'dataajuan' => $getData,
             'kodeproyek' => $kodeproyek,
             'datakirim' => $datakirim,
             'idajuan' => $idajuan,
@@ -145,7 +150,8 @@ class DashboardAdmin extends Dashboard
             'namaklien' => $namaklien,
             'idklien' => $idklien,
             'proyek' => $hasil,
-            'tablekosong' => $tablekosong
+            'biaya' => $biayaproyek,
+
         ];
 
 
@@ -513,16 +519,39 @@ class DashboardAdmin extends Dashboard
         echo json_encode($query);
     }
 
-    public function perhitunganbiaya()
+    public function perhitunganbiaya($id = '')
     {
-
         $modelajuan = new AjuanProyekModel();
+
+        if (!empty($id)) {
+            $getdata =  $modelajuan->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->where('idajuan', $id)->first();
+            if (!empty($getdata)) {
+                $DataKirim = [
+                    'idajuan' => $getdata['idajuan'],
+                    'user_id' => $getdata['user_id'],
+                    'namaproyek' => $getdata['namaproyek']
+                ];
+            } else {
+                $DataKirim =  [
+                    'idajuan' => '',
+                    'user_id' => '',
+                    'namaproyek' => ''
+                ];
+            }
+        } else {
+            $DataKirim =  [
+                'idajuan' => '',
+                'user_id' => '',
+                'namaproyek' => ''
+            ];
+        }
         $getData = $modelajuan->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->findAll();
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
         $this->datalogin += [
             'dataajuan' => $getData,
+            'datakirim' => $DataKirim,
         ];
         $_SESSION['aktif'] = 'perhitunganbiaya';
         return view('dashboard/admin/perhitunganbiaya', $this->datalogin);
@@ -537,9 +566,13 @@ class DashboardAdmin extends Dashboard
         $idajuan = $this->request->getVar('idajuan');
         $iduser = $this->request->getVar('user_id');
         $namaproyek = $this->request->getVar('namaproyek');
+
         $biaya = $this->request->getVar('biaya');
+        $biaya =  (int)(filter_var($biaya, FILTER_SANITIZE_NUMBER_INT));
         $sudahbayar = $this->request->getVar('sudahbayar');
+        $sudahbayar = (int)(filter_var($sudahbayar, FILTER_SANITIZE_NUMBER_INT));
         $belumbayar = $this->request->getVar('belumbayar');
+        $belumbayar = (int)(filter_var($belumbayar, FILTER_SANITIZE_NUMBER_INT));
         $modelproyek = new ProyekModel();
         $idprogress = $this->kodeotomatis('progress_proyek', 'idprogress', 'PRG001');
         $modelprogressproyek = new ProgressProyekModel();
@@ -577,8 +610,13 @@ class DashboardAdmin extends Dashboard
         $builder->where('idajuan', $id);
         $query = $builder->get();
         $getdata = $query->getResult();
+        $biaya = $this->gettotbiaya($id);
+        $data = [
+            'data' => $getdata,
+            'biaya' => $biaya
+        ];
 
-        echo json_encode($getdata);
+        echo json_encode($data);
     }
 
     public function terimaajuan($id = false)
@@ -705,6 +743,7 @@ class DashboardAdmin extends Dashboard
             return redirect()->to(base_url('admin/perhitunganbiaya'));
         }
     }
+
     public function hapusperhitunganbb($id = false)
     {
         if ($this->request->isAJAX()) {
@@ -771,6 +810,7 @@ class DashboardAdmin extends Dashboard
                 $idpbb = $this->kodeotomatis('perhitunganbahanbaku', 'id_pbb', 'PBB001');
 
                 $perhitunganbbmodel = new PerhitunganBBModel();
+
                 $simpandata = [
                     'id_pbb' => $idpbb,
                     'idajuan' => $this->request->getVar('idajuanbb'),
@@ -788,8 +828,14 @@ class DashboardAdmin extends Dashboard
 
                 ];
                 $perhitunganbbmodel->insert($simpandata);
-                //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
-                //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
+                $ajuan = new AjuanProyekModel();
+                $getdata = $ajuan->where('idajuan', $this->request->getVar('idajuanbb'))->where('revisi_id', '1')->findAll();
+                if (empty($getdata)) {
+                    $ajuan->builder()->where('idajuan', $this->request->getVar('idajuanbb'))
+                        ->set('revisi_id', 1)->update();
+                }
+                //         //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
+                //         //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
                 $builder = $perhitunganbbmodel->builder();
                 $getaffectedrow = $builder->db()->affectedRows();
                 $baristerpengaruh = [
@@ -1124,6 +1170,7 @@ class DashboardAdmin extends Dashboard
                 $totalgaji = (int)filter_var($totalgaji, FILTER_SANITIZE_NUMBER_INT);
                 $perhitungantenakermodel = new PerhitunganTenakerModel();
                 $id_pbtenaker = $this->kodeotomatis('perhitungantenaker', 'id_pbtenaker', 'PBT001');
+                $ajuan = new AjuanProyekModel();
                 $simpandata = [
                     'id_pbtenaker' => $id_pbtenaker,
                     'idajuan' => $this->request->getVar('idajuantk'),
@@ -1136,6 +1183,12 @@ class DashboardAdmin extends Dashboard
 
                 ];
                 $perhitungantenakermodel->insert($simpandata);
+                $ajuan = new AjuanProyekModel();
+                $getdata = $ajuan->where('idajuan', $this->request->getVar('idajuantk'))->where('revisi_id', '1')->findAll();
+                if (empty($getdata)) {
+                    $ajuan->builder()->where('idajuan', $this->request->getVar('idajuantk'))
+                        ->set('revisi_id', 1)->update();
+                }
                 //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
                 //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
                 $builder = $perhitungantenakermodel->builder();
@@ -1273,6 +1326,7 @@ class DashboardAdmin extends Dashboard
                 $totbiaya = (int)filter_var($totbiaya, FILTER_SANITIZE_NUMBER_INT);
                 $perhitunganbopmodel = new PerhitunganBOPModel();
                 $id_pbop = $this->kodeotomatis('perhitunganbop', 'id_pbop', 'PBO001');
+                $ajuan = new AjuanProyekModel();
                 $simpandata = [
                     'id_pbop' => $id_pbop,
                     'idajuan' => $this->request->getVar('idajuanbop'),
@@ -1282,6 +1336,12 @@ class DashboardAdmin extends Dashboard
 
                 ];
                 $perhitunganbopmodel->insert($simpandata);
+                $ajuan = new AjuanProyekModel();
+                $getdata = $ajuan->where('idajuan', $this->request->getVar('idajuanbop'))->where('revisi_id', '1')->findAll();
+                if (empty($getdata)) {
+                    $ajuan->builder()->where('idajuan', $this->request->getVar('idajuanbop'))
+                        ->set('revisi_id', 1)->update();
+                }
                 //query  builder untuk memberitahu bahwa ada baris data yang bertambah di database, 
                 //optional jika mau dipakai, mengembalikan nilai 1 jika data bertambah 0 jika tidak bertambah
                 $builder = $perhitunganbopmodel->builder();
@@ -2014,5 +2074,55 @@ class DashboardAdmin extends Dashboard
         flush();
         readfile($file_path);
         exit();
+    }
+    public function kirimemail()
+    {
+        if (isset($_SESSION['aktif'])) {
+            unset($_SESSION['aktif']);
+        };
+        $akun = new ModelLogin();
+        $data = $akun->getalluser();
+        $_SESSION['aktif'] = 'kirimemail';
+        $this->datalogin += [
+            'jumlahdataakun' => $this->jumlahdataakun,
+            'jumlahajuan' => $this->jumlahajuan,
+            'jumlahproyek' => $this->jumlahproyek,
+            'klien' => $data
+        ];
+
+        return view('dashboard/admin/kirimemail', $this->datalogin);
+    }
+    public function getemailklien()
+    {
+        if ($this->request->isAJAX()) {
+            $user_id = $this->request->getVar('id');
+            $akun = new ModelLogin();
+            $data = $akun->where('user_id', $user_id)->first();
+
+            echo json_encode($data);
+        } else {
+            return view('dashboard/admin/kirimemail', $this->datalogin);
+        }
+    }
+    public function kirimfileemail()
+    {
+        $file = $this->request->getFile('uploadfileemail');
+        $namapenerima = $this->request->getVar('penerimaemail');
+        $subject = $this->request->getVar('subjectemail');
+        $pesan = $this->request->getVar('pesanemail');
+        $randomname = $file->getRandomName();
+        $file->move('fileemail', $randomname);
+        $path = ('fileemail/' . $randomname);
+        // dd($path);
+
+        // dd($path);
+        $send = $this->kirimemaildanfile($namapenerima, $pesan, $path, $subject);
+
+        if ($send == 1) {
+            session()->setFlashdata('pesanemail', 1);
+        } else {
+            session()->setFlashdata('pesanemail', $send);
+        }
+        return redirect()->to(base_url('admin/kirimemail'));
     }
 }
