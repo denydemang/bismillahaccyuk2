@@ -19,9 +19,9 @@
                             <table style="width:100%" class="table text-nowrap daftarklien">
                                 <thead style="width:100%">
                                     <tr style="width:100%">
-                                        <th>User Id</th>
-                                        <th>Nama Klien</th>
-                                        <th>Alamat</th>
+                                        <td>User Id</td>
+                                        <td>Nama Klien</td>
+                                        <td>Alamat</td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,7 +71,7 @@
         // "lengthChange": false,
         "columnDefs": [{
             orderable: false,
-            targets: [1, 2]
+            targets: [0, 1, 2]
         }],
         "info": true,
         "paging": false,

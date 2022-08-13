@@ -26,6 +26,18 @@
                             </div>
                         </div>
                     <?php endif; ?>
+                    <?php if (session()->getFlashdata('pesanupdatepw')) : ?>
+                        <div class="alert alert-success p-1 d-flex align-items-center" style="height:50px;" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                                <use xlink:href="#check-circle-fill" />
+                            </svg>
+                            <div>
+                                <?= session()->getFlashdata('pesanupdatepw'); ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+
                     <!-- End Pesan Message Ketika Berhasil buat Akun -->
                     <form action="<?= base_url(); ?>/login/cekuser" method="post">
                         <?= csrf_field(); ?>
@@ -64,11 +76,17 @@
                             <div class="mt-2">
                                 <small>Belum Punya Akun ? <a href="<?= base_url(); ?>/registrasi">Registrasi</a></small>
                             </div>
-                        <?php endif; ?>
-                    </form>
+
+                            <div>
+                                <small>Lupa Password ? <a href="<?= base_url(); ?>/lupapassword">Ganti Password</a></small>
+                            </div>
                 </div>
+            <?php endif; ?>
+            </form>
             </div>
         </div>
+
+    </div>
 </section>
 <script>
     function ShowPassword() {
