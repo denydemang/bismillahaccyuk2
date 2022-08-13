@@ -44,7 +44,7 @@ class Filters extends BaseConfig
                 'except' => ['login/*', 'login', '/', 'registrasi', 'registrasi/*', 'LupaPassword', 'LupaPassword/*']
             ],
             'filterKlien' => [
-                'except' => ['login/*', 'login', '/', 'registrasi', 'registrasi/*', 'LupaPassword', 'LupaPassword/*']
+                'except' => ['login/*', 'login', '/', 'registrasi', 'registrasi/*', 'LupaPassword', 'LupaPassword/*',]
             ],
             'filterKelolaProyek' => [
                 'except' => ['admin', 'admin/*', 'DashboardAdmin', 'DashboardAdmin/*']

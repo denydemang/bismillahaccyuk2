@@ -15,6 +15,34 @@
         <div class="container-fluid">
             <div class="card card-primary">
                 <div class="card-header">
+                    <div class="col-lg-12 dropdown">
+                        <button type="button" data-toggle="dropdown" class="btn btn-info">Detail Ajuan<i class="bg-info mb-2 dropdown-toggle"></i></button>
+                        <div class="dropdown-menu dropdown-menu-lg">
+                            <div class="card" style="width:400px !important">
+                                <div class="card-body row p-3">
+                                    <div class="card card-primary col-lg-12 card-outline">
+                                        <div class="card-body box-profile ">
+                                            <h3 class="profile-username text-center">Detail Ajuan</h3>
+                                            <ul class="list-group list-group-unbordered mb-3">
+                                                <li class="list-group-item">
+                                                    <b>Ajuan Diterima</b><span class="float-right" style="font-weight:bold;color:blue"><?= $status['diterima']; ?></span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Ajuan Ditolak</b><span class="float-right" style="font-weight:bold;color:red"><?= $status['ditolak']; ?></span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Ajuan Belum Ditinjau</b><span class="float-right" style="font-weight:bold;color:cyan"><?= $status['belumditinjau']; ?></span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Ajuan Sudah Dihitung</b><span class="float-right" style="font-weight:bold;color:purple"><?= $status['dihitung']; ?></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -71,7 +99,9 @@
                     </div>
 
                 </div>
+                <div class="card-footer">
 
+                </div>
             </div>
         </div>
     </section>

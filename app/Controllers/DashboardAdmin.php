@@ -63,6 +63,20 @@ class DashboardAdmin extends Dashboard
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
+        $ajuanproyek = new AjuanProyekModel();
+        $belumditinjau = $ajuanproyek->builder()->like('status_id', 1)->countAllResults();
+        $diterima = $ajuanproyek->builder()->like('status_id', 2)->countAllResults();
+        $ditolak = $ajuanproyek->builder()->like('status_id', 3)->countAllResults();
+        $dikerjakan = $ajuanproyek->builder()->like('status_id', 4)->countAllResults();
+        $dihitung = $ajuanproyek->builder()->like('revisi_id', 1)->countAllResults();
+
+        $status = [
+            'belumditinjau' => $belumditinjau,
+            'diterima' => $diterima,
+            'ditolak' => $ditolak,
+            'dikerjakan' => $dikerjakan,
+            'dihitung' => $dihitung,
+        ];
         $builder = $this->db->table('pengajuan_proyek');
         $builder->select('*');
         $builder->select('status_ajuan.keterangan');
@@ -73,7 +87,8 @@ class DashboardAdmin extends Dashboard
 
         $_SESSION['aktif'] = 'ajuan';
         $this->datalogin += [
-            'dataajuan' => $query->getResult()
+            'dataajuan' => $query->getResult(),
+            'status' => $status
         ];
 
         return view('dashboard/admin/ajuanproyek', $this->datalogin);
