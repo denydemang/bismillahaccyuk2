@@ -79,10 +79,9 @@ $(document).ready(function(){
     
        })
        $('#jumlah_beli').keyup(function(){
-        $(this).val(formatRupiahtyping($(this).val()));
+    
         val = $(this).val()
-        let str = val.replace(/[^0-9/]/g,'');
-        let jumlah_beli = parseInt(str);
+        let jumlah_beli = parseInt(val);
        
         val2 = $('#harga').val();
         let str2 = val2.replace(/[^0-9/]/g,'');

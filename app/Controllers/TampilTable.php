@@ -135,20 +135,40 @@ class TampilTable extends Dashboard
     }
     public function tablebbproses()
     {
-        if ($this->request->isAJAX()) {
-            $bbdalamproses = new BahanBakuProsesModel();
-            $bb = [
-                'databb' => $bbdalamproses->tampildata(),
-            ];
-            $data = [
-                'databb' => view('dashboard/kelolaproyek/table/tablebbproses', $bb)
-            ];
-            echo json_encode($data);
-        }
+        // if ($this->request->isAJAX()) {
+        $idajuan =  session()->get('idajuan');
+        // $perhitunganbb = new PerhitunganBBModel();
+        // $perhitunganbbrevisi = new PerhitunganBBRevisiModel();
+        // $databbrevisi = $perhitunganbbrevisi->findAll();
+        // if (empty($databbrevisi)) {
+        //     $builder = $perhitunganbb->builder();
+
+        // }
+        $union   = $this->db->table('perhitunganbahanbaku')->select('id_pbb', 'namabahan', 'ukuran', 'kualitas', 'jenis', 'berat', 'ketebalan', 'panjang', 'harga', 'jumlah_beli')->where('idajuan', $idajuan)->where('status_id', 1);
+        $builder = $this->db->table('perhitunganbbrevisi')->select('id_pbb', 'namabahan', 'ukuran', 'kualitas', 'jenis', 'berat', 'ketebalan', 'panjang', 'harga', 'jumlah_beli')->where('idajuan', $idajuan)->where('status_id', 3)->union($union);
+
+        $data = $this->db->newQuery()->fromSubquery($builder, 'q')->orderBy('idajuan', 'DESC')->get()->getResultArray();
+
+
+        // $builder = $perhitunganbb->builder();
+        // $builder->select('perhitunganbahanbaku.*')->join('perhitunganbbrevisi', 'perhitunganbbrevisi.id_pbb=perhitunganbahanbaku.id_pbb');
+        // $data = $builder->get()->getResultArray();
+        dd($data);
+
+
+        // $bb = [
+        //     'databb' => $bbdalamproses->tampildata(),
+        // ];
+        // $data = [
+        //     'databb' => view('dashboard/kelolaproyek/table/tablebbproses', $bb)
+        // ];
+        // echo json_encode($data);
+        // }
     }
     public function tableperhitunganbbrevisi()
     {
         if ($this->request->isAJAX()) {
+
             $hitungbbrevisi = new PerhitunganBBRevisiModel();
             $builder = $hitungbbrevisi->builder();
             $join = $builder->select('perhitunganbbrevisi.* ,pengajuan_proyek.idajuan,pengajuan_proyek.user_id, pengajuan_proyek.namaproyek')

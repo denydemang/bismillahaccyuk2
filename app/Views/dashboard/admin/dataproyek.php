@@ -144,7 +144,7 @@
                                     <?php else : ?>
                                         <td><span class="badge badge-danger">Belum Lunas</span></td>
                                     <?php endif ?>
-                                    <td><a data-idproyek="<?= $pry['idproyek']; ?>" class="btn btn-warning btn-sm btnkelola">kelola</a></td>
+                                    <td><a data-idproyek="<?= $pry['idproyek']; ?>" data-idajuan="<?= $pry['idajuan']; ?>" class="btn btn-warning btn-sm btnkelola">kelola</a></td>
 
                                     </tr>
                                 <?php endforeach ?>
@@ -167,7 +167,8 @@
         $('#tableproyek').DataTable();
         $('.btnkelola').click(function() {
             let idproyek = $(this).data('idproyek');
-            window.location.href = 'http://localhost:8080/DashboardAdmin/redirectkelola/' + idproyek
+            let idajuan = $(this).data('idajuan');
+            window.location.href = 'http://localhost:8080/DashboardAdmin/redirectkelola/' + idproyek + '/' + idajuan
         });
         $('.daftarajuan').DataTable({
             "lengthChange": false,

@@ -17,9 +17,9 @@
                     <h5>Table Data Bahan Baku Untuk Proyek <?= $dataproyek[0]['idproyek']; ?></h5>
                 </div>
                 <div class="card-body">
-                    <button type="button" id="btntambahbahanbaku" class="btn btn-outline-danger btn-sm mb-3" data-toggle="modal" data-target="#modalbb">
+                    <!-- <button type="button" id="btntambahbahanbaku" class="btn btn-outline-danger btn-sm mb-3" data-toggle="modal" data-target="#modalbb">
                         <i class="fas fa-plus-circle mr-3"></i>Tambah Bahan Baku
-                    </button>
+                    </button> -->
                     <div id="tampiltablebb">
 
                     </div>
@@ -29,7 +29,7 @@
         </div>
     </section>
     <section>
-        <div class="modal fade" id="modalbb">
+        <!-- <div class="modal fade" id="modalbb">
             <div class="modal-dialog modal- modal-dialog-scrollable">
                 <div class="modal-content bg-success">
                     <div class="modal-header">
@@ -66,37 +66,6 @@
                                         <input type="text" style="color:black;font-weight:bolder" id="tgl_beli" name="tgl_beli" class="form-control tgl_beli">
                                         <div class="invalid-feedback tgl_beliinvalid"></div>
                                     </div>
-
-                                </div>
-                            </div>
-                            <div class="form-row form-group">
-                                <div class="col">
-                                    <label for="ukuran">Ukuran</label>
-                                    <input type="text" style="color:black;font-weight:bolder" id="ukuran" name="ukuran" class="form-control ukuran">
-                                </div>
-                                <div class="col">
-                                    <label for="kualitas">Kualitas</label>
-                                    <input type="text" style="color:black;font-weight:bolder" id="kualitas" name="kualitas" class="form-control kualitas">
-                                </div>
-                            </div>
-                            <div class="form-row form-group">
-                                <div class="col">
-                                    <label for="jenis">Jenis</label>
-                                    <input type="text" style="color:black;font-weight:bolder" id="jenis" name="jenis" class="form-control jenis">
-                                </div>
-                                <div class="col">
-                                    <label for="berat">Berat</label>
-                                    <input type="text" style="color:black;font-weight:bolder" id="berat" name="berat" class="form-control berat">
-                                </div>
-                            </div>
-                            <div class="form-row form-group">
-                                <div class="col">
-                                    <label for="ketebalan">Ketebalan</label>
-                                    <input type="text" style="color:black;font-weight:bolder" id="ketebalan" name="ketebalan" class="form-control ketebalan">
-                                </div>
-                                <div class="col">
-                                    <label for="panjang">Panjang</label>
-                                    <input type="text" style="color:black;font-weight:bolder" id="panjang" name="panjang" class="form-control panjang">
                                 </div>
                             </div>
                             <div class="form-row form-group">
@@ -124,7 +93,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
+
+
     </section>
     <section>
         <div class="modal fade" id="ModalDetailBB">

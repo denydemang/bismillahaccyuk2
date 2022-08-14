@@ -128,6 +128,8 @@ class DashboardKelolaProyek extends Dashboard
         }
 
         session()->set('kelolaproyek', '');
+        session()->set('idproyek', '');
+        session()->set('idajuan', '');
         return redirect()->to(base_url('admin/dataproyek'));
     }
     public function tampilkodeotomatis()

@@ -1503,10 +1503,11 @@ class DashboardAdmin extends Dashboard
             $dompdf->stream('Proposal Ajuan' . '-' . $getdatauser[0]['idajuan'] . '-' . $getdatauser[0]['nama'] . ".pdf", array("Attachment" => false));
         };
     }
-    public function redirectkelola($idproyek)
+    public function redirectkelola($idproyek, $idajuan)
     {
         session()->set('kelolaproyek', 'true');
         session()->set('idproyek', $idproyek);
+        session()->set('idajuan', $idajuan);
         return redirect()->to(base_url('kelolaproyek'));
     }
 
@@ -1604,6 +1605,7 @@ class DashboardAdmin extends Dashboard
                 $simpandata = [
                     'id_pbbr' => $id_pbbr,
                     'id_pbb' => $this->request->getVar('id_pbb'),
+                    'idajuan' => $this->request->getVar('idajuanbb'),
                     'namabahan' => $this->request->getVar('namabahan'),
                     'ukuran' => $this->request->getVar('ukuran'),
                     'jenis' => $this->request->getVar('jenis'),
@@ -1673,6 +1675,7 @@ class DashboardAdmin extends Dashboard
                 $pob = new PerhitunganBOPModel();
                 $simpandata = [
                     'id_pbopr' => $id_pbopr,
+                    'idajuan' => $this->request->getVar('idajuanbop'),
                     'id_pbop' => $this->request->getVar('id_pbop'),
                     'namatrans' => $this->request->getVar('namatransaksi'),
                     'tot_biaya' => $totbiaya,
@@ -1753,6 +1756,7 @@ class DashboardAdmin extends Dashboard
                 $simpandata = [
                     'id_pbtenakerr' =>  $id_pbtenakerr,
                     'id_pbtenaker' => $this->request->getVar('id_pbtenaker'),
+                    'idajuan' => $this->request->getVar('idajuantk'),
                     'jenispekerjaan' => $this->request->getVar('jenispekerjaan'),
                     'gaji' => $gaji,
                     'hari' => $this->request->getVar('hari'),
@@ -1885,6 +1889,7 @@ class DashboardAdmin extends Dashboard
                 $simpandata = [
                     'id_pbbr' => $id_pbbr,
                     'id_pbb' => $this->request->getVar('id_pbb'),
+                    'idajuan' => $this->request->getVar('idajuanbb'),
                     'namabahan' => $this->request->getVar('namabahan'),
                     'ukuran' => $this->request->getVar('ukuran'),
                     'jenis' => $this->request->getVar('jenis'),
@@ -1980,6 +1985,7 @@ class DashboardAdmin extends Dashboard
                 $simpandata = [
                     'id_pbtenakerr' => $id_pbtenakerr,
                     'id_pbtenaker' => $this->request->getVar('id_pbtenaker'),
+                    'idajuan' => $this->request->getVar('idajuantk'),
                     'jenispekerjaan' => $this->request->getVar('jenispekerjaan'),
                     'gaji' => $gaji,
                     'hari' => $this->request->getVar('hari'),
@@ -2053,6 +2059,7 @@ class DashboardAdmin extends Dashboard
                 $simpandata = [
                     'id_pbopr' => $id_pbopr,
                     'id_pbop' => $this->request->getVar('id_pbop'),
+                    'idajuan' => $this->request->getVar('idajuanbop'),
                     'namatrans' => $this->request->getVar('namatransaksi'),
                     'tot_biaya' => $totbiaya,
                     'revisi_id' => 3
