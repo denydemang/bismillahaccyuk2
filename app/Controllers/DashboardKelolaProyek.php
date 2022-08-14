@@ -61,7 +61,6 @@ class DashboardKelolaProyek extends Dashboard
 
     {
 
-
         if (session()->get('kelolaproyek') != 'true') {
             return redirect()->to(base_url('admin'));
         }
@@ -395,20 +394,6 @@ class DashboardKelolaProyek extends Dashboard
         if ($this->request->isAJAX()) {
             $validation = \Config\Services::validation();
             $valid = $this->validate([
-                'namabahan' => [
-                    'label' => 'Nama Bahan',
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => '{field} tidak boleh kosong'
-                    ]
-                ],
-                'harga' => [
-                    'label' => 'Harga',
-                    'rules' => 'required',
-                    'errors' => [
-                        'required' => '{field} tidak boleh kosong'
-                    ]
-                ],
                 'jumlah_beli' => [
                     'label' => 'Jumlah Beli',
                     'rules' => 'required',
@@ -427,8 +412,6 @@ class DashboardKelolaProyek extends Dashboard
             if (!$valid) {
                 $data = [
                     'errors' => [
-                        'namabahan' => $validation->getError('namabahan'),
-                        'harga' => $validation->getError('harga'),
                         'jumlah_beli' => $validation->getError('jumlah_beli'),
                         'tgl_beli' => $validation->getError('tgl_beli'),
                     ]
@@ -439,18 +422,11 @@ class DashboardKelolaProyek extends Dashboard
                 $harga = $this->request->getVar('harga');
                 $harga = (int)(filter_var($harga, FILTER_SANITIZE_NUMBER_INT));
                 $jumlah_beli = $this->request->getVar('jumlah_beli');
-                $jumlah_beli = (int)(filter_var($jumlah_beli, FILTER_SANITIZE_NUMBER_INT));
                 $simpandata = [
                     'idbelibahan' => $this->request->getVar('idbelibahan'),
                     'idproyek' => $this->request->getVar('idproyek'),
-                    'namabahan' => $this->request->getVar('namabahan'),
+                    'id_pbb' => $this->request->getVar('id_pbb'),
                     'tgl_beli' => $this->request->getVar('tgl_beli'),
-                    'ukuran' => $this->request->getVar('ukuran'),
-                    'kualitas' => $this->request->getVar('kualitas'),
-                    'jenis' => $this->request->getVar('jenis'),
-                    'berat' => $this->request->getVar('berat'),
-                    'ketebalan' => $this->request->getVar('ketebalan'),
-                    'panjang' => $this->request->getVar('panjang'),
                     'harga' => $harga,
                     'jumlah_beli' => $jumlah_beli,
 
@@ -578,6 +554,19 @@ class DashboardKelolaProyek extends Dashboard
             echo json_encode($baristerpengaruh);
         } else {
             return redirect()->to(base_url('kelolaproyek/tenagakerja'));
+        }
+    }
+    public function getdatabahanbaku($idpbb)
+    {
+        if ($this->request->isAJAX()) {
+
+            $idajuan =  session()->get('idajuan');
+            $union   = $this->db->table('perhitunganbahanbaku')->select('id_pbb, namabahan, ukuran, kualitas, jenis, berat, ketebalan, panjang, harga, jumlah_beli')->where('idajuan', $idajuan)->where('revisi_id', 1)->where('id_pbb', $idpbb);
+            $builder = $this->db->table('perhitunganbbrevisi')->select('id_pbb, namabahan, ukuran, kualitas, jenis, berat, ketebalan, panjang, harga, jumlah_beli')->where('idajuan', $idajuan)->where('revisi_id', 3)->where('id_pbb', $idpbb);
+            $data =  $builder->unionAll($union)->orderBy('idajuan', 'DESC')->get()->getResultArray();
+            echo json_encode($data);
+        } else {
+            return redirect()->to(base_url('kelolaproyek/bbdalamproses'));
         }
     }
 }

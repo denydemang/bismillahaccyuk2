@@ -191,15 +191,15 @@ class Dashboard extends BaseController
         $boprevisi = new PerhitunganBOPRevisiModel();
         $getotbbrevisi = $bbrevisi->builder()->selectSum('perhitunganbbrevisi.total_harga')
             ->join('perhitunganbahanbaku', 'perhitunganbbrevisi.id_pbb=perhitunganbahanbaku.id_pbb')
-            ->where('idajuan', $idajuan)->where('perhitunganbbrevisi.revisi_id', '3')->get()->getResultArray();
+            ->where('perhitunganbbrevisi.idajuan', $idajuan)->where('perhitunganbbrevisi.revisi_id', '3')->get()->getResultArray();
 
         $getottkrevisi = $tkrevisi->builder()->selectSum('perhitungantenakerrevisi.total_gaji')
             ->join('perhitungantenaker', 'perhitungantenakerrevisi.id_pbtenaker=perhitungantenaker.id_pbtenaker')
-            ->where('idajuan', $idajuan)->where('perhitungantenakerrevisi.revisi_id', '3')->get()->getResultArray();
+            ->where('perhitungantenakerrevisi.idajuan', $idajuan)->where('perhitungantenakerrevisi.revisi_id', '3')->get()->getResultArray();
 
         $getotboprevisi = $boprevisi->builder()->selectSum('perhitunganboprevisi.tot_biaya')
             ->join('perhitunganbop', 'perhitunganboprevisi.id_pbop=perhitunganbop.id_pbop')
-            ->where('idajuan', $idajuan)->where('perhitunganboprevisi.revisi_id', '3')->get()->getResultArray();
+            ->where('perhitunganbop.idajuan', $idajuan)->where('perhitunganboprevisi.revisi_id', '3')->get()->getResultArray();
 
         $jumlahbiayatotal = (intval($gettotbb[0]['total_harga']) + intval($gettottk[0]['total_gaji']) + intval($gettotbop[0]['tot_biaya']));
         $jumlahbiayarevisitotal = (intval($getotbbrevisi[0]['total_harga']) + intval($getottkrevisi[0]['total_gaji']) + intval($getotboprevisi[0]['tot_biaya']));

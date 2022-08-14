@@ -29,6 +29,74 @@
         </div>
     </section>
     <section>
+        <div class="modal fade" id="modalbb">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content bg-success">
+                    <div class="modal-header">
+                        <h4 class="modal-title judulmodal">Beli Bahan Baku</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formbbproses" action="<?= base_url('DashboardKelolaProyek/simpanbbproses'); ?>">
+                            <?= csrf_field(); ?>
+                            <div class="form-row form-group">
+                                <div class="col">
+                                    <label for="idproyek">Nama Bahan</label>
+                                    <input type="text" style="color:black;font-weight:bolder" readonly name="namabahan" id="namabahan" name="namabahan" class="form-control namabahan">
+                                    <input type="hidden" style="color:black;font-weight:bolder" readonly name="idproyek" id="idproyek" name="idproyek" class="form-control idproyek">
+                                    <input type="hidden" style="color:black;font-weight:bolder" readonly name="id_pbb" id="id_pbb" name="id_pbb" class="form-control id_pbb">
+                                </div>
+                                <div class="col">
+                                    <label for="idbelibahan"> ID Beli</label>
+                                    <input type="text" style="color:black;font-weight:bolder" readonly name="idbelibahan" id="idbelibahan" name="idbeli" class="form-control idbelibahan">
+                                </div>
+                            </div>
+                            <div class="form-row form-group">
+                                <div class="col">
+                                    <label for="tgl_beli">Tanggal Beli*</label>
+                                    <div class="input-group date">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text"><i class="fa fa-calendar tgl_beli"></i></div>
+                                        </div>
+                                        <input type="text" style="color:black;font-weight:bolder" id="tgl_beli" name="tgl_beli" class="form-control tgl_beli">
+                                        <div class="invalid-feedback tgl_beliinvalid"></div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label for="harga">Harga</label>
+                                    <input type="text" readonly style="color:#28A745;font-weight:bolder" id="harga" name="harga" class="form-control harga">
+                                    <div class="invalid-feedback hargainvalid"></div>
+                                </div>
+                            </div>
+                            <div class="form-row form-group">
+                                <div class="col">
+                                    <label for="jumlah_beli">Jumlah Beli (Awal)</label>
+                                    <input type="text" style="color:#c6098d;font-weight:bolder" readonly id="jumlah_beliawal" name="jumlah_beliawal" class="form-control jumlah_beliawal">
+                                    <div class="invalid-feedback hargainvalid"></div>
+                                </div>
+                                <div class="col">
+                                    <label for="jumlah_beli">Jumlah Beli* (Real)</label>
+                                    <input type="text" style="color:#c6098d;font-weight:bolder" id="jumlah_beli" name="jumlah_beli" class="form-control jumlah_beli">
+                                    <div class="invalid-feedback jumlah_beliinvalid"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            </div>
+                            <div class="form-group">
+                                <label for="totalharga">Total Harga</label>
+                                <input type="text" readonly style="color:#101dbe;font-weight:bolder" id="totalharga" name="totalharga" class="form-control totalharga">
+                            </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" id="btnsimpanbbproses" class="btn btnsimpanbbproses" style="background-color:aqua;font-weight:bolder"><i class="fas fa-money-bill mr-2"></i> Beli</button>
+                        </form>
+                        <button type="button" class="btn btn-danger btn btnclear">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- <div class="modal fade" id="modalbb">
             <div class="modal-dialog modal- modal-dialog-scrollable">
                 <div class="modal-content bg-success">
@@ -39,8 +107,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="formbbproses" action="<?= base_url('DashboardKelolaProyek/simpanbbproses'); ?>">
-                            <?= csrf_field(); ?>
+                        <form class="formbbproses" action="<//?= base_url('DashboardKelolaProyek/simpanbbproses'); ?>">
+                            <//?= csrf_field(); ?>
                             <div class="form-row form-group">
                                 <div class="col">
                                     <label for="idproyek"> ID Proyek</label>

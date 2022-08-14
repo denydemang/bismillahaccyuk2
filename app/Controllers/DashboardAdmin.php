@@ -126,15 +126,17 @@ class DashboardAdmin extends Dashboard
         $_SESSION['aktif'] = 'dataproyek';
         $kodeproyek = $this->kodeotomatis('proyek', 'idproyek', 'PRY001');
         $modelajuan = new AjuanProyekModel();
-        $getData = $modelajuan->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->where('revisi_id', 1)->findAll();
-        $modelajuan = new AjuanProyekModel();
-        $builder = $this->db->table('pengajuan_proyek');
-        $builder->select('*');
-        $builder->select('status_ajuan.keterangan');
-        $builder->join('status_ajuan', 'pengajuan_proyek.status_id=status_ajuan.status_id');
-        $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
-        $builder->where('idajuan', $id);
-        $query = $builder->get();
+        $getData =  $modelajuan->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->where('revisi_id', 1)->findAll();
+
+        // $modelajuan = new AjuanProyekModel();
+        $builder1 = $this->db->table('pengajuan_proyek');
+        $builder1->select('*');
+        $builder1->select('status_ajuan.keterangan');
+        $builder1->join('status_ajuan', 'pengajuan_proyek.status_id=status_ajuan.status_id');
+        $builder1->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
+        $builder1->where('pengajuan_proyek.idajuan', $id);
+
+        $query = $builder1->get();
         $datakirim = $query->getResultArray();
         $biaya = $this->gettotbiaya($id);
         if (!empty($datakirim)) {
@@ -152,12 +154,14 @@ class DashboardAdmin extends Dashboard
             $idklien = '';
             $biayaproyek = '';
         }
-        $builder = $this->db->table('proyek');
-        $builder->select('*');
-        $builder->join('pengajuan_proyek', 'proyek.idajuan=pengajuan_proyek.idajuan');
-        $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
-        $query = $builder->get();
+        $builder2 = $this->db->table('proyek');
+        $builder2->select('proyek.*,pengajuan_proyek.namaproyek,pengajuan_proyek.jenisproyek,akun.user_id,akun.nama');
+        $builder2->join('pengajuan_proyek', 'proyek.idajuan=pengajuan_proyek.idajuan');
+        $builder2->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
+        $query = $builder2->get();
         $hasil = $query->getResultArray();
+        // dd($hasil);
+        // dd($hasil);
         $this->datalogin += [
             'dataajuan' => $getData,
             'kodeproyek' => $kodeproyek,
@@ -806,7 +810,7 @@ class DashboardAdmin extends Dashboard
                     'label' => 'Nama Bahan',
                     'rules' => 'required',
                     'errors' => [
-                        'required' => '{field} Tidak Boleh Kosong'
+                        'required' => '{field} Tidak Boleh Kosong',
                     ],
                 ],
             ]);

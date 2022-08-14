@@ -9,7 +9,7 @@ class BahanBakuProsesModel extends Model
     protected $table = 'belibahan';
     protected $primaryKey = 'idbelibahan';
     protected $allowedFields = [
-        'idproyek', 'idbelibahan', 'namabahan', 'tgl_beli', 'ukuran', 'kualitas', 'jenis', 'berat', 'ketebalan', 'panjang', 'harga', 'jumlah_beli'
+        'idproyek', 'idbelibahan', 'id_pbb', 'tgl_beli', 'jumlah_beli'
     ];
     public function tampildata()
     {
