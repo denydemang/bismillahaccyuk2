@@ -69,6 +69,7 @@ class DashboardAdmin extends Dashboard
         $ditolak = $ajuanproyek->builder()->like('status_id', 3)->countAllResults();
         $dikerjakan = $ajuanproyek->builder()->like('status_id', 4)->countAllResults();
         $dihitung = $ajuanproyek->builder()->like('revisi_id', 1)->countAllResults();
+        $totalajuan = $ajuanproyek->builder()->countAll();
 
         $status = [
             'belumditinjau' => $belumditinjau,
@@ -76,6 +77,8 @@ class DashboardAdmin extends Dashboard
             'ditolak' => $ditolak,
             'dikerjakan' => $dikerjakan,
             'dihitung' => $dihitung,
+            'totalajuan' => $totalajuan,
+
         ];
         $builder = $this->db->table('pengajuan_proyek');
         $builder->select('*');

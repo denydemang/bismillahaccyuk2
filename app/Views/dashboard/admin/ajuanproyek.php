@@ -25,6 +25,12 @@
                                             <h3 class="profile-username text-center">Detail Ajuan</h3>
                                             <ul class="list-group list-group-unbordered mb-3">
                                                 <li class="list-group-item">
+                                                    <b>Total Ajuan</b><span class="float-right" style="font-weight:bold;color:black"><?= $status['totalajuan']; ?></span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Ajuan Diterima & Dikerjakan</b><span class="float-right" style="font-weight:bold;color:green"><?= $status['dikerjakan']; ?></span>
+                                                </li>
+                                                <li class="list-group-item">
                                                     <b>Ajuan Diterima</b><span class="float-right" style="font-weight:bold;color:blue"><?= $status['diterima']; ?></span>
                                                 </li>
                                                 <li class="list-group-item">
