@@ -79,7 +79,6 @@
                                     <div class="col">
                                         <label for="namaproyek">Nama Proyek *</label>
                                         <input type="text" class="form-control" id="namaproyek" id="namaproyek" name="namaproyek">
-
                                     </div>
                                     <div class="col">
                                         <label for="lokasiproyek">Lokasi Proyek *</label>
@@ -89,11 +88,28 @@
                                 <div class="form-row form-group">
                                     <div class="col">
                                         <label for="jenisproyek">Jenis Proyek *</label>
-                                        <input type="text" class="form-control" id="jenisproyek" name="jenisproyek">
+                                        <select type="text" class="form-control" id="jenisproyek" name="jenisproyek">
+                                            <option selected disabled> --Pilih Jenis Proyek--</option>
+                                            <option value="Engineering Konstruksi">Engineering Konstruksi</option>
+                                            <option value="Engineering Manufacture">Engineering Manufacture</option>
+                                            <option value="Pelayanan Manajemen">Pelayanan Manajemen</option>
+                                            <option value="Penelitian Dan Pengembangan">Penelitian Dan Pengembangan</option>
+                                            <option value="Proyek Kapital">Proyek Kapital</option>
+                                        </select>
                                     </div>
                                     <div class="col">
-                                        <label for="lokasiproyek">Catatan *</label>
-                                        <textarea class="form-control" id="catatan" rows="2" name="catatan"></textarea>
+                                        <label for="anggaran">Anggaran Yang Ditawarkan*</label>
+                                        <input class="form-control" id="anggaran" name="anggaran"></input>
+                                    </div>
+                                </div>
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <label for="tglmulai">Tanggal Mulai Proyek *</label>
+                                        <input type="text" class="form-control" id="tglmulai" name="tglmulai">
+                                    </div>
+                                    <div class="col">
+                                        <label for="tgldeadline">Tanggal Deadline*</label>
+                                        <input class="form-control" id="tgldeadline" name="tgldeadline"></input>
                                     </div>
                                 </div>
                                 <div class="form-group ">
@@ -117,4 +133,21 @@
     </section>
 
 </div>
+<script>
+    $(document).ready(function() {
+        $('#anggaran').keyup(function() {
+            $(this).val(formatRupiahtyping($(this).val()));
+        })
+        $("#tglmulai").on('keydown paste focus mousedown', function(e) {
+            if (e.keyCode != 9) // ignore tab
+                e.preventDefault();
+        });
+        $("#tgldeadline").on('keydown paste focus mousedown', function(e) {
+            if (e.keyCode != 9) // ignore tab
+                e.preventDefault();
+        });
+        $('#tglmulai').dtDateTime();
+        $('#tgldeadline').dtDateTime();
+    })
+</script>
 <?= $this->endSection(); ?>

@@ -133,7 +133,13 @@ $(document).ready(function(){
                 lokasiproyek : {
                 required : true,
                 },
-                catatan : {
+                anggaran : {
+                required : true,
+                },
+                tglmulai : {
+                required : true,
+                },
+                tgldeadline : {
                 required : true,
                 },
                 uploadfile : {
@@ -152,9 +158,15 @@ $(document).ready(function(){
                 },
                 lokasiproyek : {
                     required: 'Lokasi Proyek Wajib Diisi'
-                },
-                catatan : {
-                    required: 'Catatan Wajib Diisi'
+                },   
+                anggaran : {
+                    required: 'Anggaran Proyek Wajib Diisi'
+                },   
+                tglmulai : {
+                    required: 'Tanggal Mulai Proyek Wajib Diisi'
+                },   
+                tgldeadline : {
+                    required: 'Tanggal Deadline Proyek Wajib Diisi'
                 },   
                 uploadfile : {
                     required: 'Silakan Upload File Pendukung',

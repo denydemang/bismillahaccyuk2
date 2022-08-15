@@ -44,37 +44,57 @@
                                 <div class="row">
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="nama">Nama *</label>
+                                            <label class="form-label" for="nama">Nama Anda *</label>
                                             <input type="text" id="nama" class="form-control" name="nama" autocomplete="off" value="<?= old('nama'); ?>" />
                                         </div>
                                     </div>
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="email">Email *</label>
-                                            <input type="email" class="form-control <?= ($validation->hasError('email')) ? 'is-invalid' : ''; ?>" name="email" autocomplete="off" value="<?= old('email'); ?>" />
-
+                                            <label class="form-label" for="nama">Nama Perusahaan (Optional) </label>
+                                            <input type="text" id="namaperusahaan" class="form-control" name="namaperusahaan" autocomplete="off" value="<?= old('namaperusahaan'); ?>" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="username">Username *</label>
-                                            <input type="text" id="username" class="form-control <?= ($validation->hasError('username')) ? 'is-invalid' : ''; ?>" name="username" autocomplete="off" value="<?= old('username'); ?>" />
+                                            <label class="form-label" for="email">Email Anda *</label>
+                                            <input type="email" class="form-control <?= ($validation->hasError('email')) ? 'is-invalid' : ''; ?>" name="email" autocomplete="off" value="<?= old('email'); ?>" />
                                         </div>
                                     </div>
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="notelp">No Telepon *</label>
-                                            <input type="text" id="notelp" class="form-control" autocomplete="off" name="telpon" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="<?= old('telpon'); ?>" />
-
+                                            <label class="form-label" for="username">Username *</label>
+                                            <input type="text" id="username" class="form-control" autocomplete="off" name="username" value="<?= old('username'); ?>" />
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mt-2 mb-3 d-flex mt-2 flex-row align-items-center mb-4">
-                                    <div class="form-outline flex-fill mb-0">
-                                        <label class="form-label" for="alamat">Alamat *</label>
-                                        <input type="text" id="alamat" class="form-control" name="alamat" value="<?= old('alamat'); ?>" />
+                                <div class="row mt-3">
+                                    <div class="col d-flex flex-row align-items-center mb-4">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="notelp">No Telepon Anda *</label>
+                                            <input type="text" id="notelp" class="form-control" autocomplete="off" name="telpon" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="<?= old('telpon'); ?>" />
+                                        </div>
+                                    </div>
+                                    <div class="col d-flex flex-row align-items-center mb-4">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="alamat">Alamat Anda*</label>
+                                            <input type="text" id="alamat" class="form-control" name="alamat" value="<?= old('alamat'); ?>" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col d-flex flex-row align-items-center mb-4">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="alamat">Alamat Perusahaan (Optional)</label>
+                                            <input type="text" id="alamatperusahaan" class="form-control alamatperusahaan" name="alamatperusahaan" value="<?= old('alamatperusahaan'); ?>" />
+                                        </div>
+                                    </div>
+                                    <div class="col d-flex flex-row align-items-center mb-4">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="jabatan">Jabatan</label>
+                                            <input type="text" id="jabatan" class="form-control jabatan" name="jabatan" autocomplete="off" value="<?= old('jabatan'); ?>" />
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row mt-2 pt-2">
@@ -82,14 +102,12 @@
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="password">Password *</label>
                                             <input type="password" id="password" class="form-control" name="password" autocomplete="off" />
-
                                         </div>
                                     </div>
                                     <div class=" col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="konfirpw">Konfirmasi Password *</label>
                                             <input type="password" id="konfirpw" class="form-control" name="konfirpassword" autocomplete="off" />
-
                                         </div>
                                     </div>
                                 </div>

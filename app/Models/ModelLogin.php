@@ -10,7 +10,7 @@ class ModelLogin extends Model
     protected $table = 'akun';
     protected $primaryKey = 'user_id';
     protected $allowedFields = [
-        'user_id', 'user_name', 'nama', 'email', 'alamat', 'notelp', 'password', 'user_level'
+        'user_id', 'user_name', 'nama', 'namaperusahaan', 'email', 'alamat', 'alamatperusahaan', 'jabatan', 'notelp', 'password', 'user_level'
     ];
     public function getalluser()
     {

@@ -147,7 +147,10 @@ class DashboardKLien extends Dashboard
         $namaproyek = $this->request->getVar('namaproyek');
         $jenisproyek = $this->request->getVar('jenisproyek');
         $lokasiproyek = $this->request->getVar('lokasiproyek');
-        $catatan = $this->request->getVar('catatan');
+        $tglmulai = $this->request->getVar('tglmulai');
+        $tgldeadline = $this->request->getVar('tgldeadline');
+        $anggaran = $this->request->getVar('anggaran');
+        $anggaran = (int)(filter_var($anggaran, FILTER_SANITIZE_NUMBER_INT));
         $idajuan = $this->kodeotomatis('pengajuan_proyek', 'idajuan', 'AJP001');
         $AjuanProyekModel = new AjuanProyekModel();
         $AjuanProyekModel->insert([
@@ -156,7 +159,9 @@ class DashboardKLien extends Dashboard
             'namaproyek' => $namaproyek,
             'jenisproyek' => $jenisproyek,
             'lokasiproyek' => $lokasiproyek,
-            'catatanproyek' => $catatan,
+            'tglmulai' => $tglmulai,
+            'tgldeadline' => $tgldeadline,
+            'anggaran' => $anggaran,
             'status_id' => '1',
             'file_upload' => $randomname,
             'revisi_id' => '0'

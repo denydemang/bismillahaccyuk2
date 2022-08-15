@@ -40,9 +40,12 @@ class Registrasi extends BaseController
 
             $username = $this->request->getVar('username');
             $nama = $this->request->getVar('nama');
+            $namaperusahaan = $this->request->getVar('namaperusahaan');
             $email = $this->request->getVar('email');
             $telpon = $this->request->getVar('telpon');
             $alamat = $this->request->getVar('alamat');
+            $alamatperusahaan = $this->request->getVar('alamatperusahaan');
+            $jabatan = $this->request->getVar('jabatan');
             $password = $this->request->getVar('password');
             $passwordacak = password_hash($password, PASSWORD_BCRYPT);
 
@@ -53,8 +56,11 @@ class Registrasi extends BaseController
                 'email' => $email,
                 'user_name' => $username,
                 'nama' =>  $nama,
+                'namaperusahaan' => $namaperusahaan,
                 'notelp' => $telpon,
                 'alamat' => $alamat,
+                'alamatperusahaan' => $alamatperusahaan,
+                'jabatan' => $jabatan,
                 'password' => $passwordacak,
                 'user_level' => 2
             ]);
