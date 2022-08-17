@@ -370,7 +370,7 @@ $(document).ready(function(){
                         $('.detailnamastatus').removeClass('badge-secondary')
                         $('.detailnamastatus').removeClass('badge-danger')
                         $('.detailnamastatus').removeClass('badge-primary')
-                        $('.detailnamastatus').addClass('badge-warning')
+                        $('.detailnamastatus').addClass('badge-primary')
                         
                     }
                     else if (data.data[0]['status_id'] =='7'){
@@ -383,7 +383,7 @@ $(document).ready(function(){
                         $('.detailnamastatus').removeClass('badge-secondary')
                         $('.detailnamastatus').removeClass('badge-danger')
                         $('.detailnamastatus').removeClass('badge-primary')
-                        $('.detailnamastatus').addClass('badge-warning')
+                        $('.detailnamastatus').addClass('badge-danger')
                         
                     }
                     else if (data.data[0]['status_id'] =='8'){
@@ -396,7 +396,7 @@ $(document).ready(function(){
                         $('.detailnamastatus').removeClass('badge-secondary')
                         $('.detailnamastatus').removeClass('badge-danger')
                         $('.detailnamastatus').removeClass('badge-primary')
-                        $('.detailnamastatus').addClass('badge-warning')
+                        $('.detailnamastatus').addClass('badge-secondary')
                         
                     }
                     
@@ -491,6 +491,20 @@ $(document).ready(function(){
                 location.href = base_url+'admin/hapusajuan/'+id
             }
         })
+    })
+    $('.permintaanmeeting').click(function(){
+        let idajuan = $(this).data('id');
+        $.ajax({
+            url : base_url+"DashboardAdmin/getmeeting/"+idajuan,
+            dataType : "json",
+            success: function(response) {
+               $('.namameeting').html(response.namameeting)
+               $('.lokasimeeting').html(response.lokasimeeting)
+               $('.tanggalmeeting').html(response.tanggalmeeting)
+                
+            }
+        });
+        
     })
     // let data =  $('.detailcreate').data('detailid')
     // let data2=  $('.detailterima').data('detailid')

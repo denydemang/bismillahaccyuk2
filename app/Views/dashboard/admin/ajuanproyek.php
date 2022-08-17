@@ -91,9 +91,21 @@
                                         <?php elseif ($ajuan->status_id == '6') : ?>
                                             <td><span class="badge badge-primary"><?= $ajuan->keterangan; ?></span></td>
                                         <?php elseif ($ajuan->status_id == '7') : ?>
-                                            <td><span class="badge badge-info"><?= $ajuan->keterangan; ?></span></td>
+                                            <td>
+                                                <span style="cursor:pointer" data-toggle="dropdown" class="badge badge-danger"><?= $ajuan->keterangan; ?><i class="ml-3 dropdown-toggle"></i></span>
+                                                <div class="dropdown-menu dropdown-menu-lg">
+                                                    <div style=" word-wrap:break-word !important"">
+                                                        <h3 class=" bg-primary dropdown-item dropdown-header">Alasan Penolakan</h3>
+                                                        <a class="dropdown-item bg-secondary">
+                                                            <p style="font-weight:bolder"><?= $ajuan->alasanpenolakan; ?></p>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         <?php elseif ($ajuan->status_id == '8') : ?>
-                                            <td><span class="badge badge-secondary"><?= $ajuan->keterangan; ?></span></td>
+                                            <td>
+                                                <span data-id="<?= $ajuan->idajuan; ?>" style="cursor:pointer" data-toggle="modal" data-target="#meeting" class="badge badge-secondary permintaanmeeting"><?= $ajuan->keterangan; ?><i class="ml-2 fas fa-eye"></i></span>
+                                            </td>
                                         <?php endif; ?>
                                         <?php if ($ajuan->revisi_id == '0') : ?>
                                             <td><span class="badge badge-warning">Belum Dihitung</span></td>
@@ -101,10 +113,10 @@
                                             <td><span class="badge badge-success">Sudah Dihitung</span></td>
                                         <?php endif; ?>
                                         <td>
-                                            <div style="display:flex;flex-direction:row;justify-content:center;align-items:center">
+                                            <div style="display:flex;flex-direction:column;justify-content:space-around;align-items:center">
                                                 <button class="btn btn-sm btn-success detailajuan" data-toggle="modal" data-target="#exampleModal" data-idajuan="<?= $ajuan->idajuan; ?>">Detail</button>
                                                 <?php if ($ajuan->status_id == '2' &&  $ajuan->revisi_id == '0') : ?>
-                                                    <button class=" btn btn-sm btn-info detailhitung" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Buat Perhitungan</button>
+                                                    <button class=" btn btn-sm btn-primary detailhitung" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Buat Perhitungan</button>
                                                 <?php elseif ($ajuan->status_id == '2' &&  $ajuan->revisi_id == '1') : ?>
                                                     <button class=" btn btn-sm btn-info detailkirimfilerab" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>"> Kirim File RAB</button>
                                                 <?php else : ?>
@@ -112,11 +124,17 @@
                                                         <button class=" btn btn-sm btn-primary terima" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Terima </button>
                                                         <button data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>" class="btn btn-sm btn-danger tolak">Tolak</button>
                                                     <?php elseif ($ajuan->status_id == '2') : ?>
-                                                        <button class=" btn btn-sm btn-info kirimfilerab" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<//?= $ajuan->namaproyek; ?>" data-namaklien="<//?= $ajuan->nama; ?>" data-idajuan="</?////= $ajuan->idajuan; ?>">Kirim File</button>
+                                                        <button class=" btn btn-sm btn-info kirimfilerab" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Kirim File</button>
                                                     <?php elseif ($ajuan->status_id == '3') : ?>
                                                         <button data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>" class="btn btn-sm btn-warning hapusajuan">Hapus</button>
                                                     <?php elseif ($ajuan->status_id == '6') : ?>
-                                                        <button type="button" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important; class=" btn btn-primary detailcreate">Create Project</button>
+                                                        <button type="button" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" class=" btn btn-sm btn-primary detailcreate">Create Project</button>
+                                                    <?php elseif ($ajuan->status_id == '7') : ?>
+                                                        <button type="button" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" class=" btn btn-sm btn-primary detailhitung">Buat Revisi RAB</button>
+                                                        <button class="btn btn-sm btn-info kirimfilerab" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Kirim File</button>
+                                                    <?php elseif ($ajuan->status_id == '8') : ?>
+                                                        <button type="button" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" class=" btn btn-sm btn-primary detailhitung">Buat Revisi RAB</button>
+                                                        <button class="btn btn-sm btn-info kirimfilerab" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Kirim File</button>
                                                     <?php endif ?>
                                                 <?php endif; ?>
                                             </div>
@@ -136,7 +154,47 @@
             </div>
         </div>
     </section>
-
+    <section>
+        <div class="modal fade" id="meeting" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="">
+                            <div class="card card-widget widget-user-2">
+                                <div class="widget-user-header bg-warning">
+                                    <h5>Detail Meeting</h5>
+                                </div>
+                                <div class="card-footer p-0">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                Nama Meeting <span class="float-right badge namameeting bg-primary">Pembahasan Mengenai AJP001</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                Lokasi Meeting <span class="float-right badge lokasimeeting bg-info">Jln Tlogosari Utara IV no 13 Tembalang Semarang</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                Tanggal Meeting <span class="float-right badge tanggalmeeting bg-success">14 November 2022 12.12PM</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- Modal -->
     <section>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

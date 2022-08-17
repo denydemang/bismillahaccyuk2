@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-
+use App\Models\MeetingModel;
 use App\Models\ModelLogin;
 use App\Models\AjuanProyekModel;
 use App\Models\PerhitunganBBModel;
@@ -546,7 +546,7 @@ class DashboardAdmin extends Dashboard
         $modelajuan = new AjuanProyekModel();
 
         if (!empty($id)) {
-            $getdata =  $modelajuan->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->where('idajuan', $id)->first();
+            $getdata =  $modelajuan->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->orWhere('status_id', '7')->orWhere('status_id', '8')->where('idajuan', $id)->first();
             if (!empty($getdata)) {
                 $DataKirim = [
                     'idajuan' => $getdata['idajuan'],
@@ -691,6 +691,12 @@ class DashboardAdmin extends Dashboard
         session()->setFlashdata('namaklien', $namaklien);
         session()->setFlashdata('pesan', 'dihapus');
         return redirect()->to(base_url() . '/admin/ajuanproyek');
+    }
+    public function getmeeting($id)
+    {
+        $meeting = new MeetingModel();
+        $data = $meeting->where('idajuan', $id)->first();
+        echo json_encode($data);
     }
     public function deleteuser($id)
     {
