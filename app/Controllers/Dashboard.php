@@ -87,7 +87,7 @@ class Dashboard extends BaseController
         $data = $this->datalogin['user_id'];
         $ajuanproyekmodel = new AjuanProyekModel();
         $builder = $ajuanproyekmodel->builder();
-        $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
+        $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->join('status_ajuan', 'pengajuan_proyek.status_id=status_ajuan.status_id');
         $query = $builder->where('pengajuan_proyek.user_id', $data)->get();
         $ajuanklien = $query->getResultArray();
 

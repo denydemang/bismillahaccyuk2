@@ -20,10 +20,11 @@
     <link rel="stylesheet" href="<?= base_url('DataTables') ?>/FixedColumns-4.1.0/css/fixedColumns.bootstrap4.css">
     <link rel="stylesheet" href="<?= base_url('DataTables') ?>/Responsive-2.3.0/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="<?= base_url('DataTables') ?>/datatables.min.css">
-    <link rel="stylesheet" href="<?= base_url('DataTables') ?>/DateTime-1.1.2/css/dataTables.dateTime.css">
+    <link rel="stylesheet" href="<?= base_url('daterangepicker') ?>/daterangepicker.css">
     <script src="<?= base_url('assetslte') ?>/plugins/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="<?= base_url('jquery-ui-1.13.2') ?>/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="<//?//= base_url('jquery-month-picker') ?>/src/MonthPicker.css"> -->
     <script src="<?= base_url('DataTables') ?>/datatables.min.js"></script>
-    <script src="<?= base_url('DataTables/DateTime-1.1.2/js/dataTables.dateTime.min.js'); ?>"></script>
     <script src="<?= base_url('assetslte') ?>/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="<?= base_url('assetslte') ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <link rel="stylesheet" href="<?= base_url('assetslte') ?>/dist/css/adminlte.min.css?v=3.2.0">

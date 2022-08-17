@@ -52,16 +52,16 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="tableajuan" class="table table-striped table-sm ">
+                        <table id="tableajuan" class="table table-bordered table-striped">
                             <thead>
                                 <th>No</th>
                                 <th>Id Ajuan</th>
                                 <th>Nama Proyek</th>
                                 <th>Jenis Proyek</th>
-                                <th>Lokasi Proyek</th>
-                                <th>Nama Klien</th>
+                                <th>Anggaran</th>
+                                <th>File RAB</th>
                                 <th>Status</th>
-                                <th>Tinjauan</th>
+                                <th>Hitung RAB</th>
                                 <th>Aksi</th>
                             </thead>
                             <tbody>
@@ -72,8 +72,12 @@
                                         <td><?= $ajuan->idajuan; ?></td>
                                         <td><?= $ajuan->namaproyek; ?></td>
                                         <td><?= $ajuan->jenisproyek; ?></td>
-                                        <td><?= $ajuan->lokasiproyek; ?></td>
-                                        <td><?= $ajuan->nama; ?></td>
+                                        <td><?= number_format($ajuan->anggaran, 0, '', '.'); ?></td>
+                                        <?php if (!empty($ajuan->file_admin)) : ?>
+                                            <td><?= $ajuan->file_admin; ?></td>
+                                        <?php else : ?>
+                                            <td>Belum Ada RAB Terlampir</td>
+                                        <?php endif; ?>
                                         <?php if ($ajuan->status_id == '1') : ?>
                                             <td><span class="badge badge-secondary"><?= $ajuan->keterangan; ?></span></td>
                                         <?php elseif ($ajuan->status_id == '2') : ?>
@@ -82,19 +86,31 @@
                                             <td><span class="badge badge-danger"><?= $ajuan->keterangan; ?></span></td>
                                         <?php elseif ($ajuan->status_id == '4') : ?>
                                             <td><span class="badge badge-success"><?= $ajuan->keterangan; ?></span></td>
+                                        <?php elseif ($ajuan->status_id == '5') : ?>
+                                            <td><span class="badge badge-warning"><?= $ajuan->keterangan; ?></span></td>
+                                        <?php elseif ($ajuan->status_id == '6') : ?>
+                                            <td><span class="badge badge-primary"><?= $ajuan->keterangan; ?></span></td>
+                                        <?php elseif ($ajuan->status_id == '7') : ?>
+                                            <td><span class="badge badge-info"><?= $ajuan->keterangan; ?></span></td>
+                                        <?php elseif ($ajuan->status_id == '8') : ?>
+                                            <td><span class="badge badge-secondary"><?= $ajuan->keterangan; ?></span></td>
                                         <?php endif; ?>
                                         <?php if ($ajuan->revisi_id == '0') : ?>
                                             <td><span class="badge badge-warning">Belum Dihitung</span></td>
                                         <?php elseif ($ajuan->revisi_id == '1') : ?>
                                             <td><span class="badge badge-success">Sudah Dihitung</span></td>
                                         <?php endif; ?>
-                                        <td><a class="btn btn-sm btn-success detailajuan" data-toggle="modal" data-target="#exampleModal" data-idajuan="<?= $ajuan->idajuan; ?>">Detail</a>
-                                            <?php if ($ajuan->status_id == '1') : ?>
-                                                <button class=" btn btn-sm btn-primary terima" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Terima </button>
-                                                <button data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>" class="btn btn-sm btn-danger tolak">Tolak</button>
-                                            <?php elseif ($ajuan->status_id == '3') : ?>
-                                                <button data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>" class="btn btn-sm btn-warning hapusajuan">Hapus</button>
-                                            <?php endif ?>
+                                        <td>
+                                            <div style="display:flex;flex-direction:row;justify-content:center;align-items:center">
+                                                <button class="btn btn-sm btn-success detailajuan" data-toggle="modal" data-target="#exampleModal" data-idajuan="<?= $ajuan->idajuan; ?>">Detail</button>
+                                                <?php if ($ajuan->status_id == '2' &&  $ajuan->revisi_id == '0') : ?>
+                                                    <button class=" btn btn-sm btn-info detailhitung" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Buat Perhitungan</button>
+                                                <?php elseif ($ajuan->status_id == '2' &&  $ajuan->revisi_id == '1') : ?>
+                                                    <button class=" btn btn-sm btn-info kirimfilerab" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>"> Kirim File RAB</button>
+                                                <?php else : ?>
+                                                    <button class="btn btn-primary">OK</button>
+                                                <?php endif; ?>
+                                            </div>
                                         </td>
 
                                     </tr>
@@ -162,8 +178,21 @@
                                         </p>
                                     </div>
                                     <div class="col">
+                                        <strong><i class="fas fa-building mr-1"></i>Nama Perusahaan</strong>
+                                        <p class="text-muted detailnamaperusahaan mr-1">
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col">
                                         <strong><i class="fas fa-envelope mr-1"></i>Email Klien</strong>
                                         <p class="text-muted detailemail mr-1">
+                                        </p>
+                                    </div>
+                                    <div class="col">
+                                        <strong><i class="fas fa-address-card mr-1"></i>Jabatan</strong>
+                                        <p class="text-muted detailjabatan mr-1">
                                         </p>
                                     </div>
                                 </div>
@@ -175,32 +204,46 @@
                                         </p>
                                     </div>
                                     <div class="col">
-                                        <strong><i class="fas fa-phone mr-1"></i>No Telepon</strong>
-                                        <p class="text-muted detailtelp mr-1">
+                                        <strong><i class="fas fa-map mr-1"></i>Alamat Perusahaan</strong>
+                                        <p class="text-muted detailalamatperusahaan mr-1">
                                         </p>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col">
-                                        <strong><i class="far fa-file-alt mr-1"></i>Catatan</strong>
-                                        <p class="text-muted detailcatatanproyek">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+                                        <strong><i class="fas fa-money-bill mr-1"></i>Anggaran Proyek</strong>
+                                        <p class="text-muted detailanggaran mr-1">
+                                        </p>
                                     </div>
                                     <div class="col">
-                                        <strong><i class="fas fa-download mr-1"></i>File Lampiran</strong>
-                                        <p class="text-muted uploadfile mr-1">
-
+                                        <strong><i class="fas fa-phone mr-1"></i>No Telpon Klien</strong>
+                                        <p class="text-muted detailnotelp mr-1">
                                         </p>
                                     </div>
                                 </div>
                                 <hr>
-
+                                <div class="row">
+                                    <div class="col">
+                                        <strong><i class="fas fa-calendar mr-1"></i>Jadwal Proyek</strong>
+                                        <p class="text-muted detailjadwalproyek mr-1">
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col col-sm">
+                                        <strong><i class="fas fa-download mr-1"></i>File Lampiran</strong>
+                                        <p class="text-muted detailuploadfile mr-1">
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" data-detailid="5" class="btn btn-primary detailcreate">Create Project</button>
+                        <button type="button" data-detailid="5" class="btn btn-primary detailkirimfile">Kirim File</button>
                         <button type="button" data-detailid="5" class="btn btn-primary detailhitung">Buat Perhitungan</button>
                         <button type="button" data-detailid="5" class="btn btn-primary detailterima">Terima</button>
                         <button type="button" data-detailid="5" class="btn btn-danger detailtolak">Tolak</button>
@@ -221,7 +264,7 @@
             "pageLength": 5,
             "columnDefs": [{
                 orderable: false,
-                targets: [1, 2, 3, 4, 5, 6, 7]
+                targets: [2, 3, 4, 5, 6, 7, 8]
             }],
             "fixedColumns": {
                 leftColumns: 1,

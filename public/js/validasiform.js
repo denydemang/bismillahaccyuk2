@@ -136,10 +136,7 @@ $(document).ready(function(){
                 anggaran : {
                 required : true,
                 },
-                tglmulai : {
-                required : true,
-                },
-                tgldeadline : {
+                jadwalproyek : {
                 required : true,
                 },
                 uploadfile : {
@@ -162,11 +159,8 @@ $(document).ready(function(){
                 anggaran : {
                     required: 'Anggaran Proyek Wajib Diisi'
                 },   
-                tglmulai : {
-                    required: 'Tanggal Mulai Proyek Wajib Diisi'
-                },   
-                tgldeadline : {
-                    required: 'Tanggal Deadline Proyek Wajib Diisi'
+                jadwalproyek : {
+                    required: 'Jadwal Proyek Wajib Diisi'
                 },   
                 uploadfile : {
                     required: 'Silakan Upload File Pendukung',

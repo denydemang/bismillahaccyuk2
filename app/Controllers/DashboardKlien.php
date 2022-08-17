@@ -138,17 +138,19 @@ class DashboardKLien extends Dashboard
     //FUnction Query
     public function simpanajuanproyek()
     {
+        $idajuan = $this->kodeotomatis('pengajuan_proyek', 'idajuan', 'AJP001');
         $uploadfile = $this->request->getFile('uploadfile');
-        $randomname = $uploadfile->getRandomName();
-
-        $uploadfile->move('fileclient', $randomname);
+        $getname = $uploadfile->getName();
+        $pecah = explode('.', $getname);
+        $getekstensi = $pecah[1];
+        $filename = $idajuan . '-' . $this->request->getVar('user_id') . '-' . $this->request->getVar('namaproyek') . '.' . $getekstensi;
+        $uploadfile->move('fileclient', $filename);
 
         $user_id = $this->request->getVar('user_id');
         $namaproyek = $this->request->getVar('namaproyek');
         $jenisproyek = $this->request->getVar('jenisproyek');
         $lokasiproyek = $this->request->getVar('lokasiproyek');
-        $tglmulai = $this->request->getVar('tglmulai');
-        $tgldeadline = $this->request->getVar('tgldeadline');
+        $jadwalproyek = $this->request->getVar('jadwalproyek');
         $anggaran = $this->request->getVar('anggaran');
         $anggaran = (int)(filter_var($anggaran, FILTER_SANITIZE_NUMBER_INT));
         $idajuan = $this->kodeotomatis('pengajuan_proyek', 'idajuan', 'AJP001');
@@ -159,16 +161,32 @@ class DashboardKLien extends Dashboard
             'namaproyek' => $namaproyek,
             'jenisproyek' => $jenisproyek,
             'lokasiproyek' => $lokasiproyek,
-            'tglmulai' => $tglmulai,
-            'tgldeadline' => $tgldeadline,
             'anggaran' => $anggaran,
             'status_id' => '1',
-            'file_upload' => $randomname,
+            'file_upload' => $filename,
+            'jadwalproyek' => $jadwalproyek,
             'revisi_id' => '0'
-
 
         ]);
         session()->setFlashdata('pesan', 'berhasildiajukan');
         return redirect()->to(base_url('/klien'));
+    }
+    public function terimaRAB($idajuan)
+    {
+        $ajuanproyek = new AjuanProyekModel();
+        $ajuanproyek->builder()->where('idajuan', $idajuan)->set('status_id', '6')->update();
+        return redirect()->to(base_url('klien/ajuanproyek'));
+    }
+    public function tolakRAB($idajuan)
+    {
+        $ajuanproyek = new AjuanProyekModel();
+        $ajuanproyek->builder()->where('idajuan', $idajuan)->set('status_id', '7')->update();
+        return redirect()->to(base_url('klien/ajuanproyek'));
+    }
+    public function permintaanmeeting($idajuan)
+    {
+        $ajuanproyek = new AjuanProyekModel();
+        $ajuanproyek->builder()->where('idajuan', $idajuan)->set('status_id', '8')->update();
+        return redirect()->to(base_url('klien/ajuanproyek'));
     }
 }

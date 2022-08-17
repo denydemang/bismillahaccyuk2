@@ -1,4 +1,96 @@
+const tglindo = (tgl) => {
+    let pecah = tgl.split(' - ');
+    let tgl1 = pecah[0];
+    let tgl2 = pecah[1];
+    tgl1 =tgl1.split('/');
+    bln1 = tgl1[1];
 
+    tgl2 =tgl2.split('/');
+    bln2 =tgl2[1];
+    
+    switch (bln1) {
+
+        case '01':
+            bln1 = "Januari";
+            break;
+        case '02':
+            bln1 = "Februari";
+            break;
+        case '03':
+            bln1 = "Maret";
+            break;
+        case '04':
+            bln1 = "April";
+            break;
+        case '05':
+            bln1 = "Mei";
+            break;
+        case '06':
+            bln1 = "Juni";
+            break;
+        case '07':
+            bln1 = "Juli";
+            break;
+        case '08':
+            bln1 = "Agustus";
+            break;
+        case '09':
+            bln1 = "September";
+            break;
+        case '10':
+            bln1 = "Oktober";
+            break;
+        case '11':
+            bln1 = "November";
+            break;
+        case '12':
+            bln1 = "Desember";
+            break;
+    }
+    switch (bln2) {
+
+        case '01':
+            bln2 = "Januari";
+            break;
+        case '02':
+            bln2 = "Februari";
+            break;
+        case '03':
+            bln2 = "Maret";
+            break;
+        case '04':
+            bln2 = "April";
+            break;
+        case '05':
+            bln2 = "Mei";
+            break;
+        case '06':
+            bln2 = "Juni";
+            break;
+        case '07':
+            bln2 = "Juli";
+            break;
+        case '08':
+            bln2 = "Agustus";
+            break;
+        case '09':
+            bln2 = "September";
+            break;
+        case '10':
+            bln2 = "Oktober";
+            break;
+        case '11':
+            bln2 = "November";
+            break;
+        case '12':
+            bln2 = "Desember";
+            break;
+    }
+    let gabungan = tgl1[0] +'-'+bln1+'-'+tgl1[2]+' s.d ' +tgl2[0]+'-'+bln2+'-'+tgl2[2]
+    return gabungan
+    
+    
+};
 
 const formatRupiahtyping = (money) => {
     angka = money.replace(/[^,\d]/g, "");
@@ -20,7 +112,7 @@ const formatRupiah1 = (money) => {
 
 const base_url = 'http://localhost:8080/'
 $(document).ready(function(){
-  
+  tglindo('01/09/2022 - 19/10/2022');
     let lineNo = 1;
        
             $("#add-row").click(function () {
@@ -195,11 +287,12 @@ $(document).ready(function(){
                     $('.detailnamastatus').removeClass('badge-success')
                     $('.detailnamastatus').addClass('badge-primary')
                 } else if(data.data[0]['revisi_id'] =='1' && data.data[0]['status_id'] =='2'){
-                    $('.detailcreate').show();
+                    $('.detailcreate').hide();
                     $('.detailterima').hide();
                     $('.detailhapus').hide();
                     $('.detailtolak').hide();
                     $('.detailhitung').hide();
+                    $('.detailkirimfile').show();
                     $('.detailnamastatus').removeClass('badge-secondary')
                     $('.detailnamastatus').removeClass('badge-danger')
                     $('.detailnamastatus').removeClass('badge-success')
@@ -249,6 +342,18 @@ $(document).ready(function(){
                         $('.detailnamastatus').addClass('badge-success')
                         
                     }
+                    else if (data.data[0]['status_id'] =='5'){
+                        $('.detailcreate').hide();
+                        $('.detailterima').hide();
+                        $('.detailhapus').hide();
+                        $('.detailtolak').hide();
+                        $('.detailhitung').hide();
+                        $('.detailnamastatus').removeClass('badge-secondary')
+                        $('.detailnamastatus').removeClass('badge-danger')
+                        $('.detailnamastatus').removeClass('badge-primary')
+                        $('.detailnamastatus').addClass('badge-warning')
+                        
+                    }
                     
                 }
                
@@ -259,11 +364,19 @@ $(document).ready(function(){
                 $('.detailjenisproyek').html(data.data[0]['jenisproyek']);
                 $('.detaillokasiproyek').html(data.data[0]['lokasiproyek']);
                 $('.detailnama').html(data.data[0]['nama']);
+                if (data.data[0]['namaperusahaan']) {$('.detailnamaperusahaan').html(data.data[0]['namaperusahaan'])} else {$('.detailnamaperusahaan').html('---')} 
+                (data.data[0]['jabatan']) ?  $('.detailjabatan').html(data.data[0]['jabatan']) :  $('.detailjabatan').html('---');
+                (data.data[0]['alamatperusahaan']) ?  $('.detailalamatperusahaan').html(data.data[0]['alamatperusahaan']) :  $('.detailalamatperusahaan').html('---');
                 $('.detailemail').html(data.data[0]['email']);
                 $('.detailalamat').html(data.data[0]['alamat']);
                 $('.detailtelp').html(data.data[0]['notelp']);
-                $('.detailcatatanproyek').html(data.data[0]['catatanproyek']);
-                $('.uploadfile').html('<a href="http://localhost:8080/admin/downloadfile/'+data.data[0]['file_upload']+'">'+data.data[0]['file_upload']+'</a>');
+                $('.detailanggaran').html(formatRupiah1(data.data[0]['anggaran']));
+                $('.detailnotelp').html(data.data[0]['notelp']);
+                $('.detailjadwalproyek').html(tglindo(data.data[0]['jadwalproyek']));
+
+                // $('.detailtglmulai').html(tanggalindo(data.data[0]['tglmulai']));
+                // $('.detailtgldeadline').html(tanggalindo(data.data[0]['tgldeadline']));
+                $('.detailuploadfile').html('<a href="http://localhost:8080/admin/downloadfile/'+data.data[0]['file_upload']+'">'+data.data[0]['file_upload']+'</a>');
                          
             }
 

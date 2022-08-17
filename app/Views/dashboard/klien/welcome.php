@@ -88,30 +88,30 @@
                                 <div class="form-row form-group">
                                     <div class="col">
                                         <label for="jenisproyek">Jenis Proyek *</label>
-                                        <select type="text" class="form-control" id="jenisproyek" name="jenisproyek">
-                                            <option selected disabled> --Pilih Jenis Proyek--</option>
+                                        <select type="text" class="form-control" id="jenisproyekkk" name="jenisproyek">
+                                            <option selected disabled value=" --Pilih Jenis Proyek--"> --Pilih Jenis Proyek--</option>
                                             <option value="Engineering Konstruksi">Engineering Konstruksi</option>
                                             <option value="Engineering Manufacture">Engineering Manufacture</option>
-                                            <option value="Pelayanan Manajemen">Pelayanan Manajemen</option>
                                             <option value="Penelitian Dan Pengembangan">Penelitian Dan Pengembangan</option>
-                                            <option value="Proyek Kapital">Proyek Kapital</option>
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <label for="anggaran">Anggaran Yang Ditawarkan*</label>
+                                        <label for="anggaran">Anggaran Proyek*</label>
                                         <input class="form-control" id="anggaran" name="anggaran"></input>
                                     </div>
                                 </div>
                                 <div class="form-row form-group">
-                                    <div class="col">
-                                        <label for="tglmulai">Tanggal Mulai Proyek *</label>
-                                        <input type="text" class="form-control" id="tglmulai" name="tglmulai">
-                                    </div>
-                                    <div class="col">
-                                        <label for="tgldeadline">Tanggal Deadline*</label>
-                                        <input class="form-control" id="tgldeadline" name="tgldeadline"></input>
+                                    <div class="col-5">
+                                        <label for="tglmulai">Jadwal Proyek *</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar"></i></span>
+                                            </div>
+                                            <input type="text" autocomplete="off" class="form-control jadwalproyek" placeholder="DD/MM/YYYY - DD/MM/YYYY" name="jadwalproyek" id="jadwalproyek">
+                                        </div>
                                     </div>
                                 </div>
+                                <!-- <input type="text" class="form-control" id="jadwalproyek" name="jadwalproyek"> -->
                                 <div class="form-group ">
                                     <div class="custom-file col-8">
                                         <label for="exampleFormControlFile1">Pilih File *</label>
@@ -133,21 +133,43 @@
     </section>
 
 </div>
+<script src="<?= base_url('jquery-ui-1.13.2') ?>/jquery-ui.js"></script>
+<!-- <script src="<//?= base_url('jquery-month-picker') ?>/src/MonthPicker.js"></script> -->
+<script src="<?= base_url('daterangepicker') ?>/moment.min.js"></script>
+<script src="<?= base_url('daterangepicker') ?>/daterangepicker.js"></script>
 <script>
     $(document).ready(function() {
         $('#anggaran').keyup(function() {
             $(this).val(formatRupiahtyping($(this).val()));
         })
-        $("#tglmulai").on('keydown paste focus mousedown', function(e) {
-            if (e.keyCode != 9) // ignore tab
-                e.preventDefault();
+
+        $(function() {
+            $('.jadwalproyek').keypress(function(event) {
+                event.preventDefault();
+                return false;
+            });
+        })
+        $('.jadwalproyek').daterangepicker({
+            autoUpdateInput: false,
+            showDropdowns: true,
+            locale: {
+                cancelLabel: 'Clear',
+                format: 'DD/MM/YY'
+            }
         });
-        $("#tgldeadline").on('keydown paste focus mousedown', function(e) {
-            if (e.keyCode != 9) // ignore tab
-                e.preventDefault();
+        $('.jadwalproyek').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
         });
-        $('#tglmulai').dtDateTime();
-        $('#tgldeadline').dtDateTime();
-    })
+
+        $('.jadwalproyek').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+        });
+
+
+    });
+    // $("#jadwalproyek").on('keydown paste focus mousedown', function(e) {
+    //     if (e.keyCode != 9) // ignore tab
+    //         e.preventDefault();
+    // });
 </script>
 <?= $this->endSection(); ?>
