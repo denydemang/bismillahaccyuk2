@@ -141,9 +141,11 @@ class DashboardKLien extends Dashboard
         $idajuan = $this->kodeotomatis('pengajuan_proyek', 'idajuan', 'AJP001');
         $uploadfile = $this->request->getFile('uploadfile');
         $getname = $uploadfile->getName();
+        $namaproyek = $this->request->getVar('namaproyek');
+        $nospacenamaproyek = str_replace(' ', '', $namaproyek);
         $pecah = explode('.', $getname);
         $getekstensi = $pecah[1];
-        $filename = $idajuan . '-' . $this->request->getVar('user_id') . '-' . $this->request->getVar('namaproyek') . '.' . $getekstensi;
+        $filename = $idajuan . '-' . $this->request->getVar('user_id') . '-' . $nospacenamaproyek . '.' . $getekstensi;
         $uploadfile->move('fileclient', $filename);
 
         $user_id = $this->request->getVar('user_id');

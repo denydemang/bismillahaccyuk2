@@ -9,7 +9,6 @@
             <div class="col-md-8">
                 <div class="card-body p-3">
                     <h5 class="card-title text-center mb-3">Halaman Login</h5>
-
                     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                         <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
@@ -36,8 +35,6 @@
                             </div>
                         </div>
                     <?php endif; ?>
-
-
                     <!-- End Pesan Message Ketika Berhasil buat Akun -->
                     <form action="<?= base_url(); ?>/login/cekuser" method="post">
                         <?= csrf_field(); ?>
@@ -60,7 +57,6 @@
                             <div class="invalid-feedback">
                                 <?= session()->getFlashdata('errPassword'); ?>
                             </div>
-
                         </div>
                         <div class="d-flex">
                             <div class="mb-3 form-check">
@@ -68,7 +64,6 @@
                                 <label class="form-check-label" for="exampleCheck1">Show Password</label>
                             </div>
                         </div>
-
                         <button type="submit" class="btn btn-primary"><i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk</button>
                         <a href="<?= base_url(); ?>" type="submit" class="btn btn-danger"><i class="fa-solid fa-house"></i>
                             Kembali</a>
@@ -76,13 +71,14 @@
                             <div class="mt-2">
                                 <small>Belum Punya Akun ? <a href="<?= base_url(); ?>/registrasi">Registrasi</a></small>
                             </div>
-
+                        <?php endif; ?>
+                        <?php if (!session()->getFlashdata('pesanupdatepw')) : ?>
                             <div>
                                 <small>Lupa Password ? <a href="<?= base_url(); ?>/lupapassword">Ganti Password</a></small>
                             </div>
+                        <?php endif; ?>
                 </div>
-            <?php endif; ?>
-            </form>
+                </form>
             </div>
         </div>
 

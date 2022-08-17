@@ -74,7 +74,7 @@
                                         <td><?= $ajuan->jenisproyek; ?></td>
                                         <td><?= number_format($ajuan->anggaran, 0, '', '.'); ?></td>
                                         <?php if (!empty($ajuan->file_admin)) : ?>
-                                            <td><?= $ajuan->file_admin; ?></td>
+                                            <td><a href="<?= base_url('admin/downloadfile/' . $ajuan->file_admin . '/fileadmin'); ?>"><?= $ajuan->file_admin; ?></a></td>
                                         <?php else : ?>
                                             <td>Belum Ada RAB Terlampir</td>
                                         <?php endif; ?>
@@ -106,9 +106,18 @@
                                                 <?php if ($ajuan->status_id == '2' &&  $ajuan->revisi_id == '0') : ?>
                                                     <button class=" btn btn-sm btn-info detailhitung" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Buat Perhitungan</button>
                                                 <?php elseif ($ajuan->status_id == '2' &&  $ajuan->revisi_id == '1') : ?>
-                                                    <button class=" btn btn-sm btn-info kirimfilerab" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>"> Kirim File RAB</button>
+                                                    <button class=" btn btn-sm btn-info detailkirimfilerab" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>"> Kirim File RAB</button>
                                                 <?php else : ?>
-                                                    <button class="btn btn-primary">OK</button>
+                                                    <?php if ($ajuan->status_id == '1') : ?>
+                                                        <button class=" btn btn-sm btn-primary terima" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Terima </button>
+                                                        <button data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>" class="btn btn-sm btn-danger tolak">Tolak</button>
+                                                    <?php elseif ($ajuan->status_id == '2') : ?>
+                                                        <button class=" btn btn-sm btn-info kirimfilerab" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<//?= $ajuan->namaproyek; ?>" data-namaklien="<//?= $ajuan->nama; ?>" data-idajuan="</?////= $ajuan->idajuan; ?>">Kirim File</button>
+                                                    <?php elseif ($ajuan->status_id == '3') : ?>
+                                                        <button data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>" class="btn btn-sm btn-warning hapusajuan">Hapus</button>
+                                                    <?php elseif ($ajuan->status_id == '6') : ?>
+                                                        <button type="button" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important; class=" btn btn-primary detailcreate">Create Project</button>
+                                                    <?php endif ?>
                                                 <?php endif; ?>
                                             </div>
                                         </td>
@@ -243,7 +252,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" data-detailid="5" class="btn btn-primary detailcreate">Create Project</button>
-                        <button type="button" data-detailid="5" class="btn btn-primary detailkirimfile">Kirim File</button>
+                        <button type="button" data-detailid="5" class="btn btn-primary detailkirimfilerab">Kirim File</button>
                         <button type="button" data-detailid="5" class="btn btn-primary detailhitung">Buat Perhitungan</button>
                         <button type="button" data-detailid="5" class="btn btn-primary detailterima">Terima</button>
                         <button type="button" data-detailid="5" class="btn btn-danger detailtolak">Tolak</button>

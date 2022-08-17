@@ -8,39 +8,10 @@
             <div class="pesanemail" data-pesanemail="<?= session()->getFlashdata('pesanemail'); ?>"></div>
         </div>
         <div class="card-body">
-            <div class="col-lg-12 dropdown">
-                <button type="button" data-toggle="dropdown" class="btn btn-info mb-3">Daftar Klien<i class="bg-info mb-2 dropdown-toggle"></i></button>
-                <div class="dropdown-menu dropdown-menu-lg">
-                    <div class="card" style="width:600px !important">
-                        <div class="card-header">
-                            <h3 class="card-title">Daftar Klien</h3>
-                        </div>
-                        <div class="card-body p-3">
-                            <table style="width:100%" class="table text-nowrap daftarklien">
-                                <thead style="width:100%">
-                                    <tr style="width:100%">
-                                        <td>User Id</td>
-                                        <td>Nama Klien</td>
-                                        <td>Alamat</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($klien as $row) : ?>
-                                        <tr>
-                                            <td><button type="button" data-id="<?= $row['user_id']; ?>" class="badge badge-primary btndataklien"><?= $row['user_id']; ?></button></td>
-                                            <td><?= $row['nama']; ?></td>
-                                            <td><?= $row['alamat']; ?></td>
-                                        </tr>
-                                    <?php endforeach ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <form id="formkirimemail" method="post" action="<?= base_url(); ?>/DashboardAdmin/kirimfileemail" enctype="multipart/form-data">
                 <div class="form-group">
-                    <input class="form-control penerimaemail" readonly name="penerimaemail" placeholder="To*:">
+                    <input class="form-control penerimaemail" readonly name="penerimaemail" placeholder="To*:" value="<?= $emailkirim; ?>">
+                    <input type="hidden" value="<?= $ajuan; ?>" name="idajuan">
                 </div>
                 <div class="form-group">
                     <input class="form-control" name="subjectemail" placeholder="Subject*:">
@@ -92,7 +63,6 @@
             success: function(response) {
 
                 $('.penerimaemail').val(response['email'])
-
                 // $('.idajuanbb').val(response[0]['idajuan']);
                 // $('.user_idbb').val(response[0]['user_id']);
                 // $('.namaproyekbb').val(response[0]['namaproyek']);

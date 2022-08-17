@@ -269,6 +269,7 @@ $(document).ready(function(){
         $('.detailtolak').data('detailid',idajuan);
         $('.detailhapus').data('detailid',idajuan);
         $('.detailhitung').data('detailid',idajuan);
+        $('.detailkirimfilerab').data('detailid',idajuan);
 
         $.ajax({
             url: 'http://localhost:8080/DashboardAdmin/detailajuanproyek',
@@ -292,7 +293,7 @@ $(document).ready(function(){
                     $('.detailhapus').hide();
                     $('.detailtolak').hide();
                     $('.detailhitung').hide();
-                    $('.detailkirimfile').show();
+                    $('.detailkirimfilerab').show();
                     $('.detailnamastatus').removeClass('badge-secondary')
                     $('.detailnamastatus').removeClass('badge-danger')
                     $('.detailnamastatus').removeClass('badge-success')
@@ -304,6 +305,7 @@ $(document).ready(function(){
                         $('.detailcreate').hide();
                         $('.detailhapus').hide();
                         $('.detailhitung').hide();
+                        $('.detailkirimfilerab').hide();
                         $('.detailnamastatus').removeClass('badge-primary')
                         $('.detailnamastatus').removeClass('badge-danger')
                         $('.detailnamastatus').removeClass('badge-success')
@@ -314,6 +316,7 @@ $(document).ready(function(){
                         $('.detailhapus').hide();
                         $('.detailtolak').hide();
                         $('.detailhitung').hide();
+                        $('.detailkirimfilerab').hide();
                         $('.detailnamastatus').removeClass('badge-secondary')
                         $('.detailnamastatus').removeClass('badge-danger')
                         $('.detailnamastatus').removeClass('badge-success')
@@ -324,6 +327,7 @@ $(document).ready(function(){
                         $('.detailhapus').show();
                         $('.detailtolak').hide();
                         $('.detailhitung').hide();
+                        $('.detailkirimfilerab').hide();
                         $('.detailnamastatus').removeClass('badge-secondary')
                         $('.detailnamastatus').removeClass('badge-primary')
                         $('.detailnamastatus').removeClass('badge-success')
@@ -336,6 +340,7 @@ $(document).ready(function(){
                         $('.detailhapus').hide();
                         $('.detailtolak').hide();
                         $('.detailhitung').hide();
+                        $('.detailkirimfilerab').hide();
                         $('.detailnamastatus').removeClass('badge-secondary')
                         $('.detailnamastatus').removeClass('badge-danger')
                         $('.detailnamastatus').removeClass('badge-primary')
@@ -348,6 +353,46 @@ $(document).ready(function(){
                         $('.detailhapus').hide();
                         $('.detailtolak').hide();
                         $('.detailhitung').hide();
+                        $('.detailkirimfilerab').hide();
+                        $('.detailnamastatus').removeClass('badge-secondary')
+                        $('.detailnamastatus').removeClass('badge-danger')
+                        $('.detailnamastatus').removeClass('badge-primary')
+                        $('.detailnamastatus').addClass('badge-warning')
+                        
+                    }
+                    else if (data.data[0]['status_id'] =='6'){
+                        $('.detailcreate').show();
+                        $('.detailterima').hide();
+                        $('.detailhapus').hide();
+                        $('.detailtolak').hide();
+                        $('.detailhitung').hide();
+                        $('.detailkirimfilerab').hide();
+                        $('.detailnamastatus').removeClass('badge-secondary')
+                        $('.detailnamastatus').removeClass('badge-danger')
+                        $('.detailnamastatus').removeClass('badge-primary')
+                        $('.detailnamastatus').addClass('badge-warning')
+                        
+                    }
+                    else if (data.data[0]['status_id'] =='7'){
+                        $('.detailcreate').hide();
+                        $('.detailterima').hide();
+                        $('.detailhapus').show();
+                        $('.detailtolak').hide();
+                        $('.detailhitung').show();
+                        $('.detailkirimfilerab').show();
+                        $('.detailnamastatus').removeClass('badge-secondary')
+                        $('.detailnamastatus').removeClass('badge-danger')
+                        $('.detailnamastatus').removeClass('badge-primary')
+                        $('.detailnamastatus').addClass('badge-warning')
+                        
+                    }
+                    else if (data.data[0]['status_id'] =='8'){
+                        $('.detailcreate').show();
+                        $('.detailterima').hide();
+                        $('.detailhapus').hide();
+                        $('.detailtolak').hide();
+                        $('.detailhitung').show();
+                        $('.detailkirimfilerab').show();
                         $('.detailnamastatus').removeClass('badge-secondary')
                         $('.detailnamastatus').removeClass('badge-danger')
                         $('.detailnamastatus').removeClass('badge-primary')
@@ -355,6 +400,7 @@ $(document).ready(function(){
                         
                     }
                     
+
                 }
                
                 $('.detailidajuan').html(data.data[0]['idajuan']);
@@ -376,7 +422,7 @@ $(document).ready(function(){
 
                 // $('.detailtglmulai').html(tanggalindo(data.data[0]['tglmulai']));
                 // $('.detailtgldeadline').html(tanggalindo(data.data[0]['tgldeadline']));
-                $('.detailuploadfile').html('<a href="http://localhost:8080/admin/downloadfile/'+data.data[0]['file_upload']+'">'+data.data[0]['file_upload']+'</a>');
+                $('.detailuploadfile').html('<a href="http://localhost:8080/admin/downloadfile/'+data.data[0]['file_upload']+'/fileclient'+'">'+data.data[0]['file_upload']+'</a>');
                          
             }
 
@@ -388,6 +434,10 @@ $(document).ready(function(){
     $('.detailhitung').click(function(){
         let id = $(this).data('detailid');
         location.href=base_url+"admin/perhitunganbiaya/"+id
+    })
+    $('.detailkirimfilerab').click(function(){
+        let id = $(this).data('detailid');
+        location.href=base_url+"admin/kirimemail/"+id
     })
     $('.detailterima').click(function(){
         let id = $(this).data('detailid');

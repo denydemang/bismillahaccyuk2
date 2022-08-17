@@ -23,8 +23,9 @@ $.validator.addMethod('filesize', function (value, element,param) {
         return this.optional(element) || size <=param ;
         
       }, 'File size must be less than {0}');
-      
-   
+$.validator.addMethod("nowhitespace", function(value, element) {
+        return this.optional(element) || /^\S+$/i.test(value);
+    }, "No white space please");
 $(document).ready(function(){
 
     //Validasi Form Registrasi

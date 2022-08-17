@@ -13,7 +13,7 @@ use PHPMailer\PHPMailer\Exception;
 class LupaPassword extends BaseController
 {
 
-    public function kirimemailgantipw($emailpenerima, $token)
+    public function kirimemailgantipw($emailpenerima, $token, $namapenerima)
     {
         $link = 'http://localhost:8080/lupapassword/formgantipw/' . $token;
         $mail = new PHPMailer(true);
@@ -39,7 +39,7 @@ class LupaPassword extends BaseController
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = 'Permintaan Pergantian Password ';
-            $mail->Body    = '<h1>Dear Klien,</h1>
+            $mail->Body    = '<h1>Halo ' . $namapenerima . ',</h1>
                             <h2>Kami Mendapat Permintaan Untuk Pergantian Kata Sandi , Reset Kata Sandi Anda Melalui Link Berikut</h2> <a href="' . $link . '"><button style="background-color:purple">Klik Disini</button></a>';
             // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
@@ -110,6 +110,7 @@ class LupaPassword extends BaseController
                 $data = [
                     'email' => $email,
                     'token' => $token[0]['token'],
+                    'nama' => $getdatauser['nama']
 
                 ];
                 echo json_encode($data);

@@ -2087,9 +2087,9 @@ class DashboardAdmin extends Dashboard
             return redirect()->to(base_url('admin/perhitunganbiaya'));
         }
     }
-    public function downloadfile($nama = false)
+    public function downloadfile($nama = false, $path = false)
     {
-        $file_path = 'fileclient/' . $nama;
+        $file_path = $path . '/' . $nama;
         $ctype = "application/octet-stream";
         header("Pragma:public");
         header("Expired:0");
@@ -2104,19 +2104,31 @@ class DashboardAdmin extends Dashboard
         readfile($file_path);
         exit();
     }
-    public function kirimemail()
+    public function kirimemail($id = false)
     {
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
+        if ($id != false) {
+            $ajuanproyek = new AjuanProyekModel();
+            $getdata =  $ajuanproyek->builder()->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('idajuan', $id)->get()->getResultArray();
+            if (!empty($getdata)) {
+                $email = $getdata[0]['email'];
+                $ajuan = $getdata[0]['idajuan'];
+            } else {
+                $email = '';
+                $ajuan = '';
+            }
+        } else {
+            $email = '';
+            $ajuan = '';
+        }
         $akun = new ModelLogin();
         $data = $akun->getalluser();
         $_SESSION['aktif'] = 'kirimemail';
         $this->datalogin += [
-            'jumlahdataakun' => $this->jumlahdataakun,
-            'jumlahajuan' => $this->jumlahajuan,
-            'jumlahproyek' => $this->jumlahproyek,
-            'klien' => $data
+            'emailkirim' => $email,
+            'ajuan' => $ajuan
         ];
 
         return view('dashboard/admin/kirimemail', $this->datalogin);
@@ -2137,18 +2149,20 @@ class DashboardAdmin extends Dashboard
     {
         $file = $this->request->getFile('uploadfileemail');
         $namapenerima = $this->request->getVar('penerimaemail');
+        $idajuan = $this->request->getVar('idajuan');
         $subject = $this->request->getVar('subjectemail');
         $pesan = $this->request->getVar('pesanemail');
-        $randomname = $file->getRandomName();
-        $file->move('fileemail', $randomname);
-        $path = ('fileemail/' . $randomname);
-        // dd($path);
-
-        // dd($path);
+        $filename = $file->getName();
+        $nospacefilename = str_replace(' ', '', $filename);
+        $file->move('fileadmin', $nospacefilename);
+        $path = ('fileadmin/' . $nospacefilename);
+        $ajuanproyek = new AjuanProyekModel();
         $send = $this->kirimemaildanfile($namapenerima, $pesan, $path, $subject);
 
         if ($send == 1) {
             session()->setFlashdata('pesanemail', 1);
+            $ajuanproyek->builder()->where('idajuan', $idajuan)->set('status_id', '5')->update();
+            $ajuanproyek->builder()->where('idajuan', $idajuan)->set('file_admin', $nospacefilename)->update();
         } else {
             session()->setFlashdata('pesanemail', $send);
         }
