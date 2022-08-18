@@ -191,21 +191,34 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url(); ?>/admin/perhitunganbiaya" class=" nav-link <?= ($_SESSION['aktif'] == 'perhitunganbiaya') ? 'active' : '' ?>">
+                        <li class="nav-item  <?= ($_SESSION['aktif'] == 'pb') ? 'menu-open' : '' ?>">
+                            <a href="#" class="nav-link <?= ($_SESSION['aktif'] == 'pb') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-calculator mr-3"></i>
                                 <p>
                                     Perhitungan Biaya
+                                    <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url(); ?>/admin/perhitunganbiayarevisi" class=" nav-link <?= ($_SESSION['aktif'] == 'perhitunganbiayarevisi') ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-calculator mr-3"></i>
-                                <p>
-                                    P. Biaya Revisi
-                                </p>
-                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?= base_url('admin/perhitunganbiayamaterial'); ?>" class="nav-link  <?= ($_SESSION['subaktif'] == 'pbmaterial') ? 'active' : '' ?>">
+                                        <i class="far fa-circle nav-icon ml-3"></i>
+                                        <p>Biaya Material</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?= base_url('admin/perhitunganbiayatenaker'); ?>" class="nav-link  <?= ($_SESSION['subaktif'] == 'pbtenaker') ? 'active' : '' ?>">
+                                        <i class="far fa-circle nav-icon ml-3"></i>
+                                        <p>Biaya Tenaker</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?= base_url('admin/perhitunganbiayalain'); ?>" class="nav-link <?= ($_SESSION['subaktif'] == 'pbop') ? 'active' : '' ?>"">
+                                        <i class=" far fa-circle nav-icon ml-3"></i>
+                                        <p>Biaya Operasional</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a href="<?= base_url(); ?>/admin/ajuanproyek" class="nav-link <?= ($_SESSION['aktif'] == 'ajuan') ? 'active' : '' ?>">

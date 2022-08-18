@@ -156,10 +156,12 @@ class Dashboard extends BaseController
         $this->kodeotomatis('akun', 'user_id', 'usr001');
         if (session()->idlevel == 1) {
 
-            if (isset($_SESSION['aktif'])) {
+            if (isset($_SESSION['aktif']) || isset($_SESSION['subaktif'])) {
                 unset($_SESSION['aktif']);
+                unset($_SESSION['subaktif']);
             };
             $_SESSION['aktif'] = 'welcome';
+            $_SESSION['subaktif'] = '';
 
             $this->datalogin['judul'] = 'Dashboard Admin';
             $this->datalogin += [
