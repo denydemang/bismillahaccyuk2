@@ -1,3 +1,57 @@
+
+const tglmeeting =(tgl) => {
+    let pecah = tgl.split(' ');
+   let tanggal = pecah[0];
+   let jam = pecah[1];
+   let jamonly = jam.split(':')
+   let jamfix = jamonly[0]+':'+jamonly[1];
+   let pecahtanggal = tanggal.split('-');
+   let bulan =pecahtanggal[1];
+   let tanggalnew =pecahtanggal[2];
+   let tahun = pecahtanggal[0];
+    switch (bulan) {
+
+        case '01':
+            bulan = "Januari";
+            break;
+        case '02':
+            bulan = "Februari";
+            break;
+        case '03':
+            bulan = "Maret";
+            break;
+        case '04':
+            bulan = "April";
+            break;
+        case '05':
+            bulan = "Mei";
+            break;
+        case '06':
+            bulan = "Juni";
+            break;
+        case '07':
+            bulan = "Juli";
+            break;
+        case '08':
+            bulan = "Agustus";
+            break;
+        case '09':
+            bulan = "September";
+            break;
+        case '10':
+            bulan = "Oktober";
+            break;
+        case '11':
+            bulan = "November";
+            break;
+        case '12':
+            bulan = "Desember";
+            break;
+    }
+    gabung = tanggalnew +' '+bulan+' '+tahun+' Pukul '+jamfix+ ' WIB';
+    return gabung
+
+}
 const tglindo = (tgl) => {
     let pecah = tgl.split(' - ');
     let tgl1 = pecah[0];
@@ -7,6 +61,7 @@ const tglindo = (tgl) => {
 
     tgl2 =tgl2.split('/');
     bln2 =tgl2[1];
+      
     
     switch (bln1) {
 
@@ -112,7 +167,6 @@ const formatRupiah1 = (money) => {
 
 const base_url = 'http://localhost:8080/'
 $(document).ready(function(){
-  tglindo('01/09/2022 - 19/10/2022');
     let lineNo = 1;
        
             $("#add-row").click(function () {
@@ -387,7 +441,7 @@ $(document).ready(function(){
                         
                     }
                     else if (data.data[0]['status_id'] =='8'){
-                        $('.detailcreate').show();
+                        $('.detailcreate').hide();
                         $('.detailterima').hide();
                         $('.detailhapus').hide();
                         $('.detailtolak').hide();
@@ -500,7 +554,7 @@ $(document).ready(function(){
             success: function(response) {
                $('.namameeting').html(response.namameeting)
                $('.lokasimeeting').html(response.lokasimeeting)
-               $('.tanggalmeeting').html(response.tanggalmeeting)
+               $('.tanggalmeeting').html(tglmeeting(response.tanggalmeeting))
                 
             }
         });

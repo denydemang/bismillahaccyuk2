@@ -149,6 +149,7 @@
                 return false;
             });
         })
+
         $('.jadwalproyek').daterangepicker({
             autoUpdateInput: false,
             showDropdowns: true,

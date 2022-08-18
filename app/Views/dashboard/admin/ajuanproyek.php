@@ -42,6 +42,18 @@
                                                 <li class="list-group-item">
                                                     <b>Ajuan Sudah Dihitung</b><span class="float-right" style="font-weight:bold;color:purple"><?= $status['dihitung']; ?></span>
                                                 </li>
+                                                <li class="list-group-item">
+                                                    <b>Ajuan Masih Proses Tawar</b><span class="float-right" style="font-weight:bold;color:aquamarine"><?= $status['negotiating']; ?></span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Ajuan Yang Disetujui Klien</b><span class="float-right" style="font-weight:bold;color:blue"><?= $status['diterimaklien']; ?></span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Ajuan Yang Ditolak Klien</b><span class="float-right" style="font-weight:bold;color:chocolate"><?= $status['ditolakklien']; ?></span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Permintaan Meeting</b><span class="float-right" style="font-weight:bold;color:cornflowerblue"><?= $status['permintaanmeeting']; ?></span>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -57,7 +69,6 @@
                                 <th>No</th>
                                 <th>Id Ajuan</th>
                                 <th>Nama Proyek</th>
-                                <th>Jenis Proyek</th>
                                 <th>Anggaran</th>
                                 <th>File RAB</th>
                                 <th>Status</th>
@@ -71,7 +82,6 @@
                                         <td><?= $Nomer++; ?></td>
                                         <td><?= $ajuan->idajuan; ?></td>
                                         <td><?= $ajuan->namaproyek; ?></td>
-                                        <td><?= $ajuan->jenisproyek; ?></td>
                                         <td><?= number_format($ajuan->anggaran, 0, '', '.'); ?></td>
                                         <?php if (!empty($ajuan->file_admin)) : ?>
                                             <td><a href="<?= base_url('admin/downloadfile/' . $ajuan->file_admin . '/fileadmin'); ?>"><?= $ajuan->file_admin; ?></a></td>
@@ -124,17 +134,17 @@
                                                         <button class=" btn btn-sm btn-primary terima" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Terima </button>
                                                         <button data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>" class="btn btn-sm btn-danger tolak">Tolak</button>
                                                     <?php elseif ($ajuan->status_id == '2') : ?>
-                                                        <button class=" btn btn-sm btn-info kirimfilerab" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Kirim File</button>
+                                                        <button data-detailid="<?= $ajuan->idajuan; ?>" class=" btn btn-sm btn-info detailkirimfilerab" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Kirim File</button>
                                                     <?php elseif ($ajuan->status_id == '3') : ?>
                                                         <button data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>" class="btn btn-sm btn-warning hapusajuan">Hapus</button>
                                                     <?php elseif ($ajuan->status_id == '6') : ?>
                                                         <button type="button" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" class=" btn btn-sm btn-primary detailcreate">Create Project</button>
                                                     <?php elseif ($ajuan->status_id == '7') : ?>
                                                         <button type="button" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" class=" btn btn-sm btn-primary detailhitung">Buat Revisi RAB</button>
-                                                        <button class="btn btn-sm btn-info kirimfilerab" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Kirim File</button>
+                                                        <button class="btn btn-sm btn-info detailkirimfilerab" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Kirim File</button>
                                                     <?php elseif ($ajuan->status_id == '8') : ?>
                                                         <button type="button" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" class=" btn btn-sm btn-primary detailhitung">Buat Revisi RAB</button>
-                                                        <button class="btn btn-sm btn-info kirimfilerab" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Kirim File</button>
+                                                        <button class="btn btn-sm btn-info detailkirimfilerab" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Kirim File</button>
                                                     <?php endif ?>
                                                 <?php endif; ?>
                                             </div>
@@ -335,7 +345,7 @@
             }],
             "fixedColumns": {
                 leftColumns: 1,
-                rightColumns: 1
+                rightColumns: 3
             },
         });
     })

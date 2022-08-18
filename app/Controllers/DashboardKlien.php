@@ -6,6 +6,7 @@ use App\Models\AjuanProyekModel;
 use App\Models\ProgressProyekModel;
 use App\Models\ModelLogin;
 use App\Models\massagemodel;
+use App\Models\MeetingModel;
 
 require VENDORPATH . '/autoload.php';
 
@@ -173,22 +174,91 @@ class DashboardKLien extends Dashboard
         session()->setFlashdata('pesan', 'berhasildiajukan');
         return redirect()->to(base_url('/klien'));
     }
+    public function getmeeting($id)
+    {
+        $meeting = new MeetingModel();
+        $data = $meeting->where('idajuan', $id)->first();
+        echo json_encode($data);
+    }
     public function terimaRAB($idajuan)
     {
+
         $ajuanproyek = new AjuanProyekModel();
         $ajuanproyek->builder()->where('idajuan', $idajuan)->set('status_id', '6')->update();
+        $getaffectedrow = $ajuanproyek->builder()->db()->affectedRows();
+        if ($getaffectedrow >= 1) {
+            session()->setFlashdata('pesanrab', 'disetujui');
+        } else {
+            session()->setFlashdata('pesanrab', 'error');
+        }
         return redirect()->to(base_url('klien/ajuanproyek'));
     }
-    public function tolakRAB($idajuan)
+    public function tolakRAB($idajuan = false)
     {
+        $alasantolak = session()->getFlashdata('alasan');
         $ajuanproyek = new AjuanProyekModel();
         $ajuanproyek->builder()->where('idajuan', $idajuan)->set('status_id', '7')->update();
+        $ajuanproyek->builder()->where('idajuan', $idajuan)->set('alasanpenolakan', $alasantolak)->update();
+        $getaffectedrow = $ajuanproyek->builder()->db()->affectedRows();
+        if ($getaffectedrow >= 1) {
+            session()->setFlashdata('pesanrab', 'ditolak');
+        } else {
+            session()->setFlashdata('pesanrab', 'error');
+        }
         return redirect()->to(base_url('klien/ajuanproyek'));
     }
-    public function permintaanmeeting($idajuan)
+    public function permintaanmeeting()
     {
+        $idajuan = $this->request->getVar('idajuan');
         $ajuanproyek = new AjuanProyekModel();
+        $meetingmodel = new MeetingModel();
+        $meetingmodel->insert([
+            'idmeeting' => '',
+            'idajuan' => $idajuan,
+            'namameeting' => $this->request->getVar('namameeting'),
+            'lokasimeeting' => $this->request->getVar('lokasimeeting'),
+            'tanggalmeeting' => $this->request->getVar('tanggalmeeting'),
+        ]);
         $ajuanproyek->builder()->where('idajuan', $idajuan)->set('status_id', '8')->update();
+        $getaffectedrow = $meetingmodel->builder()->db()->affectedRows();
+        if ($getaffectedrow >= 1) {
+            session()->setFlashdata('pesanrab', 'permintaanmeeting');
+        } else {
+            session()->setFlashdata('pesanrab', 'error');
+        }
         return redirect()->to(base_url('klien/ajuanproyek'));
+    }
+    public function validasitolakrab()
+    {
+        if ($this->request->isAJAX()) {
+            $idajuan = $this->request->getVar('idajuan');
+            $alasantolak = $this->request->getVar('alasantolak');
+            $validation = \Config\Services::validation();
+            $valid = $this->validate([
+                'alasantolak' => [
+                    'label' => 'Alasan',
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Silakan Beri {field} Penolakan'
+                    ]
+                ]
+            ]);
+            if (!$valid) {
+                $error = [
+                    'error' => $validation->getError('alasantolak'),
+                ];
+                echo json_encode($error);
+            } else {
+                $redirect = [
+                    'redirect' => [
+                        'idajuan' => $idajuan,
+                    ]
+                ];
+                session()->setFlashdata('alasan', $alasantolak);
+                echo json_encode($redirect);
+            }
+        } else {
+            return redirect()->to(base_url('klien/ajuanproyek'));
+        }
     }
 }

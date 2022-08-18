@@ -69,6 +69,10 @@ class DashboardAdmin extends Dashboard
         $ditolak = $ajuanproyek->builder()->like('status_id', 3)->countAllResults();
         $dikerjakan = $ajuanproyek->builder()->like('status_id', 4)->countAllResults();
         $dihitung = $ajuanproyek->builder()->like('revisi_id', 1)->countAllResults();
+        $negotiating = $ajuanproyek->builder()->like('status_id', 5)->countAllResults();
+        $diterimaklien = $ajuanproyek->builder()->like('status_id', 6)->countAllResults();
+        $ditolakklien = $ajuanproyek->builder()->like('status_id', 7)->countAllResults();
+        $permintaanmeeting = $ajuanproyek->builder()->like('status_id', 8)->countAllResults();
         $totalajuan = $ajuanproyek->builder()->countAll();
 
         $status = [
@@ -78,6 +82,11 @@ class DashboardAdmin extends Dashboard
             'dikerjakan' => $dikerjakan,
             'dihitung' => $dihitung,
             'totalajuan' => $totalajuan,
+            'negotiating' => $negotiating,
+            'diterimaklien' => $diterimaklien,
+            'ditolakklien' => $ditolakklien,
+            'permintaanmeeting' => $permintaanmeeting,
+
 
         ];
         $builder = $this->db->table('pengajuan_proyek');
@@ -2167,11 +2176,11 @@ class DashboardAdmin extends Dashboard
 
         if ($send == 1) {
             session()->setFlashdata('pesanemail', 1);
-            $ajuanproyek->builder()->where('idajuan', $idajuan)->set('status_id', '5')->update();
-            $ajuanproyek->builder()->where('idajuan', $idajuan)->set('file_admin', $nospacefilename)->update();
         } else {
             session()->setFlashdata('pesanemail', $send);
         }
+        $ajuanproyek->builder()->where('idajuan', $idajuan)->set('status_id', '5')->update();
+        $ajuanproyek->builder()->where('idajuan', $idajuan)->set('file_admin', $nospacefilename)->update();
         return redirect()->to(base_url('admin/kirimemail'));
     }
 }

@@ -341,4 +341,56 @@ $(document).ready(function(){
 
         })
     })
+    $('.formpermintaanmeeting').each(function(){
+        $(this).validate({
+            rules: {
+                namameeting : {
+                    required : true,
+                },
+                tanggalmeeting : {
+                required : true,
+                },
+                lokasimeeting : {
+                required : true,
+                },
+                
+                
+            },
+            messages: {
+                namameeting : {
+                    required: 'Silakan Isi Nama Meeting'
+                },
+                tanggalmeeting : {
+                    required: 'Tanggal Meeting Wajib Diisi'
+                },
+                lokasimeeting : {
+                    required: 'Lokasi Meeting Wajib Diisi'
+                },
+             
+            },
+            errorElement: "div",
+            errorPlacement: function ( error, element ) {
+                
+
+	        // Add the `invalid-feedback` class to the error element
+	        error.addClass( "invalid-feedback" );
+	        error.insertAfter(element);
+                
+
+    
+	    
+	    },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" )
+        },
+        unhighlight: function (element, errorClass, validClass) {
+	        $( element ).removeClass( "is-invalid" );
+	    },
+        submitHandler: function (form) {
+            form.submit();
+
+            }
+
+        })
+    })
 })
