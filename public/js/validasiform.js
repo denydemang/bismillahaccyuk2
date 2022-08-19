@@ -519,4 +519,63 @@ $(document).ready(function(){
 
         })
     })
+    $('.formtenaker').each(function(){
+        $(this).validate({
+            rules: {
+                idajuan: {
+                    required: true,
+            },  jobdesk: {
+                    required: true,
+            },  statuspekerjaan: {
+                    required: true,
+                    
+            }, gaji: {
+                    required: true,
+            }, total_pekerja: {
+                    required: true,
+            },
+           
+
+        },
+            messages: {
+                idajuan: {
+                    required: 'Id Ajuan Tidak Boleh Kosong',
+            },  jobdesk: {
+                    required: 'Job Desk Tidak Boleh Kosong',
+            },  statuspekerjaan: {
+                    required: 'Status Pekerjaan Tidak Boleh Kosong',
+                    
+            }, gaji: {
+                    required: 'Gaji Tidak Boleh Kosong',
+            }, total_pekerja: {
+                    required: 'Total Pekerja Tidak Boleh Kosong',
+            },
+          
+        },  errorElement: "div",
+        errorPlacement: function ( error, element ) {
+
+	        // Add the `invalid-feedback` class to the error element
+	        error.addClass( "invalid-feedback" );
+            error.addClass("pesanerror");
+	        if ( element.prop( "type" ) === "checkbox" ) {
+	            error.insertAfter(element.next( "label" ));
+	        } else {
+	            error.insertAfter(element);
+	        }
+	    },
+        highlight: function ( element, errorClass, validClass ) {
+	        $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+	    },
+	    unhighlight: function (element, errorClass, validClass) {
+	        $( element ).removeClass( "is-invalid" );
+	    },
+            submitHandler: function (form) {
+                form.submit();
+
+                }
+
+
+        
+        })
+    })
 })

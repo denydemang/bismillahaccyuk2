@@ -95,7 +95,7 @@
                <div class="modal-body">
                   <div class="col-12">
                      <div class="dropdown">
-                        <button type="button" data-toggle="dropdown" class="btn btn-secondary mb-2 pilihajuan">Pilih Id Ajuan <i class="ml-2 mb-2 dropdown-toggle"></i></button>
+                        <button type="button" data-toggle="dropdown" class="btn btn-success mb-2 pilihajuan">Pilih Id Ajuan <i class="ml-2 mb-2 dropdown-toggle"></i></button>
                         <div class="dropdown-menu dropdown-menu-lg">
                            <div class="card" style="width:600px !important">
                               <div class="card-header">

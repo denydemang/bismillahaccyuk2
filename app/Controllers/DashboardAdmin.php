@@ -25,6 +25,8 @@ use Dompdf\Options;
 use App\Models\massagemodel;
 use App\Models\PerhitunganMaterialModel;
 use App\Models\PerhitunganMaterialPenyusunModel;
+use App\Models\PerhitunganTenakerModel;
+
 
 require VENDORPATH . '/autoload.php';
 
@@ -119,12 +121,21 @@ class DashboardAdmin extends Dashboard
             unset($_SESSION['aktif']);
             unset($_SESSION['subaktif']);
         };
+        $ajuan = new AjuanProyekModel();
         $_SESSION['aktif'] = 'pb';
         $_SESSION['subaktif'] = 'pbtenaker';
+        $tenaker = new PerhitunganTenakerModel();
+        $dataajuan = $ajuan->builder()->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->Orwhere('status_id', '7')->Orwhere('status_id', '8')->get()->getResultArray();
+        $getdata = $tenaker->findAll();
+        $id_pbtenaker = $this->kodeotomatis('perhitungantenaker', 'id_pbtenaker', 'PTK001');
+
         $this->datalogin += [
             'jumlahdataakun' => $this->jumlahdataakun,
             'jumlahajuan' => $this->jumlahajuan,
-            'jumlahproyek' => $this->jumlahproyek
+            'jumlahproyek' => $this->jumlahproyek,
+            'tenaker' => $getdata,
+            'id_pbtenaker' => $id_pbtenaker,
+            'dataajuannn' => $dataajuan,
         ];
 
         return view('dashboard/admin/perhitunganbiayatenagakerja', $this->datalogin);
@@ -415,6 +426,14 @@ class DashboardAdmin extends Dashboard
 
 
     //Query Get
+    public function getdatatenaker($idtenaker)
+    {
+        if ($this->request->isAJAX()) {
+            $tk = new PerhitunganTenakerModel();
+            $getdata = $tk->builder()->where('id_pbtenaker', $idtenaker)->get()->getResultArray();
+            echo json_encode($getdata);
+        }
+    }
     public function getdatampjoin($idmp)
     {
         if ($this->request->isAJAX()) {
@@ -542,6 +561,36 @@ class DashboardAdmin extends Dashboard
         session()->setFlashdata('pesan', 'Proyek Dengan Id Ajuan: ' . $idajuan . ' Berhasil Dibuat');
         return redirect()->to(base_url() . '/admin/dataproyek');
     }
+    public function simpantenaker()
+    {
+        $tenaker = new PerhitunganTenakerModel();
+        $id_pbtenaker = $this->request->getVar('id_pbtenaker');
+        $idajuan = $this->request->getVar('idajuan');
+        $jobdesk = $this->request->getVar('jobdesk');
+        $statuspekerjaan = $this->request->getVar('statuspekerjaan');
+        $gaji = $this->request->getVar('gaji');
+        $gaji = (int)filter_var($gaji, FILTER_SANITIZE_NUMBER_INT);
+        $total_pekerja = $this->request->getVar('total_pekerja');
+        $total_gaji = $this->request->getVar('total_gaji');
+        $total_gaji = (int)filter_var($total_gaji, FILTER_SANITIZE_NUMBER_INT);
+
+        $tenaker->insert([
+            'id_pbtenaker' => $id_pbtenaker,
+            'idajuan' => $idajuan,
+            'jobdesk' => $jobdesk,
+            'statuspekerjaan' => $statuspekerjaan,
+            'gaji' => $gaji,
+            'total_pekerja' => $total_pekerja,
+            'total_gaji' => $total_gaji,
+        ]);
+        $affected = $tenaker->builder()->db()->affectedRows();
+        if ($affected >= 1) {
+            session()->setFlashdata('berhasil', 'ID ' . $id_pbtenaker . ' Berhasil Ditambahkan');
+        } else {
+            session()->setFlashdata('gagal', $id_pbtenaker . ' Gagal Ditambahkan');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayatenaker'));
+    }
     public function simpanmaterialpenyusun()
     {
         $materialpeyusun = new PerhitunganMaterialPenyusunModel();
@@ -611,6 +660,34 @@ class DashboardAdmin extends Dashboard
 
 
     //Query Update
+    public function updatetenaker()
+    {
+        $tk = new PerhitunganTenakerModel();
+        $id_pbtenaker = $this->request->getVar('id_pbtenaker');
+        $idajuan = $this->request->getVar('idajuan');
+        $jobdesk = $this->request->getVar('jobdesk');
+        $statuspekerjaan = $this->request->getVar('statuspekerjaan');
+        $gaji = $this->request->getVar('gaji');
+        $gaji = (int)filter_var($gaji, FILTER_SANITIZE_NUMBER_INT);
+        $total_pekerja = $this->request->getVar('total_pekerja');
+        $total_gaji = $this->request->getVar('total_gaji');
+        $total_gaji = (int)filter_var($total_gaji, FILTER_SANITIZE_NUMBER_INT);
+        $tk->update($id_pbtenaker, [
+            'idajuan' => $idajuan,
+            'jobdesk' => $jobdesk,
+            'statuspekerjaan' => $statuspekerjaan,
+            'gaji' => $gaji,
+            'total_pekerja' => $total_pekerja,
+            'total_gaji' => $total_gaji,
+        ]);
+        $affected = $tk->builder()->db()->affectedRows();
+        if ($affected >= 1) {
+            session()->setFlashdata('berhasil', 'ID ' . $id_pbtenaker . ' Berhasil Diupdate');
+        } else {
+            session()->setFlashdata('gagal', $id_pbtenaker . ' Gagal Diupdate');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayatenaker'));
+    }
     public function updatematerialpenyusun()
     {
         $material = new PerhitunganMaterialModel();
@@ -746,6 +823,18 @@ class DashboardAdmin extends Dashboard
 
 
     //Query Delete
+    public function hapustenaker($id)
+    {
+        $tk = new PerhitunganTenakerModel();
+        $tk->delete($id);
+        $affected = $tk->builder()->db()->affectedRows();
+        if ($affected >= 1) {
+            session()->setFlashdata('berhasil', 'ID :' . $id . ' Berhasil DiHapus');
+        } else {
+            session()->setFlashdata('gagal', 'Data Gagal DiHapus');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayatenaker'));
+    }
     public function hapusajuan($id)
     {
         $modelajuan = new AjuanProyekModel();
