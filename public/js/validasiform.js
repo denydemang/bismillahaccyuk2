@@ -393,4 +393,130 @@ $(document).ready(function(){
 
         })
     })
+    $('.formmaterial').each(function(){
+        $(this).validate({
+            rules: {
+                idajuan : {
+                    required : true,
+                },
+                jenismaterial : {
+                required : true,
+                },
+                namamaterial : {
+                required : true,
+                },
+                satuanmaterial : {
+                required : true,
+                },
+                qtymaterial : {
+                required : true,
+                },
+
+            },
+            messages: {
+                idajuan : {
+                    required: 'Id Ajuan Tidak Boleh Kosong'
+                },
+                jenismaterial: {
+                    required: 'Jenis Material Wajib Diisi'
+                },
+                namamaterial: {
+                    required: 'Nama Material Wajib Diisi'
+                },
+                satuanmaterial: {
+                    required: 'Satuan Material Wajib Diisi'
+                },
+                qtymaterial: {
+                    required: 'Silakan Masukkan Jumlah Material'
+                },
+             
+            },
+            errorElement: "div",
+            errorPlacement: function ( error, element ) {
+                
+
+	        // Add the `invalid-feedback` class to the error element
+	        error.addClass( "invalid-feedback" );
+	        error.insertAfter(element);
+                
+
+    
+	    
+	    },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" )
+        },
+        unhighlight: function (element, errorClass, validClass) {
+	        $( element ).removeClass( "is-invalid" );
+	    },
+        submitHandler: function (form) {
+            form.submit();
+
+            }
+
+        })
+    })
+    $('.formmaterialpenyusun').each(function(){
+        $(this).validate({
+            rules: {
+                namamp : {
+                    required : true,
+                },
+                spesifikasimp : {
+                required : true,
+                },
+                satuanmp : {
+                required : true,
+                },
+                jumlahmp : {
+                required : true,
+                },
+                hargamp : {
+                required : true,
+                },
+
+            },
+            messages: {
+                namamp : {
+                    required: 'Nama Material Wajib Diisi'
+                },
+                spesifikasimp: {
+                    required: 'Spesifikasi Wajib Diisi'
+                },
+                satuanmp: {
+                    required: 'Satuan Wajib Diisi'
+                },
+                jumlahmp: {
+                    required: 'Quantitiy Wajib Diisi'
+                },
+                hargamp: {
+                    required: 'Silakan Masukkan Harga Material'
+                },
+             
+            },
+            errorElement: "div",
+            errorPlacement: function ( error, element ) {
+                
+
+	        // Add the `invalid-feedback` class to the error element
+	        error.addClass( "invalid-feedback" );
+	        error.insertAfter(element);
+                
+
+    
+	    
+	    },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" )
+        },
+        unhighlight: function (element, errorClass, validClass) {
+	        $( element ).removeClass( "is-invalid" );
+	    },
+        submitHandler: function (form) {
+            form.submit();
+
+            }
+
+        })
+    })
 })

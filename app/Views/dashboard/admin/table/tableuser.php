@@ -31,7 +31,6 @@
             </tbody>
         </table>
     </div>
-
     <script>
         $(document).ready(function() {
             $('#tableuser').DataTable({
@@ -45,7 +44,7 @@
                     targets: [1, 2, 3, 4, 5, 6, 7, 8]
                 }],
             });
-            $('.tombolhapus').click(function() {
+            $(document).on('click', '.tombolhapus', function() {
                 const user = $(this).data('user');
                 const id_user = $(this).data('id');
 
@@ -63,9 +62,9 @@
                         location.href = 'http://localhost:8080/admin/deleteuser/' + id_user
                     }
                 })
-            })
-            $('.ubahuser').click(function() {
 
+            })
+            $(document).on('click', '.ubahuser', function() {
                 const id = $(this).data('id');
                 $.ajax({
                     url: 'http://localhost:8080/DashboardAdmin/getUser',
@@ -85,7 +84,5 @@
                     }
                 })
             })
-
-
         })
     </script>

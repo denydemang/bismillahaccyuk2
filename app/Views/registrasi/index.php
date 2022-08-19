@@ -42,6 +42,7 @@
                                 <?php endif; ?>
                                 <?= csrf_field(); ?>
                                 <div class="row">
+                                    <h5>Data Pribadi</h5>
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="nama">Nama Anda *</label>
@@ -50,26 +51,12 @@
                                     </div>
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="nama">Nama Perusahaan (Optional) </label>
-                                            <input type="text" id="namaperusahaan" class="form-control" name="namaperusahaan" autocomplete="off" value="<?= old('namaperusahaan'); ?>" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col d-flex flex-row align-items-center mb-4">
-                                        <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="email">Email Anda *</label>
                                             <input type="email" class="form-control <?= ($validation->hasError('email')) ? 'is-invalid' : ''; ?>" name="email" autocomplete="off" value="<?= old('email'); ?>" />
                                         </div>
                                     </div>
-                                    <div class="col d-flex flex-row align-items-center mb-4">
-                                        <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="username">Username *</label>
-                                            <input type="text" id="username" class="form-control" autocomplete="off" name="username" value="<?= old('username'); ?>" />
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="row mt-3">
+                                <div class="row mt-2">
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="notelp">No Telepon Anda *</label>
@@ -84,34 +71,52 @@
                                     </div>
                                 </div>
                                 <div class="row mt-3">
+                                    <h5>Data Perusahaan</h5>
+                                    <div class="col d-flex flex-row align-items-center mb-4">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="nama">Nama Perusahaan (Optional) </label>
+                                            <input type="text" id="namaperusahaan" class="form-control" name="namaperusahaan" autocomplete="off" value="<?= old('namaperusahaan'); ?>" />
+                                        </div>
+                                    </div>
+                                    <div class="col d-flex flex-row align-items-center mb-4">
+                                        <div class="form-outline flex-fill mb-0">
+                                            <label class="form-label" for="jabatan">Jabatan Anda Di Perusahaan</label>
+                                            <input type="text" id="jabatan" class="form-control jabatan" name="jabatan" autocomplete="off" value="<?= old('jabatan'); ?>" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="alamat">Alamat Perusahaan (Optional)</label>
                                             <input type="text" id="alamatperusahaan" class="form-control alamatperusahaan" name="alamatperusahaan" value="<?= old('alamatperusahaan'); ?>" />
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <h5>Data Login</h5>
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="jabatan">Jabatan</label>
-                                            <input type="text" id="jabatan" class="form-control jabatan" name="jabatan" autocomplete="off" value="<?= old('jabatan'); ?>" />
+                                            <label class="form-label" for="username">Username *</label>
+                                            <input type="text" id="username" class="form-control" autocomplete="off" name="username" value="<?= old('username'); ?>" />
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-2 pt-2">
+                                <div class="row">
                                     <div class="col d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="password">Password *</label>
                                             <input type="password" id="password" class="form-control" name="password" autocomplete="off" />
                                         </div>
                                     </div>
-                                    <div class=" col d-flex flex-row align-items-center mb-4">
-                                        <div class="form-outline flex-fill mb-0">
-                                            <label class="form-label" for="konfirpw">Konfirmasi Password *</label>
-                                            <input type="password" id="konfirpw" class="form-control" name="konfirpassword" autocomplete="off" />
+                                    <div class="col d-flex flex-row align-items-center mb-4">
+                                        <div class="form-outline flex-fill mb-0 p-3">
+                                            <label class="form-label" for="konfirpassword">Konfirrmasi Password *</label>
+                                            <input type="password" id="konfirpassword" class="form-control" name="konfirpassword" autocomplete="off" />
                                         </div>
                                     </div>
                                 </div>
-                                <small class="form-text text-muted" style="color:red!important;">* <em>Form Wajib Diisi</em></small>
+                                <small class="form-text text-muted mt-3" style="color:red!important;">* <em>Form Wajib Diisi</em></small>
                                 <div class=" w-100 mt-4 mb-5">
                                     <button type="submit" class="btn btn-primary w-100 mb-3">Register</button>
                                     <small class="text-center d-block text-center">Sudah Punya Akun ? <a href="<?= base_url(); ?>/login">Log In</a></small>

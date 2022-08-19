@@ -24,6 +24,7 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Models\massagemodel;
 use App\Models\PerhitunganMaterialModel;
+use App\Models\PerhitunganMaterialPenyusunModel;
 
 require VENDORPATH . '/autoload.php';
 
@@ -63,30 +64,52 @@ class DashboardAdmin extends Dashboard
             unset($_SESSION['subaktif']);
         };
         $perhitunganmaterial = new PerhitunganMaterialModel();
+        $ajuan = new AjuanProyekModel();
+        $dataajuan = $ajuan->builder()->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->Orwhere('status_id', '7')->Orwhere('status_id', '8')->get()->getResultArray();
         $datajoinajuan = $perhitunganmaterial->getalljoinajuan();
+        $idmaterial = $this->kodeotomatis('perhitungan_material', 'idmaterial', 'PBB001');
         $_SESSION['aktif'] = 'pb';
         $_SESSION['subaktif'] = 'pbmaterial';
         $this->datalogin += [
-            'datamaterial' => $datajoinajuan
+            'datamaterial' => $datajoinajuan,
+            'idmaterial' => $idmaterial,
+            'dataajuannn' => $dataajuan
         ];
 
         return view('dashboard/admin/perhitunganbiayamaterial', $this->datalogin);
     }
-    public function perhitunganbiayamaterialpenyusun()
+    public function perhitunganbiayamaterialpenyusun($idmaterial = false)
     {
-        if (isset($_SESSION['aktif']) || isset($_SESSION['subaktif'])) {
-            unset($_SESSION['aktif']);
-            unset($_SESSION['subaktif']);
-        };
-        $_SESSION['aktif'] = 'pb';
-        $_SESSION['subaktif'] = 'pbmaterial';
-        $this->datalogin += [
-            'jumlahdataakun' => $this->jumlahdataakun,
-            'jumlahajuan' => $this->jumlahajuan,
-            'jumlahproyek' => $this->jumlahproyek
-        ];
+        if ($idmaterial != false) {
+            $idmaterialpenyusun = $this->kodeotomatis('perhitungan_materialpenyusun', 'idmaterialpenyusun', 'PBP001');
+            $perhitunganmaterialpenyusun = new PerhitunganMaterialPenyusunModel();
+            $Perhitunganmaterial = new PerhitunganMaterialModel();
+            $getdatamaterial = $Perhitunganmaterial->where('idmaterial', $idmaterial)->find();
+            $getdata = $perhitunganmaterialpenyusun->getbyidmaterial($idmaterial);
+            if (!empty($getdatamaterial)) {
+                if (isset($_SESSION['aktif']) || isset($_SESSION['subaktif'])) {
+                    unset($_SESSION['aktif']);
+                    unset($_SESSION['subaktif']);
+                };
+                $_SESSION['aktif'] = 'pb';
+                $_SESSION['subaktif'] = 'pbmaterial';
+                $this->datalogin += [
+                    'material' => $getdata,
+                    'idmaterial' => $idmaterial,
+                    'idmaterialpenyusun' => $idmaterialpenyusun,
+                    'namamaterial' => $getdatamaterial[0]['namamaterial'],
+                    'idajuan' => $getdatamaterial[0]['idajuan']
+                ];
 
-        return view('dashboard/admin/perhitunganbiayamaterialpenyusun', $this->datalogin);
+                return view('dashboard/admin/perhitunganbiayamaterialpenyusun', $this->datalogin);
+            } else {
+                return redirect()->to('admin/perhitunganbiayamaterial');
+            }
+        } else {
+            return redirect()->to('admin/perhitunganbiayamaterial');
+        }
+        $perhitunganmaterialpenyusun = new PerhitunganMaterialPenyusunModel();
+        $getdata = $perhitunganmaterialpenyusun->getbyidmaterial($idmaterial);
     }
     public function perhitunganbiayatenaker()
     {
@@ -391,7 +414,32 @@ class DashboardAdmin extends Dashboard
 
 
     //Query Get
+    public function getdatampjoin($idmp)
+    {
+        if ($this->request->isAJAX()) {
 
+            $materialpendukung = new PerhitunganMaterialPenyusunModel();
+            $getdata = $materialpendukung->builder()->join('perhitungan_material', 'perhitungan_materialpenyusun.idmaterial=perhitungan_material.idmaterial')->where('idmaterialpenyusun', $idmp)->get()->getResultArray();
+            echo json_encode($getdata);
+        }
+    }
+    public function getmaterialdanpenyusun($idmaterial)
+    {
+        if ($this->request->isAjax()) {
+
+            $material = new PerhitunganMaterialModel();
+            $bahanpenyusun = new PerhitunganMaterialPenyusunModel();
+            $getdatamaterial = $material->find($idmaterial);
+            $getsumjumlahmp = $bahanpenyusun->builder()->selectSum('totalmp')->where('idmaterial', $idmaterial)->get()->getResultArray();
+            $getdatapenyusun = $bahanpenyusun->where('idmaterial', $idmaterial)->findAll();
+            $data = [
+                'datamaterial' => $getdatamaterial,
+                'datapenyusun' => $getdatapenyusun,
+                'totalmp' => $getsumjumlahmp,
+            ];
+            echo json_encode($data);
+        }
+    }
     public function detailajuanproyek()
     {
         $id = $this->request->getVar('id');
@@ -493,9 +541,68 @@ class DashboardAdmin extends Dashboard
         session()->setFlashdata('pesan', 'Proyek Dengan Id Ajuan: ' . $idajuan . ' Berhasil Dibuat');
         return redirect()->to(base_url() . '/admin/dataproyek');
     }
+    public function simpanmaterialpenyusun()
+    {
+        $materialpeyusun = new PerhitunganMaterialPenyusunModel();
+        $material = new PerhitunganMaterialModel();
+        $idmaterialpenyusun = $this->kodeotomatis('perhitungan_materialpenyusun', 'idmaterialpenyusun', 'PBP001');
+        $idmaterial = $this->request->getVar('idmaterial');
+        $namamp = $this->request->getVar('namamp');
+        $spesifikasimp = $this->request->getVar('spesifikasimp');
+        $jumlahmp = $this->request->getVar('jumlahmp');
+        $satuanmp = $this->request->getVar('satuanmp');
+        $hargamp = $this->request->getVar('hargamp');
+        $hargamp = (int)filter_var($hargamp, FILTER_SANITIZE_NUMBER_INT);
+        $totalmp = $this->request->getVar('totalmp');
+        $totalmp = (int)filter_var($totalmp, FILTER_SANITIZE_NUMBER_INT);
+
+        $materialpeyusun->insert([
+            'idmaterialpenyusun' => $idmaterialpenyusun,
+            'idmaterial' => $idmaterial,
+            'namamp' => $namamp,
+            'spesifikasimp' => $spesifikasimp,
+            'jumlahmp' => $jumlahmp,
+            'jumlahmp' => $jumlahmp,
+            'satuanmp' => $satuanmp,
+            'hargamp' => $hargamp,
+            'totalmp' => $totalmp,
+        ]);
+        $gettotal = $materialpeyusun->selectSum('totalmp')->where('idmaterial', $idmaterial)->find();
+        $total = $gettotal[0]['totalmp'];
+        $material->builder()->where('idmaterial', $idmaterial)->set('hargamaterial', $total)->update();
+        $affected = $materialpeyusun->builder()->db()->affectedRows();
+        if ($affected >= 1) {
+            session()->setFlashdata('berhasil', $namamp . ' Berhasil Ditambahkan');
+        } else {
+            session()->setFlashdata('gagal', $namamp . ' Gagal Ditambahkan');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayamaterialpenyusun/' . $idmaterial));
+    }
+
     public function simpanmaterial()
     {
-        $material - new PerhitunganMaterialModel();
+        $material = new PerhitunganMaterialModel();
+        $idmaterial = $this->request->getVar('idmaterial');
+        $idajuan = $this->request->getVar('idajuan');
+        $jenismaterial = $this->request->getVar('jenismaterial');
+        $namamaterial = $this->request->getVar('namamaterial');
+        $satuanmaterial = $this->request->getVar('satuanmaterial');
+        $qtymaterial = $this->request->getVar('qtymaterial');
+        $material->insert([
+            'idmaterial' => $idmaterial,
+            'idajuan' => $idajuan,
+            'jenismaterial' => $jenismaterial,
+            'namamaterial' => $namamaterial,
+            'satuanmaterial' => $satuanmaterial,
+            'qtymaterial' => $qtymaterial,
+        ]);
+        $affected = $material->builder()->db()->affectedRows();
+        if ($affected >= 1) {
+            session()->setFlashdata('pesanmaterial', 'Berhasil Disimpan');
+        } else {
+            session()->setFlashdata('pesanmaterial', 'Gagal Disimpan');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayamaterial'));
     }
 
     //End Query Create
@@ -503,6 +610,66 @@ class DashboardAdmin extends Dashboard
 
 
     //Query Update
+    public function updatematerialpenyusun()
+    {
+        $materialpenyusun = new PerhitunganMaterialPenyusunModel();
+        $idmaterialpenyusun = $this->request->getVar('idmaterialpenyusun');
+        $idmaterial = $this->request->getVar('idmaterial');
+        $namamp = $this->request->getVar('namamp');
+        $spesifikasimp = $this->request->getVar('spesifikasimp');
+        $satuanmp = $this->request->getVar('satuanmp');
+        $jumlahmp = $this->request->getVar('jumlahmp');
+        $hargamp = $this->request->getVar('hargamp');
+        $hargamp = (int)filter_var($hargamp, FILTER_SANITIZE_NUMBER_INT);
+        $totalmp = $this->request->getVar('totalmp');
+        $totalmp = (int)filter_var($totalmp, FILTER_SANITIZE_NUMBER_INT);
+        $materialpenyusun->update($idmaterialpenyusun, [
+            'idmaterial' => $idmaterial,
+            'namamp' => $namamp,
+            'spesifikasimp' => $spesifikasimp,
+            'satuanmp' => $satuanmp,
+            'jumlahmp' => $jumlahmp,
+            'hargamp' => $hargamp,
+            'totalmp' => $totalmp,
+        ]);
+        $affected = $materialpenyusun->builder()->db()->affectedRows();
+        if ($affected == 0) {
+            session()->setFlashdata('gagal', 'Tidak Ada Data Yang Diubah');
+        } else if ($affected > 0) {
+            session()->setFlashdata('berhasil', 'Data ' . $namamp . ' Berhasil Diupdate');
+        } else {
+            session()->setFlashdata('gagal', 'Data Gagal Diupdate');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayamaterialpenyusun/' . $idmaterial));
+    }
+    public function updatematerial()
+    {
+        $material = new PerhitunganMaterialModel();
+        $idmaterial = $this->request->getVar('idmaterial');
+        $idajuan = $this->request->getVar('idajuan');
+        $namamaterial = $this->request->getVar('namamaterial');
+        $jenismaterial = $this->request->getVar('jenismaterial');
+        $satuanmaterial = $this->request->getVar('satuanmaterial');
+        $qtymaterial = $this->request->getVar('qtymaterial');
+        $hargamaterial = 0;
+        $material->update($idmaterial, [
+            'idajuan' => $idajuan,
+            'namamaterial' => $namamaterial,
+            'jenismaterial' => $jenismaterial,
+            'satuanmaterial' => $satuanmaterial,
+            'qtymaterial' => $qtymaterial,
+            'hargamaterial' => $hargamaterial,
+        ]);
+        $affected = $material->builder()->db()->affectedRows();
+        if ($affected == 0) {
+            session()->setFlashdata('pesanmaterial', 'Tidak Ada Data Yang Diubah');
+        } else if ($affected > 0) {
+            session()->setFlashdata('pesanmaterial', 'Data Berhasil Diupdate');
+        } else {
+            session()->setFlashdata('pesanmaterial', 'Data Gagal Diupdate');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayamaterial'));
+    }
     public function terimaajuan($id = false)
     {
         $modelajuan = new AjuanProyekModel();
@@ -584,6 +751,30 @@ class DashboardAdmin extends Dashboard
         session()->setFlashdata('namaklien', $namaklien);
         session()->setFlashdata('pesan', 'dihapus');
         return redirect()->to(base_url() . '/admin/ajuanproyek');
+    }
+    public function hapusmaterial($id)
+    {
+        $material = new PerhitunganMaterialModel();
+        $material->delete($id);
+        $affected = $material->builder()->db()->affectedRows();
+        if ($affected >= 1) {
+            session()->setFlashdata('pesanmaterial', 'Berhasil DiHapus');
+        } else {
+            session()->setFlashdata('pesanmaterial', 'Data Gagal DiHapus');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayamaterial'));
+    }
+    public function hapusmaterialpenyusun($idmaterialpenyusun, $idmaterial)
+    {
+        $materialpenyusun = new PerhitunganMaterialPenyusunModel();
+        $materialpenyusun->delete($idmaterialpenyusun);
+        $affected = $materialpenyusun->builder()->db()->affectedRows();
+        if ($affected >= 1) {
+            session()->setFlashdata('berhasil',  $idmaterialpenyusun . ' Berhasil DiHapus');
+        } else {
+            session()->setFlashdata('gagal', 'Data Gagal DiHapus');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayamaterialpenyusun/' . $idmaterial));
     }
     public function deleteuser($id)
     {
