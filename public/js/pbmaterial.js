@@ -69,48 +69,40 @@ $(document).ready(function(){
                     
           }       
        
+       
 
         $('.btndetailmaterial').click(function(){
+                $('.ada').remove();
+                $('.kosong').remove();
+                $('#kosong').remove();
                 let idmaterial = $(this).data('id')
-                console.log(idmaterial);
-                
                 $.ajax({
                 url : base_url+"DashboardAdmin/getmaterialdanpenyusun/"+idmaterial,
                 dataType : "json",
                 success: function(response) {
-                        let totalmp = response.totalmp[0]['totalmp'];
-                     
-                        
+                        console.log(response);
+                       
+                //         let totalmp = response.totalmp[0]['totalmp'];
+
                        $('.nm').html(response.datamaterial['namamaterial'])
                        $('.jm').html(response.datamaterial['jenismaterial'])
                        $('.ia').html(response.datamaterial['idajuan'])
                        $('.sm').html(response.datamaterial['satuanmaterial'])
                        $('.qty').html(response.datamaterial['qtymaterial'])
-                       $('.gt').html(totalmp)
-
-                      
+                       $('.hg').html(response.datamaterial['hargamaterial'])
+                       $('.gtbb').html(response.totalbahanpenyusun)
+                       $('.gtbr').html(response.totalbahanrevisi)
+                       $('.gt').html(response.grandtotal)
+                       
                       let tot = parseInt(response.datamaterial['qtymaterial']) * parseInt(response.datamaterial['hargamaterial']);
                       (tot) ? $('.tot').html(tot) : $('.tot').html('Belum Dihitung');
                       (response.datamaterial['hargamaterial']== '0') ? $('.hg').html('Belum Dihitung') : $('.hg').html(response.datamaterial['hargamaterial']) ;
                        
-                      if(response.datapenyusun.length == 0){
-                        $('.kosong').remove();
-                        $('.ada').remove();
-                        var html = 
-                               '<tr class="kosong">'+
-                                    '<td>Tidak Ada Data</td>' +
-                                    '<td>TIdak Ada Data</td>' +
-                                    '<td>Tidak Ada Data</td>' +
-                                    '<td>Tidak Ada Data</td>' +
-                                    '<td>Tidak Ada Data</td>' +
-                                    '<td>Tidak Ada Data</td>' +
-                                '</tr>';   
-
-                                $('.bahanpenyusun tr').first().after(html);
-                      } else {
+                      if(response.datapenyusun.length != 0){
+                      
                         $.each(response.datapenyusun, function(key, value) {
-                                $('.kosong').remove();
-                                var html = '<tr class="ada">'+
+                               
+                                html = '<tr class="ada">'+
                                     '<td>' + value.namamp + '</td>' +
                                     '<td>' + value.spesifikasimp + '</td>' +
                                     '<td>' + value.jumlahmp + '</td>' +
@@ -121,6 +113,49 @@ $(document).ready(function(){
                             
                                 $('.bahanpenyusun tr').first().after(html);
                             });
+                        
+                               
+                      } else {
+                        html = 
+                        '<tr id="kosong">'+
+                             '<td>Tidak Ada Data</td>' +
+                             '<td>TIdak Ada Data</td>' +
+                             '<td>Tidak Ada Data</td>' +
+                             '<td>Tidak Ada Data</td>' +
+                             '<td>Tidak Ada Data</td>' +
+                             '<td>Tidak Ada Data</td>' +
+                         '</tr>';   
+                         $('.bahanpenyusun tr').first().after(html);
+
+                        
+                      }
+                      if(response.datarevisi.length != 0){
+                        $.each(response.datarevisi, function(key, value) {
+                               
+                                html = '<tr class="ada">'+
+                                    '<td>' + value.namamp + '</td>' +
+                                    '<td>' + value.spesifikasimp + '</td>' +
+                                    '<td>' + value.jumlahmp + '</td>' +
+                                    '<td>' + value.satuanmp + '</td>' +
+                                    '<td>' + value.hargamp + '</td>' +
+                                    '<td>' + value.totalmp + '</td>' +
+                                '</tr>';   
+                            
+                                $('.bahanpenyusunrevisi tr').first().after(html);
+                            });
+
+                      }else {
+                        html = 
+                        '<tr id="kosong">'+
+                             '<td>Tidak Ada Data</td>' +
+                             '<td>TIdak Ada Data</td>' +
+                             '<td>Tidak Ada Data</td>' +
+                             '<td>Tidak Ada Data</td>' +
+                             '<td>Tidak Ada Data</td>' +
+                             '<td>Tidak Ada Data</td>' +
+                         '</tr>';   
+                         $('.bahanpenyusunrevisi tr').first().after(html);
+
                       }
                        
                         

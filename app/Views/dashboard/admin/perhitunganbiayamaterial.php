@@ -197,7 +197,7 @@
                   <div class="col-12">
                      <div class="table-responsive">
                         <h4>Material Jadi</h4>
-                        <table class="table detailtable table-sm table-bordered">
+                        <table class="table table-sm table-bordered">
                            <thead>
                               <th>Nama Material</th>
                               <th>Jenis Material</th>
@@ -230,9 +230,38 @@
                               <th>Total</th>
                            </tr>
                            <tr>
-                              <th colspan="4"></th>
-                              <th>Grand Total</th>
-                              <th class="gt"></th>
+                              <td colspan="4"></td>
+                              <td>Sub Total</td>
+                              <td class="gtbb"></td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="table-responsive ">
+                        <h4>Bahan Penyusun Revisi</h4>
+                        <table class="table bahanpenyusunrevisi table-bordered table-sm">
+                           <tr>
+                              <th>Nama Bahan</th>
+                              <th>Spesifikasi</th>
+                              <th>Jumlah</th>
+                              <th>Satuan</th>
+                              <th>Harga</th>
+                              <th>Total</th>
+                           </tr>
+                           <tr>
+                              <td colspan="4"></td>
+                              <td>Sub Total</td>
+                              <td class="gtbr"></td>
+                           </tr>
+                        </table>
+                        <table class="tabletable-bordered table-sm">
+                           <tr>
+                              <td colspan="4"></td>
+                              <td>
+                                 <h4>Grand Total</h4>
+                              </td>
+                              <td>
+                                 <h4 class="gt"></h4>
+                              </td>
                            </tr>
                         </table>
                      </div>

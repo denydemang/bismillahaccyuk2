@@ -6,12 +6,21 @@ function reset(){
         $('.formmaterialpenyusun').trigger('reset') ;
         $('.idajuan').removeClass('is-invalid')
         $('.namamp').removeClass('is-invalid')
+        $('.namamp').attr('readonly', false)
         $('.spesifikasimp').removeClass('is-invalid')
         $('.satuanmp').removeClass('is-invalid')
         $('.jumlahmp').removeClass('is-invalid')
         $('.hargamp').removeClass('is-invalid')
         $('.satuanmp').removeClass('is-invalid')
         $('.totalmp').removeClass('is-invalid')
+}function resetmmpr(){
+        $('.formmpr').trigger('reset') ;
+        $('.namampr').removeClass('is-invalid')
+        $('.spesifikasimpr').removeClass('is-invalid')
+        $('.satuanmpr').removeClass('is-invalid')
+        $('.jumlahmpr').removeClass('is-invalid')
+        $('.hargampr').removeClass('is-invalid')
+        $('.satuanmpr').removeClass('is-invalid')
 }
 const formatRupiahtyping = (money) => {
     angka = money.replace(/[^,\d]/g, "");
@@ -70,15 +79,49 @@ $(document).ready(function(){
                          })
         // 
         })
-      
+        $('.hapusmpr').click(function(){
+                let id = $(this).data('id');
+                let idmaterial = $(this).data('id2');
+                let idmaterialpenyusun = $(this).data('id3');
+                Swal.fire({
+                        position: 'center',
+                        icon: 'question',
+                        title: 'Yakin Hapus ID: '+id,
+                        showConfirmButton: true,
+                        showCancelButton: true,
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: 'Batal',
+                        confirmButtonColor: '#3085d6',
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                                window.location.href = base_url+'DashboardAdmin/hapusmpr/' + id+'/'+idmaterial+'/'+idmaterialpenyusun;
+                        }
+                         })
+        // 
+        })
+        $(document).on('submit', '.formmaterialpenyusun', function(e){
+                e.preventDefault();
+                return false;
+        })
+        $(document).on('submit', '.formmpr', function(e){
+                e.preventDefault();
+                return false;
+        })
+  
         $('.btntambah').click(function(){
                 reset();    
         })
-        $('.close').click(function(){
+        $('#close').click(function(){
                 reset();         
+        }) 
+        $('#closempr').click(function(){
+                resetmmpr();         
         })
         $('.btncancel').click(function(){
                 reset();         
+        }) 
+         $('#btncancelmpr').click(function(){
+                resetmmpr();         
         })
         $('.btneditmaterial').click(function(){
                 let idmaterialpenyusun = $(this).data('id')
@@ -87,11 +130,11 @@ $(document).ready(function(){
                 url : base_url+"DashboardAdmin/getdatampjoin/"+idmaterialpenyusun,
                 dataType : "json",
                 success: function(response) {
-                    console.log(response);
-                    
-                $('.judulmodal').html('Edit Material'),
-                $('.simpan').html('Edit') ;
-                $('.formmaterialpenyusun').attr('action',base_url+'DashboardAdmin/updatematerialpenyusun') ;
+                 
+                $('.namamp').attr('readonly',true)
+                $('.judulmodal').html('Revisi Material'),
+                $('.simpan').html('Revisi') ;
+                $('.formmaterialpenyusun').attr('action',base_url+'DashboardAdmin/revisimaterialpenyusun') ;
                 $('.idmaterialpenyusun').val(response[0]['idmaterialpenyusun'])
                 $('.idmaterial').val(response[0]['idmaterial'])
                 $('.idajuan').val(response[0]['idajuan'])
@@ -101,9 +144,56 @@ $(document).ready(function(){
                 $('.jumlahmp').val(response[0]['jumlahmp']) 
                 $('.hargamp').val(formatRupiah1(parseInt(response[0]['hargamp']))) 
                 $('.totalmp').val(formatRupiah1(response[0]['totalmp'])) 
-                     
+
+                $('.namamp').data('namamp',response[0]['namamp'] )
+                $('.spesifikasimp').data('spesifikasimp',response[0]['spesifikasimp'])
+                $('.satuanmp').data('satuanmp',response[0]['satuanmp'] )
+                $('.jumlahmp').data('jumlahmp',response[0]['jumlahmp'] )
+                $('.hargamp').data('hargamp',formatRupiah1(parseInt(response[0]['hargamp'])))
+                
                 }
                 });
+                
+        })
+        $('.btneditmpr').click(function(){
+                let id = $(this).data('id')
+                
+                $.ajax({
+                url : base_url+"DashboardAdmin/getdatampr/"+id,
+                dataType : "json",
+                success: function(response) {
+                        console.log(response);
+                        
+                
+                $('.idmprevisi').val(response[0]['idmprevisi'])
+                $('.idmaterial').val(response[0]['idmaterial'])
+                $('.idmaterialpenyusun').val(response[0]['idmaterialpenyusun'])
+                $('.namampr').val(response[0]['namampr'])
+                $('.spesifikasimpr').val(response[0]['spesifikasimpr']) 
+                $('.satuanmpr').val(response[0]['satuanmpr']) 
+                $('.jumlahmpr').val(response[0]['jumlahmpr']) 
+                $('.hargampr').val(formatRupiah1(parseInt(response[0]['hargampr']))) 
+                $('.totalmpr').val(formatRupiah1(response[0]['totalmpr'])) 
+
+                $('.namampr').data('namampr',response[0]['namampr'] )
+                $('.spesifikasimpr').data('spesifikasimpr',response[0]['spesifikasimpr'])
+                $('.satuanmpr').data('satuanmpr',response[0]['satuanmpr'] )
+                $('.jumlahmpr').data('jumlahmpr',response[0]['jumlahmpr'] )
+                $('.hargampr').data('hargampr',formatRupiah1(parseInt(response[0]['hargampr'])))
+                
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    }
+                });
+                
+        })
+        $('.btntambah').click(function(){
+                $('.namamp').data('namamp','' )
+                $('.spesifikasimp').data('spesifikasimp','')
+                $('.satuanmp').data('satuanmp','')
+                $('.jumlahmp').data('jumlahmp','')
+                $('.hargamp').data('hargamp','')
                 
         })
         $('.jumlahmp').keyup(function(){
@@ -114,6 +204,14 @@ $(document).ready(function(){
             
             $('.totalmp').val(formatRupiah1(total));
         })
+         $('.jumlahmpr').keyup(function(){
+            let qty = parseInt($(this).val());
+            let val = $('.hargampr').val();
+            let harga = parseInt(val.replace(/[^0-9/]/g,''));
+            let total = qty * harga
+            
+            $('.totalmpr').val(formatRupiah1(total));
+        })
         $('.hargamp').keyup(function(){
             $(this).val(formatRupiahtyping($(this).val()))
             let val = $(this).val();
@@ -122,6 +220,15 @@ $(document).ready(function(){
             let total = qty * harga
             
             $('.totalmp').val(formatRupiah1(total));
+        })
+        $('.hargampr').keyup(function(){
+            $(this).val(formatRupiahtyping($(this).val()))
+            let val = $(this).val();
+            let harga = parseInt(val.replace(/[^0-9/]/g,''))
+            let qty = $('.jumlahmpr').val();
+            let total = qty * harga
+            
+            $('.totalmpr').val(formatRupiah1(total));
         })
         $('.tablematerial').DataTable({
         "pageLength": 5,

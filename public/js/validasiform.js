@@ -111,7 +111,8 @@ $(document).ready(function(){
 	        $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
 	    },
             submitHandler: function (form) {
-                form.submit();
+                
+                    form.submit();
 
                 }
 
@@ -513,8 +514,139 @@ $(document).ready(function(){
 	        $( element ).removeClass( "is-invalid" );
 	    },
         submitHandler: function (form) {
-            form.submit();
+            let namamp = $('.namamp').data('namamp')
+            let spesifikasimp = $('.spesifikasimp').data('spesifikasimp')
+            let satuanmp= $('.satuanmp').data('satuanmp')
+            let jumlahmp = $('.jumlahmp').data('jumlahmp')
+            let hargamp = $('.hargamp').data('hargamp')
 
+            let namampval = $('.namamp').val()
+            let namampvalnospace = namampval.trim()
+            let spesifikasimpval = $('.spesifikasimp').val()
+            let spesifikasimpvalnospace = spesifikasimpval.trim()
+            let satuanmpval= $('.satuanmp').val()
+            let satuanmpmpvalnospace = satuanmpval.trim()
+            let jumlahmpval = $('.jumlahmp').val()
+            let jumlahmpvalnospace = jumlahmpval.trim()
+            let hargampval = $('.hargamp').val()
+            let hargampvalnospace = hargampval.trim()
+            
+            if (
+                namampvalnospace == namamp.trim() &&            
+                spesifikasimpvalnospace == spesifikasimp.trim() &&            
+                satuanmpmpvalnospace== satuanmp.trim() &&            
+                jumlahmpvalnospace == jumlahmp.trim() &&            
+                hargampvalnospace == hargamp.trim()            
+            ){
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Silakan Ubah Data !',
+                    showConfirmButton: false,
+                    timer: 4000
+                    })
+                }
+             else{
+                form.submit();
+            }
+            
+            }
+
+        })
+    })
+    $('.formmpr').each(function(){
+        $(this).validate({
+            rules: {
+                namampr : {
+                    required : true,
+                },
+                spesifikasimpr : {
+                required : true,
+                },
+                satuanmpr : {
+                required : true,
+                },
+                jumlahmpr: {
+                required : true,
+                },
+                hargampr : {
+                required : true,
+                },
+
+            },
+            messages: {
+                namampr : {
+                    required: 'Nama Material Wajib Diisi'
+                },
+                spesifikasimpr: {
+                    required: 'Spesifikasi Wajib Diisi'
+                },
+                satuanmpr: {
+                    required: 'Satuan Wajib Diisi'
+                },
+                jumlahmpr: {
+                    required: 'Quantitiy Wajib Diisi'
+                },
+                hargampr: {
+                    required: 'Silakan Masukkan Harga Material'
+                },
+             
+            },
+            errorElement: "div",
+            errorPlacement: function ( error, element ) {
+                
+
+	        // Add the `invalid-feedback` class to the error element
+	        error.addClass( "invalid-feedback" );
+	        error.insertAfter(element);
+                
+
+    
+	    
+	    },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" )
+        },
+        unhighlight: function (element, errorClass, validClass) {
+	        $( element ).removeClass( "is-invalid" );
+	    },
+        submitHandler: function (form) {
+            let namampr = $('.namampr').data('namampr')
+            let spesifikasimpr = $('.spesifikasimpr').data('spesifikasimpr')
+            let satuanmpr= $('.satuanmpr').data('satuanmpr')
+            let jumlahmpr = $('.jumlahmpr').data('jumlahmpr')
+            let hargampr = $('.hargampr').data('hargampr')
+
+            let namampval = $('.namampr').val()
+            let namampvalnospace = namampval.trim()
+            let spesifikasimpval = $('.spesifikasimpr').val()
+            let spesifikasimpvalnospace = spesifikasimpval.trim()
+            let satuanmpval= $('.satuanmpr').val()
+            let satuanmpmpvalnospace = satuanmpval.trim()
+            let jumlahmpval = $('.jumlahmpr').val()
+            let jumlahmpvalnospace = jumlahmpval.trim()
+            let hargampval = $('.hargampr').val()
+            let hargampvalnospace = hargampval.trim()
+            
+            if (
+                namampvalnospace == namampr.trim() &&            
+                spesifikasimpvalnospace == spesifikasimpr.trim() &&            
+                satuanmpmpvalnospace== satuanmpr.trim() &&            
+                jumlahmpvalnospace == jumlahmpr.trim() &&            
+                hargampvalnospace == hargampr.trim()            
+            ){
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Silakan Ubah Data !',
+                    showConfirmButton: false,
+                    timer: 4000
+                    })
+                }
+             else{
+                form.submit();
+            }
+            
             }
 
         })
@@ -576,6 +708,63 @@ $(document).ready(function(){
 
 
         
+        })
+    })
+    $('.formbop').each(function(){
+        $(this).validate({
+            rules: {
+                idajuan : {
+                    required : true,
+                },
+                namatrans : {
+                    required : true,
+                },
+                quantity : {
+                required : true,
+                },
+                harga : {
+                required : true,
+                },
+            },
+            messages: {
+                idajuan : {
+                    required: 'Nama Material Wajib Diisi'
+                },
+                namatrans: {
+                    required: 'Spesifikasi Wajib Diisi'
+                },
+                quantity: {
+                    required: 'Satuan Wajib Diisi'
+                },
+                harga: {
+                    required: 'Quantitiy Wajib Diisi'
+                },
+                
+             
+            },
+            errorElement: "div",
+            errorPlacement: function ( error, element ) {
+                
+
+	        // Add the `invalid-feedback` class to the error element
+	        error.addClass( "invalid-feedback" );
+	        error.insertAfter(element);
+                
+
+    
+	    
+	    },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" )
+        },
+        unhighlight: function (element, errorClass, validClass) {
+	        $( element ).removeClass( "is-invalid" );
+	    },
+        submitHandler: function (form) {
+            form.submit();
+
+            }
+
         })
     })
 })

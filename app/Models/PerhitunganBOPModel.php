@@ -9,6 +9,6 @@ class PerhitunganBOPModel extends Model
     protected $table = 'perhitunganbop';
     protected $primaryKey = 'id_pbop';
     protected $allowedFields = [
-        'id_pbop', 'user_id', 'idajuan', 'namaproyek', 'namatrans', 'tot_biaya', 'revisi_id'
+        'id_pbop', 'idajuan', 'namatrans', 'satuan', 'quantity', 'harga', 'tot_biaya', 'revisi_id'
     ];
 }
