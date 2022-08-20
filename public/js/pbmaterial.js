@@ -226,9 +226,6 @@ $(document).ready(function(){
                 $('.qtymaterial').val( response.datamaterial['qtymaterial'])     
                 $('.satuanmaterial').val( response.datamaterial['satuanmaterial'])     
                 $('.hargamaterial').val(response.datamaterial['hargamaterial']);     
-                let demang =$('.formmaterial').attr('action')
-                console.log(demang);
-                     
                 }
                 });
                 

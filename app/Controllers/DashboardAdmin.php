@@ -28,7 +28,7 @@ use App\Models\PerhitunganMaterialModel;
 use App\Models\PerhitunganMaterialPenyusunModel;
 use App\Models\PerhitunganTenakerModel;
 use App\Models\PerhitunganMPrevisi;
-
+use App\Models\PerhitunganTenakerRevisiModel;
 
 require VENDORPATH . '/autoload.php';
 
@@ -129,6 +129,8 @@ class DashboardAdmin extends Dashboard
         $_SESSION['aktif'] = 'pb';
         $_SESSION['subaktif'] = 'pbtenaker';
         $tenaker = new PerhitunganTenakerModel();
+        $tenakerr = new PerhitunganTenakerRevisiModel();
+        $datatkrevisi = $tenakerr->builder()->select('perhitungantenakerrevisi.*')->join('perhitungantenaker', 'perhitungantenakerrevisi.id_pbtenaker=perhitungantenaker.id_pbtenaker')->where('perhitungantenakerrevisi.revisi_id', 3)->get()->getResultArray();
         $dataajuan = $ajuan->builder()->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->Orwhere('status_id', '7')->Orwhere('status_id', '8')->get()->getResultArray();
         $getdata = $tenaker->findAll();
         $id_pbtenaker = $this->kodeotomatis('perhitungantenaker', 'id_pbtenaker', 'PTK001');
@@ -140,6 +142,7 @@ class DashboardAdmin extends Dashboard
             'tenaker' => $getdata,
             'id_pbtenaker' => $id_pbtenaker,
             'dataajuannn' => $dataajuan,
+            'tkrevisi' => $datatkrevisi
         ];
 
         return view('dashboard/admin/perhitunganbiayatenagakerja', $this->datalogin);
@@ -435,6 +438,14 @@ class DashboardAdmin extends Dashboard
 
 
     //Query Get
+    public function getdatarevisitk($id)
+    {
+        if ($this->request->isAJAX()) {
+            $tenakerr = new PerhitunganTenakerRevisiModel();
+            $getdata = $tenakerr->find($id);
+            echo json_encode($getdata);
+        }
+    }
     public function getdatampr($id)
     {
         if ($this->request->isAJAX()) {
@@ -708,7 +719,6 @@ class DashboardAdmin extends Dashboard
             'gaji' => $gaji,
             'total_pekerja' => $total_pekerja,
             'total_gaji' => $total_gaji,
-            'revisi_id' => 1
         ]);
         $affected = $tenaker->builder()->db()->affectedRows();
         if ($affected >= 1) {
@@ -799,6 +809,41 @@ class DashboardAdmin extends Dashboard
 
 
     //Query Update
+    public function editrevisitenaker()
+    {
+
+        $tkr = new PerhitunganTenakerRevisiModel();
+        $id_pbtenaker = $this->request->getVar('id_pbtenaker1');
+        $id_pbtenakerr = $this->kodeotomatis('perhitungantenakerrevisi', 'id_pbtenakerr', 'TKR001');
+        $jobdesk = $this->request->getVar('jobdesk1');
+        $statuspekerjaan = $this->request->getVar('statuspekerjaan1');
+        $gaji = $this->request->getVar('gaji1');
+        $gaji = (int)filter_var($gaji, FILTER_SANITIZE_NUMBER_INT);
+        $total_pekerja = $this->request->getVar('total_pekerja1');
+        $total_gaji = $this->request->getVar('total_gaji1');
+        $total_gaji = (int)filter_var($total_gaji, FILTER_SANITIZE_NUMBER_INT);
+        $tkr->insert([
+            'id_pbtenakerr' => $id_pbtenakerr,
+            'id_pbtenaker' => $id_pbtenaker,
+            'jobdesk' => $jobdesk,
+            'statuspekerjaan' => $statuspekerjaan,
+            'gaji' => $gaji,
+            'total_pekerja' => $total_pekerja,
+            'total_gaji' => $total_gaji,
+            'revisi_id' => 3
+        ]);
+        $tkr->builder()->where('id_pbtenakerr', $this->request->getVar('id_pbtenakerr1'))->set('revisi_id', 2)->update();
+        $affected = $tkr->builder()->db()->affectedRows();
+        if ($affected == 0) {
+            session()->setFlashdata('gagal', 'Tidak Ada Data Yang Diubah');
+        } else if ($affected > 0) {
+            session()->setFlashdata('berhasil', 'Data ' . $id_pbtenakerr . ' Berhasil Diupdate');
+        } else {
+            session()->setFlashdata('gagal', 'Data Gagal Diupdate');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayatenaker'));
+    }
+
 
     public function updatebop()
     {
@@ -830,11 +875,13 @@ class DashboardAdmin extends Dashboard
         }
         return redirect()->to(base_url('admin/perhitunganbiayalain'));
     }
-    public function updatetenaker()
+    public function revisitenaker()
     {
+
         $tk = new PerhitunganTenakerModel();
+        $tkr = new PerhitunganTenakerRevisiModel();
         $id_pbtenaker = $this->request->getVar('id_pbtenaker');
-        $idajuan = $this->request->getVar('idajuan');
+        $id_pbtenakerr = $this->kodeotomatis('perhitungantenakerrevisi', 'id_pbtenakerr', 'TKR001');
         $jobdesk = $this->request->getVar('jobdesk');
         $statuspekerjaan = $this->request->getVar('statuspekerjaan');
         $gaji = $this->request->getVar('gaji');
@@ -842,15 +889,24 @@ class DashboardAdmin extends Dashboard
         $total_pekerja = $this->request->getVar('total_pekerja');
         $total_gaji = $this->request->getVar('total_gaji');
         $total_gaji = (int)filter_var($total_gaji, FILTER_SANITIZE_NUMBER_INT);
-        $tk->update($id_pbtenaker, [
-            'idajuan' => $idajuan,
+        $tkr->insert([
+            'id_pbtenakerr' => $id_pbtenakerr,
+            'id_pbtenaker' => $id_pbtenaker,
             'jobdesk' => $jobdesk,
             'statuspekerjaan' => $statuspekerjaan,
             'gaji' => $gaji,
             'total_pekerja' => $total_pekerja,
             'total_gaji' => $total_gaji,
+            'revisi_id' => 3
         ]);
-        $affected = $tk->builder()->db()->affectedRows();
+        $tk->builder()->where('id_pbtenaker', $id_pbtenaker)->set('revisi_id', 2)->update();
+        $affected = $tkr->builder()->db()->affectedRows();
+        if ($affected >= 1) {
+            session()->setFlashdata('berhasil', 'ID ' . $id_pbtenaker . ' Berhasil DiRevisi');
+        } else {
+            session()->setFlashdata('gagal', $id_pbtenaker . ' Gagal Direvisi');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayatenaker'));
     }
     public function revisimaterialpenyusun()
     {
@@ -1020,6 +1076,20 @@ class DashboardAdmin extends Dashboard
         }
         return redirect()->to(base_url('admin/perhitunganbiayatenaker'));
     }
+    public function hapustenakerrevisi($id)
+    {
+        $tk = new PerhitunganTenakerModel();
+        $tkr = new PerhitunganTenakerRevisiModel();
+        $tkr->where('id_pbtenaker', $id)->delete();
+        $tk->builder()->where('id_pbtenaker', $id)->set('revisi_id', 0)->update();
+        $affected = $tkr->builder()->db()->affectedRows();
+        if ($affected >= 1) {
+            session()->setFlashdata('berhasil', 'ID :' . $id . ' Berhasil DiHapus');
+        } else {
+            session()->setFlashdata('gagal', 'Data Gagal DiHapus');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayatenaker'));
+    }
     public function hapusajuan($id)
     {
         $modelajuan = new AjuanProyekModel();
@@ -1051,7 +1121,7 @@ class DashboardAdmin extends Dashboard
     public function hapusmpr($id, $idmaterial, $idmaterialpenyusun)
     {
         $mprevisi = new PerhitunganMPrevisi();
-        $mprevisi->delete($id);
+        $mprevisi->where('idmaterialpenyusun', $idmaterialpenyusun)->delete();
         $material = new PerhitunganMaterialModel();
         $materialpenyusun = new PerhitunganMaterialPenyusunModel();
         $materialpenyusun->builder()->where('idmaterialpenyusun', $idmaterialpenyusun)->set('revisi_id', 0)->update();
@@ -1069,7 +1139,7 @@ class DashboardAdmin extends Dashboard
         }
         $totalsemua = $total1 + $total2;
         $material->builder()->where('idmaterial', $idmaterial)->set('hargamaterial', $totalsemua)->update();
-        $affected = $materialpenyusun->builder()->db()->affectedRows();
+        $affected = $mprevisi->builder()->db()->affectedRows();
         if ($affected >= 0) {
             session()->setFlashdata('berhasil',  $id . ' Berhasil DiHapus');
         } else {

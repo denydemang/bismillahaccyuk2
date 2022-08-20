@@ -702,9 +702,124 @@ $(document).ready(function(){
 	        $( element ).removeClass( "is-invalid" );
 	    },
             submitHandler: function (form) {
-                form.submit();
+            let jobdesk =  $('.jobdesk').data('jobdesk')
+            let statuspekerjaan = $('.statuspekerjaan').data('statuspekerjaan')
+            let gaji = $('.gaji').data('gaji')
+            let total_pekerja = $('.total_pekerja').data('total_pekerja')
+            
+                console.log(jobdesk);
+                
+            let jobdeskval = $('.jobdesk').val()
+            let statuspekerjaanval = $('.statuspekerjaan').val()
+            let gajival = $('.gaji').val();
+            let total_pekerjaval = $('.total_pekerja').val();
 
-                }
+            if (
+                jobdesk.trim() == jobdeskval.trim() &&
+                statuspekerjaan.trim() == statuspekerjaanval &&
+                gaji.trim() == gajival.trim() &&
+                total_pekerja.trim() == total_pekerjaval.trim()
+            ) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Silakan Ubah Data !',
+                    showConfirmButton: false,
+                    timer: 4000
+                    })
+                
+            } else {
+               form.submit();
+                
+            }
+
+            }
+
+
+        
+        })
+    })
+
+    $('.formtenakerr').each(function(){
+        $(this).validate({
+            rules: {
+             jobdesk: {
+                    required: true,
+            },  statuspekerjaan: {
+                    required: true,
+                    
+            }, gaji: {
+                    required: true,
+            }, total_pekerja: {
+                    required: true,
+            },
+           
+
+        },
+            messages: {
+             jobdesk: {
+                    required: 'Job Desk Tidak Boleh Kosong',
+            },  statuspekerjaan: {
+                    required: 'Status Pekerjaan Tidak Boleh Kosong',
+                    
+            }, gaji: {
+                    required: 'Gaji Tidak Boleh Kosong',
+            }, total_pekerja: {
+                    required: 'Total Pekerja Tidak Boleh Kosong',
+            },
+          
+        },  errorElement: "div",
+        errorPlacement: function ( error, element ) {
+
+	        // Add the `invalid-feedback` class to the error element
+	        error.addClass( "invalid-feedback" );
+            error.addClass("pesanerror");
+	        if ( element.prop( "type" ) === "checkbox" ) {
+	            error.insertAfter(element.next( "label" ));
+	        } else {
+	            error.insertAfter(element);
+	        }
+	    },
+        highlight: function ( element, errorClass, validClass ) {
+	        $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+	    },
+	    unhighlight: function (element, errorClass, validClass) {
+	        $( element ).removeClass( "is-invalid" );
+	    },
+            submitHandler: function (form) {
+
+                let  statuspekerjaan= $('.statuspekerjaan1').data('statuspekerjaan')
+                let  gaji = $('.gaji1').data('gaji')
+                let  total_pekerja = $('.total_pekerja1').data('total_pekerja')
+            
+                
+           
+            let statuspekerjaanval = $('.statuspekerjaan1').val()
+            let gajival = $('.gaji1').val();
+            let total_pekerjaval = $('.total_pekerja1').val();
+
+            if (
+                statuspekerjaan.trim() == statuspekerjaanval.trim() &&
+                gaji.trim() == gajival.trim() &&
+                total_pekerja.trim() == total_pekerjaval.trim()
+            ) {
+                
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Silakan Ubah Data !',
+                    showConfirmButton: false,
+                    timer: 4000
+                    })
+                
+            } else {
+               form.submit();
+            // console.log('ok');
+            
+                
+            }
+
+            }
 
 
         

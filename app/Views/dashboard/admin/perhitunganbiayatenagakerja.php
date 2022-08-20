@@ -30,6 +30,7 @@
                   <th scope="col">Gaji</th>
                   <th scope="col">Total Pekerja</th>
                   <th scope="col">Total Gaji</th>
+                  <th scope="col">Status</th>
                   <th scope="col">Aksi</th>
                 </tr>
               </thead>
@@ -47,17 +48,85 @@
                       <td scope="col"><?= $row['total_pekerja']; ?></td>
                       <td scope="col">Rp <?= number_format($row['total_gaji'], 0, '', '.'); ?>,-</td>
                       <td>
+                        <?php if ($row['revisi_id'] != 0) :  ?>
+                          <span class="badge badge-primary">Direvisi</span>
+                        <?php else : ?>
+                          <span class="badge badge-secondary">Tidak Direvisi</span>
+                        <?php endif; ?>
+                      </td>
+                      <td>
+                        <?php if ($row['revisi_id'] != 0) : ?>
+                          <div class="flex-column">
+                            <button data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-danger rounded-circle hapustenaker"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
+                          </div>
+                        <?php else : ?>
+                          <div class="flex-column">
+                            <button data-toggle="modal" data-target="#modaltenaker" data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-info rounded-circle btnedittenaker"><i style="color:white;font-weight:bold" class="fas fa-edit"></i></button>
+                            <button data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-danger rounded-circle hapustenaker"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
+                          </div>
+                        <?php endif; ?>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                <?php else : ?>
+
+                <?php endif; ?>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer">
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header">
+          <h2>Revisi Tenaker</h2>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive mt-3">
+            <table class="tabletenaker table table-bordered table-striped table-hover text-center">
+              <thead>
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">ID Revisi</th>
+                  <th scope="col">ID Tenaker</th>
+                  <th scope="col">Jobdesk</th>
+                  <th scope="col">Status Pekerjaan</th>
+                  <th scope="col">Gaji</th>
+                  <th scope="col">Total Pekerja</th>
+                  <th scope="col">Total Gaji</th>
+                  <th scope="col">Aksi</th>
+                </tr>
+              </thead>
+              <?php $No = 1 ?>
+              <tbody>
+                <?php if (!empty($tkrevisi)) : ?>
+                  <?php foreach ($tkrevisi as $row) : ?>
+                    <tr>
+                      <td scope="col"><?= $No++; ?></td>
+                      <td scope="col"><?= $row['id_pbtenakerr']; ?></td>
+                      <td scope="col"><?= $row['id_pbtenaker']; ?></td>
+                      <td scope="col"><?= $row['jobdesk']; ?></td>
+                      <td scope="col"><?= $row['statuspekerjaan']; ?></td>
+                      <td scope="col">Rp <?= number_format($row['gaji'], 0, '', '.'); ?></td>
+                      <td scope="col"><?= $row['total_pekerja']; ?></td>
+                      <td scope="col">Rp <?= number_format($row['total_gaji'], 0, '', '.'); ?>,-</td>
+                      <td>
                         <div class="flex-column">
-                          <button data-toggle="modal" data-target="#modaltenaker" data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-info rounded-circle btnedittenaker"><i style="color:white;font-weight:bold" class="fas fa-edit"></i></button>
-                          <button data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-danger rounded-circle hapustenaker"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
+                          <button data-toggle="modal" data-target="#modaltenakerr" data-id="<?= $row['id_pbtenakerr']; ?>" class="btn btn-info rounded-circle btnedittenakerr"><i style="color:white;font-weight:bold" class="fas fa-edit"></i></button>
+                          <button data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-danger rounded-circle hapustenakerr"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
                         </div>
                       </td>
                     </tr>
                   <?php endforeach; ?>
                 <?php else : ?>
-                  <tr>
 
-                  </tr>
                 <?php endif; ?>
 
               </tbody>
@@ -78,7 +147,7 @@
             <h4 class="modal-title judulmodal">
               Tambah Tenaga Kerja
             </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" id="closetk" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -153,6 +222,74 @@
                   <div class="col-lg-4 col-6">
                     <label for="total_gaji">Total Gaji*</label>
                     <input type="text" readonly style="color:purple;font-weight:bolder" name="total_gaji" id="total_gaji" class="form-control total_gaji">
+                  </div>
+                </div>
+                <div class="form-group form-row">
+                  <button type="submit" class="btn btn-info btn-sm mr-2 simpan">Simpan</button>
+                  <button id="btncanceltk" type="button" data-dismiss="modal" class="btn btn-danger btn-sm btncancel">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="modaltenakerr">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content bg-secondary">
+          <div class="modal-header">
+            <h4 class="modal-title judulmodal">
+              Edit Revisi tenaker
+            </h4>
+            <button type="button" id="closetkr" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="col-12">
+              <form method="post" class="formtenakerr" action="<?= base_url('DashboardAdmin/editrevisitenaker'); ?>">
+                <div class="form-group form-row">
+                  <div class="col-lg-4 col-6">
+                    <label readonly for="id_pbtenakerr1">ID Revisi TK</label>
+                    <input type="text" readonly style="color:black;font-weight:bolder" name="id_pbtenakerr1" id="id_pbtenakerr1" class="form-control id_pbtenakerr1">
+                  </div>
+                  <div class="col-lg-4 col-6">
+                    <label readonly for="id_pbtenaker1">ID Tenaker</label>
+                    <input type="text" readonly style="color:black;font-weight:bolder" name="id_pbtenaker1" id="id_pbtenaker1" class="form-control id_pbtenaker1">
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="jobdesk1">JobDesk*</label>
+                    <input type="text" readonly style="color:black;font-weight:bolder" name="jobdesk1" id="jobdesk1" name="jobdesk1" class="form-control jobdesk1">
+                  </div>
+                </div>
+                <div class="form-group form-row">
+                  <div class="col-lg-4 col-6">
+                    <label for="statuspekerjaan1">Status Pekerjaan*</label>
+                    <select type="text" name="statuspekerjaan1" style="color:black;font-weight:bolder" id="statuspekerjaan1" class="form-control statuspekerjaan1">
+                      <option selected disabled>Pilih Status Pekerjaan</option>
+                      <option value="Harian">Harian</option>
+                      <option value="Mingguan">Mingguan</option>
+                      <option value="Bulanan">Bulanan</option>
+                      <option value="Kontrak">Kontrak</option>
+                      <option value="Borongan">Borongan</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-4 col-6">
+                    <label for="gaji1">Gaji *</label>
+                    <input type="text" style="color:black;font-weight:bolder" name="gaji1" id="gaji1" class="form-control gaji1">
+                  </div>
+                  <div class="col-lg-4">
+                    <label for="total_pekerja1">Total Pekerja *</label>
+                    <input type="text" style="color:black;font-weight:bolder" name="total_pekerja1" id="total_pekerja1" class="form-control total_pekerja1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                  </div>
+                </div>
+                <div class="form-group form-row">
+                  <div class="col-lg-4 col-6">
+                    <label for="total_gaji1">Total Gaji*</label>
+                    <input type="text" readonly style="color:purple;font-weight:bolder" name="total_gaji1" id="total_gaji1" class="form-control total_gaji1">
                   </div>
                 </div>
                 <div class="form-group form-row">
