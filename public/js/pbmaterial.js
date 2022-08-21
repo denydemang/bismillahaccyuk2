@@ -199,7 +199,7 @@ $(document).ready(function(){
         })
         $('.btnidajuan').click(function(){
         let idajuan = $(this).data('id');
-                $('.idajuan').val(idajuan);
+               window.location.href="http://localhost:8080/DashboardAdmin/perhitunganbiayamaterial/"+idajuan
         })
         $('.close').click(function(){
                 reset();         

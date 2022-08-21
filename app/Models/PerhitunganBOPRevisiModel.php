@@ -9,6 +9,6 @@ class PerhitunganBOPRevisiModel extends Model
     protected $table = 'perhitunganboprevisi';
     protected $primaryKey = 'id_pbopr';
     protected $allowedFields = [
-        'id_pbopr', 'id_pbop', 'user_id', 'idajuan', 'namaproyek', 'namatrans', 'tot_biaya', 'revisi_id'
+        'id_pbopr', 'id_pbop', 'namatrans', 'quantity', 'satuan', 'harga', 'tot_biaya', 'revisi_id'
     ];
 }

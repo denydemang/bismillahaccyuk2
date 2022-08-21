@@ -12,6 +12,8 @@ use App\models\PerhitunganTenakerRevisiModel;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+use App\Models\PerhitunganMaterialModel;
+use App\Models\PerhitunganMaterialPenyusunModel;
 
 class Dashboard extends BaseController
 {
@@ -182,32 +184,28 @@ class Dashboard extends BaseController
     public function gettotbiaya($idajuan)
     {
 
-        $bahanbaku = new PerhitunganBBModel();
+        $bahanbaku = new PerhitunganMaterialModel();
         $tenaker     = new PerhitunganTenakerModel();
         $bop     = new PerhitunganBOPModel();
-        $gettotbb = $bahanbaku->builder()->selectSum('total_harga')->where('idajuan', $idajuan)->where('revisi_id', '1')->get()->getResultArray();
-        $gettottk = $tenaker->builder()->selectSum('total_gaji')->where('idajuan', $idajuan)->where('revisi_id', '1')->get()->getResultArray();
-        $gettotbop = $bop->builder()->selectSum('tot_biaya')->where('idajuan', $idajuan)->where('revisi_id', '1')->get()->getResultArray();
+        $gettotbb = $bahanbaku->builder()->selectSum('total_harga')->where('idajuan', $idajuan)->get()->getResultArray();
+        $gettottk = $tenaker->builder()->selectSum('total_gaji')->where('idajuan', $idajuan)->where('revisi_id', '0')->get()->getResultArray();
+        $gettotbop = $bop->builder()->selectSum('tot_biaya')->where('idajuan', $idajuan)->where('revisi_id', '0')->get()->getResultArray();
 
-        $bbrevisi = new PerhitunganBBRevisiModel();
         $tkrevisi = new PerhitunganTenakerRevisiModel();
         $boprevisi = new PerhitunganBOPRevisiModel();
-        $getotbbrevisi = $bbrevisi->builder()->selectSum('perhitunganbbrevisi.total_harga')
-            ->join('perhitunganbahanbaku', 'perhitunganbbrevisi.id_pbb=perhitunganbahanbaku.id_pbb')
-            ->where('perhitunganbbrevisi.idajuan', $idajuan)->where('perhitunganbbrevisi.revisi_id', '3')->get()->getResultArray();
 
-        $getottkrevisi = $tkrevisi->builder()->selectSum('perhitungantenakerrevisi.total_gaji')
-            ->join('perhitungantenaker', 'perhitungantenakerrevisi.id_pbtenaker=perhitungantenaker.id_pbtenaker')
-            ->where('perhitungantenakerrevisi.idajuan', $idajuan)->where('perhitungantenakerrevisi.revisi_id', '3')->get()->getResultArray();
+        // $getottkrevisi = $tkrevisi->builder()->selectSum('perhitungantenakerrevisi.total_gaji')
+        //     ->join('perhitungantenaker', 'perhitungantenakerrevisi.id_pbtenaker=perhitungantenaker.id_pbtenaker')
+        //     ->where('idajuan', $idajuan)->where('perhitungantenakerrevisi.revisi_id', '3')->get()->getResultArray();
 
-        $getotboprevisi = $boprevisi->builder()->selectSum('perhitunganboprevisi.tot_biaya')
-            ->join('perhitunganbop', 'perhitunganboprevisi.id_pbop=perhitunganbop.id_pbop')
-            ->where('perhitunganbop.idajuan', $idajuan)->where('perhitunganboprevisi.revisi_id', '3')->get()->getResultArray();
+        // $getotboprevisi = $boprevisi->builder()->selectSum('perhitunganboprevisi.tot_biaya')
+        //     ->join('perhitunganbop', 'perhitunganboprevisi.id_pbop=perhitunganbop.id_pbop')
+        //     ->where('perhitunganbop.idajuan', $idajuan)->where('perhitunganboprevisi.revisi_id', '3')->get()->getResultArray();
 
-        $jumlahbiayatotal = (intval($gettotbb[0]['total_harga']) + intval($gettottk[0]['total_gaji']) + intval($gettotbop[0]['tot_biaya']));
-        $jumlahbiayarevisitotal = (intval($getotbbrevisi[0]['total_harga']) + intval($getottkrevisi[0]['total_gaji']) + intval($getotboprevisi[0]['tot_biaya']));
-        $totalbiaya = $jumlahbiayatotal + $jumlahbiayarevisitotal;
-        return $totalbiaya;
+        // $jumlahbiayatotal = (intval($gettotbb[0]['total_harga']) + intval($gettottk[0]['total_gaji']) + intval($gettotbop[0]['tot_biaya']));
+        // $jumlahbiayarevisitotal = (intval($getottkrevisi[0]['total_gaji']) + intval($getotboprevisi[0]['tot_biaya']));
+        // $totalbiaya = $jumlahbiayatotal + $jumlahbiayarevisitotal;
+        // return $totalbiaya;
     }
     public function GetJumlahBBRevisi($idpbb)
     {

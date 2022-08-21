@@ -218,6 +218,12 @@
                                         <p>Biaya Operasional</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="<?= base_url('admin/cetakrab'); ?>" class="nav-link <?= ($_SESSION['subaktif'] == 'cetakrab') ? 'active' : '' ?>"">
+                                        <i class=" far fa-circle nav-icon ml-3"></i>
+                                        <p>Cetak RAB</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item">

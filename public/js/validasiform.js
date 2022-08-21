@@ -876,8 +876,35 @@ $(document).ready(function(){
 	        $( element ).removeClass( "is-invalid" );
 	    },
         submitHandler: function (form) {
-            form.submit();
+            let satuan =$('.satuan').data('satuan')
+            let quantity =$('.quantity').data('quantity')
+            let harga= $('.harga').data('harga')
+            
+            let satuanval =$('.satuan').val()
+            let quantityval =$('.quantity').val()
+            let hargaval= $('.harga').val()
+ 
+           
+            if (
+                satuan.trim() ==satuanval.trim() &&
+                quantity.trim()== quantityval.trim() &&
+                harga.trim() ==hargaval.trim()
 
+            ) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Silakan Ubah Data !',
+                    showConfirmButton: false,
+                    timer: 4000
+                    })
+                
+            } else {
+                
+                form.submit();
+
+            }
+            
             }
 
         })

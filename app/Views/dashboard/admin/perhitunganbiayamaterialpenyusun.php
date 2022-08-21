@@ -35,7 +35,20 @@
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
-                            <?php $No = 1 ?>
+                            <?php
+
+                            use App\Models\PerhitunganMPrevisi;
+
+                            $No = 1 ?>
+                            <?php
+
+                            function hitungjumlahmp($idmp)
+                            {
+                                $mprevisi = new PerhitunganMPrevisi();
+                                $count = $mprevisi->builder()->where('idmaterialpenyusun', $idmp)->countAllResults();
+                                return $count;
+                            }
+                            ?>
                             <tbody>
                                 <?php if (!empty($material)) : ?>
                                     <?php foreach ($material as $row) : ?>
@@ -50,9 +63,16 @@
                                             <td scope="col">Rp <?= number_format($row['hargamp'], 0, '', '.'); ?>,-</td>
                                             <td scope="col-4">Rp <?= number_format($row['totalmp'], 0, '', '.'); ?>,-</td>
                                             <?php if ($row['revisi_id'] == 0) : ?>
-                                                <td scope="col-4"><span class="badge badge-primary">Tidak Direvisi</span></td>
+                                                <td scope="col-4">
+                                                    <span class="badge badge-primary">Tidak Direvisi</span>
+                                                    <span class="badge badge-warning"><?= hitungjumlahmp($row['idmaterialpenyusun']); ?></span>
+                                                </td>
                                             <?php else : ?>
-                                                <td scope="col-4"><span class="badge badge-success">Direvisi</span></td>
+                                                <td scope="col-4">
+                                                    <span class="badge badge-success">Direvisi</span>
+                                                    <span class="badge badge-warning"><?= hitungjumlahmp($row['idmaterialpenyusun']); ?></span>
+
+                                                </td>
                                             <?php endif; ?>
                                             <?php if ($row['revisi_id'] != 0) : ?>
                                                 <td>

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title><?= $user[0]['idajuan']; ?></title>
+    <title>sfasfafafaf</title>
     <style>
         .clearfix:after {
             content: "";
@@ -63,6 +63,17 @@
             font-weight: normal;
             text-align: center;
             margin: 0 0 20px 0;
+            background: url(dimension.png);
+        }
+
+        h3 {
+            /* border-top: 1px solid #5D6975; */
+            border-bottom: 1px solid #5D6975;
+            color: #5D6975;
+            font-size: 1.4em;
+            line-height: 1.4em;
+            font-weight: normal;
+            text-align: left;
             background: url(dimension.png);
         }
 
@@ -179,71 +190,42 @@
             <div><a>adikajayaengineering@gmail.com</a></div>
         </div>
         <div id="project">
-            <div><span>PROJECT</span> <?= strtoupper($user[0]['namaproyek']); ?></div>
-            <div><span>ID AJUAN</span> <?= $user[0]['idajuan']; ?></div>
-            <div><span>CLIENT</span> <?= strtoupper($user[0]['nama']); ?></div>
-            <div><span>ALAMAT</span> <?= $user[0]['alamat']; ?></div>
-            <div><span>EMAIL</span> <a><?= $user[0]['email']; ?></a></div>
-            <div><span>No TELP</span> <?= $user[0]['notelp']; ?></div>
-            <div><span>TANGGAL</span> <?= $tanggal; ?> </div>
+            <div><span>PROJECT</span>sdfasdfsdsd</div>
+            <div><span>ID AJUAN</span> asdasdasdasd</div>
+            <div><span>CLIENT</span>asdadadad</div>
+            <div><span>ALAMAT</span>asdasdasdad</div>
+            <div><span>EMAIL</span> <a>asdsadasdad</a></div>
+            <div><span>No TELP</span>asdsadasdad</div>
+            <div><span>TANGGAL</span>sadadasdasd</div>
         </div>
     </header>
     <main>
-        <h2 style="margin-top:20px">Biaya Bahan Baku</h2>
+        <h2 style="margin-top:20px">Biaya Material</h2>
         <table>
             <thead>
                 <tr>
-                    <th class="service">Nama Bahan</th>
-                    <th class="service">Ukuran</th>
-                    <th class="service">Kualitas</th>
-                    <th class="service">Jenis</th>
-                    <th class="service">Berat</th>
-                    <th class="service">Ketebalan</th>
-                    <th class="service">Panjang</th>
-                    <th class="service">Harga</th>
-                    <th class="service">Jumlah Beli</th>
+                    <th class="service">Nama Material</th>
+                    <th class="service">Satuan Material</th>
+                    <th class="service">Qty</th>
+                    <th class="service">Harga Material</th>
                     <th class="total">TOTAL</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($bb as $row) : ?>
-                    <tr>
-                        <td class="service"><?= $row['namabahan']; ?></td>
-                        <td class="service"><?= $row['ukuran']; ?></td>
-                        <td class="service"><?= $row['kualitas']; ?></td>
-                        <td class="service"><?= $row['jenis']; ?></td>
-                        <td class="service"><?= $row['berat']; ?></td>
-                        <td class="service"><?= $row['ketebalan']; ?></td>
-                        <td class="service"><?= $row['panjang']; ?></td>
-                        <td class="service">Rp <?= number_format($row['harga'], 0, '', '.'); ?>,-</td>
-                        <td class="service"><?= $row['jumlah_beli']; ?></td>
-                        <td class="total">Rp <?= number_format($row['total_harga'], 0, '', '.'); ?>,-</td>
-                    </tr>
-                <?php endforeach; ?>
                 <tr>
-                    <td colspan="9">SUBTOTAL</td>
-                    <td class="total">Rp <?= number_format($sumbb, 0, '', '.'); ?>,-</td>
+                    <td class="service">adfadfadfasdasdasdas</td>
+                    <td class="service">asfafasffaf</td>
+                    <td class="service">asfasfafasf></td>
+                    <td class="service">asfafasfaf</td>
+                    <td class="total">dfgdsgfsg</td>
                 </tr>
-            </tbody>
-        </table>
-        <h2 style="margin-top:20px">Biaya Operasional</h2>
-        <table>
-            <thead>
                 <tr>
-                    <th class="desc">Nama Biaya</th>
-                    <th class="total">Total Biaya</th>
+                    <td colspan="4">SUBTOTAL</td>
+                    <td class="total">sdadadasd</td>
                 </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($bop as $row) : ?>
-                    <tr>
-                        <td class="desc"><?= $row['namatrans']; ?></td>
-                        <td class="total">Rp <?= number_format($row['tot_biaya'], 0, '', '.'); ?>,-</td>
-                    </tr>
-                <?php endforeach; ?>
                 <tr>
-                    <td colspan="1">SUBTOTAL</td>
-                    <td class="total">Rp <?= number_format($sumbop, 0, '', '.'); ?>,-</td>
+                    <td colspan="4">Total</td>
+                    <td class="total">sdadadasd</td>
                 </tr>
             </tbody>
         </table>
@@ -251,37 +233,58 @@
         <table>
             <thead>
                 <tr>
-                    <th class="service">Jenis Pekerjaan</th>
+                    <th class="service">JobDesk</th>
+                    <th class="service">Status Pekerjaan</th>
                     <th class="service">Gaji</th>
-                    <th class="service">Hari</th>
                     <th class="service">Total Pekerja</th>
                     <th class="total">Total Gaji</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($tk as $row) : ?>
-                    <tr>
-                        <td class="service"><?= $row['jenispekerjaan']; ?></td>
-                        <td class="service">Rp <?= number_format($row['gaji'], 0, '', '.'); ?>,-</td>
-                        <td class="service"><?= $row['hari']; ?></td>
-                        <td class="service"><?= $row['total_pekerja']; ?></td>
-                        <td class="total">Rp <?= number_format($row['total_gaji'], 0, '', '.'); ?>,-</td>
-                    </tr>
-                <?php endforeach; ?>
+
+                <tr>
+                    <td class="service">asfsafasfasf</td>
+                    <td class="service">asfafafaf</td>
+                    <td class="service">safsafasfa</td>
+                    <td class="service">sfasfafa</td>
+                    <td class="total">asfsafasf</td>
+                </tr>
                 <tr>
                     <td colspan="4">SUBTOTAL</td>
-                    <td class="total">Rp <?= number_format($sumtk, 0, '', '.'); ?>,-</td>
+                    <td class="total">asfafafa</td>
+                </tr>
+
+        </table>
+        <h2 style="margin-top:20px">Biaya Operasional</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th class="desc">Nama Biaya</th>
+                    <th class="desc">Qty</th>
+                    <th class="desc">Satuan</th>
+                    <th class="desc">Harga</th>
+                    <th class="total">Total Biaya</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="desc">fasfafasf</td>
+                    <td class="desc">fasfafasf</td>
+                    <td class="desc">fasfafasf</td>
+                    <td class="desc">fasfafasf</td>
+                    <td class="total">asfafasfaf</td>
+                </tr>
+                <tr>
+                    <td colspan="4">SUBTOTAL</td>
+                    <td class="total">asfasfasfasf</td>
                 </tr>
                 <tr>
                     <td colspan="4" class="grand total">TOTAL BIAYA KESELURUHAN</td>
-                    <td class="grand total">Rp <?= number_format($sumall, 0, '', '.'); ?>,-</td>
+                    <td class="grand total">asfafsafa</td>
                 </tr>
             </tbody>
+            </tbody>
         </table>
-        <div id="notices">
-            <div>Catatan Dari Klien:</div>
-            <div class="notice"><?= $user[0]['catatanproyek']; ?></div>
-        </div>
     </main>
     <footer>
         Invoice was created on a computer and is valid without the signature and seal.

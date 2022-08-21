@@ -15,8 +15,38 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
-                    <div style="display:flex;align-items:center;justify-content:space-between;flex-direction:row">
-                        <button data-toggle="modal" data-target="#modalbop" class="btn btn-outline-warning mb-2 btntambah"><i class="fas fa-plus-circle mr-2"></i>Tambah Biaya Operasional</button>
+                    <button data-toggle="modal" data-target="#modalbop" class="btn btn-outline-warning mb-2 btntambah"><i class="fas fa-plus-circle mr-2"></i>Tambah Biaya Operasional</button>
+                    <div class="dropdown">
+                        <button type="button" data-toggle="dropdown" class="btn btn-primary mb-2 pilihajuan">Pilih Id Ajuan <i class="ml-2 mb-2 dropdown-toggle"></i></button>
+                        <div class="dropdown-menu dropdown-menu-lg">
+                            <div class="card" style="width:600px !important">
+                                <div class="card-header">
+                                    <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
+                                </div>
+                                <div class="card-body p-3">
+                                    <table class="table text-nowrap daftarajuan">
+                                        <thead>
+                                            <th scope="col">ID AJUAN</th>
+                                            <th scope="col">Nama Proyek</th>
+                                            <th scope="col">Jenis Proyek</th>
+                                            <th scope="col">Nama Klien</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php if ($dataajuannn) : ?>
+                                                <?php foreach ($dataajuannn as $row) : ?>
+                                                    <tr>
+                                                        <td><button type="button" data-id="<?= $row['idajuan']; ?>" class="btn btn-primary btn-sm btnidajuan"><?= $row['idajuan']; ?></button> </td>
+                                                        <td><?= $row['namaproyek']; ?></td>
+                                                        <td><?= $row['jenisproyek']; ?></td>
+                                                        <td><?= $row['nama']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="table-responsive mt-3">
                         <table class="tablebop table table-bordered table-striped table-hover text-center">
@@ -28,11 +58,26 @@
                                     <th scope="col">Nama Transaksi</th>
                                     <th scope="col">Quantity</th>
                                     <th scope="col">Satuan</th>
+                                    <th scope="col">Harga</th>
                                     <th scope="col">Total Biaya</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <?php $No = 1 ?>
+                            <?php
+
+                            use App\Models\PerhitunganBOPRevisiModel;
+
+                            ?>
+                            <?php
+                            function hitungjumlahbop($id_pbop)
+                            {
+                                $boprevisi = new PerhitunganBOPRevisiModel();
+                                $count = $boprevisi->builder()->where('id_pbop', $id_pbop)->countAllResults();
+                                return $count;
+                            }
+                            ?>
                             <tbody>
                                 <?php if (!empty($bop)) : ?>
                                     <?php foreach ($bop as $row) : ?>
@@ -43,7 +88,19 @@
                                             <td scope="col"><?= $row['namatrans']; ?></td>
                                             <td scope="col"><?= $row['quantity']; ?></td>
                                             <td scope="col"><?= $row['satuan']; ?></td>
-                                            <td scope="col"><?= $row['tot_biaya']; ?></td>
+                                            <td scope="col">Rp <?= number_format($row['harga'], 0, '', '.'); ?>,-</td>
+                                            <td scope="col">Rp <?= number_format($row['tot_biaya'], 0, '', '.'); ?>,-</td>
+                                            <?php if ($row['revisi_id'] != 0) : ?>
+                                                <td scope="col">
+                                                    <span class="badge badge-warning">Direvisi</span>
+                                                    <span class="badge badge-success"><?= hitungjumlahbop($row['id_pbop']); ?></span>
+                                                </td>
+                                            <?php else : ?>
+                                                <td scope="col">
+                                                    <span class="badge badge-secondary">Tidak Direvisi</span>
+                                                    <span class="badge badge-success"><?= hitungjumlahbop($row['id_pbop']); ?></span>
+                                                </td>
+                                            <?php endif; ?>
                                             <td>
                                                 <div class="flex-column">
                                                     <button data-toggle="modal" data-target="#modalbop" data-id="<?= $row['id_pbop']; ?>" class=" btn btn-info rounded-circle btneditbop"><i style="color:white;font-weight:bold" class="fas fa-edit"></i></button>
@@ -53,9 +110,58 @@
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else : ?>
-                                    <tr>
 
-                                    </tr>
+                                <?php endif; ?>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4>Revisi Biaya Operasional</h4>
+                    <div class="table-responsive mt-3">
+                        <table class="tablebop table table-bordered table-striped table-hover text-center">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">ID Revisi</th>
+                                    <th scope="col">ID Biaya</th>
+                                    <th scope="col">Nama Transaksi</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Satuan</th>
+                                    <th scope="col">Harga</th>
+                                    <th scope="col">Total Biaya</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <?php $No = 1 ?>
+                            <tbody>
+                                <?php if (!empty($bopr)) : ?>
+                                    <?php foreach ($bopr as $row) : ?>
+                                        <tr>
+                                            <td scope="col"><?= $No++; ?></td>
+                                            <td scope="col"><?= $row['id_pbopr']; ?></td>
+                                            <td scope="col"><?= $row['id_pbop']; ?></td>
+                                            <td scope="col"><?= $row['namatrans']; ?></td>
+                                            <td scope="col"><?= $row['quantity']; ?></td>
+                                            <td scope="col"><?= $row['satuan']; ?></td>
+                                            <td scope="col">Rp <?= number_format($row['harga'], 0, '', '.'); ?>,-</td>
+                                            <td scope="col">Rp <?= number_format($row['tot_biaya'], 0, '', '.'); ?>,-</td>
+                                            <td>
+                                                <div class="flex-column">
+                                                    <button data-toggle="modal" data-target="#modalbop" data-id="<?= $row['id_pbopr']; ?>" class=" btn btn-info rounded-circle btneditbopr"><i style="color:white;font-weight:bold" class="fas fa-edit"></i></button>
+                                                    <button data-id="<?= $row['id_pbopr']; ?>" data-id2="<?= $row['id_pbop']; ?>" class="btn btn-danger rounded-circle hapusbopr"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+
                                 <?php endif; ?>
 
                             </tbody>
@@ -82,44 +188,20 @@
                     </div>
                     <div class="modal-body">
                         <div class="col-12">
-                            <div class="dropdown">
-                                <button type="button" data-toggle="dropdown" class="btn btn-primary mb-2 pilihajuan">Pilih Id Ajuan <i class="ml-2 mb-2 dropdown-toggle"></i></button>
-                                <div class="dropdown-menu dropdown-menu-lg">
-                                    <div class="card" style="width:600px !important">
-                                        <div class="card-header">
-                                            <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
-                                        </div>
-                                        <div class="card-body p-3">
-                                            <table class="table text-nowrap daftarajuan">
-                                                <thead>
-                                                    <th scope="col">ID AJUAN</th>
-                                                    <th scope="col">Nama Proyek</th>
-                                                    <th scope="col">Jenis Proyek</th>
-                                                    <th scope="col">Nama Klien</th>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <?php foreach ($dataajuannn as $row) ?>
-                                                        <td><button type="button" data-id="<?= $row['idajuan']; ?>" class="btn btn-primary btn-sm btnidajuan"><?= $row['idajuan']; ?></button> </td>
-                                                        <td><?= $row['namaproyek']; ?></td>
-                                                        <td><?= $row['jenisproyek']; ?></td>
-                                                        <td><?= $row['nama']; ?></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                             <form method="post" class="formbop" action="<?= base_url('DashboardAdmin/simpantenaker'); ?>">
                                 <div class="form-group form-row">
                                     <div class="col-lg-4 col-6">
                                         <label for="id_pbop">ID Biaya</label>
                                         <input readonly type="text" style="color:black;font-weight:bolder" name="id_pbop" id="id_pbop" class="form-control id_pbop" value="<?= $id_pbop; ?>">
                                     </div>
-                                    <div class="col-lg-4 col-6">
+                                    <div class="col-lg-4 col-6 bungkusidpbopr">
+                                        <label for="id_pbopr">ID Biaya Revisi</label>
+                                        <input readonly type="text" style="color:black;font-weight:bolder" name="id_pbopr" id="id_pbopr" class="form-control id_pbopr">
+                                    </div>
+                                    <div class="col-lg-4 col-6 bungkusidajuan">
                                         <label for="idajuan">ID Ajuan*</label>
-                                        <input readonly type="text" style="color:black;font-weight:bolder" name="idajuan" id="idajuan" class="form-control idajuan">
+                                        <input readonly type="text" style="color:black;font-weight:bolder" name="idajuan" id="idajuan" class="form-control idajuan" value="<?= $idajuan; ?>">
                                     </div>
                                     <div class="col-lg-4">
                                         <label for="namatrans">Nama Transaksi*</label>

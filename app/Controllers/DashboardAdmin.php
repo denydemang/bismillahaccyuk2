@@ -24,6 +24,7 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Models\massagemodel;
 use App\Models\PerhitunganBOPModel;
+use App\Models\PerhitunganBOPRevisiModel;
 use App\Models\PerhitunganMaterialModel;
 use App\Models\PerhitunganMaterialPenyusunModel;
 use App\Models\PerhitunganTenakerModel;
@@ -61,25 +62,48 @@ class DashboardAdmin extends Dashboard
 
         return view('dashboard/admin/welcome', $this->datalogin);
     }
-    public function perhitunganbiayamaterial()
+    public function cetakrab()
     {
         if (isset($_SESSION['aktif']) || isset($_SESSION['subaktif'])) {
             unset($_SESSION['aktif']);
             unset($_SESSION['subaktif']);
         };
-
-        $perhitunganmaterial = new PerhitunganMaterialModel();
+        $_SESSION['aktif'] = 'pb';
+        $_SESSION['subaktif'] = 'cetakrab';
         $ajuan = new AjuanProyekModel();
-        $dataajuan = $ajuan->builder()->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->Orwhere('status_id', '7')->Orwhere('status_id', '8')->get()->getResultArray();
-        $datajoinajuan = $perhitunganmaterial->getalljoinajuan();
-        $idmaterial = $this->kodeotomatis('perhitungan_material', 'idmaterial', 'PBB001');
+        $getdata = $ajuan->builder()->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('revisi_id', 1)->get()->getResultArray();
+        $this->datalogin += [
+            'dataajuannn' => $getdata
+        ];
+
+        return view('dashboard/admin/cetakrab', $this->datalogin);
+    }
+    public function perhitunganbiayamaterial($idajuan = false)
+    {
+        if (isset($_SESSION['aktif']) || isset($_SESSION['subaktif'])) {
+            unset($_SESSION['aktif']);
+            unset($_SESSION['subaktif']);
+        };
         $_SESSION['aktif'] = 'pb';
         $_SESSION['subaktif'] = 'pbmaterial';
+        $ajuan = new AjuanProyekModel();
+        $dataajuan = $ajuan->builder()->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->Orwhere('status_id', '7')->Orwhere('status_id', '8')->get()->getResultArray();
+        if ($idajuan != false) {
+            $perhitunganmaterial = new PerhitunganMaterialModel();
+            $datajoinajuan = $perhitunganmaterial->builder()->join('pengajuan_proyek', 'perhitungan_material.idajuan=pengajuan_proyek.idajuan')->where('pengajuan_proyek.idajuan', $idajuan)->get()->getResultArray();
+            $idmaterial = $this->kodeotomatis('perhitungan_material', 'idmaterial', 'PBB001');
+        } else {
+            $perhitunganmaterial = new PerhitunganMaterialModel();
+            $datajoinajuan = $perhitunganmaterial->findAll();
+            $idmaterial = $this->kodeotomatis('perhitungan_material', 'idmaterial', 'PBB001');
+        }
         $this->datalogin += [
             'datamaterial' => $datajoinajuan,
             'idmaterial' => $idmaterial,
-            'dataajuannn' => $dataajuan
+            'dataajuannn' => $dataajuan,
+            'idajuan' => $idajuan,
         ];
+
 
         return view('dashboard/admin/perhitunganbiayamaterial', $this->datalogin);
     }
@@ -119,38 +143,50 @@ class DashboardAdmin extends Dashboard
         $perhitunganmaterialpenyusun = new PerhitunganMaterialPenyusunModel();
         $getdata = $perhitunganmaterialpenyusun->getbyidmaterial($idmaterial);
     }
-    public function perhitunganbiayatenaker()
+    public function perhitunganbiayatenaker($id = false)
     {
         if (isset($_SESSION['aktif']) || isset($_SESSION['subaktif'])) {
             unset($_SESSION['aktif']);
             unset($_SESSION['subaktif']);
         };
-        $ajuan = new AjuanProyekModel();
         $_SESSION['aktif'] = 'pb';
         $_SESSION['subaktif'] = 'pbtenaker';
-        $tenaker = new PerhitunganTenakerModel();
-        $tenakerr = new PerhitunganTenakerRevisiModel();
-        $datatkrevisi = $tenakerr->builder()->select('perhitungantenakerrevisi.*')->join('perhitungantenaker', 'perhitungantenakerrevisi.id_pbtenaker=perhitungantenaker.id_pbtenaker')->where('perhitungantenakerrevisi.revisi_id', 3)->get()->getResultArray();
+        $ajuan = new AjuanProyekModel();
         $dataajuan = $ajuan->builder()->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->Orwhere('status_id', '7')->Orwhere('status_id', '8')->get()->getResultArray();
-        $getdata = $tenaker->findAll();
-        $id_pbtenaker = $this->kodeotomatis('perhitungantenaker', 'id_pbtenaker', 'PTK001');
+        if ($id != false) {
+            $tenaker = new PerhitunganTenakerModel();
+            $tenakerr = new PerhitunganTenakerRevisiModel();
+            $datatkrevisi = $tenakerr->builder()->select('perhitungantenakerrevisi.*')->join('perhitungantenaker', 'perhitungantenakerrevisi.id_pbtenaker=perhitungantenaker.id_pbtenaker')->where('perhitungantenakerrevisi.revisi_id', 3)->where('idajuan', $id)->get()->getResultArray();
+            $getdata = $tenaker->where('idajuan', $id)->find();
+            $id_pbtenaker = $this->kodeotomatis('perhitungantenaker', 'id_pbtenaker', 'PTK001');
+            $idajuan = $id;
+        } else {
+
+            $tenaker = new PerhitunganTenakerModel();
+            $tenakerr = new PerhitunganTenakerRevisiModel();
+            $datatkrevisi = $tenakerr->builder()->select('perhitungantenakerrevisi.*')->join('perhitungantenaker', 'perhitungantenakerrevisi.id_pbtenaker=perhitungantenaker.id_pbtenaker')->where('perhitungantenakerrevisi.revisi_id', 3)->get()->getResultArray();
+            $getdata = $tenaker->findAll();
+            $id_pbtenaker = $this->kodeotomatis('perhitungantenaker', 'id_pbtenaker', 'PTK001');
+            $idajuan = $id;
+        }
 
         $this->datalogin += [
-            'jumlahdataakun' => $this->jumlahdataakun,
-            'jumlahajuan' => $this->jumlahajuan,
-            'jumlahproyek' => $this->jumlahproyek,
+
             'tenaker' => $getdata,
             'id_pbtenaker' => $id_pbtenaker,
+            'idajuan' => $idajuan,
             'dataajuannn' => $dataajuan,
             'tkrevisi' => $datatkrevisi
+
         ];
 
         return view('dashboard/admin/perhitunganbiayatenagakerja', $this->datalogin);
     }
-    public function perhitunganbiayalain()
+    public function perhitunganbiayalain($id = false)
     {
 
         $bop = new PerhitunganBOPModel;
+        $bopr = new PerhitunganBOPRevisiModel();
         if (isset($_SESSION['aktif']) || isset($_SESSION['subaktif'])) {
             unset($_SESSION['aktif']);
             unset($_SESSION['subaktif']);
@@ -158,13 +194,25 @@ class DashboardAdmin extends Dashboard
         $ajuan = new AjuanProyekModel();
         $_SESSION['aktif'] = 'pb';
         $_SESSION['subaktif'] = 'pbop';
-        $dataajuan = $ajuan->builder()->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->Orwhere('status_id', '7')->Orwhere('status_id', '8')->get()->getResultArray();
-        $getdata = $bop->findAll();
-        $id_pbop = $this->kodeotomatis('perhitunganbop', 'id_pbop', 'PBO001');
+        $dataajuan = $ajuan->builder()->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->Orwhere('status_id', '7')->Orwhere('status_id', '8')->where('idajuan', $id)->get()->getResultArray();
+        if ($id != false) {
+            $getdatabop = $bop->where('idajuan', $id)->find();
+            $getdatabopr = $bopr->builder()->join('perhitunganbop', 'perhitunganboprevisi.id_pbop=perhitunganbop.id_pbop')->where('perhitunganboprevisi.revisi_id', 3)->where('idajuan', $id)->get()->getResultArray();
+            $id_pbop = $this->kodeotomatis('perhitunganbop', 'id_pbop', 'PBO001');
+            $idajuan = $id;
+        } else {
+            $getdatabop = $bop->findAll();
+            $getdatabopr = $bopr->where('revisi_id', 3)->find();
+            $id_pbop = $this->kodeotomatis('perhitunganbop', 'id_pbop', 'PBO001');
+            $idajuan = '';
+        }
+
         $this->datalogin += [
             'dataajuannn' => $dataajuan,
-            'bop' => $getdata,
-            'id_pbop' => $id_pbop
+            'bop' => $getdatabop,
+            'id_pbop' => $id_pbop,
+            'bopr' => $getdatabopr,
+            'idajuan' => $idajuan,
         ];
 
         return view('dashboard/admin/perhitunganbiayalain', $this->datalogin);
@@ -249,7 +297,7 @@ class DashboardAdmin extends Dashboard
         $_SESSION['aktif'] = 'dataproyek';
         $kodeproyek = $this->kodeotomatis('proyek', 'idproyek', 'PRY001');
         $modelajuan = new AjuanProyekModel();
-        $getData =  $modelajuan->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->where('revisi_id', 1)->findAll();
+        $getData =  $modelajuan->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '6')->where('revisi_id', 1)->findAll();
 
         // $modelajuan = new AjuanProyekModel();
         $builder1 = $this->db->table('pengajuan_proyek');
@@ -438,11 +486,56 @@ class DashboardAdmin extends Dashboard
 
 
     //Query Get
+    public function getidajuan($katakunci)
+    {
+        if ($this->request->isAJAX()) {
+            $ajuan = new AjuanProyekModel();
+            $getdata = $ajuan->builder()->select('pengajuan_proyek.*,akun.nama')->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->like('idajuan', $katakunci)->orLike('namaproyek', $katakunci)->orLike('jenisproyek', $katakunci)->orLike('nama', $katakunci)->get()->getResultArray();
+            echo json_encode($getdata);
+        }
+    }
+    public function gettotbiaya($idajuan)
+    {
+
+        $bahanbaku = new PerhitunganMaterialModel();
+        $tenaker     = new PerhitunganTenakerModel();
+        $bop     = new PerhitunganBOPModel();
+        $gettotbb = $bahanbaku->builder()->selectSum('total_harga')->where('idajuan', $idajuan)->get()->getResultArray();
+        $gettottk = $tenaker->builder()->selectSum('total_gaji')->where('idajuan', $idajuan)->where('revisi_id', '0')->get()->getResultArray();
+        $gettotbop = $bop->builder()->selectSum('tot_biaya')->where('idajuan', $idajuan)->where('revisi_id', '0')->get()->getResultArray();
+
+        $tkrevisi = new PerhitunganTenakerRevisiModel();
+        $boprevisi = new PerhitunganBOPRevisiModel();
+
+        $getottkrevisi = $tkrevisi->builder()->selectSum('perhitungantenakerrevisi.total_gaji')
+            ->join('perhitungantenaker', 'perhitungantenakerrevisi.id_pbtenaker=perhitungantenaker.id_pbtenaker')
+            ->where('idajuan', $idajuan)->where('perhitungantenakerrevisi.revisi_id', '3')->get()->getResultArray();
+
+
+
+        $getotboprevisi = $boprevisi->builder()->selectSum('perhitunganboprevisi.tot_biaya')
+            ->join('perhitunganbop', 'perhitunganboprevisi.id_pbop=perhitunganbop.id_pbop')
+            ->where('perhitunganbop.idajuan', $idajuan)->where('perhitunganboprevisi.revisi_id', '3')->get()->getResultArray();
+
+        $jumlahbiayatotal = (intval($gettotbb[0]['total_harga']) + intval($gettottk[0]['total_gaji']) + intval($gettotbop[0]['tot_biaya']));
+        $jumlahbiayarevisitotal = (intval($getottkrevisi[0]['total_gaji']) + intval($getotboprevisi[0]['tot_biaya']));
+        $totalbiaya = $jumlahbiayatotal + $jumlahbiayarevisitotal;
+        return $totalbiaya;
+    }
+
     public function getdatarevisitk($id)
     {
         if ($this->request->isAJAX()) {
             $tenakerr = new PerhitunganTenakerRevisiModel();
             $getdata = $tenakerr->find($id);
+            echo json_encode($getdata);
+        }
+    }
+    public function getbopr($id)
+    {
+        if ($this->request->isAJAX()) {
+            $bopr = new PerhitunganBOPRevisiModel();
+            $getdata = $bopr->builder()->select('perhitunganboprevisi.*,perhitunganbop.idajuan')->join('perhitunganbop', 'perhitunganboprevisi.id_pbop=perhitunganbop.id_pbop')->get()->getResultArray();
             echo json_encode($getdata);
         }
     }
@@ -533,8 +626,13 @@ class DashboardAdmin extends Dashboard
             'data' => $getdata,
             'biaya' => $biaya
         ];
-
+        // dd($data);
         echo json_encode($data);
+    }
+    public function totalbiaya($id)
+    {
+        $biaya = $this->gettotbiaya($id);
+        echo json_encode($biaya);
     }
     public function getmeeting($id)
     {
@@ -580,6 +678,7 @@ class DashboardAdmin extends Dashboard
 
 
     //Query Create
+
     public function editrevisimp()
     {
         $mprevisi = new PerhitunganMPrevisi();
@@ -623,6 +722,11 @@ class DashboardAdmin extends Dashboard
         }
         $totalsemua = $total1 + $total2;
         $material->builder()->where('idmaterial', $idmaterial)->set('hargamaterial', $totalsemua)->update();
+        $datamaterial = $material->find($idmaterial);
+        $hargamaterial = $datamaterial['hargamaterial'];
+        $qtymaterial = $datamaterial['qtymaterial'];
+        $totalmaterial = (int)($hargamaterial) * (int)($qtymaterial);
+        $material->builder()->where('idmaterial', $idmaterial)->set('total_harga', $totalmaterial)->update();
         $affected = $mprevisi->builder()->db()->affectedRows();
         if ($affected >= 1) {
             session()->setFlashdata('berhasil', $namampr . ' Berhasil Direvisi');
@@ -696,7 +800,7 @@ class DashboardAdmin extends Dashboard
         } else {
             session()->setFlashdata('gagal', $id_pbop . ' Gagal Ditambahkan');
         }
-        return redirect()->to(base_url('admin/perhitunganbiayalain'));
+        return redirect()->to(base_url('admin/perhitunganbiayalain/' . $idajuan));
     }
     public function simpantenaker()
     {
@@ -726,13 +830,15 @@ class DashboardAdmin extends Dashboard
         } else {
             session()->setFlashdata('gagal', $id_pbtenaker . ' Gagal Ditambahkan');
         }
-        return redirect()->to(base_url('admin/perhitunganbiayatenaker'));
+        return redirect()->to(base_url('admin/perhitunganbiayatenaker/' . $idajuan));
     }
     public function simpanmaterialpenyusun()
     {
+        $ajuanproyek = new AjuanProyekModel();
         $mprevisi = new PerhitunganMPrevisi();
         $materialpeyusun = new PerhitunganMaterialPenyusunModel();
         $material = new PerhitunganMaterialModel();
+        $idajuan = $this->request->getVar('idajuan');
         $idmaterialpenyusun = $this->kodeotomatis('perhitungan_materialpenyusun', 'idmaterialpenyusun', 'PBP001');
         $idmaterial = $this->request->getVar('idmaterial');
         $namamp = $this->request->getVar('namamp');
@@ -754,7 +860,9 @@ class DashboardAdmin extends Dashboard
             'satuanmp' => $satuanmp,
             'hargamp' => $hargamp,
             'totalmp' => $totalmp,
+            'revisi_id' => 0
         ]);
+        $ajuanproyek->builder()->where('idajuan', $idajuan)->set('revisi_id', 1)->update();
         $gettotal1 = $materialpeyusun->selectSum('totalmp')->where('idmaterial', $idmaterial)->where('revisi_id', 0)->find();
         if (empty($gettotal1[0]['totalmp'])) {
             $total1 = 0;
@@ -769,8 +877,13 @@ class DashboardAdmin extends Dashboard
         }
         $totalsemua = $total1 + $total2;
         $material->builder()->where('idmaterial', $idmaterial)->set('hargamaterial', $totalsemua)->update();
+        $datamaterial = $material->find($idmaterial);
+        $hargamaterial = $datamaterial['hargamaterial'];
+        $qtymaterial = $datamaterial['qtymaterial'];
+        $totalmaterial = (int)($hargamaterial) * (int)($qtymaterial);
+        $material->builder()->where('idmaterial', $idmaterial)->set('total_harga', $totalmaterial)->update();
         $affected = $materialpeyusun->builder()->db()->affectedRows();
-        if ($affected >= 1) {
+        if ($affected >= 0) {
             session()->setFlashdata('berhasil', $namamp . ' Berhasil Ditambahkan');
         } else {
             session()->setFlashdata('gagal', $namamp . ' Gagal Ditambahkan');
@@ -801,7 +914,7 @@ class DashboardAdmin extends Dashboard
         } else {
             session()->setFlashdata('pesanmaterial', 'Gagal Disimpan');
         }
-        return redirect()->to(base_url('admin/perhitunganbiayamaterial'));
+        return redirect()->to(base_url('admin/perhitunganbiayamaterial/' . $idajuan));
     }
 
     //End Query Create
@@ -809,6 +922,40 @@ class DashboardAdmin extends Dashboard
 
 
     //Query Update
+    public function editrevisibop()
+    {
+        // $bop = new PerhitunganBOPModel();
+        $bopr = new PerhitunganBOPRevisiModel();
+        $id_pbopr = $this->kodeotomatis('perhitunganboprevisi', 'id_pbopr', 'BOR001');
+        $id_pbop = $this->request->getVar('id_pbop');
+        $namatrans = $this->request->getVar('namatrans');
+        $satuan = $this->request->getVar('satuan');
+        $quantity = $this->request->getVar('quantity');
+        $harga = $this->request->getVar('harga');
+        $harga = (int)filter_var($harga, FILTER_SANITIZE_NUMBER_INT);
+        $tot_biaya = $this->request->getVar('tot_biaya');
+        $tot_biaya = (int)filter_var($tot_biaya, FILTER_SANITIZE_NUMBER_INT);
+        $bopr->insert([
+            'id_pbopr' => $id_pbopr,
+            'id_pbop' => $id_pbop,
+            'namatrans' => $namatrans,
+            'satuan' => $satuan,
+            'quantity' => $quantity,
+            'harga' => $harga,
+            'tot_biaya' => $tot_biaya,
+            'revisi_id' => 3
+        ]);
+        $bopr->builder()->where('id_pbopr', $this->request->getVar('id_pbopr'))->set('revisi_id', 2)->update();
+        $affected = $bopr->builder()->db()->affectedRows();
+        if ($affected == 0) {
+            session()->setFlashdata('gagal', 'Tidak Ada Data Yang Diubah');
+        } else if ($affected > 0) {
+            session()->setFlashdata('berhasil', 'Data ' . $namatrans . ' Berhasil Diupdate');
+        } else {
+            session()->setFlashdata('gagal', 'Data Gagal Diupdate');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayalain'));
+    }
     public function editrevisitenaker()
     {
 
@@ -833,6 +980,7 @@ class DashboardAdmin extends Dashboard
             'revisi_id' => 3
         ]);
         $tkr->builder()->where('id_pbtenakerr', $this->request->getVar('id_pbtenakerr1'))->set('revisi_id', 2)->update();
+
         $affected = $tkr->builder()->db()->affectedRows();
         if ($affected == 0) {
             session()->setFlashdata('gagal', 'Tidak Ada Data Yang Diubah');
@@ -845,11 +993,12 @@ class DashboardAdmin extends Dashboard
     }
 
 
-    public function updatebop()
+    public function revisibop()
     {
         $bop = new PerhitunganBOPModel();
+        $bopr = new PerhitunganBOPRevisiModel();
+        $id_pbopr = $this->kodeotomatis('perhitunganboprevisi', 'id_pbopr', 'BOR001');
         $id_pbop = $this->request->getVar('id_pbop');
-        $idajuan = $this->request->getVar('idajuan');
         $namatrans = $this->request->getVar('namatrans');
         $satuan = $this->request->getVar('satuan');
         $quantity = $this->request->getVar('quantity');
@@ -857,19 +1006,22 @@ class DashboardAdmin extends Dashboard
         $harga = (int)filter_var($harga, FILTER_SANITIZE_NUMBER_INT);
         $tot_biaya = $this->request->getVar('tot_biaya');
         $tot_biaya = (int)filter_var($tot_biaya, FILTER_SANITIZE_NUMBER_INT);
-        $bop->update($id_pbop, [
-            'idajuan' => $idajuan,
+        $bopr->insert([
+            'id_pbopr' => $id_pbopr,
+            'id_pbop' => $id_pbop,
             'namatrans' => $namatrans,
             'satuan' => $satuan,
             'quantity' => $quantity,
             'harga' => $harga,
             'tot_biaya' => $tot_biaya,
+            'revisi_id' => 3
         ]);
-        $affected = $bop->builder()->db()->affectedRows();
+        $bop->where('id_pbop', $id_pbop)->set('revisi_id', 2)->update();
+        $affected = $bopr->builder()->db()->affectedRows();
         if ($affected == 0) {
             session()->setFlashdata('gagal', 'Tidak Ada Data Yang Diubah');
         } else if ($affected > 0) {
-            session()->setFlashdata('berhasil', 'Data ' . $namatrans . ' Berhasil Diupdate');
+            session()->setFlashdata('berhasil', 'Data ' . $namatrans . ' Berhasil Direvisi');
         } else {
             session()->setFlashdata('gagal', 'Data Gagal Diupdate');
         }
@@ -950,8 +1102,13 @@ class DashboardAdmin extends Dashboard
         }
         $totalsemua = $total1 + $total2;
         $material->builder()->where('idmaterial', $idmaterial)->set('hargamaterial', $totalsemua)->update();
+        $datamaterial = $material->find($idmaterial);
+        $hargamaterial = $datamaterial['hargamaterial'];
+        $qtymaterial = $datamaterial['qtymaterial'];
+        $totalmaterial = (int)($hargamaterial) * (int)($qtymaterial);
+        $material->builder()->where('idmaterial', $idmaterial)->set('total_harga', $totalmaterial)->update();
         $affected = $mprevisi->builder()->db()->affectedRows();
-        if ($affected >= 1) {
+        if ($affected >= 0) {
             session()->setFlashdata('berhasil', 'Data ' . $namamp . ' Berhasil DiRevisi');
         } else {
             session()->setFlashdata('gagal', 'Data Gagal Direvisi');
@@ -961,6 +1118,8 @@ class DashboardAdmin extends Dashboard
     public function updatematerial()
     {
         $material = new PerhitunganMaterialModel();
+        $mprevisi = new PerhitunganMPrevisi();
+        $materialpenyusun = new PerhitunganMaterialPenyusunModel();
         $idmaterial = $this->request->getVar('idmaterial');
         $idajuan = $this->request->getVar('idajuan');
         $namamaterial = $this->request->getVar('namamaterial');
@@ -983,6 +1142,25 @@ class DashboardAdmin extends Dashboard
         } else {
             session()->setFlashdata('pesanmaterial', 'Data Gagal Diupdate');
         }
+        $gettotal1 = $materialpenyusun->selectSum('totalmp')->where('idmaterial', $idmaterial)->where('revisi_id', 0)->find();
+        if (empty($gettotal1[0]['totalmp'])) {
+            $total1 = 0;
+        } else {
+            $total1 = (int)$gettotal1[0]['totalmp'];
+        }
+        $gettotal2 = $mprevisi->builder()->selectSum('totalmpr')->join('perhitungan_materialpenyusun', 'perhitungan_mprevisi.idmaterialpenyusun=perhitungan_materialpenyusun.idmaterialpenyusun')->where('perhitungan_mprevisi.revisi_id', 3)->where('idmaterial', $idmaterial)->get()->getResultArray();
+        if (empty($gettotal2[0]['totalmpr'])) {
+            $total2 = 0;
+        } else {
+            $total2 = (int)$gettotal2[0]['totalmpr'];
+        }
+        $totalsemua = $total1 + $total2;
+        $material->builder()->where('idmaterial', $idmaterial)->set('hargamaterial', $totalsemua)->update();
+        $datamaterial = $material->find($idmaterial);
+        $hargamaterial = $datamaterial['hargamaterial'];
+        $qtymaterial = $datamaterial['qtymaterial'];
+        $totalmaterial = (int)($hargamaterial) * (int)($qtymaterial);
+        $material->builder()->where('idmaterial', $idmaterial)->set('total_harga', $totalmaterial)->update();
         return redirect()->to(base_url('admin/perhitunganbiayamaterial'));
     }
     public function terimaajuan($id = false)
@@ -1064,6 +1242,20 @@ class DashboardAdmin extends Dashboard
         }
         return redirect()->to(base_url('admin/perhitunganbiayalain'));
     }
+    public function hapusbopr($idpbop)
+    {
+        $bop = new PerhitunganBOPModel();
+        $bopr = new PerhitunganBOPRevisiModel();
+        $bopr->builder()->where('id_pbop', $idpbop)->delete();
+        $affected = $bopr->builder()->db()->affectedRows();
+        $bop->builder()->where('id_pbop', $idpbop)->set('revisi_id', 0)->update();
+        if ($affected >= 1) {
+            session()->setFlashdata('berhasil', 'ID :' . $idpbop . ' Berhasil DiHapus');
+        } else {
+            session()->setFlashdata('gagal', 'Data Gagal DiHapus');
+        }
+        return redirect()->to(base_url('admin/perhitunganbiayalain'));
+    }
     public function hapustenaker($id)
     {
         $tk = new PerhitunganTenakerModel();
@@ -1139,6 +1331,11 @@ class DashboardAdmin extends Dashboard
         }
         $totalsemua = $total1 + $total2;
         $material->builder()->where('idmaterial', $idmaterial)->set('hargamaterial', $totalsemua)->update();
+        $datamaterial = $material->find($idmaterial);
+        $hargamaterial = $datamaterial['hargamaterial'];
+        $qtymaterial = $datamaterial['qtymaterial'];
+        $totalmaterial = (int)($hargamaterial) * (int)($qtymaterial);
+        $material->builder()->where('idmaterial', $idmaterial)->set('total_harga', $totalmaterial)->update();
         $affected = $mprevisi->builder()->db()->affectedRows();
         if ($affected >= 0) {
             session()->setFlashdata('berhasil',  $id . ' Berhasil DiHapus');
@@ -1167,6 +1364,11 @@ class DashboardAdmin extends Dashboard
         }
         $totalsemua = $total1 + $total2;
         $material->builder()->where('idmaterial', $idmaterial)->set('hargamaterial', $totalsemua)->update();
+        $datamaterial = $material->find($idmaterial);
+        $hargamaterial = $datamaterial['hargamaterial'];
+        $qtymaterial = $datamaterial['qtymaterial'];
+        $totalmaterial = (int)($hargamaterial) * (int)($qtymaterial);
+        $material->builder()->where('idmaterial', $idmaterial)->set('total_harga', $totalmaterial)->update();
         $affected = $materialpenyusun->builder()->db()->affectedRows();
         if ($affected >= 0) {
             session()->setFlashdata('berhasil',  $idmaterialpenyusun . ' Berhasil DiHapus');
@@ -1185,92 +1387,92 @@ class DashboardAdmin extends Dashboard
 
 
     //Query  Lain
-    // public function printperhitunganbiaya($id = '')
+    public function printperhitunganbiaya($id = '')
 
-    // {
+    {
 
-    //     date_default_timezone_set('Asia/Jakarta');
-    //     $tanggal = $this->tanggal_indonesia(date('Y-m-d'));
-    //     $perhitunganbop = new PerhitunganBOPModel();
-    //     $perhitunganbb = new PerhitunganBBModel();
-    //     $perhitungantk = new PerhitunganTenakerModel();
-    //     $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
-    //     $perhitungantkrevisi = new PerhitunganTenakerRevisiModel();
-    //     $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
+        date_default_timezone_set('Asia/Jakarta');
+        $tanggal = $this->tanggal_indonesia(date('Y-m-d'));
+        $perhitunganbop = new PerhitunganBOPModel();
+        $perhitunganbb = new PerhitunganMaterialModel();
+        $perhitungantk = new PerhitunganTenakerModel();
+        $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
+        $perhitungantkrevisi = new PerhitunganTenakerRevisiModel();
+        $perhitunganbbpenyusun = new PerhitunganMaterialPenyusunModel();
 
-    //     $builder1 = $perhitunganbop->builder();
-    //     $builder1->where('idajuan', $id)->selectSum('tot_biaya');
-    //     $query = $builder1->get();
-    //     $sumbop = $query->getResultArray();
-    //     $sumbop = intval($sumbop[0]['tot_biaya']);
-
-
-    //     $builder2 = $perhitunganbb->builder();
-    //     $builder2->where('idajuan', $id)->selectSum('total_harga');
-    //     $query = $builder2->get();
-    //     $sumbb = $query->getResultArray();
-    //     $sumbb = intval($sumbb[0]['total_harga']);
-
-    //     $builder3 = $perhitungantk->builder();
-    //     $builder3->where('idajuan', $id)->selectSum('total_gaji');
-    //     $query = $builder3->get();
-    //     $sumtk = $query->getResultArray();
-    //     $sumtk = intval($sumtk[0]['total_gaji']);
-
-    //     $sumall = $sumbb + $sumbop + $sumtk;
+        $builder1 = $perhitunganbop->builder();
+        $builder1->where('idajuan', $id)->selectSum('tot_biaya');
+        $query = $builder1->get();
+        $sumbop = $query->getResultArray();
+        $sumbop = intval($sumbop[0]['tot_biaya']);
 
 
-    //     $perhitunganbbmodel = new PerhitunganBBModel();
-    //     $getdatabb = $perhitunganbbmodel->where('idajuan', $id)->findAll();
+        $builder2 = $perhitunganbb->builder();
+        $builder2->where('idajuan', $id)->selectSum('total_harga');
+        $query = $builder2->get();
+        $sumbb = $query->getResultArray();
+        $sumbb = intval($sumbb[0]['total_harga']);
 
-    //     $perhitungantenakermodel = new PerhitunganTenakerModel();
-    //     $getdatatk = $perhitungantenakermodel->where('idajuan', $id)->findAll();
+        // $builder3 = $perhitungantk->builder();
+        // $builder3->where('idajuan', $id)->selectSum('total_gaji');
+        // $query = $builder3->get();
+        // $sumtk = $query->getResultArray();
+        // $sumtk = intval($sumtk[0]['total_gaji']);
 
-    //     $perhitunganbopmodel = new PerhitunganBOPModel();
-    //     $getdatabop = $perhitunganbopmodel->where('idajuan', $id)->findAll();
+        // $sumall = $sumbb + $sumbop + $sumtk;
 
-    //     $pengajuanproyekmodel = new AjuanProyekModel();
-    //     $builder = $pengajuanproyekmodel->builder();
-    //     $builder = $builder->select('*');
-    //     $builder = $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->where('idajuan', $id);
-    //     $query = $builder->get();
-    //     $getdatauser = $query->getResultArray();
 
-    //     if (empty($sumbb && $sumbop && $sumtk && $sumall && $getdatauser)) {
-    //         session()->setFlashdata('pesanprint', 'Data Belum Terisi Semua !, Silakan Lengkapi Data!');
-    //         return redirect()->to(base_url() . '/admin/perhitunganbiaya');
-    //     } else {
+        // $perhitunganbbmodel = new PerhitunganBBModel();
+        // $getdatabb = $perhitunganbbmodel->where('idajuan', $id)->findAll();
 
-    //         $data = [
-    //             'bb' => $getdatabb,
-    //             'tk' => $getdatatk,
-    //             'bop' => $getdatabop,
-    //             'user' => $getdatauser,
-    //             'sumbop' => $sumbop,
-    //             'tanggal' => $tanggal,
-    //             'sumbb' => $sumbb,
-    //             'sumtk' => $sumtk,
-    //             'sumall' => $sumall
+        // $perhitungantenakermodel = new PerhitunganTenakerModel();
+        // $getdatatk = $perhitungantenakermodel->where('idajuan', $id)->findAll();
 
-    //         ];
+        // $perhitunganbopmodel = new PerhitunganBOPModel();
+        // $getdatabop = $perhitunganbopmodel->where('idajuan', $id)->findAll();
 
-    //         // instantiate and use the dompdf class
-    //         $html = view('dashboard/admin/printperhitunganbiaya', $data);
-    //         $dompdf = new Dompdf();
+        // $pengajuanproyekmodel = new AjuanProyekModel();
+        // $builder = $pengajuanproyekmodel->builder();
+        // $builder = $builder->select('*');
+        // $builder = $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('status_id', '2')->where('idajuan', $id);
+        // $query = $builder->get();
+        // $getdatauser = $query->getResultArray();
 
-    //         $dompdf->loadHtml($html);
+        // if (empty($sumbb && $sumbop && $sumtk && $sumall && $getdatauser)) {
+        //     session()->setFlashdata('pesanprint', 'Data Belum Terisi Semua !, Silakan Lengkapi Data!');
+        //     return redirect()->to(base_url() . '/admin/perhitunganbiaya');
+        // } else {
 
-    //         // (Optional) Setup the paper size and orientation
-    //         $dompdf->setPaper('A4', 'landscape');
+        //     $data = [
+        //         'bb' => $getdatabb,
+        //         'tk' => $getdatatk,
+        //         'bop' => $getdatabop,
+        //         'user' => $getdatauser,
+        //         'sumbop' => $sumbop,
+        //         'tanggal' => $tanggal,
+        //         'sumbb' => $sumbb,
+        //         'sumtk' => $sumtk,
+        //         'sumall' => $sumall
 
-    //         // Render the HTML as PDF
-    //         $dompdf->render();
+        //     ];
 
-    //         // Output the generated PDF to Browser
+        //     // instantiate and use the dompdf class
+        $html = view('dashboard/admin/printperhitunganbiaya');
+        $dompdf = new Dompdf();
 
-    //         $dompdf->stream('Proposal Ajuan' . '-' . $getdatauser[0]['idajuan'] . '-' . $getdatauser[0]['nama'] . ".pdf", array("Attachment" => false));
-    //     };
-    // }
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+
+        $dompdf->stream('Proposal Ajuan.pdf', array("Attachment" => false));
+        // };
+    }
     public function redirectkelola($idproyek, $idajuan)
     {
         session()->set('kelolaproyek', 'true');
@@ -1342,11 +1544,12 @@ class DashboardAdmin extends Dashboard
 
         if ($send == 1) {
             session()->setFlashdata('pesanemail', 1);
+            $ajuanproyek->builder()->where('idajuan', $idajuan)->set('status_id', '5')->update();
+            $ajuanproyek->builder()->where('idajuan', $idajuan)->set('file_admin', $nospacefilename)->update();
         } else {
             session()->setFlashdata('pesanemail', $send);
         }
-        $ajuanproyek->builder()->where('idajuan', $idajuan)->set('status_id', '5')->update();
-        $ajuanproyek->builder()->where('idajuan', $idajuan)->set('file_admin', $nospacefilename)->update();
+
         return redirect()->to(base_url('admin/kirimemail'));
     }
     //End Query Lain

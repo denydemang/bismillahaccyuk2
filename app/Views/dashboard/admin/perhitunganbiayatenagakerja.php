@@ -15,9 +15,41 @@
     <div class="container-fluid">
       <div class="card">
         <div class="card-body">
-          <div style="display:flex;align-items:center;justify-content:space-between;flex-direction:row">
-            <button data-toggle="modal" data-target="#modaltenaker" class="btn btn-outline-success mb-2 btntambah"><i class="fas fa-plus-circle mr-2"></i>Tambah Tenaga Kerja</button>
+
+          <button data-toggle="modal" data-target="#modaltenaker" class="btn btn-outline-success mb-2 btntambah"><i class="fas fa-plus-circle mr-2"></i>Tambah Tenaga Kerja</button>
+          <div class="dropdown">
+            <button type="button" data-toggle="dropdown" class="btn btn-primary mb-2 pilihajuan">Pilih Id Ajuan <i class="ml-2 mb-2 dropdown-toggle"></i></button>
+            <div class="dropdown-menu dropdown-menu-lg">
+              <div class="card" style="width:600px !important">
+                <div class="card-header">
+                  <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
+                </div>
+                <div class="card-body p-3">
+                  <table class="table text-nowrap daftarajuan">
+                    <thead>
+                      <th scope="col">ID AJUAN</th>
+                      <th scope="col">Nama Proyek</th>
+                      <th scope="col">Jenis Proyek</th>
+                      <th scope="col">Nama Klien</th>
+                    </thead>
+                    <tbody>
+                      <?php if (!empty($dataajuannn)) : ?>
+                        <?php foreach ($dataajuannn as $row) : ?>
+                          <tr>
+                            <td><button type="button" data-id="<?= $row['idajuan']; ?>" class="btn btn-primary btn-sm btnidajuan"><?= $row['idajuan']; ?></button> </td>
+                            <td><?= $row['namaproyek']; ?></td>
+                            <td><?= $row['jenisproyek']; ?></td>
+                            <td><?= $row['nama']; ?></td>
+                          </tr>
+                        <?php endforeach; ?>
+                      <?php endif; ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
+
           <div class="table-responsive mt-3">
             <table class="tabletenaker table table-bordered table-striped table-hover text-center">
               <thead>
@@ -35,6 +67,17 @@
                 </tr>
               </thead>
               <?php $No = 1 ?>
+              <?php
+
+              use App\Models\PerhitunganTenakerRevisiModel;
+
+              function hitungjumlahtk($id_pbtenaker)
+              {
+                $tkrevisi = new PerhitunganTenakerRevisiModel();
+                $count = $tkrevisi->builder()->where('id_pbtenaker', $id_pbtenaker)->countAllResults();
+                return $count;
+              }
+              ?>
               <tbody>
                 <?php if (!empty($tenaker)) : ?>
                   <?php foreach ($tenaker as $row) : ?>
@@ -50,8 +93,10 @@
                       <td>
                         <?php if ($row['revisi_id'] != 0) :  ?>
                           <span class="badge badge-primary">Direvisi</span>
+                          <span class="badge badge-success"><?= hitungjumlahtk($row['id_pbtenaker']); ?></span>
                         <?php else : ?>
                           <span class="badge badge-secondary">Tidak Direvisi</span>
+                          <span class="badge badge-success"><?= hitungjumlahtk($row['id_pbtenaker']); ?></span>
                         <?php endif; ?>
                       </td>
                       <td>
@@ -153,35 +198,7 @@
           </div>
           <div class="modal-body">
             <div class="col-12">
-              <div class="dropdown">
-                <button type="button" data-toggle="dropdown" class="btn btn-primary mb-2 pilihajuan">Pilih Id Ajuan <i class="ml-2 mb-2 dropdown-toggle"></i></button>
-                <div class="dropdown-menu dropdown-menu-lg">
-                  <div class="card" style="width:600px !important">
-                    <div class="card-header">
-                      <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
-                    </div>
-                    <div class="card-body p-3">
-                      <table class="table text-nowrap daftarajuan">
-                        <thead>
-                          <th scope="col">ID AJUAN</th>
-                          <th scope="col">Nama Proyek</th>
-                          <th scope="col">Jenis Proyek</th>
-                          <th scope="col">Nama Klien</th>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <?php foreach ($dataajuannn as $row) ?>
-                            <td><button type="button" data-id="<?= $row['idajuan']; ?>" class="btn btn-primary btn-sm btnidajuan"><?= $row['idajuan']; ?></button> </td>
-                            <td><?= $row['namaproyek']; ?></td>
-                            <td><?= $row['jenisproyek']; ?></td>
-                            <td><?= $row['nama']; ?></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
               <form method="post" class="formtenaker" action="<?= base_url('DashboardAdmin/simpantenaker'); ?>">
                 <div class="form-group form-row">
                   <div class="col-lg-4 col-6">
@@ -190,7 +207,7 @@
                   </div>
                   <div class="col-lg-4 col-6">
                     <label for="idajuan">ID Ajuan*</label>
-                    <input readonly type="text" readonly style="color:black;font-weight:bolder" name="idajuan" id="idajuan" class="form-control idajuan">
+                    <input readonly type="text" readonly style="color:black;font-weight:bolder" name="idajuan" id="idajuan" class="form-control idajuan" value="<?= $idajuan; ?>">
                   </div>
                   <div class="col-lg-4">
                     <label for="jobdesk">JobDesk*</label>

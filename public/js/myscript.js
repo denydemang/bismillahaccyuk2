@@ -324,6 +324,8 @@ $(document).ready(function(){
         $('.detailhapus').data('detailid',idajuan);
         $('.detailhitung').data('detailid',idajuan);
         $('.detailkirimfilerab').data('detailid',idajuan);
+        // console.log(idajuan);
+        
 
         $.ajax({
             url: 'http://localhost:8080/DashboardAdmin/detailajuanproyek',
@@ -331,6 +333,8 @@ $(document).ready(function(){
             method: 'post',
             dataType: 'json',
             success: function(data){
+                console.log(data);
+                
                 if (data.data[0]['revisi_id'] =='0' && data.data[0]['status_id'] =='2'){
                     $('.detailcreate').hide();
                     $('.detailterima').hide();
@@ -473,9 +477,6 @@ $(document).ready(function(){
                 $('.detailanggaran').html(formatRupiah1(data.data[0]['anggaran']));
                 $('.detailnotelp').html(data.data[0]['notelp']);
                 $('.detailjadwalproyek').html(tglindo(data.data[0]['jadwalproyek']));
-
-                // $('.detailtglmulai').html(tanggalindo(data.data[0]['tglmulai']));
-                // $('.detailtgldeadline').html(tanggalindo(data.data[0]['tgldeadline']));
                 $('.detailuploadfile').html('<a href="http://localhost:8080/admin/downloadfile/'+data.data[0]['file_upload']+'/fileclient'+'">'+data.data[0]['file_upload']+'</a>');
                          
             }
@@ -487,7 +488,7 @@ $(document).ready(function(){
     //aksi di form modal detail ajuan
     $('.detailhitung').click(function(){
         let id = $(this).data('detailid');
-        location.href=base_url+"admin/perhitunganbiaya/"+id
+        location.href=base_url+"admin/perhitunganbiayamaterial"
     })
     $('.detailkirimfilerab').click(function(){
         let id = $(this).data('detailid');

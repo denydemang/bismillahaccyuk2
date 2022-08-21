@@ -165,6 +165,7 @@ $(document).ready(function(){
                         console.log(response);
                         
                 
+                $('.judulmodal').html('Edit Revisi MP')
                 $('.idmprevisi').val(response[0]['idmprevisi'])
                 $('.idmaterial').val(response[0]['idmaterial'])
                 $('.idmaterialpenyusun').val(response[0]['idmaterialpenyusun'])

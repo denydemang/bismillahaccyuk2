@@ -15,6 +15,40 @@
          <div class="card">
             <div class="card-body">
                <button data-toggle="modal" data-target="#modalmaterial" class="btn btn-outline-info mb-2 btntambah"><i class="fas fa-plus-circle mr-2"></i>Tambah Material</button>
+               <div class="dropdown">
+                  <button type="button" data-toggle="dropdown" class="btn btn-success mb-2 pilihajuan">Pilih Id Ajuan <i class="ml-2 mb-2 dropdown-toggle"></i></button>
+                  <div class="dropdown-menu dropdown-menu-lg">
+                     <div class="card" style="width:600px !important">
+                        <div class="card-header">
+                           <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
+                        </div>
+                        <div class="card-body p-3">
+                           <table class="table text-nowrap daftarajuan">
+                              <thead>
+                                 <th scope="col">ID AJUAN</th>
+                                 <th scope="col">Nama Proyek</th>
+                                 <th scope="col">Jenis Proyek</th>
+                                 <th scope="col">Nama Klien</th>
+                              </thead>
+                              <tbody>
+                                 <?php if (!empty($dataajuannn)) : ?>
+                                    <?php foreach ($dataajuannn as $row) : ?>
+                                       <tr>
+                                          <td><button type="button" data-id="<?= $row['idajuan']; ?>" class="btn btn-primary btn-sm btnidajuan"><?= $row['idajuan']; ?></button> </td>
+                                          <td><?= $row['namaproyek']; ?></td>
+                                          <td><?= $row['jenisproyek']; ?></td>
+                                          <td><?= $row['nama']; ?></td>
+                                       </tr>
+                                    <?php endforeach; ?>
+                                 <?php else : ?>
+
+                                 <?php endif; ?>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
                <div class="table-responsive">
                   <table class="tablematerial table table-bordered table-striped table-hover text-center">
                      <thead>
@@ -46,9 +80,8 @@
                                  <?php else : ?>
                                     <td>Belum Dihitung</td>
                                  <?php endif; ?>
-                                 <?php $total = (intval($row['hargamaterial']) * intval($row['qtymaterial'])) ?>
-                                 <?php if (!empty($total)) : ?>
-                                    <td>Rp <?= number_format($total, 0, '', '.'); ?>,-</td>
+                                 <?php if (!empty($row['total_harga'])) : ?>
+                                    <td>Rp <?= number_format($row['total_harga'], 0, '', '.'); ?>,-</td>
                                  <?php else : ?>
                                     <td>Belum Dihitung</td>
                                  <?php endif; ?>
@@ -94,35 +127,7 @@
                </div>
                <div class="modal-body">
                   <div class="col-12">
-                     <div class="dropdown">
-                        <button type="button" data-toggle="dropdown" class="btn btn-success mb-2 pilihajuan">Pilih Id Ajuan <i class="ml-2 mb-2 dropdown-toggle"></i></button>
-                        <div class="dropdown-menu dropdown-menu-lg">
-                           <div class="card" style="width:600px !important">
-                              <div class="card-header">
-                                 <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
-                              </div>
-                              <div class="card-body p-3">
-                                 <table class="table text-nowrap daftarajuan">
-                                    <thead>
-                                       <th scope="col">ID AJUAN</th>
-                                       <th scope="col">Nama Proyek</th>
-                                       <th scope="col">Jenis Proyek</th>
-                                       <th scope="col">Nama Klien</th>
-                                    </thead>
-                                    <tbody>
-                                       <tr>
-                                          <?php foreach ($dataajuannn as $row) ?>
-                                          <td><button type="button" data-id="<?= $row['idajuan']; ?>" class="btn btn-primary btn-sm btnidajuan"><?= $row['idajuan']; ?></button> </td>
-                                          <td><?= $row['namaproyek']; ?></td>
-                                          <td><?= $row['jenisproyek']; ?></td>
-                                          <td><?= $row['nama']; ?></td>
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
+
                      <form method="post" class="formmaterial" action="<?= base_url('DashboardAdmin/simpanmaterial'); ?>">
                         <div class="form-group form-row">
                            <div class="col-lg-4 col-6">
@@ -131,7 +136,7 @@
                            </div>
                            <div class="col-lg-4 col-6">
                               <label for="idajuan">ID Ajuan *</label>
-                              <input type="text" readonly name="idajuan" id="idajuan" name="idajuan" class="form-control idajuan">
+                              <input type="text" readonly name="idajuan" id="idajuan" name="idajuan" class="form-control idajuan" value="<?= $idajuan; ?>">
                            </div>
                            <div class="col-lg-4">
                               <label for="jenismaterial">Jenis Material *</label>
