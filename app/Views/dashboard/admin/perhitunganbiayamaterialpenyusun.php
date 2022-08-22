@@ -1,5 +1,10 @@
+<?php
+
+use App\Models\PerhitunganMPrevisi;
+?>
 <?= $this->extend('dashboard/admin/template'); ?>
 <?= $this->section('dashboardadmin'); ?>
+
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
@@ -21,34 +26,21 @@
                     <div class="table-responsive mt-3">
                         <table class="tablematerial table table-bordered table-striped table-hover text-center">
                             <thead>
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">ID MP</th>
-                                    <th scope="col">ID Material</th>
-                                    <th scope="col">Nama Material Penyusun</th>
-                                    <th scope="col">Spesifikasi</th>
-                                    <th scope="col">Jumlah</th>
-                                    <th scope="col">Satuan</th>
-                                    <th scope="col">Harga</th>
-                                    <th scope="col">Total</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Aksi</th>
-                                </tr>
+                                <th scope="col">No</th>
+                                <th scope="col">ID MP</th>
+                                <th scope="col">ID Material</th>
+                                <th scope="col">Nama Material Penyusun</th>
+                                <th scope="col">Spesifikasi</th>
+                                <th scope="col">Jumlah</th>
+                                <th scope="col">Satuan</th>
+                                <th scope="col">Harga</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Aksi</th>
                             </thead>
                             <?php
 
-                            use App\Models\PerhitunganMPrevisi;
-
                             $No = 1 ?>
-                            <?php
-
-                            function hitungjumlahmp($idmp)
-                            {
-                                $mprevisi = new PerhitunganMPrevisi();
-                                $count = $mprevisi->builder()->where('idmaterialpenyusun', $idmp)->countAllResults();
-                                return $count;
-                            }
-                            ?>
                             <tbody>
                                 <?php if (!empty($material)) : ?>
                                     <?php foreach ($material as $row) : ?>
@@ -62,19 +54,23 @@
                                             <td scope="col"><?= $row['satuanmp']; ?></td>
                                             <td scope="col">Rp <?= number_format($row['hargamp'], 0, '', '.'); ?>,-</td>
                                             <td scope="col-4">Rp <?= number_format($row['totalmp'], 0, '', '.'); ?>,-</td>
-                                            <?php if ($row['revisi_id'] == 0) : ?>
+                                            <?php
+
+                                            $mp = new PerhitunganMPrevisi();
+
+                                            $datamaterial = $mp->find($row['idmaterialpenyusun']);
+
+                                            if ($datamaterial['revisi_id'] == 0) : ?>
                                                 <td scope="col-4">
                                                     <span class="badge badge-primary">Tidak Direvisi</span>
-                                                    <span class="badge badge-warning"><?= hitungjumlahmp($row['idmaterialpenyusun']); ?></span>
                                                 </td>
                                             <?php else : ?>
                                                 <td scope="col-4">
                                                     <span class="badge badge-success">Direvisi</span>
-                                                    <span class="badge badge-warning"><?= hitungjumlahmp($row['idmaterialpenyusun']); ?></span>
 
                                                 </td>
                                             <?php endif; ?>
-                                            <?php if ($row['revisi_id'] != 0) : ?>
+                                            <?php if ($datamaterial['revisi_id'] != 0) : ?>
                                                 <td>
                                                     <div class="flex-column">
                                                         <button data-id="<?= $row['idmaterialpenyusun']; ?>" data-id2="<?= $row['idmaterial']; ?>" class="btn btn-danger rounded-circle hapusmaterial"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
@@ -91,7 +87,7 @@
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else : ?>
-
+                                    <tr></tr>
                                 <?php endif; ?>
 
                             </tbody>
@@ -113,7 +109,6 @@
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">ID Revisi</th>
                                 <th scope="col">ID MP</th>
                                 <th scope="col">Nama Material Penyusun</th>
                                 <th scope="col">Spesifikasi</th>
@@ -130,24 +125,23 @@
                                 <?php foreach ($mprevisi as $row) : ?>
                                     <tr>
                                         <td scope="col"><?= $No++; ?></td>
-                                        <td scope="col"><?= $row['idmprevisi']; ?></td>
                                         <td scope="col"><?= $row['idmaterialpenyusun']; ?></td>
-                                        <td scope="col"><?= $row['namampr']; ?></td>
-                                        <td scope="col"><?= $row['spesifikasimpr']; ?></td>
-                                        <td scope="col"><?= $row['jumlahmpr']; ?></td>
-                                        <td scope="col"><?= $row['satuanmpr']; ?></td>
-                                        <td scope="col">Rp <?= number_format($row['hargampr'], 0, '', '.'); ?>,-</td>
-                                        <td scope="col-4">Rp <?= number_format($row['totalmpr'], 0, '', '.'); ?>,-</td>
+                                        <td scope="col"><?= $row['namamp']; ?></td>
+                                        <td scope="col"><?= $row['spesifikasimp']; ?></td>
+                                        <td scope="col"><?= $row['jumlahmp']; ?></td>
+                                        <td scope="col"><?= $row['satuanmp']; ?></td>
+                                        <td scope="col">Rp <?= number_format($row['hargamp'], 0, '', '.'); ?>,-</td>
+                                        <td scope="col">Rp <?= number_format($row['totalmp'], 0, '', '.'); ?>,-</td>
                                         <td>
                                             <div class="flex-column">
-                                                <button data-toggle="modal" data-target="#modalmpr" data-id="<?= $row['idmprevisi']; ?>" class="btn btn-info rounded-circle btneditmpr"><i style="color:white;font-weight:bold" class="fas fa-edit"></i></button>
-                                                <button data-id="<?= $row['idmprevisi']; ?>" data-id2="<?= $row['idmaterial']; ?>" data-id3="<?= $row['idmaterialpenyusun']; ?>" class="btn btn-danger rounded-circle hapusmpr"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
+                                                <button data-toggle="modal" data-target="#modalmpr" data-id="<?= $row['idmaterialpenyusun']; ?>" class="btn btn-info rounded-circle btneditmpr"><i style="color:white;font-weight:bold" class="fas fa-edit"></i></button>
+                                                <button data-id="<?= $row['idmaterialpenyusun']; ?>" data-id2="<?= $row['idmaterial']; ?>" class="btn btn-danger rounded-circle hapusmpr"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
                                             </div>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else : ?>
-
+                                <tr></tr>
                             <?php endif; ?>
 
                         </tbody>
@@ -183,7 +177,7 @@
                                         <label for="idmaterial">ID Material</label>
                                         <input type="text" readonly style="color:black;font-weight:bolder" name="idmaterial" id="idmaterial" class="form-control idmaterial" value="<?= $idmaterial; ?>">
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4 idajuan">
                                         <label for="idajuan">ID Ajuan *</label>
                                         <input type="text" readonly style="color:black;font-weight:bolder" name="idajuan" id="idajuan" name="idajuan" class="form-control idajuan" value="<?= $idajuan; ?>">
                                     </div>
@@ -256,13 +250,12 @@
                             <form method="post" class="formmpr" action="<?= base_url('DashboardAdmin/editrevisimp'); ?>">
                                 <div class="form-group form-row">
                                     <div class="col-lg-6 col-6">
-                                        <label for="idmprevisi">ID Revisi</label>
-                                        <input type="text" readonly style="color:black;font-weight:bolder" name="idmprevisi" id="idmprevisi" class="form-control idmprevisi">
-                                        <input type="hidden" readonly style="color:black;font-weight:bolder" name="idmaterial" id="idmaterial" class="form-control idmaterial">
-                                    </div>
-                                    <div class="col-lg-6 col-6">
                                         <label for="idmaterialpenyusun">ID MP</label>
                                         <input type="text" readonly style="color:black;font-weight:bolder" name="idmaterialpenyusun" id="idmaterialpenyusun" class="form-control idmaterialpenyusun">
+                                    </div>
+                                    <div class="col-lg-6 col-6">
+                                        <label for="idmaterial">ID Material</label>
+                                        <input type="text" readonly style="color:black;font-weight:bolder" name="idmaterial" id="idmaterial" class="form-control idmaterial">
                                     </div>
                                 </div>
                                 <div class="form-group form-row">

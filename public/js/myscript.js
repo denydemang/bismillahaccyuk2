@@ -436,8 +436,8 @@ $(document).ready(function(){
                         $('.detailterima').hide();
                         $('.detailhapus').show();
                         $('.detailtolak').hide();
-                        $('.detailhitung').show();
-                        $('.detailkirimfilerab').show();
+                        $('.detailhitung').hide();
+                        $('.detailkirimfilerab').hide();
                         $('.detailnamastatus').removeClass('badge-secondary')
                         $('.detailnamastatus').removeClass('badge-danger')
                         $('.detailnamastatus').removeClass('badge-primary')

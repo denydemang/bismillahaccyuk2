@@ -6,10 +6,11 @@ use CodeIgniter\Model;
 
 class PerhitunganMPrevisi extends Model
 {
-    protected $table = 'perhitungan_mprevisi';
-    protected $primaryKey = 'idmprevisi';
+
+    protected $table = 'perhitungan_materialpenyusunrev';
+    protected $primaryKey = 'idmaterialpenyusun';
     protected $allowedFields = [
-        'idmprevisi', 'idmaterialpenyusun', 'namampr', 'spesifikasimpr', 'jumlahmpr', 'satuanmpr', 'hargampr', 'totalmpr', 'revisi_id'
+        'idmaterialpenyusun', 'idmaterial', 'namamp', 'spesifikasimp', 'jumlahmp', 'satuanmp', 'hargamp', 'totalmp', 'revisi_id'
     ];
     public function getbyidmaterial($idmaterial)
     {

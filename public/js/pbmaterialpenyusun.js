@@ -82,7 +82,6 @@ $(document).ready(function(){
         $('.hapusmpr').click(function(){
                 let id = $(this).data('id');
                 let idmaterial = $(this).data('id2');
-                let idmaterialpenyusun = $(this).data('id3');
                 Swal.fire({
                         position: 'center',
                         icon: 'question',
@@ -94,7 +93,7 @@ $(document).ready(function(){
                         confirmButtonColor: '#3085d6',
                         }).then((result) => {
                         if (result.isConfirmed) {
-                                window.location.href = base_url+'DashboardAdmin/hapusmpr/' + id+'/'+idmaterial+'/'+idmaterialpenyusun;
+                                window.location.href = base_url+'DashboardAdmin/hapusmpr/' + id+'/'+idmaterial
                         }
                          })
         // 
@@ -130,6 +129,7 @@ $(document).ready(function(){
                 url : base_url+"DashboardAdmin/getdatampjoin/"+idmaterialpenyusun,
                 dataType : "json",
                 success: function(response) {
+                 console.log(response);
                  
                 $('.namamp').attr('readonly',true)
                 $('.judulmodal').html('Revisi Material'),
@@ -166,21 +166,20 @@ $(document).ready(function(){
                         
                 
                 $('.judulmodal').html('Edit Revisi MP')
-                $('.idmprevisi').val(response[0]['idmprevisi'])
-                $('.idmaterial').val(response[0]['idmaterial'])
-                $('.idmaterialpenyusun').val(response[0]['idmaterialpenyusun'])
-                $('.namampr').val(response[0]['namampr'])
-                $('.spesifikasimpr').val(response[0]['spesifikasimpr']) 
-                $('.satuanmpr').val(response[0]['satuanmpr']) 
-                $('.jumlahmpr').val(response[0]['jumlahmpr']) 
-                $('.hargampr').val(formatRupiah1(parseInt(response[0]['hargampr']))) 
-                $('.totalmpr').val(formatRupiah1(response[0]['totalmpr'])) 
+                $('.idmaterial').val(response['idmaterial'])
+                $('.idmaterialpenyusun').val(response['idmaterialpenyusun'])
+                $('.namampr').val(response['namamp'])
+                $('.spesifikasimpr').val(response['spesifikasimp']) 
+                $('.satuanmpr').val(response['satuanmp']) 
+                $('.jumlahmpr').val(response['jumlahmp']) 
+                $('.hargampr').val(formatRupiah1(parseInt(response['hargamp']))) 
+                $('.totalmpr').val(formatRupiah1(response['totalmp'])) 
 
-                $('.namampr').data('namampr',response[0]['namampr'] )
-                $('.spesifikasimpr').data('spesifikasimpr',response[0]['spesifikasimpr'])
-                $('.satuanmpr').data('satuanmpr',response[0]['satuanmpr'] )
-                $('.jumlahmpr').data('jumlahmpr',response[0]['jumlahmpr'] )
-                $('.hargampr').data('hargampr',formatRupiah1(parseInt(response[0]['hargampr'])))
+                $('.namampr').data('namampr',response['namamp'] )
+                $('.spesifikasimpr').data('spesifikasimpr',response['spesifikasimp'])
+                $('.satuanmpr').data('satuanmpr',response['satuanmp'] )
+                $('.jumlahmpr').data('jumlahmpr',response['jumlahmp'] )
+                $('.hargampr').data('hargampr',formatRupiah1(parseInt(response['hargamp'])))
                 
                 },
                 error: function(xhr, ajaxOptions, thrownError) {

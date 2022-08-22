@@ -1,6 +1,9 @@
 <?= $this->extend('dashboard/admin/template'); ?>
 <?= $this->section('dashboardadmin'); ?>
+<?php
 
+use App\Models\PerhitunganTenakerRevisiModel;
+?>
 <div class="content-wrapper">
   <section class="content-header">
     <div class="container-fluid">
@@ -22,7 +25,7 @@
             <div class="dropdown-menu dropdown-menu-lg">
               <div class="card" style="width:600px !important">
                 <div class="card-header">
-                  <h3 class="card-title">Daftar Ajuan Proyek Diterima</h3>
+                  <h3 class="card-title">Daftar Ajuan Proyek</h3>
                 </div>
                 <div class="card-body p-3">
                   <table class="table text-nowrap daftarajuan">
@@ -67,17 +70,7 @@
                 </tr>
               </thead>
               <?php $No = 1 ?>
-              <?php
 
-              use App\Models\PerhitunganTenakerRevisiModel;
-
-              function hitungjumlahtk($id_pbtenaker)
-              {
-                $tkrevisi = new PerhitunganTenakerRevisiModel();
-                $count = $tkrevisi->builder()->where('id_pbtenaker', $id_pbtenaker)->countAllResults();
-                return $count;
-              }
-              ?>
               <tbody>
                 <?php if (!empty($tenaker)) : ?>
                   <?php foreach ($tenaker as $row) : ?>
@@ -91,16 +84,20 @@
                       <td scope="col"><?= $row['total_pekerja']; ?></td>
                       <td scope="col">Rp <?= number_format($row['total_gaji'], 0, '', '.'); ?>,-</td>
                       <td>
-                        <?php if ($row['revisi_id'] != 0) :  ?>
+
+                        <?php
+
+                        $tk = new PerhitunganTenakerRevisiModel();
+                        $getdata = $tk->find($row['id_pbtenaker']);
+
+                        if ($getdata['revisi_id'] != 0) :  ?>
                           <span class="badge badge-primary">Direvisi</span>
-                          <span class="badge badge-success"><?= hitungjumlahtk($row['id_pbtenaker']); ?></span>
                         <?php else : ?>
                           <span class="badge badge-secondary">Tidak Direvisi</span>
-                          <span class="badge badge-success"><?= hitungjumlahtk($row['id_pbtenaker']); ?></span>
                         <?php endif; ?>
                       </td>
                       <td>
-                        <?php if ($row['revisi_id'] != 0) : ?>
+                        <?php if ($getdata['revisi_id'] != 0) : ?>
                           <div class="flex-column">
                             <button data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-danger rounded-circle hapustenaker"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
                           </div>
@@ -139,7 +136,6 @@
               <thead>
                 <tr>
                   <th scope="col">No</th>
-                  <th scope="col">ID Revisi</th>
                   <th scope="col">ID Tenaker</th>
                   <th scope="col">Jobdesk</th>
                   <th scope="col">Status Pekerjaan</th>
@@ -155,7 +151,6 @@
                   <?php foreach ($tkrevisi as $row) : ?>
                     <tr>
                       <td scope="col"><?= $No++; ?></td>
-                      <td scope="col"><?= $row['id_pbtenakerr']; ?></td>
                       <td scope="col"><?= $row['id_pbtenaker']; ?></td>
                       <td scope="col"><?= $row['jobdesk']; ?></td>
                       <td scope="col"><?= $row['statuspekerjaan']; ?></td>
@@ -164,14 +159,14 @@
                       <td scope="col">Rp <?= number_format($row['total_gaji'], 0, '', '.'); ?>,-</td>
                       <td>
                         <div class="flex-column">
-                          <button data-toggle="modal" data-target="#modaltenakerr" data-id="<?= $row['id_pbtenakerr']; ?>" class="btn btn-info rounded-circle btnedittenakerr"><i style="color:white;font-weight:bold" class="fas fa-edit"></i></button>
+                          <button data-toggle="modal" data-target="#modaltenakerr" data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-info rounded-circle btnedittenakerr"><i style="color:white;font-weight:bold" class="fas fa-edit"></i></button>
                           <button data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-danger rounded-circle hapustenakerr"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
                         </div>
                       </td>
                     </tr>
                   <?php endforeach; ?>
                 <?php else : ?>
-
+                  <tr></tr>
                 <?php endif; ?>
 
               </tbody>
@@ -269,15 +264,11 @@
             <div class="col-12">
               <form method="post" class="formtenakerr" action="<?= base_url('DashboardAdmin/editrevisitenaker'); ?>">
                 <div class="form-group form-row">
-                  <div class="col-lg-4 col-6">
-                    <label readonly for="id_pbtenakerr1">ID Revisi TK</label>
-                    <input type="text" readonly style="color:black;font-weight:bolder" name="id_pbtenakerr1" id="id_pbtenakerr1" class="form-control id_pbtenakerr1">
-                  </div>
-                  <div class="col-lg-4 col-6">
+                  <div class="col-lg-6 col-6">
                     <label readonly for="id_pbtenaker1">ID Tenaker</label>
                     <input type="text" readonly style="color:black;font-weight:bolder" name="id_pbtenaker1" id="id_pbtenaker1" class="form-control id_pbtenaker1">
                   </div>
-                  <div class="col-lg-4">
+                  <div class="col-lg-6">
                     <label for="jobdesk1">JobDesk*</label>
                     <input type="text" readonly style="color:black;font-weight:bolder" name="jobdesk1" id="jobdesk1" name="jobdesk1" class="form-control jobdesk1">
                   </div>

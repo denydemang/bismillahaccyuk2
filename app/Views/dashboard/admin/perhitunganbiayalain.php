@@ -70,14 +70,7 @@
                             use App\Models\PerhitunganBOPRevisiModel;
 
                             ?>
-                            <?php
-                            function hitungjumlahbop($id_pbop)
-                            {
-                                $boprevisi = new PerhitunganBOPRevisiModel();
-                                $count = $boprevisi->builder()->where('id_pbop', $id_pbop)->countAllResults();
-                                return $count;
-                            }
-                            ?>
+
                             <tbody>
                                 <?php if (!empty($bop)) : ?>
                                     <?php foreach ($bop as $row) : ?>
@@ -90,22 +83,29 @@
                                             <td scope="col"><?= $row['satuan']; ?></td>
                                             <td scope="col">Rp <?= number_format($row['harga'], 0, '', '.'); ?>,-</td>
                                             <td scope="col">Rp <?= number_format($row['tot_biaya'], 0, '', '.'); ?>,-</td>
-                                            <?php if ($row['revisi_id'] != 0) : ?>
+                                            <?php $boprevisi = new PerhitunganBOPRevisiModel();
+                                            $getdata = $boprevisi->find($row['id_pbop']);
+                                            ?>
+                                            <?php if ($getdata['revisi_id'] != 0) : ?>
                                                 <td scope="col">
                                                     <span class="badge badge-warning">Direvisi</span>
-                                                    <span class="badge badge-success"><?= hitungjumlahbop($row['id_pbop']); ?></span>
                                                 </td>
                                             <?php else : ?>
                                                 <td scope="col">
                                                     <span class="badge badge-secondary">Tidak Direvisi</span>
-                                                    <span class="badge badge-success"><?= hitungjumlahbop($row['id_pbop']); ?></span>
                                                 </td>
                                             <?php endif; ?>
                                             <td>
-                                                <div class="flex-column">
-                                                    <button data-toggle="modal" data-target="#modalbop" data-id="<?= $row['id_pbop']; ?>" class=" btn btn-info rounded-circle btneditbop"><i style="color:white;font-weight:bold" class="fas fa-edit"></i></button>
-                                                    <button data-id="<?= $row['id_pbop']; ?>" class="btn btn-danger rounded-circle hapusbop"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
-                                                </div>
+                                                <?php if ($getdata['revisi_id'] != 0) : ?>
+                                                    <div class="flex-column">
+                                                        <button data-id="<?= $row['id_pbop']; ?>" class="btn btn-danger rounded-circle hapusbop"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
+                                                    </div>
+                                                <?php else : ?>
+                                                    <div class="flex-column">
+                                                        <button data-toggle="modal" data-target="#modalbop" data-id="<?= $row['id_pbop']; ?>" class=" btn btn-info rounded-circle btneditbop"><i style="color:white;font-weight:bold" class="fas fa-edit"></i></button>
+                                                        <button data-id="<?= $row['id_pbop']; ?>" class="btn btn-danger rounded-circle hapusbop"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
+                                                    </div>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -129,7 +129,6 @@
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col">ID Revisi</th>
                                     <th scope="col">ID Biaya</th>
                                     <th scope="col">Nama Transaksi</th>
                                     <th scope="col">Quantity</th>
@@ -145,7 +144,6 @@
                                     <?php foreach ($bopr as $row) : ?>
                                         <tr>
                                             <td scope="col"><?= $No++; ?></td>
-                                            <td scope="col"><?= $row['id_pbopr']; ?></td>
                                             <td scope="col"><?= $row['id_pbop']; ?></td>
                                             <td scope="col"><?= $row['namatrans']; ?></td>
                                             <td scope="col"><?= $row['quantity']; ?></td>
@@ -154,8 +152,8 @@
                                             <td scope="col">Rp <?= number_format($row['tot_biaya'], 0, '', '.'); ?>,-</td>
                                             <td>
                                                 <div class="flex-column">
-                                                    <button data-toggle="modal" data-target="#modalbop" data-id="<?= $row['id_pbopr']; ?>" class=" btn btn-info rounded-circle btneditbopr"><i style="color:white;font-weight:bold" class="fas fa-edit"></i></button>
-                                                    <button data-id="<?= $row['id_pbopr']; ?>" data-id2="<?= $row['id_pbop']; ?>" class="btn btn-danger rounded-circle hapusbopr"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
+                                                    <button data-toggle="modal" data-target="#modalbop" data-id="<?= $row['id_pbop']; ?>" class=" btn btn-info rounded-circle btneditbopr"><i style="color:white;font-weight:bold" class="fas fa-edit"></i></button>
+                                                    <button data-id="<?= $row['id_pbop']; ?>" class="btn btn-danger rounded-circle hapusbopr"><i style="color:white;font-weight:bold" class="fas fa-trash"></i></button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -189,21 +187,13 @@
                     <div class="modal-body">
                         <div class="col-12">
 
-                            <form method="post" class="formbop" action="<?= base_url('DashboardAdmin/simpantenaker'); ?>">
+                            <form method="post" class="formbop" action="<?= base_url('DashboardAdmin/simpanbop'); ?>">
                                 <div class="form-group form-row">
-                                    <div class="col-lg-4 col-6">
+                                    <div class="col-lg-6 col-6">
                                         <label for="id_pbop">ID Biaya</label>
                                         <input readonly type="text" style="color:black;font-weight:bolder" name="id_pbop" id="id_pbop" class="form-control id_pbop" value="<?= $id_pbop; ?>">
                                     </div>
-                                    <div class="col-lg-4 col-6 bungkusidpbopr">
-                                        <label for="id_pbopr">ID Biaya Revisi</label>
-                                        <input readonly type="text" style="color:black;font-weight:bolder" name="id_pbopr" id="id_pbopr" class="form-control id_pbopr">
-                                    </div>
-                                    <div class="col-lg-4 col-6 bungkusidajuan">
-                                        <label for="idajuan">ID Ajuan*</label>
-                                        <input readonly type="text" style="color:black;font-weight:bolder" name="idajuan" id="idajuan" class="form-control idajuan" value="<?= $idajuan; ?>">
-                                    </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-6">
                                         <label for="namatrans">Nama Transaksi*</label>
                                         <input type="text" style="color:black;font-weight:bolder" name="namatrans" id="namatrans" name="namatrans" class="form-control namatrans">
                                     </div>

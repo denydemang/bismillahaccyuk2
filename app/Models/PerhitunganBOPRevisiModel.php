@@ -6,9 +6,9 @@ use CodeIgniter\Model;
 
 class PerhitunganBOPRevisiModel extends Model
 {
-    protected $table = 'perhitunganboprevisi';
-    protected $primaryKey = 'id_pbopr';
+    protected $table = 'perhitunganboprev';
+    protected $primaryKey = 'id_pbop';
     protected $allowedFields = [
-        'id_pbopr', 'id_pbop', 'namatrans', 'quantity', 'satuan', 'harga', 'tot_biaya', 'revisi_id'
+        'id_pbop', 'idajuan', 'namatrans', 'satuan', 'quantity', 'harga', 'tot_biaya', 'revisi_id'
     ];
 }

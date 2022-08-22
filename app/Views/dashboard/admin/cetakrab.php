@@ -105,7 +105,7 @@
     })
     $('.cetak').click(function() {
         let id = $(this).data('id');
-        window.href
+        window.location.href = 'http://localhost:8080/admin/printperhitunganbiayarevisi/' + id
     })
 </script>
 

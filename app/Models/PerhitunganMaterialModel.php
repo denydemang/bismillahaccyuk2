@@ -10,7 +10,7 @@ class PerhitunganMaterialModel extends Model
     protected $table = 'perhitungan_material';
     protected $primaryKey = 'idmaterial';
     protected $allowedFields = [
-        'idmaterial', 'idajuan', 'jenismaterial', 'namamaterial', 'satuanmaterial', 'qtymaterial', 'hargamaterial', 'total_harga'
+        'idmaterial', 'idajuan', 'jenismaterial', 'namamaterial', 'satuanmaterial', 'qtymaterial', 'hargamaterial', 'total_harga',
     ];
 
     public function getalljoinajuan()

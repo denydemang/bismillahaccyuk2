@@ -75,6 +75,9 @@ $(document).ready(function(){
                 $('.ada').remove();
                 $('.kosong').remove();
                 $('#kosong').remove();
+                $('.gtbb').html('');
+                $('.gtbr').html('');
+                $('.gt').html('');
                 let idmaterial = $(this).data('id')
                 $.ajax({
                 url : base_url+"DashboardAdmin/getmaterialdanpenyusun/"+idmaterial,

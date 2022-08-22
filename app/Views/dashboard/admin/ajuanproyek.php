@@ -140,8 +140,7 @@
                                                     <?php elseif ($ajuan->status_id == '6') : ?>
                                                         <button type="button" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" class=" btn btn-sm btn-primary detailcreate">Create Project</button>
                                                     <?php elseif ($ajuan->status_id == '7') : ?>
-                                                        <button type="button" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" class=" btn btn-sm btn-primary detailhitung">Buat Revisi RAB</button>
-                                                        <button class="btn btn-sm btn-info detailkirimfilerab" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Kirim File</button>
+                                                        <button data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>" class="btn btn-sm btn-warning hapusajuan">Hapus</button>
                                                     <?php elseif ($ajuan->status_id == '8') : ?>
                                                         <button type="button" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" class=" btn btn-sm btn-primary detailhitung">Buat Revisi RAB</button>
                                                         <button class="btn btn-sm btn-info detailkirimfilerab" data-detailid="<?= $ajuan->idajuan; ?>" style="white-space:nowrap !important;max-width:something !important;" data-namaproyek="<?= $ajuan->namaproyek; ?>" data-namaklien="<?= $ajuan->nama; ?>" data-idajuan="<?= $ajuan->idajuan; ?>">Kirim File</button>
@@ -343,10 +342,7 @@
                 orderable: false,
                 targets: [2, 3, 4, 5]
             }],
-            "fixedColumns": {
-                leftColumns: 1,
-                rightColumns: 3
-            },
+
         });
     })
 </script>

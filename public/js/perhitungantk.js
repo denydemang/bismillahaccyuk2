@@ -74,7 +74,6 @@ $(document).ready(function(){
                         window.location.href = base_url+'DashboardAdmin/hapustenaker/' + idmaterial;
                 }
                  })
-                 hapustenakerr
 // 
 })
 $('.hapustenakerr').click(function(){
@@ -82,7 +81,7 @@ $('.hapustenakerr').click(function(){
   Swal.fire({
           position: 'center',
           icon: 'question',
-          title: 'Yakin Hapus ID: '+id,
+          title: 'Yakin Hapus Revisi Dari ID: '+id,
           showConfirmButton: true,
           showCancelButton: true,
           cancelButtonColor: '#d33',
@@ -90,7 +89,7 @@ $('.hapustenakerr').click(function(){
           confirmButtonColor: '#3085d6',
           }).then((result) => {
           if (result.isConfirmed) {
-                  window.location.href = base_url+'DashboardAdmin/hapustenakerrevisi/' + id;
+                  window.location.href = base_url+'DashboardAdmin/edittenakerrevisi/' + id;
           }
            })
 // 

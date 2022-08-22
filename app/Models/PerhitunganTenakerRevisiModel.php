@@ -6,9 +6,9 @@ use CodeIgniter\Model;
 
 class PerhitunganTenakerRevisiModel extends Model
 {
-    protected $table = 'perhitungantenakerrevisi';
-    protected $primaryKey = 'id_pbtenakerr';
+    protected $table = 'perhitungantenakerrev';
+    protected $primaryKey = 'id_pbtenaker';
     protected $allowedFields = [
-        'id_pbtenakerr', 'id_pbtenaker', 'jobdesk', 'statuspekerjaan', 'gaji', 'total_pekerja', 'total_gaji', 'revisi_id'
+        'id_pbtenaker', 'idajuan', 'jobdesk', 'statuspekerjaan', 'gaji',  'total_pekerja', 'total_gaji', 'revisi_id'
     ];
 }
