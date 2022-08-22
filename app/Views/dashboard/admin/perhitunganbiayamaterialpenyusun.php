@@ -55,11 +55,8 @@ use App\Models\PerhitunganMPrevisi;
                                             <td scope="col">Rp <?= number_format($row['hargamp'], 0, '', '.'); ?>,-</td>
                                             <td scope="col-4">Rp <?= number_format($row['totalmp'], 0, '', '.'); ?>,-</td>
                                             <?php
-
                                             $mp = new PerhitunganMPrevisi();
-
                                             $datamaterial = $mp->find($row['idmaterialpenyusun']);
-
                                             if ($datamaterial['revisi_id'] == 0) : ?>
                                                 <td scope="col-4">
                                                     <span class="badge badge-primary">Tidak Direvisi</span>
@@ -67,7 +64,6 @@ use App\Models\PerhitunganMPrevisi;
                                             <?php else : ?>
                                                 <td scope="col-4">
                                                     <span class="badge badge-success">Direvisi</span>
-
                                                 </td>
                                             <?php endif; ?>
                                             <?php if ($datamaterial['revisi_id'] != 0) : ?>

@@ -14,19 +14,45 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <h5>Table Data Bahan Baku Untuk Proyek <?= $dataproyek[0]['idproyek']; ?></h5>
+                    <h5>Table Data Material Penyusun Untuk Proyek <?= $dataproyek[0]['idproyek']; ?></h5>
                 </div>
                 <div class="card-body">
                     <!-- <button type="button" id="btntambahbahanbaku" class="btn btn-outline-danger btn-sm mb-3" data-toggle="modal" data-target="#modalbb">
                         <i class="fas fa-plus-circle mr-3"></i>Tambah Bahan Baku
                     </button> -->
-                    <div id="tampiltablebb">
+                    <table id="tablebb" class="table table-striped table-sm">
+                        <thead>
+                            <th>No</th>
+                            <th>Id Material Penyusun</th>
+                            <th>Id Material Utama</th>
+                            <th>Nama Material</th>
+                            <th>Spesifikasi</th>
+                            <th>Qty</th>
+                            <th>Satuan</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </thead>
+                        <tbody>
+                            <?php $No = 1 ?>
+                            <?php foreach ($databb as $row) : ?>
+                                <tr>
+                                    <td><?= $No++; ?></td>
+                                    <td><?= $row['idmaterialpenyusun']; ?></td>
+                                    <td><?= $row['idmaterial']; ?></td>
+                                    <td><?= $row['namamp']; ?></td>
+                                    <td><?= $row['spesifikasimp']; ?></td>
+                                    <td><?= $row['jumlahmp']; ?></td>
+                                    <td><?= $row['satuanmp']; ?></td>
+                                    <td>Status</td>
+                                    <td><button class="btn btn-primary">Beli</button></td>
 
-                    </div>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+
+                    </table>
                 </div>
-
             </div>
-        </div>
     </section>
     <section>
         <div class="modal fade" id="modalbb">
@@ -278,6 +304,6 @@
         </div>
     </section>
 </div>
-<script src="<?= base_url('js/bbdalamproses.js'); ?>"></script>
+<!-- <script src="<//?= base_url('js/bbdalamproses.js'); ?>"></script> -->
 
 <?= $this->endSection(); ?>

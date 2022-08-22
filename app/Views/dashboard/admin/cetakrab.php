@@ -50,23 +50,38 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group form-row">
-                        <div class="col">
+                    <div style="display:flex;flex-direction:row;justify-content:space-evenly">
+                        <div style="width:200px;">
                             <label for="">Id Ajuan</label>
                             <input type="text" readonly name="idajuan" id="idajuan" name="idajuan" class="form-control">
                         </div>
-                        <div class="col">
-                            <label for="=tot_biaya">Total Biaya Proyek</label>
+                        <div>
+                            <label for="tot_biaya">Total Biaya Proyek</label>
                             <input type="text" style="color:red; font-weight:bold" readonly name="tot_biaya" id="tot_biaya" name="tot_biaya" class="form-control">
                         </div>
-                        <div class="col pt-4">
-                            <button class="btn btn-primary cetak" readonly style="height:100%"> <i class="fas fa-file-pdf mr-3"></i>Cetak PDF</button>
+
+                        <div style="display:flex; flex-direction:row;align-items:center;justify-content:space-between" class="pt-3">
+
+                            <div>
+                                <button class="btn btn-success cetak1" readonly> <i class="fas fa-file-pdf mr-3"></i>Cetak PDF (Pertama)</button>
+                            </div>
+
+                            <div>
+                                <button class="btn btn-primary cetak2" readonly> <i class="fas fa-file-pdf mr-3"></i>Cetak PDF (Revisi)</button>
+                            </div>
                         </div>
+
                     </div>
+
+
+
+
+
                 </div>
             </div>
         </div>
-    </section>
+</div>
+</section>
 </div>
 <script>
     const formatRupiah1 = (money) => {
@@ -90,7 +105,8 @@
     $('.btnidajuan').click(function() {
         let id = $(this).data('id')
         $('#idajuan').val(id);
-        $('.cetak').data('id', id);
+        $('.cetak1').data('id', id);
+        $('.cetak2').data('id', id);
         $.ajax({
             url: "http://localhost:8080/DashboardAdmin/totalbiaya/" + id,
             dataType: "json",
@@ -103,9 +119,13 @@
             }
         });
     })
-    $('.cetak').click(function() {
+    $('.cetak1').click(function() {
         let id = $(this).data('id');
         window.location.href = 'http://localhost:8080/admin/printperhitunganbiayarevisi/' + id
+    })
+    $('.cetak2').click(function() {
+        let id = $(this).data('id');
+        window.location.href = 'http://localhost:8080/admin/printperhitunganbiaya/' + id
     })
 </script>
 

@@ -193,6 +193,10 @@
                                         <label for="id_pbop">ID Biaya</label>
                                         <input readonly type="text" style="color:black;font-weight:bolder" name="id_pbop" id="id_pbop" class="form-control id_pbop" value="<?= $id_pbop; ?>">
                                     </div>
+                                    <div class="col-lg-6 col-6">
+                                        <label for="idajuan">ID AJUAN</label>
+                                        <input readonly type="text" style="color:black;font-weight:bolder" name="idajuan" id="idajuan" class="form-control idajuan" value="<?= $idajuan; ?>">
+                                    </div>
                                     <div class="col-lg-6">
                                         <label for="namatrans">Nama Transaksi*</label>
                                         <input type="text" style="color:black;font-weight:bolder" name="namatrans" id="namatrans" name="namatrans" class="form-control namatrans">

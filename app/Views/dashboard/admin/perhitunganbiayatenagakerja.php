@@ -166,7 +166,7 @@ use App\Models\PerhitunganTenakerRevisiModel;
                     </tr>
                   <?php endforeach; ?>
                 <?php else : ?>
-                  <tr></tr>
+
                 <?php endif; ?>
 
               </tbody>

@@ -11,6 +11,8 @@ use App\Models\TenakerModel;
 use App\Models\BahanBakuProsesModel;
 use App\Models\PerhitunganBBRevisiModel;
 use App\Models\PerhitunganBOPRevisiModel;
+use App\Models\PerhitunganMaterialPenyusunModel;
+use App\Models\PerhitunganMPrevisi;
 use App\Models\PerhitunganTenakerRevisiModel;
 
 
@@ -135,34 +137,28 @@ class TampilTable extends Dashboard
     }
     public function tablebbproses()
     {
-        if ($this->request->isAJAX()) {
-            $idajuan =  session()->get('idajuan');
-            // dd($idajuan);
-            // $perhitunganbb = new PerhitunganBBModel();
-            // $perhitunganbbrevisi = new PerhitunganBBRevisiModel();
-            // $databbrevisi = $perhitunganbbrevisi->findAll();
-            // if (empty($databbrevisi)) {
-            //     $builder = $perhitunganbb->builder();
-
-            // }
-            $union   = $this->db->table('perhitunganbahanbaku')->select('id_pbb, namabahan, ukuran, kualitas, jenis, berat, ketebalan, panjang, harga, jumlah_beli')->where('idajuan', $idajuan)->where('revisi_id', 1);
-            $builder = $this->db->table('perhitunganbbrevisi')->select('id_pbb, namabahan, ukuran, kualitas, jenis, berat, ketebalan, panjang, harga, jumlah_beli')->where('idajuan', $idajuan)->where('revisi_id', 3);
-            $data =  $builder->unionAll($union)->orderBy('idajuan', 'DESC')->get()->getResultArray();
-
-            // $builder = $perhitunganbb->builder();
-            // $builder->select('perhitunganbahanbaku.*')->join('perhitunganbbrevisi', 'perhitunganbbrevisi.id_pbb=perhitunganbahanbaku.id_pbb');
-            // $data = $builder->get()->getResultArray();
-            // dd($data);
+        // if ($this->request->isAJAX()) {
 
 
-            $bb = [
-                'databb' => $data,
-            ];
-            $data = [
-                'databb' => view('dashboard/kelolaproyek/table/tablebbproses', $bb)
-            ];
-            echo json_encode($data);
-        }
+
+        // $union   = $this->db->table('perhitunganbahanbaku')->select('id_pbb, namabahan, ukuran, kualitas, jenis, berat, ketebalan, panjang, harga, jumlah_beli')->where('idajuan', $idajuan)->where('revisi_id', 1);
+        // $builder = $this->db->table('perhitunganbbrevisi')->select('id_pbb, namabahan, ukuran, kualitas, jenis, berat, ketebalan, panjang, harga, jumlah_beli')->where('idajuan', $idajuan)->where('revisi_id', 3);
+        // $data =  $builder->unionAll($union)->orderBy('idajuan', 'DESC')->get()->getResultArray();
+
+        // $builder = $perhitunganbb->builder();
+        // $builder->select('perhitunganbahanbaku.*')->join('perhitunganbbrevisi', 'perhitunganbbrevisi.id_pbb=perhitunganbahanbaku.id_pbb');
+        // $data = $builder->get()->getResultArray();
+        // dd($data);
+
+
+        // $bb = [
+        //     'databb' => $data,
+        // ];
+        // $data = [
+        //     'databb' => view('dashboard/kelolaproyek/table/tablebbproses', $bb)
+        // ];
+        // echo json_encode($data);
+        // }
     }
     public function tableperhitunganbbrevisi()
     {

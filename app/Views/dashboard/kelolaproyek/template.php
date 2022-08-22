@@ -189,10 +189,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url() ?>/kelolaproyek/bbdalamproses" class="nav-link <?= ($_SESSION['aktif'] == 'bbdalamproses') ? 'active' : '' ?>">
+                            <a href="<?= base_url() ?>/kelolaproyek/bbmaterialutama" class="nav-link <?= ($_SESSION['aktif'] == 'bbdalamproses') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-microchip mr-3"></i>
                                 <p>
-                                    BB Dalam Proses
+                                    Kelola Bahan Material
                                 </p>
                             </a>
                         </li>

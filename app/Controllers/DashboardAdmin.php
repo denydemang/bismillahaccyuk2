@@ -514,29 +514,14 @@ class DashboardAdmin extends Dashboard
     {
 
         $bahanbaku = new PerhitunganMaterialModel();
-        $tenaker     = new PerhitunganTenakerModel();
-        $bop     = new PerhitunganBOPModel();
+        $tenaker     = new PerhitunganTenakerRevisiModel();
+        $bop     = new PerhitunganBOPRevisiModel();
         $gettotbb = $bahanbaku->builder()->selectSum('total_harga')->where('idajuan', $idajuan)->get()->getResultArray();
-        $gettottk = $tenaker->builder()->selectSum('total_gaji')->where('idajuan', $idajuan)->where('revisi_id', '0')->get()->getResultArray();
-        $gettotbop = $bop->builder()->selectSum('tot_biaya')->where('idajuan', $idajuan)->where('revisi_id', '0')->get()->getResultArray();
-
-        $tkrevisi = new PerhitunganTenakerRevisiModel();
-        $boprevisi = new PerhitunganBOPRevisiModel();
-
-        $getottkrevisi = $tkrevisi->builder()->selectSum('perhitungantenakerrevisi.total_gaji')
-            ->join('perhitungantenaker', 'perhitungantenakerrevisi.id_pbtenaker=perhitungantenaker.id_pbtenaker')
-            ->where('idajuan', $idajuan)->where('perhitungantenakerrevisi.revisi_id', '3')->get()->getResultArray();
-
-
-
-        $getotboprevisi = $boprevisi->builder()->selectSum('perhitunganboprevisi.tot_biaya')
-            ->join('perhitunganbop', 'perhitunganboprevisi.id_pbop=perhitunganbop.id_pbop')
-            ->where('perhitunganbop.idajuan', $idajuan)->where('perhitunganboprevisi.revisi_id', '3')->get()->getResultArray();
+        $gettottk = $tenaker->builder()->selectSum('total_gaji')->where('idajuan', $idajuan)->get()->getResultArray();
+        $gettotbop = $bop->builder()->selectSum('tot_biaya')->where('idajuan', $idajuan)->get()->getResultArray();
 
         $jumlahbiayatotal = (intval($gettotbb[0]['total_harga']) + intval($gettottk[0]['total_gaji']) + intval($gettotbop[0]['tot_biaya']));
-        $jumlahbiayarevisitotal = (intval($getottkrevisi[0]['total_gaji']) + intval($getotboprevisi[0]['tot_biaya']));
-        $totalbiaya = $jumlahbiayatotal + $jumlahbiayarevisitotal;
-        return $totalbiaya;
+        return $jumlahbiayatotal;
     }
 
     public function getdatarevisitk($id)
@@ -587,7 +572,7 @@ class DashboardAdmin extends Dashboard
         if ($this->request->isAJAX()) {
 
             $materialpendukung = new PerhitunganMPrevisi();
-            $getdata = $materialpendukung->builder()->join('perhitungan_material', 'perhitungan_materialpenyusunrev.idmaterial=perhitungan_material.idmaterial')->get()->getResultArray();
+            $getdata = $materialpendukung->builder()->select('perhitungan_materialpenyusunrev.*,perhitungan_material.idajuan')->join('perhitungan_material', 'perhitungan_materialpenyusunrev.idmaterial=perhitungan_material.idmaterial')->where('perhitungan_materialpenyusunrev.idmaterialpenyusun', $idmp)->get()->getResultArray();
             echo json_encode($getdata);
         }
     }
@@ -1430,7 +1415,116 @@ class DashboardAdmin extends Dashboard
 
 
     //Query  Lain
-    public function printperhitunganbiayarevisi($id = '')
+    public function printperhitunganbiayarevisi($id = false)
+
+    {
+        if ($id != false) {
+
+            date_default_timezone_set('Asia/Jakarta');
+            $tanggal = $this->tanggal_indonesia(date('Y-m-d'));
+            $perhitunganbop = new PerhitunganBOPModel();
+            $perhitunganbb = new PerhitunganMaterialModel();
+            $perhitungantk = new PerhitunganTenakerModel();
+            $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
+            $perhitungantkrevisi = new PerhitunganTenakerRevisiModel();
+            $perhitungamprevisi = new PerhitunganMPrevisi();
+
+            $databopr = $perhitunganboprevisi->builder()->selectSum('tot_biaya')->where('idajuan', $id)->get()->getResultArray();
+            $sumbop = $databopr[0]['tot_biaya'];
+
+            $datatk = $perhitungantkrevisi->builder()->selectSum('total_gaji')->where('idajuan', $id)->get()->getResultArray();
+            $sumtk = $datatk[0]['total_gaji'];
+
+            $databb = $perhitunganbb->builder()->selectSum('total_harga')->where('idajuan', $id)->get()->getResultArray();
+            $sumbb = $databb[0]['total_harga'];
+
+            $total = (int)$sumbop + (int)$sumtk + (int)$sumbb;
+
+
+            $pengajuanproyekmodel = new AjuanProyekModel();
+            $builder = $pengajuanproyekmodel->builder();
+            $builder = $builder->select('*');
+            $getdatauser = $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('idajuan', $id)->get()->getResultArray();
+
+            $bb = $perhitunganbb->where('idajuan', $id)->find();
+            $tk = $perhitungantkrevisi->where('idajuan', $id)->find();
+            $bop = $perhitunganboprevisi->where('idajuan', $id)->find();
+
+
+
+            $revisibop = $perhitunganboprevisi->where('revisi_id', 3)->find();
+            $mprevisi = $perhitungamprevisi->where('revisi_id', 3)->find();
+            $tkrevisi = $perhitungantkrevisi->where('revisi_id', 3)->find();
+
+            if (empty($revisibop) && empty($mprevisi) && empty($tkrevisi)) {
+                session()->setFlashdata('pesanprint', 'Tidak Data Yang Direvisi');
+                return redirect()->to(base_url() . '/admin/cetakrab');
+            } else {
+                $data = [
+                    'bb' => $bb,
+                    'bbrevisi' => $mprevisi,
+                    'tk' => $tk,
+                    'tkrevisi' => $tkrevisi,
+                    'bop' => $bop,
+                    'boprevisi' => $revisibop,
+                    'user' => $getdatauser,
+                    'sumbop' => $sumbop,
+                    'tanggal' => $tanggal,
+                    'sumbb' => $sumbb,
+                    'sumtk' => $sumtk,
+                    'sumall' => $total,
+
+                ];
+                $dompdf = new Dompdf();
+
+                // //     // instantiate and use the dompdf class
+                $html = view('dashboard/admin/printperhitunganbiaya', $data);
+
+
+                $dompdf->loadHtml($html);
+
+                // (Optional) Setup the paper size and orientation
+                $dompdf->setPaper('A4', 'landscape');
+
+                // Render the HTML as PDF
+                $dompdf->render();
+
+                // Output the generated PDF to Browser
+
+                $dompdf->stream('Proposal Ajuan.pdf', array("Attachment" => false));
+            }
+        } else {
+            return redirect()->to(base_url('admin/cetakrab'));
+        }
+
+
+        // if (empty($sumtkr && $sumbopr && $sumbb && $getdatauser)) {
+        //     session()->setFlashdata('pesanprint', 'Tidak Data Yang Direvisi');
+        //     return redirect()->to(base_url() . '/admin/cetakrab');
+        // } else {
+        //     $data = [
+        //         'bb' => $getdatabb,
+        //         'bbrevisi' => $getdatabbrevisi,
+        //         'tk' => $getdatatk,
+        //         'tkrevisi' => $getdatatkrevisi,
+        //         'bop' => $getdatabop,
+        //         'boprevisi' => $getdataboprevisi,
+        //         'user' => $getdatauser,
+        //         'sumbop' => $totbop,
+        //         'tanggal' => $tanggal,
+        //         'sumbb' => $sumbb,
+        //         'sumtk' => $totaltk,
+        //         'sumall' => $totalsemuabiaya
+
+        //     ];
+        // }
+
+
+        // $options = new Options();
+        // $options->set('defaultFont', 'Courier');
+
+    }
+    public function printperhitunganbiaya($id = false)
 
     {
 
@@ -1439,28 +1533,97 @@ class DashboardAdmin extends Dashboard
         $perhitunganbop = new PerhitunganBOPModel();
         $perhitunganbb = new PerhitunganMaterialModel();
         $perhitungantk = new PerhitunganTenakerModel();
+        $perhitunganmp = new PerhitunganMaterialPenyusunModel();
         $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
         $perhitungantkrevisi = new PerhitunganTenakerRevisiModel();
         $perhitungamprevisi = new PerhitunganMPrevisi();
 
+        $databop = $perhitunganbop->builder()->selectSum('tot_biaya')->where('idajuan', $id)->get()->getResultArray();
+        $sumbop = $databop[0]['tot_biaya'];
+
+        $datatk = $perhitungantk->builder()->selectSum('total_gaji')->where('idajuan', $id)->get()->getResultArray();
+        $sumtk = $datatk[0]['total_gaji'];
+
+        $databb = $perhitunganmp->builder()->join('perhitungan_material', 'perhitungan_materialpenyusun.idmaterial=perhitungan_material.idmaterial')->selectSum('total_harga')->where('idajuan', $id)->get()->getResultArray();
+        $sumbb = $databb[0]['total_harga'];
+
+        $bb = $perhitunganmp->select('perhitungan_materialpenyusun.*,perhitungan_material.idajuan')->join('perhitungan_material', 'perhitungan_materialpenyusun.idmaterial=perhitungan_material.idmaterial')->where('idajuan', $id)->find();
+        $tk = $perhitungantk->where('idajuan', $id)->find();
+        $bop = $perhitunganbop->where('idajuan', $id)->find();
+
+        $total = (int)$sumbop + (int)$sumtk + (int)$sumbb;
 
 
+        $pengajuanproyekmodel = new AjuanProyekModel();
+        $builder = $pengajuanproyekmodel->builder();
+        $builder = $builder->select('*');
+        $getdatauser = $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('idajuan', $id)->get()->getResultArray();
 
-        // //     // instantiate and use the dompdf class
-        // $html = view('dashboard/admin/printperhitunganbiaya', $data);
-        $dompdf = new Dompdf();
+        if ($id != false) {
+            if (empty($sumbop) && empty($sumtk) && empty($sumbb)) {
+                session()->setFlashdata('pesanprint', 'Silakan Isi Data Dulu');
+                return redirect()->to(base_url() . '/admin/cetakrab');
+            } else {
+                $data = [
+                    'bb' => $bb,
+                    'tk' => $tk,
+                    'bop' => $bop,
+                    'user' => $getdatauser,
+                    'sumbop' => $sumbop,
+                    'tanggal' => $tanggal,
+                    'sumbb' => $sumbb,
+                    'sumtk' => $sumtk,
+                    'sumall' => $total,
 
-        // $dompdf->loadHtml($html);
+                ];
+                $dompdf = new Dompdf();
 
-        // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A4', 'landscape');
+                // //     // instantiate and use the dompdf class
+                $html = view('dashboard/admin/printperhitunganbiayaasli', $data);
 
-        // Render the HTML as PDF
-        $dompdf->render();
 
-        // Output the generated PDF to Browser
+                $dompdf->loadHtml($html);
 
-        $dompdf->stream('Proposal Ajuan.pdf', array("Attachment" => false));
+                // (Optional) Setup the paper size and orientation
+                $dompdf->setPaper('A4', 'landscape');
+
+                // Render the HTML as PDF
+                $dompdf->render();
+
+                // Output the generated PDF to Browser
+
+                $dompdf->stream('Proposal Ajuan.pdf', array("Attachment" => false));
+            }
+        } else {
+            return redirect()->to(base_url('admin/cetakrab'));
+        }
+
+
+        // if (empty($sumtkr && $sumbopr && $sumbb && $getdatauser)) {
+        //     session()->setFlashdata('pesanprint', 'Tidak Data Yang Direvisi');
+        //     return redirect()->to(base_url() . '/admin/cetakrab');
+        // } else {
+        //     $data = [
+        //         'bb' => $getdatabb,
+        //         'bbrevisi' => $getdatabbrevisi,
+        //         'tk' => $getdatatk,
+        //         'tkrevisi' => $getdatatkrevisi,
+        //         'bop' => $getdatabop,
+        //         'boprevisi' => $getdataboprevisi,
+        //         'user' => $getdatauser,
+        //         'sumbop' => $totbop,
+        //         'tanggal' => $tanggal,
+        //         'sumbb' => $sumbb,
+        //         'sumtk' => $totaltk,
+        //         'sumall' => $totalsemuabiaya
+
+        //     ];
+        // }
+
+
+        // $options = new Options();
+        // $options->set('defaultFont', 'Courier');
+
     }
     public function redirectkelola($idproyek, $idajuan)
     {

@@ -11,6 +11,8 @@ use App\Models\ProyekModel;
 use App\Models\ProgressProyekModel;
 use App\Models\TenakerModel;
 use App\Models\BahanBakuProsesModel;
+use App\Models\PerhitunganMaterialModel;
+use App\Models\PerhitunganMPrevisi;
 
 class DashboardKelolaProyek extends Dashboard
 {
@@ -45,7 +47,7 @@ class DashboardKelolaProyek extends Dashboard
 
         return view('dashboard/kelolaproyek/welcome', $this->datalogin);
     }
-    function bbdalamproses()
+    public function bbmaterialpenyusun()
 
     {
         if (session()->get('kelolaproyek') != 'true') {
@@ -54,10 +56,36 @@ class DashboardKelolaProyek extends Dashboard
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         }
+        $idajuan =  session()->get('idajuan');
+
+        $mprevisi = new PerhitunganMPrevisi();
+        $data =  $mprevisi->builder()->join('perhitungan_material', 'perhitungan_materialpenyusunrev.idmaterial=perhitungan_material.idmaterial')->where('idajuan', $idajuan)->get()->getResultArray();
+        $this->datalogin += [
+            'databb' => $data,
+        ];
         $_SESSION['aktif'] = 'bbdalamproses';
-        return view('dashboard/kelolaproyek/bbdalamproses', $this->datalogin);
+        return view('dashboard/kelolaproyek/bbmaterialpenyusun', $this->datalogin);
     }
-    function tenagakerja()
+    public function bbmaterialutama()
+
+    {
+        if (session()->get('kelolaproyek') != 'true') {
+            return redirect()->to(base_url('admin'));
+        }
+        if (isset($_SESSION['aktif'])) {
+            unset($_SESSION['aktif']);
+        }
+        $idajuan =  session()->get('idajuan');
+
+        $mprevisi = new PerhitunganMaterialModel();
+        $data =  $mprevisi->where('idajuan', $idajuan)->find();
+        $this->datalogin += [
+            'datamaterial' => $data,
+        ];
+        $_SESSION['aktif'] = 'bbdalamproses';
+        return view('dashboard/kelolaproyek/bbmaterialutama', $this->datalogin);
+    }
+    public function tenagakerja()
 
     {
 

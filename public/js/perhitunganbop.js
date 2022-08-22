@@ -23,7 +23,6 @@ function reset(){
     $('.pilihajuan').show() ;
     $('.formbop').trigger('reset') ;
     $('.idajuan').removeClass('is-invalid')
-    $('.bungkusidpbopr').hide();
     $('.namatrans').attr('readonly',false)
     $('.namatrans').removeClass('is-invalid')
     $('.quantity').removeClass('is-invalid')
@@ -175,7 +174,7 @@ $(document).on('click','.btneditbopr',function(){
                 console.log(response);
                 
             $('.judulmodal').html('Revisi Biaya Operasional')
-            $('.bungkusidajuan').hide()
+            $('.idajuan').val(response['idajuan'])
             $('.bungkusidpbor').show()
             $('.simpan').html('Revisi') ;
             $('.formbop').attr('action',base_url+'DashboardAdmin/editrevisibop');

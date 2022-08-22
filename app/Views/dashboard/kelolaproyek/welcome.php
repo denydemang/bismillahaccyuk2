@@ -82,9 +82,7 @@
                             </p>
                         </div>
                     </div>
-                    <hr>
-                    <strong><i class="far fa-file-alt mr-1"></i>Catatan</strong>
-                    <p class="text-muted detailcatatanproyek"><?= $dataproyek[0]['catatanproyek']; ?></p>
+
                 </div>
 
             </div>

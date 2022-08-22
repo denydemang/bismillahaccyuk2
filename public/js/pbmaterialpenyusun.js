@@ -124,6 +124,8 @@ $(document).ready(function(){
         })
         $('.btneditmaterial').click(function(){
                 let idmaterialpenyusun = $(this).data('id')
+                console.log(idmaterialpenyusun);
+                
                 
                 $.ajax({
                 url : base_url+"DashboardAdmin/getdatampjoin/"+idmaterialpenyusun,
@@ -151,7 +153,10 @@ $(document).ready(function(){
                 $('.jumlahmp').data('jumlahmp',response[0]['jumlahmp'] )
                 $('.hargamp').data('hargamp',formatRupiah1(parseInt(response[0]['hargamp'])))
                 
-                }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    }
                 });
                 
         })
