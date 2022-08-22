@@ -1,3 +1,6 @@
+<?php
+
+use App\Models\BahanBakuProsesModel; ?>
 <?php $this->extend('dashboard/kelolaproyek/template') ?>
 <?php $this->section('dashboardkelolaproyek') ?>
 <div class="content-wrapper">
@@ -5,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>BAHAN BAKU DALAM PROSES</h1>
+                    <h1>KELOLA BAHAN MATERIAL</h1>
                 </div>
             </div>
         </div>
@@ -20,7 +23,7 @@
                     <!-- <button type="button" id="btntambahbahanbaku" class="btn btn-outline-danger btn-sm mb-3" data-toggle="modal" data-target="#modalbb">
                         <i class="fas fa-plus-circle mr-3"></i>Tambah Bahan Baku
                     </button> -->
-                    <table id="tablebb" class="table table-striped table-sm">
+                    <table id="tablebb" class="table table-bordered table-striped table-hover text-center">
                         <thead>
                             <th>No</th>
                             <th>Id Material</th>
@@ -28,7 +31,8 @@
                             <th>Qty</th>
                             <th>Material Penyusun</th>
                             <th>Satuan</th>
-                            <th>Status</th>
+                            <th>Harga</th>
+                            <th>Total</th>
                             <th>Aksi</th>
                         </thead>
                         <tbody>
@@ -38,12 +42,24 @@
                                     <td><?= $No++; ?></td>
                                     <td><?= $row['idmaterial']; ?></td>
                                     <td><?= $row['namamaterial']; ?></td>
-                                    <td><?= $row['satuanmaterial']; ?></td>
-                                    <td><button class="btn btn-primary rounded-circle"><i class="fas fa-pen"></i></button></td>
                                     <td><?= $row['qtymaterial']; ?></td>
+                                    <td><a href="<?= base_url('kelolaproyek/bbmaterialpenyusun/' . $row['idmaterial']); ?>"><button class="btn btn-primary rounded-circle"><i class="fas fa-pen"></i></button></a></td>
                                     <td><?= $row['satuanmaterial']; ?></td>
-                                    <td>Status</td>
-                                    <td><button class="btn btn-primary">Detail</button></td>
+                                    <?php $bbproses = new BahanBakuProsesModel();
+                                    $total = $bbproses->builder()->selectSum('totalharga')->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')
+                                        ->where('idmaterial', $row['idmaterial'])->get()->getResultArray();
+                                    $total = $total[0]['totalharga'];
+                                    ?>
+                                    <td>Rp <?= number_format($total, 0, '', '.'); ?>,-</td>
+                                    <?php $totalharga = $total * (int)$row['qtymaterial'] ?>
+                                    <td>
+                                        Rp <?= number_format($totalharga, 0, '', '.'); ?>,-
+                                    </td>
+                                    <td>
+                                        <button data-toggle="modal" data-target="#modaldetail" data-id="<?= $row['idmaterial']; ?>" class="btn btn-primary rounded-circle btndetail">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
 
                                 </tr>
                             <?php endforeach; ?>
@@ -52,6 +68,71 @@
                     </table>
                 </div>
             </div>
+    </section>
+    <section>
+        <div class="modal fade" id="modaldetail">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content bg-primary">
+                    <div class="modal-header">
+                        <h4 class="modal-title judulmodal">
+                            Detail Material
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <h4>Material Jadi</h4>
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <th>Nama Material</th>
+                                        <th>Jenis Material</th>
+                                        <th>Id Ajuan</th>
+                                        <th>Satuan Material</th>
+                                        <th>Qty</th>
+                                        <th>Harga</th>
+                                        <th>Total Harga</th>
+                                    </thead>
+                                    <tbody>
+                                        <th class="nm">Nama Material</th>
+                                        <th class="jm">Nama Material</th>
+                                        <th class="ia">Id Ajuan</th>
+                                        <th class="sm">Satuan Material</th>
+                                        <th class="qty">Qty</th>
+                                        <th class="hg">Harga</th>
+                                        <th class="tot">Total Harga</th>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="table-responsive ">
+                                <h4>Bahan Penyusun</h4>
+                                <table class="table bahanpenyusun table-bordered table-sm">
+                                    <tr>
+                                        <th>Nama Bahan</th>
+                                        <th>Spesifikasi</th>
+                                        <th>Jumlah</th>
+                                        <th>Satuan</th>
+                                        <th>Harga</th>
+                                        <th>Total</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4"></td>
+                                        <td>Sub Total</td>
+                                        <td class="gtbb"></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     <section>
         <div class="modal fade" id="modalbb">
@@ -303,5 +384,6 @@
         </div>
     </section>
 </div>
+<script src="<?= base_url('js/bbmaterialutama.js'); ?>"></script>
 
 <?= $this->endSection(); ?>

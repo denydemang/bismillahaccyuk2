@@ -7,9 +7,9 @@ use CodeIgniter\Model;
 class BahanBakuProsesModel extends Model
 {
     protected $table = 'belibahan';
-    protected $primaryKey = 'idbelibahan';
+    protected $primaryKey = 'idbeli';
     protected $allowedFields = [
-        'idproyek', 'idbelibahan', 'id_pbb', 'tgl_beli', 'jumlah_beli'
+        'idbeli', 'idproyek', 'idmaterialpenyusun', 'namamp', 'tgl_beli', 'harga_beli', 'totalharga'
     ];
     public function tampildata()
     {

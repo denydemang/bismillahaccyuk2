@@ -1,3 +1,7 @@
+<?php
+
+use App\Models\BahanBakuProsesModel;
+?>
 <?php $this->extend('dashboard/kelolaproyek/template') ?>
 <?php $this->section('dashboardkelolaproyek') ?>
 <div class="content-wrapper">
@@ -43,8 +47,24 @@
                                     <td><?= $row['spesifikasimp']; ?></td>
                                     <td><?= $row['jumlahmp']; ?></td>
                                     <td><?= $row['satuanmp']; ?></td>
-                                    <td>Status</td>
-                                    <td><button class="btn btn-primary">Beli</button></td>
+                                    <?php
+                                    $belibb = new BahanBakuProsesModel();
+                                    $data = $belibb->where('idmaterialpenyusun', $row['idmaterialpenyusun'])->find()
+                                    ?>
+                                    <?php if (empty($data)) : ?>
+                                        <td><span class="badge badge-secondary">Belum Dibeli</span></td>
+                                    <?php else : ?>
+                                        <td><span class="badge badge-primary">Sudah Dibeli</span></td>
+                                    <?php endif; ?>
+
+                                    <td>
+                                        <?php if (empty($data)) : ?>
+                                            <button data-toggle="modal" data-id="<?= $row['idmaterialpenyusun']; ?>" data-target="#modalbb" class="btn btn-primary btnbeli">Beli</button>
+                                        <?php else : ?>
+                                            <button data-id="<?= $row['idmaterialpenyusun']; ?>" class="btn btn-primary btn-sm btnbeli">Detail</button>
+                                            <button data-id="<?= $row['idmaterialpenyusun']; ?>" class="btn btn-primary btn-sm btnbeli">Buat Jurnal</button>
+                                        <?php endif; ?>
+                                    </td>
 
                                 </tr>
                             <?php endforeach; ?>
@@ -65,21 +85,16 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="formbbproses" action="<?= base_url('DashboardKelolaProyek/simpanbbproses'); ?>">
+                        <form id="formbbproses" method="post" action="<?= base_url('DashboardKelolaProyek/simpanbelibb'); ?>">
                             <?= csrf_field(); ?>
                             <div class="form-row form-group">
                                 <div class="col">
-                                    <label for="idproyek">Nama Bahan</label>
-                                    <input type="text" style="color:black;font-weight:bolder" readonly name="namabahan" id="namabahan" name="namabahan" class="form-control namabahan">
-                                    <input type="hidden" style="color:black;font-weight:bolder" readonly name="idproyek" id="idproyek" name="idproyek" class="form-control idproyek">
-                                    <input type="hidden" style="color:black;font-weight:bolder" readonly name="id_pbb" id="id_pbb" name="id_pbb" class="form-control id_pbb">
+                                    <label for="idproyek">Nama Material Penyusun</label>
+                                    <input type="text" style="color:black;font-weight:bolder" readonly name="namamp" id="namamp" name="namamp" class="form-control namamp">
+                                    <input type="hidden" style="color:black;font-weight:bolder" readonly name="idproyek" id="idproyek" name="idproyek" class="form-control idproyek" value="<?= session()->get('idproyek'); ?>">
+                                    <input type="hidden" style="color:black;font-weight:bolder" readonly name="idmaterialpenyusun" id="idmaterialpenyusun" name="idmaterialpenyusun" class="form-control idmaterialpenyusun">
+                                    <input type="hidden" style="color:black;font-weight:bolder" readonly name="idmaterial" id="idmaterial" name="idmaterial" class="form-control idmaterial">
                                 </div>
-                                <div class="col">
-                                    <label for="idbelibahan"> ID Beli</label>
-                                    <input type="text" style="color:black;font-weight:bolder" readonly name="idbelibahan" id="idbelibahan" name="idbeli" class="form-control idbelibahan">
-                                </div>
-                            </div>
-                            <div class="form-row form-group">
                                 <div class="col">
                                     <label for="tgl_beli">Tanggal Beli*</label>
                                     <div class="input-group date">
@@ -90,22 +105,23 @@
                                         <div class="invalid-feedback tgl_beliinvalid"></div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-row form-group">
+
                                 <div class="col">
-                                    <label for="harga">Harga</label>
-                                    <input type="text" readonly style="color:#28A745;font-weight:bolder" id="harga" name="harga" class="form-control harga">
-                                    <div class="invalid-feedback hargainvalid"></div>
+                                    <label for="jumlah_beli">Qty</label>
+                                    <input type="text" readonly style="color:#c6098d;font-weight:bolder" readonly id="jumlahmp" name="jumlahmp" class="form-control jumlahmp">
+                                </div>
+                                <div class="col">
+                                    <label for="hargamp">Harga</label>
+                                    <input type="text" readonly style="color:#c6098d;font-weight:bolder" id="hargamp" name="hargamp" class="form-control hargamp">
                                 </div>
                             </div>
                             <div class="form-row form-group">
                                 <div class="col">
-                                    <label for="jumlah_beli">Jumlah Beli (Awal)</label>
-                                    <input type="text" style="color:#c6098d;font-weight:bolder" readonly id="jumlah_beliawal" name="jumlah_beliawal" class="form-control jumlah_beliawal">
+                                    <label for="harga">Harga</label>
+                                    <input type="text" style="color:#28A745;font-weight:bolder" id="harga" name="harga" class="form-control harga">
                                     <div class="invalid-feedback hargainvalid"></div>
-                                </div>
-                                <div class="col">
-                                    <label for="jumlah_beli">Jumlah Beli* (Real)</label>
-                                    <input type="text" style="color:#c6098d;font-weight:bolder" id="jumlah_beli" name="jumlah_beli" class="form-control jumlah_beli">
-                                    <div class="invalid-feedback jumlah_beliinvalid"></div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -304,6 +320,10 @@
         </div>
     </section>
 </div>
-<!-- <script src="<//?= base_url('js/bbdalamproses.js'); ?>"></script> -->
+<script src="<?= base_url('jquery-ui-1.13.2') ?>/jquery-ui.js"></script>
+<!-- <script src="<//?= base_url('jquery-month-picker') ?>/src/MonthPicker.js"></script> -->
+<script src="<?= base_url('daterangepicker') ?>/moment.min.js"></script>
+<script src="<?= base_url('daterangepicker') ?>/daterangepicker.js"></script>
+<script src="<?= base_url('js/bbmaterialpenyusun.js'); ?>"></script>
 
 <?= $this->endSection(); ?>

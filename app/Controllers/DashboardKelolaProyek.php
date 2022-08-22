@@ -47,7 +47,7 @@ class DashboardKelolaProyek extends Dashboard
 
         return view('dashboard/kelolaproyek/welcome', $this->datalogin);
     }
-    public function bbmaterialpenyusun()
+    public function bbmaterialpenyusun($idmaterial = false)
 
     {
         if (session()->get('kelolaproyek') != 'true') {
@@ -57,9 +57,15 @@ class DashboardKelolaProyek extends Dashboard
             unset($_SESSION['aktif']);
         }
         $idajuan =  session()->get('idajuan');
-
+        // $perhitunganmaterialpenyusun = new PerhitunganMaterialPenyusunModel();
+        $Perhitunganmaterial = new PerhitunganMaterialModel();
+        $mprevisi =  new PerhitunganMPrevisi();
         $mprevisi = new PerhitunganMPrevisi();
-        $data =  $mprevisi->builder()->join('perhitungan_material', 'perhitungan_materialpenyusunrev.idmaterial=perhitungan_material.idmaterial')->where('idajuan', $idajuan)->get()->getResultArray();
+        if ($idmaterial != false) {
+            $data =  $mprevisi->builder()->where('idmaterial', $idmaterial)->get()->getResultArray();
+        } else {
+            return redirect()->to('kelolaproyek/bbmaterialutama');
+        }
         $this->datalogin += [
             'databb' => $data,
         ];
@@ -596,5 +602,66 @@ class DashboardKelolaProyek extends Dashboard
         } else {
             return redirect()->to(base_url('kelolaproyek/bbdalamproses'));
         }
+    }
+    public function getdetailmaterial($idmaterial)
+    {
+        if ($this->request->isAJAX()) {
+            $materialutama = new PerhitunganMaterialModel();
+            $mprevisi = new PerhitunganMPrevisi();
+            $belibahan = new BahanBakuProsesModel();
+            $datapenyusun = $belibahan->builder()->select('belibahan.harga_beli,belibahan.totalharga,perhitungan_materialpenyusunrev.*')
+                ->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')
+                ->where('perhitungan_materialpenyusunrev.idmaterial', $idmaterial)->get()->getResultArray();
+            $datamaterial = $materialutama->find($idmaterial);
+            $totalmaterial = $belibahan->builder()->selectSum('totalharga')->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')->where('idmaterial', $idmaterial)->get()->getResultArray();
+            $totalmaterial = $totalmaterial[0]['totalharga'];
+            // $datarevisi = $mprevisi->where('revisi_id', 3)->where('idmaterial', $idmaterial)->find();
+            // $gtbr = $mprevisi->builder()->selectSum('totalmp')->where('idmaterial', $idmaterial)->where('revisi_id', 3)->get()->getResultArray();
+            // $gtbr = $gtbr[0]['totalmp'];
+            // dd($datapenyusun);
+            $data = [
+                'datamaterial' => $datamaterial,
+                'datapenyusun' => $datapenyusun,
+                'totalrevisi' => $totalmaterial,
+                // 'datarevisi' => $datarevisi,
+                // 'gtbr' => $gtbr
+            ];
+            // dd($datapenyusun);
+            echo json_encode($data);
+        }
+    }
+    public function getdatamp($id)
+    {
+        if ($this->request->isAjax()) {
+
+            $revisimp = new PerhitunganMPrevisi();
+            $data = $revisimp->find($id);
+            echo json_encode($data);
+        }
+    }
+    public function simpanbelibb()
+    {
+        $belibb = new BahanBakuProsesModel();
+        $idbeli = $this->kodeotomatis('belibahan', 'idbeli', 'BBB001');
+        $idproyek = $this->request->getVar('idproyek');
+        $idmaterial = $this->request->getvar('idmaterial');
+        $idmaterialpenyusun = $this->request->getVar('idmaterialpenyusun');
+        $namamp = $this->request->getvar('namamp');
+        $tgl_beli = $this->request->getvar('tgl_beli');
+        $harga_beli = (int)filter_var($this->request->getvar('harga'), FILTER_SANITIZE_NUMBER_INT);
+        $totalharga = (int)filter_var($this->request->getvar('totalharga'), FILTER_SANITIZE_NUMBER_INT);
+        $belibb->insert([
+            'idbeli' => $idbeli,
+            'idproyek' => $idproyek,
+            'idmaterialpenyusun' => $idmaterialpenyusun,
+            'harga_beli' => $harga_beli,
+            'tgl_beli' => $tgl_beli,
+            'namamp' => $namamp,
+            'totalharga' => $totalharga,
+
+        ]);
+        session()->setFlashdata('berhasil', 'Berhasil Disimpan');
+        session()->setFlashdata('gagal', 'Gagal Disimpan');
+        return redirect()->to(base_url('kelolaproyek/bbmaterialpenyusun/' . $idmaterial));
     }
 }

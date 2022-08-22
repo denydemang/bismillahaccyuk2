@@ -909,4 +909,77 @@ $(document).ready(function(){
 
         })
     })
+
+    $('#formbbproses').each(function(){
+        $(this).validate({
+            rules: {
+                tgl_beli : {
+                    required : true,
+                },
+                harga : {
+                    required : true,
+                },
+            },
+            messages: {
+                tgl_beli : {
+                    required : true,
+                },
+                harga: {
+                    required: 'Silakan Masukkan Harga'
+                },
+                
+             
+            },
+            errorElement: "div",
+            errorPlacement: function ( error, element ) {
+                
+
+	        // Add the `invalid-feedback` class to the error element
+	        error.addClass( "invalid-feedback" );
+	        error.insertAfter(element);
+                
+
+    
+	    
+	    },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" )
+        },
+        unhighlight: function (element, errorClass, validClass) {
+	        $( element ).removeClass( "is-invalid" );
+	    },
+        submitHandler: function (form) {
+            let satuan =$('.satuan').data('satuan')
+            let quantity =$('.quantity').data('quantity')
+            let harga= $('.harga').data('harga')
+            
+            let satuanval =$('.satuan').val()
+            let quantityval =$('.quantity').val()
+            let hargaval= $('.harga').val()
+ 
+           
+            if (
+                satuan.trim() ==satuanval.trim() &&
+                quantity.trim()== quantityval.trim() &&
+                harga.trim() ==hargaval.trim()
+
+            ) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Silakan Ubah Data !',
+                    showConfirmButton: false,
+                    timer: 4000
+                    })
+                
+            } else {
+                
+                form.submit();
+
+            }
+            
+            }
+
+        })
+    })
 })

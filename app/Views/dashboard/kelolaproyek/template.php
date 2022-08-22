@@ -9,12 +9,19 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="<?= base_url('assetslte') ?>/dist/css/adminlte.min.css?v=3.2.0">
     <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/fontawesome-free/css/all.min.css">
+    <style>
+        .modal-open .ui-datepicker {
+            z-index: 2000 !important
+        }
+    </style>
     <link rel="stylesheet" href="<?= base_url('assetslte') ?>/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <link rel="stylesheet" href="<?= base_url('DataTables') ?>/datatables.min.css">
     <link rel="stylesheet" href="<?= base_url('DataTables') ?>/FixedColumns-4.1.0/css/fixedColumns.bootstrap4.css">
     <link rel="stylesheet" href="<?= base_url('DataTables') ?>/Responsive-2.3.0/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="<?= base_url('DataTables') ?>/datatables.min.css">
     <link rel="stylesheet" href="<?= base_url('DataTables') ?>/DateTime-1.1.2/css/dataTables.dateTime.css">
+    <link rel="stylesheet" href="<?= base_url('jquery-ui-1.13.2') ?>/jquery-ui.css">
+
     <script src="<?= base_url('assetslte') ?>/plugins/jquery/jquery.min.js"></script>
     <script src="<?= base_url('DataTables') ?>/datatables.min.js"></script>
     <script src="<?= base_url('DataTables/DateTime-1.1.2/js/dataTables.dateTime.min.js'); ?>"></script>
