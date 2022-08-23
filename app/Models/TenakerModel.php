@@ -8,8 +8,8 @@ use CodeIgniter\Model;
 class TenakerModel extends Model
 {
     protected $table = 'tenaker';
-    protected $primaryKey = 'idtenaker';
+    protected $primaryKey = 'id_sewatenaker';
     protected $allowedFields = [
-        'idtenaker', 'idproyek', 'namatenaker', 'almttenaker', 'pekerjaan', 'gaji', 'belum_bayar', 'sudah_bayar'
+        'id_sewatenaker', 'idpbtenaker', 'idproyek', 'gaji', 'total_gaji', 'tanggal'
     ];
 }

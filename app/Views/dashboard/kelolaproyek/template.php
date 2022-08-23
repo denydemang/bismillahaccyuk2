@@ -228,10 +228,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url(); ?>/kelolaproyek/penggunaanmesin" class="nav-link  <?= ($_SESSION['aktif'] == 'penggunaanmesin') ? 'active' : '' ?>">
+                            <a href="<?= base_url(); ?>/kelolaproyek/kelolabiayaoperasional" class=" nav-link <?= ($_SESSION['aktif'] == 'kelolabiayaoperasional') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-tools mr-3"></i>
                                 <p>
-                                    Penggunaan Mesin
+                                    Kelola B.Operasional
                                 </p>
                             </a>
                         </li>

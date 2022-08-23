@@ -11,8 +11,10 @@ use App\Models\ProyekModel;
 use App\Models\ProgressProyekModel;
 use App\Models\TenakerModel;
 use App\Models\BahanBakuProsesModel;
+use App\Models\PerhitunganBOPRevisiModel;
 use App\Models\PerhitunganMaterialModel;
 use App\Models\PerhitunganMPrevisi;
+use App\Models\PerhitunganTenakerRevisiModel;
 
 class DashboardKelolaProyek extends Dashboard
 {
@@ -101,7 +103,17 @@ class DashboardKelolaProyek extends Dashboard
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         }
+        $idproyek = session()->get('idproyek');
+        $idajuan = session()->get('idajuan');
         $_SESSION['aktif'] = 'tenagakerja';
+        $datatenaker = new PerhitunganTenakerRevisiModel();
+        $getdata = $datatenaker->where('idajuan', $idajuan)->find();
+        $idtenaker = $this->kodeotomatis('tenaker', 'id_sewatenaker', 'STK001');
+        $this->datalogin += [
+            'datatenaker' => $getdata,
+            'idproyek' => $idproyek,
+            'idtenaker' => $idtenaker
+        ];
 
         return view('dashboard/kelolaproyek/tenagakerja', $this->datalogin);
     }
@@ -129,17 +141,25 @@ class DashboardKelolaProyek extends Dashboard
         $_SESSION['aktif'] = 'pembayaranproyek';
         return view('dashboard/kelolaproyek/pembayaranproyek', $this->datalogin);
     }
-    function penggunaanmesin()
+    function kelolabiayaoperasional()
 
     {
         if (session()->get('kelolaproyek') != 'true') {
             return redirect()->to(base_url('admin'));
         }
+        $idajuan = session()->get('idajuan');
+        $boprevisi = new PerhitunganBOPRevisiModel();
+        $data = $boprevisi->where('idajuan', $idajuan)->find();
+
+        $this->datalogin += [
+            'kelolabop' => $data
+        ];
+
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         }
-        $_SESSION['aktif'] = 'penggunaanmesin';
-        return view('dashboard/kelolaproyek/penggunaanmesin', $this->datalogin);
+        $_SESSION['aktif'] = 'kelolabiayaoperasional';
+        return view('dashboard/kelolaproyek/kelolabiayaoperasional', $this->datalogin);
     }
     function laporanhpp()
 
@@ -663,5 +683,32 @@ class DashboardKelolaProyek extends Dashboard
         session()->setFlashdata('berhasil', 'Berhasil Disimpan');
         session()->setFlashdata('gagal', 'Gagal Disimpan');
         return redirect()->to(base_url('kelolaproyek/bbmaterialpenyusun/' . $idmaterial));
+    }
+    public function GetTenaker($id_pbtenaker)
+    {
+        if ($this->request->isAJAX()) {
+            $tk = new PerhitunganTenakerRevisiModel();
+            $getdata = $tk->find($id_pbtenaker);
+            echo json_encode($getdata);
+        }
+    }
+    public function SewaTenaker()
+    {
+        $tk = new TenakerModel();
+        $idsewatenaker = $this->request->getvar('idsewatenaker');
+        $id_pbtenaker = $this->request->getvar('id_pbtenaker');
+        $idproyek = $this->request->getvar('idproyek');
+        $gaji = $this->request->getvar('gaji');
+        $tanggal = $this->request->getVar('tanggal');
+        $total_gaji = $this->request->getvar('total_gaji');
+
+        $tk->insert([
+            'idsewatenaker' => $idsewatenaker,
+            'id_pbtenaker' => $id_pbtenaker,
+            'idproyek' => $idproyek,
+            'gaji' => $gaji,
+            'total_gaji' => $total_gaji,
+            'tanggal' => $tanggal
+        ]);
     }
 }
