@@ -11,6 +11,7 @@ use App\Models\ProyekModel;
 use App\Models\ProgressProyekModel;
 use App\Models\TenakerModel;
 use App\Models\BahanBakuProsesModel;
+use App\Models\BOPModel;
 use App\Models\PerhitunganBOPRevisiModel;
 use App\Models\PerhitunganMaterialModel;
 use App\Models\PerhitunganMPrevisi;
@@ -150,9 +151,12 @@ class DashboardKelolaProyek extends Dashboard
         $idajuan = session()->get('idajuan');
         $boprevisi = new PerhitunganBOPRevisiModel();
         $data = $boprevisi->where('idajuan', $idajuan)->find();
-
+        $id_pbopr = $this->kodeotomatis('transaksibop', 'id_pbopr', 'TOP001');
+        $idproyek = session()->get('idajuan');
         $this->datalogin += [
-            'kelolabop' => $data
+            'kelolabop' => $data,
+            'id_pbopr' => $id_pbopr,
+            'idproyek' => $idproyek
         ];
 
         if (isset($_SESSION['aktif'])) {
@@ -680,8 +684,13 @@ class DashboardKelolaProyek extends Dashboard
             'totalharga' => $totalharga,
 
         ]);
-        session()->setFlashdata('berhasil', 'Berhasil Disimpan');
-        session()->setFlashdata('gagal', 'Gagal Disimpan');
+        $row = $belibb->builder()->db()->affectedRows();
+        if ($row >= 1) {
+
+            session()->setFlashdata('berhasil', 'Berhasil Disimpan');
+        } else {
+            session()->setFlashdata('gagal', 'Gagal Disimpan');
+        }
         return redirect()->to(base_url('kelolaproyek/bbmaterialpenyusun/' . $idmaterial));
     }
     public function GetTenaker($id_pbtenaker)
@@ -710,5 +719,48 @@ class DashboardKelolaProyek extends Dashboard
             'total_gaji' => $total_gaji,
             'tanggal' => $tanggal
         ]);
+        $row = $tk->builder()->db()->affectedRows();
+        if ($row >= 1) {
+
+            session()->setFlashdata('berhasil', 'Berhasil Disimpan');
+        } else {
+            session()->setFlashdata('gagal', 'Gagal Disimpan');
+        }
+        return redirect()->to(base_url('kelolaproyek/tenagakerja'));
+    }
+    public function getbop($id = false)
+    {
+        if ($this->request->isAjax()) {
+            $bop = new PerhitunganBOPRevisiModel();
+            $getdata = $bop->where('id_pbop', $id)->find();
+            echo json_encode($getdata);
+        }
+    }
+    public function BayarBOP()
+    {
+        $bop = new BOPModel();
+        $id_pbopr = $this->request->getVar('id_pbopr');
+        $id_pbop = $this->request->getVar('id_pbop');
+        $idproyek = $this->request->getvar('idproyek');
+        $tanggal = $this->request->getVar('tanggal');
+        $harga = $this->request->getvar('harga');
+        $tot_biaya = $this->request->getvar('tot_biaya');
+        // dd($harga);
+        $bop->insert([
+            'id_pbopr' => $id_pbopr,
+            'id_pbop' => $id_pbop,
+            'idproyek' => $idproyek,
+            'tanggal' => $tanggal,
+            'harga' => $harga,
+            'tot_biaya' => $tot_biaya
+        ]);
+        $row = $bop->builder()->db()->affectedRows();
+        if ($row >= 1) {
+
+            session()->setFlashdata('berhasil', 'Berhasil Disimpan');
+        } else {
+            session()->setFlashdata('gagal', 'Gagal Disimpan');
+        }
+        return redirect()->to(base_url(base_url('kelolaproyek/kelolabiayaoperasional')));
     }
 }

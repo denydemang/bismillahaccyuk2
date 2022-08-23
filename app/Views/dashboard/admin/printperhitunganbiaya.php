@@ -335,10 +335,6 @@
                         <td class="total"><?= $row['total_gaji']; ?></td>
                     </tr>
                 <?php endforeach; ?>
-                <tr>
-                    <td colspan="4">SUBTOTAL</td>
-                    <td class="total">Rp <?= number_format($sumtk, 0, '', '.'); ?>,-</td>
-                </tr>
             </tbody>
         </table>
 

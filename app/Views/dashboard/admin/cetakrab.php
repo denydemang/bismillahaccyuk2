@@ -119,11 +119,11 @@
             }
         });
     })
-    $('.cetak1').click(function() {
+    $('.cetak2').click(function() {
         let id = $(this).data('id');
         window.location.href = 'http://localhost:8080/admin/printperhitunganbiayarevisi/' + id
     })
-    $('.cetak2').click(function() {
+    $('.cetak1').click(function() {
         let id = $(this).data('id');
         window.location.href = 'http://localhost:8080/admin/printperhitunganbiaya/' + id
     })

@@ -19,47 +19,55 @@ use App\Models\BOPModel;
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
-                    <table class="table table-bordered table-striped table-lg">
-                        <thead>
-                            <tr>
-                                <th>ID Biaya</th>
-                                <th>Nama Transaksi</th>
-                                <th>Quantity</th>
-                                <th>Satuan</th>
-                                <th>Harga</th>
-                                <th>Tot Biaya</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($kelolabop as $row) : ?>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-lg">
+                            <thead>
                                 <tr>
-                                    <td><?= $row['id_pbop']; ?></td>
-                                    <td><?= $row['namatrans']; ?></td>
-                                    <td><?= $row['quantity']; ?></td>
-                                    <td><?= $row['satuan']; ?></td>
-                                    <td>Rp <?= number_format($row['harga'], 0, '', '.'); ?>,-</td>
-                                    <td>Rp <?= number_format($row['tot_biaya'], 0, '', '.'); ?>,-</td>
-                                    <td>
+                                    <th>ID Biaya</th>
+                                    <th>Nama Transaksi</th>
+                                    <th>Quantity</th>
+                                    <th>Satuan</th>
+                                    <th>Harga</th>
+                                    <th>Tot Biaya</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($kelolabop as $row) : ?>
+                                    <tr>
+                                        <td><?= $row['id_pbop']; ?></td>
+                                        <td><?= $row['namatrans']; ?></td>
+                                        <td><?= $row['quantity']; ?></td>
+                                        <td><?= $row['satuan']; ?></td>
+                                        <td>Rp <?= number_format($row['harga'], 0, '', '.'); ?>,-</td>
+                                        <td>Rp <?= number_format($row['tot_biaya'], 0, '', '.'); ?>,-</td>
                                         <?php
                                         $bop = new BOPModel();
                                         $data = $bop->where('id_pbop', $row['id_pbop'])->find();
                                         ?>
                                         <?php if (empty($data)) : ?>
-                                            <button class="btn btn-warning btn-sm rounded-circle">Detail</button>
-                                            <button class="btn btn-success btn-sm rounded-circle">Jurnal</button>
+                                            <td><span class="badge badge-secondary">Belum Bayar</span></td>
                                         <?php else : ?>
-                                            <button class="btn btn-primary btn-sm rounded-circle">Bayar</button>
+                                            <td><span class="badge badge-success">Sudah Bayar</span></td>
                                         <?php endif; ?>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                                        <td>
+
+                                            <?php if (empty($data)) : ?>
+                                                <button data-toggle="modal" data-id="<?= $row['id_pbop']; ?>" data-target="#ModalTenaker" class="btn btn-primary btn-sm rounded-circle bayar">Bayar</button>
+                                            <?php else : ?>
+                                                <button data-id="<?= $row['id_pbop']; ?>" class="btn btn-warning btn-sm rounded-circle">Detail</button>
+                                                <button data-id="<?= $row['id_pbop']; ?>" class="btn btn-success btn-sm rounded-circle">Jurnal</button>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div class="table-responsive">
-            </div>
+
         </div>
     </section>
     <section>
@@ -108,7 +116,7 @@ use App\Models\BOPModel;
                                 </div>
                                 <div class="col">
                                     <label for="satuan">Satuan</label>
-                                    <input type="text" class="form-control satuan" name="satuan" id="satuan">
+                                    <input readonly type="text" class="form-control satuan" name="satuan" id="satuan">
                                     <div class="belum_bayarinvalid invalid-feedback"></div>
                                 </div>
                             </div>
@@ -120,7 +128,7 @@ use App\Models\BOPModel;
                                 </div>
                                 <div class="col">
                                     <label for="harga">Harga Asli</label>
-                                    <input readonly type="text" class="form-control harga" name="harga" id="harga" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                    <input type="text" class="form-control harga" name="harga" id="harga" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                     <div class="belum_bayarinvalid invalid-feedback"></div>
                                 </div>
                             </div>
@@ -130,7 +138,7 @@ use App\Models\BOPModel;
                                     <input readonly type="text" class="form-control tot_biaya" name="tot_biaya" id="tot_biaya" name="tot_biaya" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                 </div>
                             </div>
-                            <button id="btnsimpantenaker" type="submit" class="btn btn-primary btn-sm btnsimpantenaker mt-4">Tambah</button>
+                            <button id="btnsimpantenaker" type="submit" class="btn btn-primary btn-sm btnsimpantenaker mt-4">Bayar</button>
                             <button id="btnsimpancanceltenaker" type="button" class="btn btn-danger btn-sm submit mt-4">Clear</button>
                         </form>
                     </div>
@@ -142,4 +150,31 @@ use App\Models\BOPModel;
 
     </section>
 </div>
+<script>
+    $('.bayar').click(function() {
+        let id = $(this).data('id');
+        $.ajax({
+            url: "http://localhost:8080/DashboardKelolaProyek/getbop/" + id,
+            dataType: "json",
+            success: function(response) {
+                console.log(response);
+                $('.id_pbop').val(response[0]['id_pbop'])
+                $('.namatrans').val(response[0]['namatrans'])
+                $('.quantity').val(response[0]['quantity'])
+                $('.satuan').val(response[0]['satuan'])
+                $('.hargaawal').val(response[0]['harga'])
+            }
+        });
+    })
+    $('.harga').keyup(function() {
+        let harga = parseInt($(this).val());
+        let qty = parseInt($('.quantity').val());
+        let total = harga * qty
+        if (!isNaN(total)) {
+            $('.tot_biaya').val(total);
+        } else {
+            $('.tot_biaya').val(0);
+        }
+    })
+</script>
 <?= $this->endSection(); ?>

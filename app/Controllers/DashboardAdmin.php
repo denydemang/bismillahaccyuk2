@@ -1456,7 +1456,7 @@ class DashboardAdmin extends Dashboard
             $mprevisi = $perhitungamprevisi->where('revisi_id', 3)->find();
             $tkrevisi = $perhitungantkrevisi->where('revisi_id', 3)->find();
 
-            if (empty($revisibop) && empty($mprevisi) && empty($tkrevisi)) {
+            if (empty($revisibop) && empty($mprevisi) && empty($tkrevisi) || empty($getdatauser)) {
                 session()->setFlashdata('pesanprint', 'Tidak Data Yang Direvisi');
                 return redirect()->to(base_url() . '/admin/cetakrab');
             } else {
