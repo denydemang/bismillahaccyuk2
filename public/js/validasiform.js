@@ -982,4 +982,73 @@ $(document).ready(function(){
 
         })
     })
+    
+    $('.formprogress').each(function(){
+        $(this).validate({
+            rules: {
+                tanggal : {
+                    required : true,
+                },
+                pekerjaandiselesaikan : {
+                    required: true
+                },
+                persentase : {
+                    required: true,
+                    max: 100,
+
+                },
+                uploadfile: {
+                    required : true,
+                    filesize:5000,
+                    extension: 'jpg,jpeg'
+                }
+            
+               
+
+            },
+            messages: {
+              
+                pekerjaandiselesaikan : {
+                    required: 'Form Wajib Diisi'
+                },
+                tanggal : {
+                    required: 'Form Wajib Diisi'
+                },
+                 persentase : {
+                    required: 'Form Wajib Diisi',
+                    max: 'Masukkan Angka 1-100'
+                },
+                uploadfile: {
+                    required : 'Silakan masukkan File',
+                    filesize: 'Maksimal 5MB',
+                    extension: 'Pilih FIle Gambar'
+
+                }
+             
+            },
+            errorElement: "div",
+            errorPlacement: function ( error, element ) {
+                
+
+	        // Add the `invalid-feedback` class to the error element
+	        error.addClass( "invalid-feedback" );
+	        error.insertAfter(element);
+                
+
+    
+	    
+	    },
+        highlight: function ( element, errorClass, validClass ) {
+            $( element ).addClass( "is-invalid" )
+        },
+        unhighlight: function (element, errorClass, validClass) {
+	        $( element ).removeClass( "is-invalid" );
+	    },
+        submitHandler: function (form) {
+            form.submit();
+
+            }
+
+        })
+    })
 })

@@ -39,6 +39,23 @@ class DashboardKelolaProyek extends Dashboard
         ];
         $this->datalogin['judul'] = 'Dashboard Kelola Proyek';
     }
+    public function downloadfile($nama = false, $path = false)
+    {
+        $file_path = $path . '/' . $nama;
+        $ctype = "application/octet-stream";
+        header("Pragma:public");
+        header("Expired:0");
+        header("Cache-Control:must-revalidate");
+        header("Content-Control:public");
+        header("Content-Description: File Transfer");
+        header("Content-Type: $ctype");
+        header("Content-Disposition:attachment; filename=\"" . basename($file_path) . "\"");
+        header("Content-Transfer-Encoding:binary");
+        header("Content-Length:" . filesize($file_path));
+        flush();
+        readfile($file_path);
+        exit();
+    }
     public function index()
     {
         if (session()->get('kelolaproyek') != 'true') {
@@ -125,9 +142,21 @@ class DashboardKelolaProyek extends Dashboard
         if (session()->get('kelolaproyek') != 'true') {
             return redirect()->to(base_url('admin'));
         }
+        $idajuan = session()->get('idajuan');
+        $ajuan = new AjuanProyekModel();
+        $progress = new ProgressProyekModel();
+        $idproyek = session()->get('idproyek');
+        $namaproyek = $ajuan->where('idajuan', $idajuan)->first();
+        $namaproyek = $namaproyek['namaproyek'];
+        $dataprogress = $progress->where('idproyek', $idproyek)->find();
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         }
+        $this->datalogin += [
+            'idproyek' => $idproyek,
+            'namaproyek' => $namaproyek,
+            'progress' => $dataprogress
+        ];
         $_SESSION['aktif'] = 'progressproyek';
         return view('dashboard/kelolaproyek/progressproyek', $this->datalogin);
     }
@@ -794,5 +823,44 @@ class DashboardKelolaProyek extends Dashboard
             ];
             echo json_encode($data);
         }
+    }
+    public function SimpanProgress()
+    {
+        $progress = new ProgressProyekModel();
+        $idprogress = $this->kodeotomatis('progress_proyek', 'idprogress', 'PGS001');
+        $idproyek = $this->request->getVar('idproyek');
+        $tanggal = $this->request->getVar('tanggal');
+        $pekerjaan = $this->request->getVar('pekerjaandiselesaikan');
+        $persentase = $this->request->getVar('persentase');
+        $file = $this->request->getFile('uploadfile');
+        $getnamerandomname = $file->getRandomName();
+        $file->move('fileadmin', $getnamerandomname);
+        $progress->insert([
+            'idprogress' => $idprogress,
+            'idproyek' => $idproyek,
+            'tanggal' => $tanggal,
+            'pekerjaandiselesaikan' => $pekerjaan,
+            'persentase' => $persentase,
+            'gambar' => $getnamerandomname
+        ]);
+        $affected = $progress->builder()->db()->affectedRows();
+        if ($affected >= 1) {
+            session()->setFlashdata('berhasil', 'Berhasil Disimpan');
+        } else {
+            session()->setFlashdata('gagal', 'Gagal Disimpan');
+        }
+        return redirect()->to(base_url('kelolaproyek/progressproyek'));
+    }
+    public function hapusprogress($id)
+    {
+        $progress = new ProgressProyekModel();
+        $progress->delete($id);
+        $affected = $progress->builder()->db()->affectedRows();
+        if ($affected >= 1) {
+            session()->setFlashdata('berhasil', 'Berhasil Disimpan');
+        } else {
+            session()->setFlashdata('gagal', 'Gagal Disimpan');
+        }
+        return redirect()->to(base_url('kelolaproyek/progressproyek'));
     }
 }

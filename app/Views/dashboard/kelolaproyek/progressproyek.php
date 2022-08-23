@@ -13,10 +13,11 @@
     <section>
         <div class="card">
             <div class="card-header">
+                <button data-toggle="modal" data-target="#modaldetail" class="btn btn-outline-success"><i class="fas fa-plus"> Tambah Progress</i></button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="tabletenaker" class="table table-striped table-sm">
+                    <table id="tabletenaker" class="table table-bordered table-striped text-center">
                         <thead>
                             <th>No</th>
                             <th>Tanggal</th>
@@ -26,23 +27,149 @@
                             <th>Aksi</th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>14/11/2022</td>
-                                <td>50%</td>
-                                <td>Memasang Rangka</td>
-                                <td>hahahaha</td>
-                                <td>Edit | Hapus</td>
-                            </tr>
+                            <?php $nomor = 1 ?>
+                            <?php foreach ($progress as $row) : ?>
+                                <tr>
+                                    <td><?= $nomor++; ?></td>
+                                    <td><?= date('d F Y', strtotime($row['tanggal'])); ?></td>
+                                    <td><?= $row['pekerjaandiselesaikan']; ?></td>
+                                    <td>
+                                        <span><?= $row['persentase']; ?>%</span>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-primary progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: <?= $row['persentase']; ?>%">
+                                                <span class="sr-only">40% Complete (success)</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="<?= base_url('DashboardKelolaProyek/downloadfile/' . $row['gambar'] . '/fileadmin'); ?>"><img style="width:250px;object-fit:contain" src="<?= base_url('fileadmin/' . $row['gambar']); ?>" alt=""></a></td>
+                                    <td>
+                                        <button data-id="<?= $row['idprogress']; ?>" class="btn btn-danger hapus">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
 
                     </table>
                 </div>
-
-
             </div>
-
         </div>
     </section>
+    <section>
+        <div class="modal fade" id="modaldetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-success">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="TitleLabel">Tambah Progress Proyek</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" id="formprogress" class="formprogress" enctype='multipart/form-data' action="<?= base_url('DashboardKelolaProyek/SimpanProgress'); ?>">
+                            <div class="form-group form-row">
+                                <div class="col">
+                                    <label for="idproyek">Id Proyek</label>
+                                    <input readonly type="text" name="idproyek" id="idproyek" class="form-control idproyek" value="<?= $idproyek; ?>">
+                                </div>
+                                <div class="col">
+                                    <label for="namaproyek">Nama Proyek</label>
+                                    <input readonly type="text" name="namaproyek" id="namaproyek" class="form-control namaproyek" value="<?= $namaproyek; ?>">
+                                </div>
+                            </div>
+                            <div class="form-group form-row">
+                                <div class="col">
+                                    <label for="tanggal">Tanggal*</label>
+                                    <input type="text" name="tanggal" id="tanggal" class="form-control tanggal" autocomplete="off">
+
+                                </div>
+                                <div class="col">
+                                    <label for="persentase">Persentase Proyek*</label>
+                                    <input type="text" name="persentase" id="persentase" class="form-control persentase" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                </div>
+                            </div>
+                            <div class="form-group form-row">
+                                <div class="col">
+                                    <label for="pekerjaandiselesaikan">Pekerjaan Yang Sudah Selesai</label>
+                                    <input type="text" name="pekerjaandiselesaikan" id="pekerjaandiselesaikan" class="form-control pekerjaandiselesaikan">
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="custom-file col-8">
+                                    <label for="exampleFormControlFile1">Pilih Gambar</label>
+                                    <input type="file" class="form-control-file uploadfile" id="exampleFormControlFile1" name="uploadfile">
+                                    <small id="emailHelp" class="form-text text-white">File Gambar Ukuran Maks 5mb </small>
+                                </div>
+                            </div>
+                            <button type="submit " class="btn btn-primary simpanprogress">Simpan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="notif" data-gagal="<?= session()->getFlashdata('gagal'); ?>" data-berhasil="<?= session()->getFlashdata('berhasil'); ?>"></div>
 </div>
+
+<script script src="<?= base_url('jquery-ui-1.13.2') ?>/jquery-ui.js"></script>
+<!-- <script src="<//?= base_url('jquery-month-picker') ?>/src/MonthPicker.js"></script> -->
+<script src="<?= base_url('daterangepicker') ?>/moment.min.js"></script>
+<script src="<?= base_url('daterangepicker') ?>/daterangepicker.js"></script>
+<script>
+    const base_url = 'http://localhost:8080/'
+    $(document).ready(function() {
+        $('.close').click(function() {
+            $('.tanggal').removeClass('is-invalid');
+            $('.persentase').removeClass('is-invalid');
+            $('.pekerjaandiselesaikan').removeClass('is-invalid');
+            $('.uploadfile').removeClass('is-invalid');
+
+
+            $('.formprogress').trigger('reset');
+        })
+        let berhasil = $('.notif').data('berhasil');
+        let gagal = $('.notif').data('gagal');
+        if (berhasil) {
+            Swal.fire({
+                title: berhasil,
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        } else if (gagal) {
+            Swal.fire({
+                title: gagal,
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+
+
+        $('.tanggal').datepicker({
+            dateFormat: 'yy-mm-dd'
+        })
+        $('.hapus').click(function() {
+            let id = $(this).data('id');
+            Swal.fire({
+                title: 'Yakin Hapus ?',
+                icon: 'question',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.href = base_url + 'kelolaproyek/hapusprogress/' + id
+                }
+            })
+
+        })
+
+    })
+</script>
+
+
 <?= $this->endSection(); ?>

@@ -218,33 +218,7 @@ $this->extend('dashboard/kelolaproyek/template') ?>
                     </div>
                 </section>
 
-                <!-- Modal Small -->
-                <div class="modal fade" id="modal-sm" style="display: none;" aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Kurang Bayar</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="" class="formbayar">
-                                    <label for="" style="font-weight:bolder; color:blue" class="labelbiaya">Biaya : Rp 50000</label><br>
-                                    <label for="" style="font-weight:bolder; color:purple">Sudah_Bayar</label>
-                                    <input type="text" readonly class="form-control sudah_bayar2" name="sudah_bayar2" id="sudah_bayar2" placeholder="">
-                                    <label for="" class="mt-3" style="font-weight:bolder; color:coral">Belum_Bayar</label>
-                                    <input type="text" readonly class="form-control belum_bayar2" name="belum_bayar2" id="belum_bayar2">
-                                    <input type="text" class="form-control inputbayar mt-3" name="inputbayar2" id="inputbayar2" placeholder="Masukkan Pembayaran Anda">
-                            </div>
-                            <div class="modal-footer justify-content-between">
-                                <button type="submit" class="btn btn-primary btnbayar">Bayar</button>
-                                </form>
-                            </div>
-                        </div>
 
-                    </div>
-                </div>
             </div>
         </div>
     </section>
