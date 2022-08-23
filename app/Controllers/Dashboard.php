@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\AjuanProyekModel;
 use App\Models\PerhitunganBBRevisiModel;
+use App\Models\ChatNotifModel;
+use App\Models\ChatNotifKlienModel;
 
 
 class Dashboard extends BaseController
@@ -109,10 +111,17 @@ class Dashboard extends BaseController
             };
             $_SESSION['aktif'] = 'welcome';
 
+            $ChatNotifModel = new ChatNotifModel();
+            $qchat_notif = $ChatNotifModel->select('jumlah_notif')
+                        ->get()->getResult();
+            $ac_semua_jumlah_notif = array_column($qchat_notif, 'jumlah_notif');
+            $semua_jumlah_notif = array_sum($ac_semua_jumlah_notif);
+
             $this->datalogin['judul'] = 'Dashboard Admin';
             $this->datalogin += [
                 'jumlahdataakun' => $this->jumlahdataakun,
-                'jumlahajuan' => $this->jumlahajuan
+                'jumlahajuan' => $this->jumlahajuan,
+                'semua_jumlah_notif' => $semua_jumlah_notif
             ];
 
             return view('dashboard/admin/welcome', $this->datalogin);
@@ -121,7 +130,19 @@ class Dashboard extends BaseController
                 unset($_SESSION['aktif']);
             }
             $_SESSION['aktif'] = 'home';
+
+            $ChatNotifKlienModel = new ChatNotifKlienModel();
+            $qchat_notif_klien = $ChatNotifKlienModel->select('jumlah_notif')
+                        ->where('id_chat_notif', session()->get('user_id'))
+                        ->get()->getResult();
+            $ac_notif_admin_perklien = array_column($qchat_notif_klien, 'jumlah_notif');
+            if($ac_notif_admin_perklien==NULL){
+                $ac_notif_admin_perklien[0]='0';
+            }
             $this->datalogin['judul'] = 'Dashboard Klien';
+            $this->datalogin += [
+                'notif_admin_perklien' => $ac_notif_admin_perklien[0]
+            ];
             return view('dashboard/klien/welcome', $this->datalogin);
         };
     }

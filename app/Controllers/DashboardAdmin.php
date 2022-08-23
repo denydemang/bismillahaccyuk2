@@ -17,6 +17,8 @@ use App\Models\ProgressProyekModel;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Models\massagemodel;
+use App\Models\ChatNotifModel;
+use App\Models\ChatNotifKlienModel;
 
 require VENDORPATH . '/autoload.php';
 
@@ -42,10 +44,18 @@ class DashboardAdmin extends Dashboard
             unset($_SESSION['aktif']);
         };
         $_SESSION['aktif'] = 'welcome';
+
+        $ChatNotifModel = new ChatNotifModel();
+        $qchat_notif = $ChatNotifModel->select('jumlah_notif')
+                    ->get()->getResult();
+        $ac_semua_jumlah_notif = array_column($qchat_notif, 'jumlah_notif');
+        $semua_jumlah_notif = array_sum($ac_semua_jumlah_notif);
+
         $this->datalogin += [
             'jumlahdataakun' => $this->jumlahdataakun,
             'jumlahajuan' => $this->jumlahajuan,
-            'jumlahproyek' => $this->jumlahproyek
+            'jumlahproyek' => $this->jumlahproyek,
+            'semua_jumlah_notif' => $semua_jumlah_notif
         ];
 
         return view('dashboard/admin/welcome', $this->datalogin);
@@ -63,10 +73,17 @@ class DashboardAdmin extends Dashboard
         $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
         $query = $builder->get();
 
-
         $_SESSION['aktif'] = 'ajuan';
+
+        $ChatNotifModel = new ChatNotifModel();
+        $qchat_notif = $ChatNotifModel->select('jumlah_notif')
+                    ->get()->getResult();
+        $ac_semua_jumlah_notif = array_column($qchat_notif, 'jumlah_notif');
+        $semua_jumlah_notif = array_sum($ac_semua_jumlah_notif);
+
         $this->datalogin += [
-            'dataajuan' => $query->getResult()
+            'dataajuan' => $query->getResult(),
+            'semua_jumlah_notif' => $semua_jumlah_notif
         ];
 
         return view('dashboard/admin/ajuanproyek', $this->datalogin);
@@ -86,8 +103,16 @@ class DashboardAdmin extends Dashboard
             unset($_SESSION['aktif']);
         };
         $_SESSION['aktif'] = 'datauser';
+
+        $ChatNotifModel = new ChatNotifModel();
+        $qchat_notif = $ChatNotifModel->select('jumlah_notif')
+                    ->get()->getResult();
+        $ac_semua_jumlah_notif = array_column($qchat_notif, 'jumlah_notif');
+        $semua_jumlah_notif = array_sum($ac_semua_jumlah_notif);
+
         $this->datalogin += [
             'users' => $getData,
+            'semua_jumlah_notif' => $semua_jumlah_notif
         ];
         return view('dashboard/admin/datauser', $this->datalogin);
     }
@@ -135,6 +160,12 @@ class DashboardAdmin extends Dashboard
         } else {
             $tablekosong = 'false';
         }
+        $ChatNotifModel = new ChatNotifModel();
+        $qchat_notif = $ChatNotifModel->select('jumlah_notif')
+                    ->get()->getResult();
+        $ac_semua_jumlah_notif = array_column($qchat_notif, 'jumlah_notif');
+        $semua_jumlah_notif = array_sum($ac_semua_jumlah_notif);
+
         $this->datalogin += [
             'dataajuan' => $getdata,
             'kodeproyek' => $kodeproyek,
@@ -145,7 +176,8 @@ class DashboardAdmin extends Dashboard
             'namaklien' => $namaklien,
             'idklien' => $idklien,
             'proyek' => $hasil,
-            'tablekosong' => $tablekosong
+            'tablekosong' => $tablekosong,
+            'semua_jumlah_notif' => $semua_jumlah_notif
         ];
 
 
@@ -165,12 +197,16 @@ class DashboardAdmin extends Dashboard
         $modelakun = new ModelLogin();
         $akun = $modelakun->findAll();
 
-        // $id_client = $id;
-        // $builder = $this->db->table('chat');
-        // $builder->select('id_admin, id_client, nama_user')
-        // ->where('id_client', $id_client)
-        // ->where('id_admin !=', 0);
-        // $query = $builder->get(1, 0); //NULL
+        $ChatNotifModel = new ChatNotifModel();
+        $qchat_notif = $ChatNotifModel->select('jumlah_notif')
+                    ->get()->getResult();
+        $ac_semua_jumlah_notif = array_column($qchat_notif, 'jumlah_notif');
+        $semua_jumlah_notif = array_sum($ac_semua_jumlah_notif);
+
+        $qchat_notif2 = $ChatNotifModel->select('*')
+                    ->get()->getResult();
+        // $ac_semua_id_chat_notif = array_column($qchat_notif2);
+        // echo print_r($qchat_notif2);
 
         $data = [
             'judul' => 'Dashboard Admin',
@@ -181,7 +217,11 @@ class DashboardAdmin extends Dashboard
             'akun' => $akun,
             'massage' => $tampung,
             'massage2' => $tampung2, //NULL
-            // 'klik' => $query->getResult() //NULL 
+            'semua_jumlah_notif' => $semua_jumlah_notif,
+            'semua_id_chat_notif' => $qchat_notif2,
+            // 'semua_id_chat_notif' => $ac_semua_id_chat_notif,
+            // 'chat_notif' => $ChatNotif,
+            // 'chat_notif' => $query2,
         ];
         if ($id != NULL) {
             $modelmassage2 = new massagemodel();
@@ -191,16 +231,17 @@ class DashboardAdmin extends Dashboard
             $akunclient = $modelakun->select('user_name')->where('user_id', $id)->get()->getResult();
             $nama_client = array_column($akunclient, 'user_name');
 
-            // $id_client = $id;
-            // $builder = $this->db->table('chat');
-            // $builder->select('id_admin, id_client, nama_user')
-            // ->where('id_client', $id_client)
-            // ->where('id_admin !=', 0);
-            // $query = $builder->get(1, 0);//1 baris
-            // echo '<script>console.log('.print_r($query->getResult()).')</script>';
+            $ChatNotifModel = new ChatNotifModel();
+            $ChatNotifModel->where('id_chat_notif', $id)->set([
+                'jumlah_notif' => '',
+            ])->update();
+            $qchat_notif = $ChatNotifModel->select('jumlah_notif')
+                        ->get()->getResult();
+            $ac_semua_jumlah_notif = array_column($qchat_notif, 'jumlah_notif');
+            $semua_jumlah_notif = array_sum($ac_semua_jumlah_notif);
 
-            // echo '<script>console.log('.$nama_client[0].')</script>';
-            // echo '<script>console.log('.$id_client.')</script>';
+            $qchat_notif2 = $ChatNotifModel->select('*')
+                        ->get()->getResult();
 
             $data2 = [
                 'judul' => 'Dashboard Admin',
@@ -211,14 +252,286 @@ class DashboardAdmin extends Dashboard
                 'akun' => $akun,
                 'massage' => $tampung,
                 'massage2' => $tampung2,
-                // 'klik' => $query->getResult()
+                'semua_jumlah_notif' => $semua_jumlah_notif,
+                'semua_id_chat_notif' => $qchat_notif2,
             ];
+
+            ////////////////////////////
+
+            $modelmassage->where('id_client', $id)->set([
+                'status' => 'sudah',
+            ])->update();
+        
+            $Tchat_notif2 = $this->db->table('chat_notif');
+            $Tchat_notif2->select('*')
+            ->where('id_chat_notif', $id);
+            $qchat_notif2 = $Tchat_notif2->get()->getResult();
+    
+            $builder = $this->db->table('chat');
+            $builder->select('*')
+                ->where('id_client', $id);
+            $query = $builder->get()->getResult();
+    
+            foreach ($query as $key) {
+                $data_pusher[] = $key;
+            }
+
+            foreach ($qchat_notif2 as $key2) {
+                $data_pusher2[] = $key2;
+            }
+    
+            $options = array(
+                'cluster' => 'ap1',
+                'useTLS' => true
+            );
+            $pusher = new Pusher\Pusher(
+            'e0bd82d32cf9d6ef3c0f',
+            '143094503bcdc550b65b',
+            '1197215',
+            $options
+            );
+
+            $pusher->trigger($id, 'my-event', $data_pusher);
+            $pusher->trigger('notif_admin_perklien', 'my-event', $data_pusher2);
 
             return view('dashboard/admin/message', $data2);
         }
-
-
         return view('dashboard/admin/message', $data);
+    }
+
+    // public function klikklien()
+    // {
+    //     $modelmassage = new massagemodel();
+
+    //     $id_client = $_POST['id_client'];
+        
+    //     $modelmassage->where('id_client', $id_client)->set([
+    //         'status' => 'sudah',
+    //     ])->update();
+
+    //     $ChatNotifModel = new ChatNotifModel();
+    //     $ChatNotifModel->where('id_chat_notif', $id_client)->set([
+    //         'jumlah_notif' => '',
+    //     ])->update();
+
+    //     $builder = $this->db->table('chat');
+    //     $builder->select('*')
+    //         ->where('id_client', $id_client);
+    //     // ->where('id_admin !=', 0);
+    //     $query = $builder->get()->getResult();
+
+        
+    //     foreach ($query as $key) {
+    //         $data_pusher[] = $key;
+    //     }
+
+    //     $options = array(
+    //         'cluster' => 'ap1',
+    //         'useTLS' => true
+    //     );
+    //     $pusher = new Pusher\Pusher(
+    //     'e0bd82d32cf9d6ef3c0f',
+    //     '143094503bcdc550b65b',
+    //     '1197215',
+    //     $options
+    //     );
+
+    //     $pusher->trigger($id_client, 'my-event', $data_pusher);
+    // }
+
+    public function store()
+    {
+        $modelmassage = new massagemodel();
+
+        $id_admin = $_POST['id_admin'];
+        $id_client = $_POST['id_client'];
+        $nama_user = $_POST['nama_user'];
+        $nama_client = $_POST['nama_client'];
+        $pesan = $_POST['pesan'];
+        $status = $_POST['status'];
+
+        // echo '<script>console.log(' . $id_client . ')</script>';
+
+        $data = array(
+            'id_admin' => $id_admin,
+            'id_client' => $id_client,
+            'nama_user' => $nama_user,
+            'nama_client' => $nama_client,
+            'pesan' => $pesan,
+            'status' => $status,
+        );
+
+        $options = array(
+            'cluster' => 'ap1',
+            'useTLS' => true
+        );
+        $pusher = new Pusher\Pusher(
+        'e0bd82d32cf9d6ef3c0f',
+        '143094503bcdc550b65b',
+        '1197215',
+        $options
+        );
+        // $pusher = new Pusher\Pusher(
+        //     '40ffd99f64d712cc1ceb',
+        //     '6fa3735fd7909ba7255c',
+        //     '1456878',
+        //     $options
+        // );
+
+
+        //status belum dibaca dari admin diubah menjadi sudah tabel chat
+        $builder5 = $this->db->table('chat');
+        $builder5->select('*')
+            ->where('id_admin', '0')
+            ->where('id_client', $id_client)
+            // ->where('status', 'belum')
+            ->set([
+                'status' => 'sudah',
+                ])->update();
+
+        // $modelmassage->insert($data);
+
+        // $builder = $this->db->table('chat');
+        // $builder->select('*')
+        //     ->where('id_client', $id_client);
+        // // ->where('id_admin !=', 0);
+        // $query = $builder->get()->getResult();
+
+        // foreach ($query as $key) {
+        //     $data_pusher[] = $key;
+        // }
+
+        // $pusher->trigger($id_client, 'my-event', $data_pusher);
+
+        // //cek masukan data tabel chat_notif_klien
+        // $builder2 = $this->db->table('chat_notif_klien');
+        // $builder2->select('*')
+        //     ->where('id_chat_notif', $id_client);
+        // $query2 = $builder2->get()->getResult();
+
+        //masukan data chat baru ke tabel chat
+        $modelmassage->insert($data);
+
+        //hitung jumlah notif pesan dari admin belum dibaca klien
+        $builder3 = $this->db->table('chat');
+        $builder3->select('*')
+            ->where('id_admin', $id_admin)
+            ->where('id_client', $id_client)
+            ->where('status', 'belum');
+        $query3 = $builder3->get()->getResult();
+
+        //jumlah notif tabel chat_notif jadi 0
+        $builder7 = $this->db->table('chat_notif');
+        $builder7->select('*')
+                ->where('id_chat_notif', $id_client)
+                ->set([
+                    'jumlah_notif' => '0',
+                    ])->update();
+        $query7 = $builder7->get()->getResult();
+
+        foreach ($query7 as $key7) {
+            $data_pusher7[] = $key7;
+        }
+
+        $pusher->trigger('notif_admin_perklien', 'my-event', $data_pusher7);
+
+
+        $DataN = array(
+            'id_chat_notif' => $id_client,
+            'nama_klien' => $nama_client,
+            'jumlah_notif' => count($query3),
+        );
+        
+        //cek masukan data tabel chat_notif_klien
+        $ChatNotifKlienModel = new ChatNotifKlienModel();
+        $builder2 = $this->db->table('chat_notif_klien');
+        $builder2->select('*')
+            ->where('id_chat_notif', $id_client);
+        $query2 = $builder2->get()->getResult();
+
+        if($query2==NULL){
+            $ChatNotifKlienModel->insert($DataN);
+            
+            // $builder4 = $this->db->table('chat_notif_klien');
+            // $builder4->select('*')
+            //     ->where('id_chat_notif', $id_client);
+            // $query4 = $builder4->get()->getResult();
+
+            // $builder5 = $this->db->table('chat');
+            // $builder5->select('*')
+            //     ->where('id_admin', '0')
+            //     ->where('id_client', $id_client)
+            //     // ->where('status', 'belum')
+            //     ->set([
+            //         'status' => 'sudah',
+            //         ])->update();
+        }
+        else{
+            $ChatNotifKlienModel->where('id_chat_notif', $id_client)->set([
+            'jumlah_notif' => count($query3),
+            'nama_klien' => $nama_client
+            ])->update();
+
+            // $builder4 = $this->db->table('chat_notif_klien');
+            // $builder4->select('*')
+            //     ->where('id_chat_notif', $id_client);
+            // $query4 = $builder4->get()->getResult();
+
+
+            // $builder5 = $this->db->table('chat');
+            // $builder5->select('*')
+            //     ->where('id_admin', '0')
+            //     ->where('id_client', $id_client)
+            //     // ->where('status', 'belum')
+            //     ->set([
+            //         'status' => 'sudah',
+            //         ])->update();
+            // $query5 = $builder5->get()->getResult();
+        }
+
+        $builder4 = $this->db->table('chat_notif_klien');
+        $builder4->select('*')
+                ->where('id_chat_notif', $id_client);
+        $query4 = $builder4->get()->getResult();
+
+
+        foreach ($query4 as $key2) {
+            $data_pusher2[] = $key2;
+        }
+
+        $pusher->trigger('notif_klien_'.$id_client, 'my-event', $data_pusher2);
+        // echo json_encode($query);
+
+        // //masukan data chat baru ke tabel chat
+        // $modelmassage->insert($data);
+
+        $builder = $this->db->table('chat');
+        $builder->select('*')
+            ->where('id_client', $id_client);
+        // ->where('id_admin !=', 0);
+        $query = $builder->get()->getResult();
+
+        foreach ($query as $key) {
+            $data_pusher[] = $key;
+        }
+        //kirim pusher
+        $pusher->trigger($id_client, 'my-event', $data_pusher);
+
+        $bud = $this->db->table('chat_notif');
+        $bud->select('*');
+        $qy2 = $bud->get()->getResult();
+        $ac_notif_admin_perklien = array_column($qy2, 'jumlah_notif');
+        $notif_admin_perklien = array_sum($ac_notif_admin_perklien);
+        // $query2 = $builder2->get()->getResult();
+
+        // foreach($qy2 as $ky2){
+        //     $data_pur2[] = $ky2;
+        // }
+        // $pusher->trigger('jumlah_notif_admin', 'my-event', $data_pur2[]);
+        
+        $pusher->trigger('jumlah_notif_admin', 'my-event', array('jumlah_notif' => $notif_admin_perklien));
+        
+
     }
 
     public function perhitunganbiayarevisi($id = '')
@@ -438,68 +751,22 @@ class DashboardAdmin extends Dashboard
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
+        $ChatNotifModel = new ChatNotifModel();
+        $qchat_notif = $ChatNotifModel->select('jumlah_notif')
+                    ->get()->getResult();
+        $ac_semua_jumlah_notif = array_column($qchat_notif, 'jumlah_notif');
+        $semua_jumlah_notif = array_sum($ac_semua_jumlah_notif);
+
         $this->datalogin += [
             'bb' =>  $getDataBB,
             'bop' => $getDataBOP,
             'tk' => $getDataTK,
-            'bukaform' => $bukaform
+            'bukaform' => $bukaform,
+            'semua_jumlah_notif' => $semua_jumlah_notif
         ];
         $_SESSION['aktif'] = 'perhitunganbiayarevisi';
+
         return view('dashboard/admin/perhitunganrevisi', $this->datalogin);
-    }
-
-    public function store()
-    {
-        $modelmassage = new massagemodel();
-
-        $id_admin = $_POST['id_admin'];
-        $id_client = $_POST['id_client'];
-        $nama_user = $_POST['nama_user'];
-        $nama_client = $_POST['nama_client'];
-        $pesan = $_POST['pesan'];
-
-        echo '<script>console.log(' . $id_client . ')</script>';
-
-        $data = array(
-            'id_admin' => $id_admin,
-            'id_client' => $id_client,
-            'nama_user' => $nama_user,
-            'nama_client' => $nama_client,
-            'pesan' => $pesan,
-        );
-
-        $options = array(
-            'cluster' => 'ap1',
-            'useTLS' => true
-        );
-        // $pusher = new Pusher\Pusher(
-        // 'e0bd82d32cf9d6ef3c0f',
-        // '143094503bcdc550b65b',
-        // '1197215',
-        // $options
-        // );
-        $pusher = new Pusher\Pusher(
-            '40ffd99f64d712cc1ceb',
-            '6fa3735fd7909ba7255c',
-            '1456878',
-            $options
-        );
-
-
-        $modelmassage->insert($data);
-
-        $builder = $this->db->table('chat');
-        $builder->select('*')
-            ->where('id_client', $id_client);
-        // ->where('id_admin !=', 0);
-        $query = $builder->get()->getResult();
-
-        foreach ($query as $key) {
-            $data_pusher[] = $key;
-        }
-
-        $pusher->trigger($id_client, 'my-event', $data_pusher);
-        echo json_encode($query);
     }
 
     public function perhitunganbiaya()
@@ -510,8 +777,15 @@ class DashboardAdmin extends Dashboard
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         };
+        $ChatNotifModel = new ChatNotifModel();
+        $qchat_notif = $ChatNotifModel->select('jumlah_notif')
+                    ->get()->getResult();
+        $ac_semua_jumlah_notif = array_column($qchat_notif, 'jumlah_notif');
+        $semua_jumlah_notif = array_sum($ac_semua_jumlah_notif);
+
         $this->datalogin += [
             'dataajuan' => $getData,
+            'semua_jumlah_notif' => $semua_jumlah_notif
         ];
         $_SESSION['aktif'] = 'perhitunganbiaya';
         return view('dashboard/admin/perhitunganbiaya', $this->datalogin);

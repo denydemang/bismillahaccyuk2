@@ -229,6 +229,9 @@
                                 <p>
                                     Message
                                 </p>
+                                <span id="inotiftemplate" class="badge badge-info right">
+                                <?php echo $semua_jumlah_notif; ?>
+                                </span>
                             </a>
                         </li>
                         <!-- ENd Bagian Item MenuSidebar -->

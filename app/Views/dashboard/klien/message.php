@@ -90,6 +90,7 @@
                                 <input type="hidden" id="id_client" name="id_client" value="<?php echo $user_id;?>" class="form-control">
                                 <input type="hidden" id="nama_user" name="nama_user" value="<?php echo $username;?>" class="form-control">
                                 <input type="hidden" id="nama_client" name="nama_client" value="<?php echo $username;?>" class="form-control">
+                                <input type="hidden" id="status" name="status" value="<?php echo 'belum';?>" class="form-control">
                                 <input type="text" id="pesan" name="pesan" placeholder="Type Message ..." class="form-control">
                                 <span class="input-group-append">
                                     <button type="submit" onclick="store2()" class="btn btn-primary">Send</button>
@@ -112,7 +113,8 @@ function store2(){
         id_client: $('#id_client').val(),
         nama_user: $('#nama_user').val(),
         nama_client: $('#nama_client').val(),
-        pesan: $('#pesan').val(),	
+        pesan: $('#pesan').val(),
+        status: $('#status').val(),	
     }
     $.ajax({
         // url: '<?//= site_url('/DashboardAdmin/store2');?>',
@@ -127,14 +129,14 @@ function store2(){
 $(document).ready(function(){
     Pusher.logToConsole = true;
 
-// var pusher = new Pusher('e0bd82d32cf9d6ef3c0f', {
-    var pusher = new Pusher('40ffd99f64d712cc1ceb', {
+    var pusher = new Pusher('e0bd82d32cf9d6ef3c0f', {
+    // var pusher = new Pusher('40ffd99f64d712cc1ceb', {
     cluster: 'ap1'
     });
 
     // var idus=$(this).data('id_client');
     var idus=$('#id_client').val()
-    console.log(idus);
+    console.log('cli'.idus);
     var channel = pusher.subscribe(idus);
 
     channel.bind('my-event', function(data) {
@@ -177,6 +179,16 @@ $(document).ready(function(){
         function hapuschat(){
             document.getElementById('pesan').value='';
             }
+
+    var channel2 = pusher.subscribe('notif_klien_'+$('#id_client').val());
+    channel2.bind('my-event', function(data) {
+        // var str = '';
+        var vjumlahnotif=0;
+        for (var z in data) {
+            vjumlahnotif=data[0].jumlah_notif;
+        }
+        $('#inotiftemplateklien').html(vjumlahnotif);
+    });
 })
 </script>
 <?= $this->endSection(); ?>

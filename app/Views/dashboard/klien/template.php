@@ -194,6 +194,13 @@
                                 <p>
                                     Message
                                 </p>
+                                <span id="inotiftemplateklien" class="badge badge-info right">
+                                <?php if($notif_admin_perklien==NULL){
+                                    echo 0;
+                                }
+                                else{
+                                    echo $notif_admin_perklien;
+                                } ?>
                             </a>
                         </li>
                         <!-- ENd Bagian Item MenuSidebar -->
@@ -209,13 +216,17 @@
         <!-- ENd Bagian Content -->
         <?= $this->renderSection('dashboardklien'); ?>
         <!-- Bagian Footer -->
-        <footer class="main-footer">
+        <!-- <footer class="main-footer">
 
             <strong>Copyright &copy; 2022 <a href="https://adminlte.io">PT. Adika Jaya Engineering</a>.</strong> All rights reserved.
-        </footer>
+        </footer> -->
         <!-- End Bagian Footer -->
 
     </div>
+    <footer class="main-footer">
+
+            <strong>Copyright &copy; 2022 <a href="https://adminlte.io">PT. Adika Jaya Engineering</a>.</strong> All rights reserved.
+    </footer>
 
 
     <script src="<?= base_url('assetslte') ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
