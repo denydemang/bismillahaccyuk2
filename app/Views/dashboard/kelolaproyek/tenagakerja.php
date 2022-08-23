@@ -61,10 +61,10 @@ $this->extend('dashboard/kelolaproyek/template') ?>
                                             <?php
                                             if (empty($data)) :
                                             ?>
-                                                <button id="btnedittenaker" data-toggle="modal" data-target="#ModalTenaker" data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-success btn-sm btnedittenaker">Sewa</button>
+                                                <button id="btnsewatenaker" data-toggle="modal" data-target="#ModalTenaker" data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-success btn-sm btnedittenaker">Sewa</button>
                                             <?php else : ?>
-                                                <button id="btnedittenaker" data-toggle="modal" data-target="#ModalTenaker" data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-success btn-sm btndetailsewa">Detail Sewa</button>
-                                                <button id="btnedittenaker" data-toggle="modal" data-target="#ModalTenaker" data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-success btn-sm btndetailsewa">Jurnal</button>
+                                                <button id="btndetailtenaker" data-toggle="modal" data-target="#modaldetail" data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-info btn-sm btndetailsewa"><i class="fas fa-eye"></i></button>
+                                                <button id="btnjurnatk" data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-success btn-sm btndetailsewa">Jurnal</button>
                                             <?php endif; ?>
 
                                         </td>
@@ -103,7 +103,7 @@ $this->extend('dashboard/kelolaproyek/template') ?>
                                     </div>
                                     <div class="form-row mb-3">
                                         <div class="col">
-                                            <label for="gajiawal">Gaji (Awal)</label>
+                                            <label for="gajiawal">Biaya Sewa(RAB)</label>
                                             <input readonly type="text" class="form-control gajiawal" name="gajiawal" id="gajiawal" name="gajiawal">
                                             <div class="sudah_bayarinvalid invalid-feedback"></div>
                                         </div>
@@ -134,8 +134,8 @@ $this->extend('dashboard/kelolaproyek/template') ?>
                                             <div class="belum_bayarinvalid invalid-feedback"></div>
                                         </div>
                                     </div>
-                                    <button id="btnsimpantenaker" type="submit" class="btn btn-primary btn-sm btnsimpantenaker mt-4">Tambah</button>
-                                    <button id="btnsimpancanceltenaker" type="button" class="btn btn-danger btn-sm submit mt-4">Clear</button>
+                                    <button id="btnsimpantenaker" type="submit" class="btn btn-success btn-sm btnsimpantenaker mt-4">Sewa</button>
+
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -145,87 +145,78 @@ $this->extend('dashboard/kelolaproyek/template') ?>
                 </div>
 
                 <!-- modal Detail Tenaga Kerja -->
-                <div class="modal fade" id="ModalDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Detail Tenaga Kerja</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col">
-                                                <strong><i class="fas fa-book mr-1 "></i>Nama Tenaker <span class="detailidtenaker">(ID: )</span></strong>
-                                                <p class="text-muted detailnamatenaker mr-1">
-
-                                                </p>
-                                            </div>
-                                            <div class="col">
-                                                <strong><i class="fas fa-info mr-1"></i>Status Gaji</strong>
-                                                <p class="mr-1 detailstatus">
-
-                                                </p>
-                                            </div>
+                <section>
+                    <div class="modal fade" id="modaldetail">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                            <div class="modal-content bg-primary">
+                                <div class="modal-header">
+                                    <h4 class="modal-title judulmodal">
+                                        Detail Material
+                                    </h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-12">
+                                        <div class="table-responsive">
+                                            <h4>Rincian Tenaga Kerja Di RAB</h4>
+                                            <table class="table table-sm table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Jobdesk</th>
+                                                        <th>Status Pekerjaan</th>
+                                                        <th>Total Pekerja</th>
+                                                        <th>Biaya Sewa</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="jobdeskdetail"></td>
+                                                        <td class="statuspekerjaandetail"></td>
+                                                        <td class="totalpekerjadetail"></td>
+                                                        <td class="biayasewadetail"></td>
+                                                        <td class="totaldetail"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col">
-                                                <strong><i class="fas fa-briefcase mr-1"></i>ID Proyek</strong>
-                                                <p class="text-muted detailidproyek mr-1">
+                                        <div class="table-responsive ">
+                                            <h4>Biaya TK Sesungguhnya</h4>
+                                            <table class="table bahanpenyusun table-bordered table-sm">
+                                                <tr>
+                                                    <th>Jobdesk</th>
+                                                    <th>Status Pekerjaan</th>
+                                                    <th>Total Pekerja</th>
+                                                    <th>Biaya Sewa</th>
+                                                    <th>Total Harga</th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="jobdesks">Nama Material</td>
+                                                    <td class="statuspekerjaans">Spesifikasi</td>
+                                                    <td class="totalpekerjas">Satuan</td>
+                                                    <td class="biayasewas">Qty</td>
+                                                    <td class="totals">Harga</td>
+                                                <tr>
+                                                    <th colspan="4">Keuntungan</th>
+                                                    <th class="keuntungan">Keuntungan</th>
+                                                </tr>
 
-                                                </p>
-                                            </div>
-                                            <div class="col">
-                                                <strong><i class="fas fa-map-marker-alt mr-1"></i>Alamat Tenaker</strong>
-                                                <p class="text-muted detailalamat mr-1">
+                                                </tr>
+                                            </table>
 
-                                                </p>
-                                            </div>
+
                                         </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col">
-                                                <strong><i class="fas fa-user mr-1"></i>JobDesk</strong>
-                                                <p class="text-muted detailpekerjaan mr-1">
-
-                                                </p>
-                                            </div>
-                                            <div class="col">
-                                                <strong><i class="fas fa-money-check-alt mr-1"></i>Gaji</strong>
-                                                <p class="text-muted detailgaji mr-1">
-
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col">
-                                                <strong><i class="fas fa-money-bill mr-1"></i>Belum Bayar</strong>
-                                                <p class="text-muted detailbelumbayar mr-1">
-
-                                                </p>
-                                            </div>
-                                            <div class="col">
-                                                <strong><i class="fas fa-dollar-sign mr-1"></i>Sudah Bayar</strong>
-                                                <p class="text-muted detailsudahbayar mr-1">
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <hr>
+                                    </div>
+                                    <div class="modal-footer">
 
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="modal-footer">
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
 
                 <!-- Modal Small -->
                 <div class="modal fade" id="modal-sm" style="display: none;" aria-hidden="true">
@@ -270,6 +261,27 @@ $this->extend('dashboard/kelolaproyek/template') ?>
         },
 
     });
+    const formatRupiahtyping = (money) => {
+        angka = money.replace(/[^,\d]/g, "");
+        if (isNaN(angka)) {
+            angka = 0;
+        }
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+        }).format(angka);
+    }
+    const formatRupiah1 = (money) => {
+        if (isNaN(money)) {
+            money = 0;
+        }
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+        }).format(money);
+    }
 </script>
 </div>
 <script>
@@ -288,7 +300,7 @@ $this->extend('dashboard/kelolaproyek/template') ?>
                 }
             });
         })
-        $('.tanggal').data
+
         $('.gaji').keyup(function() {
             let gaji = $(this).val()
             let total_pekerja = $('.total_pekerja').val();
@@ -296,6 +308,37 @@ $this->extend('dashboard/kelolaproyek/template') ?>
 
             $('.total_gaji').val(total_gaji);
 
+        })
+        $('#btndetailtenaker').click(function() {
+            let id_pbtenaker = $(this).data('id');
+            console.log('ok');
+
+            $.ajax({
+                url: "http://localhost:8080/DashboardKelolaProyek/getdetailtenaker/" + id_pbtenaker,
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+
+                    $('.jobdeskdetail').html(response.datatkrab[0]['jobdesk'])
+                    $('.statuspekerjaandetail').html(response.datatkrab[0]['statuspekerjaan'])
+                    $('.totalpekerjadetail').html(response.datatkrab[0]['total_pekerja'])
+                    $('.biayasewadetail').html(formatRupiah1(response.datatkrab[0]['gaji']))
+                    $('.totaldetail').html(formatRupiah1(response.datatkrab[0]['total_gaji']))
+
+                    $('.jobdesks').html(response.datatkrab[0]['jobdesk'])
+                    $('.statuspekerjaans').html(response.datatkrab[0]['statuspekerjaan'])
+                    $('.totalpekerjas').html(response.datatkrab[0]['total_pekerja'])
+                    $('.biayasewas').html(formatRupiah1(response.datatkasli[0]['gaji']))
+                    $('.totals').html(formatRupiah1(response.datatkasli[0]['total_gaji']))
+
+                    let keuntungan = parseInt(response.datatkrab[0]['total_gaji']) - parseInt(response.datatkasli[0]['total_gaji']);
+                    $('.keuntungan').html(formatRupiah1(keuntungan))
+
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
         })
 
     })

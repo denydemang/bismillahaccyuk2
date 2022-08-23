@@ -24,6 +24,7 @@ function reset(){
     $('.formtenaker').trigger('reset') ;
     $('.idajuan').removeClass('is-invalid')
     $('.jobdesk').removeClass('is-invalid')
+    $('.jobdesk').attr('readonly',false)
     $('.statuspekerjaan').removeClass('is-invalid')
     $('.gaji').removeClass('is-invalid')
     $('.total_pekerja').removeClass('is-invalid')

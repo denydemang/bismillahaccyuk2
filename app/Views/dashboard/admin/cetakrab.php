@@ -70,20 +70,59 @@
                                 <button class="btn btn-primary cetak2" readonly> <i class="fas fa-file-pdf mr-3"></i>Cetak PDF (Revisi)</button>
                             </div>
                         </div>
-
                     </div>
-
-
-
-
-
                 </div>
             </div>
         </div>
 </div>
+<div class="pesanprint" data-pesanprint="<?= session()->getFlashdata('pesanprint'); ?>"></div>
 </section>
-</div>
 <script>
+    $(document).ready(function() {
+        let pesanprint = $('.pesanprint').data('pesanprint');
+        if (pesanprint) {
+            Swal.fire({
+                title: pesanprint,
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya'
+            })
+        }
+        $('.daftarajuan').DataTable({
+            "lengthChange": false,
+            "fixedHeader": true,
+            "info": false,
+            "paging": false,
+            "scrollY": '150px',
+            "scrollCollapse": true,
+        })
+        $('.btnidajuan').click(function() {
+            let id = $(this).data('id')
+            $('#idajuan').val(id);
+            $('.cetak1').data('id', id);
+            $('.cetak2').data('id', id);
+            $.ajax({
+                url: "http://localhost:8080/DashboardAdmin/totalbiaya/" + id,
+                dataType: "json",
+                success: function(response) {
+                    $('#tot_biaya').val(formatRupiah1(response));
+
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+        })
+        $('.cetak2').click(function() {
+            let id = $(this).data('id');
+            window.location.href = 'http://localhost:8080/admin/printperhitunganbiayarevisi/' + id
+        })
+        $('.cetak1').click(function() {
+            let id = $(this).data('id');
+            window.location.href = 'http://localhost:8080/admin/printperhitunganbiaya/' + id
+        })
+    })
     const formatRupiah1 = (money) => {
         if (isNaN(money)) {
             money = 0;
@@ -94,39 +133,6 @@
             minimumFractionDigits: 0
         }).format(money);
     }
-    $('.daftarajuan').DataTable({
-        "lengthChange": false,
-        "fixedHeader": true,
-        "info": false,
-        "paging": false,
-        "scrollY": '150px',
-        "scrollCollapse": true,
-    })
-    $('.btnidajuan').click(function() {
-        let id = $(this).data('id')
-        $('#idajuan').val(id);
-        $('.cetak1').data('id', id);
-        $('.cetak2').data('id', id);
-        $.ajax({
-            url: "http://localhost:8080/DashboardAdmin/totalbiaya/" + id,
-            dataType: "json",
-            success: function(response) {
-                $('#tot_biaya').val(formatRupiah1(response));
-
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-            }
-        });
-    })
-    $('.cetak2').click(function() {
-        let id = $(this).data('id');
-        window.location.href = 'http://localhost:8080/admin/printperhitunganbiayarevisi/' + id
-    })
-    $('.cetak1').click(function() {
-        let id = $(this).data('id');
-        window.location.href = 'http://localhost:8080/admin/printperhitunganbiaya/' + id
-    })
 </script>
 
 <?= $this->endSection(); ?>

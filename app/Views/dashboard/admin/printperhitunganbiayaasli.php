@@ -259,7 +259,6 @@
         <h2 style="margin-top:20px">Biaya Operasional</h2>
         <table>
             <thead>
-                <?php foreach ($bop as $row) ?>
                 <tr>
                     <th class="desc">Nama Biaya</th>
                     <th class="desc">Qty</th>
@@ -269,13 +268,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="desc"><?= $row['namatrans']; ?></td>
-                    <td class="desc"><?= $row['quantity']; ?></td>
-                    <td class="desc"><?= $row['satuan']; ?></td>
-                    <td class="desc"><?= $row['harga']; ?></td>
-                    <td class="total">Rp <?= number_format($row['tot_biaya'], 0, '', '.'); ?>,-</td>
-                </tr>
+                <?php foreach ($bop as $row) : ?>
+                    <tr>
+                        <td class="desc"><?= $row['namatrans']; ?></td>
+                        <td class="desc"><?= $row['quantity']; ?></td>
+                        <td class="desc"><?= $row['satuan']; ?></td>
+                        <td class="desc"><?= $row['harga']; ?></td>
+                        <td class="total">Rp <?= number_format($row['tot_biaya'], 0, '', '.'); ?>,-</td>
+                    </tr>
+                <?php endforeach; ?>
                 <tr>
                     <td colspan="4">SUBTOTAL</td>
                     <td class="total">Rp <?= number_format($sumbop, 0, '', '.'); ?>,-</td>

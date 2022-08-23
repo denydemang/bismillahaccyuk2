@@ -14,6 +14,7 @@ use App\Models\BahanBakuProsesModel;
 use App\Models\BOPModel;
 use App\Models\PerhitunganBOPRevisiModel;
 use App\Models\PerhitunganMaterialModel;
+use App\Models\PerhitunganMaterialPenyusunModel;
 use App\Models\PerhitunganMPrevisi;
 use App\Models\PerhitunganTenakerRevisiModel;
 
@@ -712,7 +713,7 @@ class DashboardKelolaProyek extends Dashboard
         $total_gaji = $this->request->getvar('total_gaji');
 
         $tk->insert([
-            'idsewatenaker' => $idsewatenaker,
+            'id_sewatenaker' => $idsewatenaker,
             'id_pbtenaker' => $id_pbtenaker,
             'idproyek' => $idproyek,
             'gaji' => $gaji,
@@ -762,5 +763,36 @@ class DashboardKelolaProyek extends Dashboard
             session()->setFlashdata('gagal', 'Gagal Disimpan');
         }
         return redirect()->to(base_url(base_url('kelolaproyek/kelolabiayaoperasional')));
+    }
+    public function getdetailmaterialpenyusun($id)
+    {
+        if ($this->request->isAJAX()) {
+            $mprab = new PerhitunganMPrevisi();
+            $mpasli = new BahanBakuProsesModel();
+
+            $datamprab = $mprab->where('idmaterialpenyusun', $id)->find();
+            $datampasli = $mpasli->builder()->select('belibahan.harga_beli,belibahan.totalharga,perhitungan_materialpenyusunrev.*')->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')->where('belibahan.idmaterialpenyusun', $id)->get()->getResultArray();
+
+            $data = [
+                'datamprab' => $datamprab,
+                'datampasli' => $datampasli,
+            ];
+            echo json_encode($data);
+        }
+    }
+    public function getdetailtenaker($id)
+    {
+        if ($this->request->isAjax()) {
+            $tkasli = new TenakerModel();
+            $tkRAB = new PerhitunganTenakerRevisiModel();
+            $datatkasli = $tkasli->where('id_pbtenaker', $id)->find();
+            $datatkrab = $tkRAB->where('id_pbtenaker', $id)->find();
+
+            $data = [
+                'datatkasli' => $datatkasli,
+                'datatkrab' => $datatkrab
+            ];
+            echo json_encode($data);
+        }
     }
 }

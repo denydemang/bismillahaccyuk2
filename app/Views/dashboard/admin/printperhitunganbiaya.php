@@ -214,11 +214,11 @@
             <tbody>
                 <?php foreach ($bb as $row) : ?>
                     <tr>
-                        <td class="service"><?= $row['namamaterial']; ?></td>
-                        <td class="service"><?= $row['satuanmaterial']; ?></td>
-                        <td class="service"><?= $row['qtymaterial']; ?></td>
-                        <td class="service">Rp <?= number_format($row['hargamaterial'], 0), '', '.'; ?>,-</td>
-                        <td class="total">Rp <?= number_format($row['total_harga'], 0, '', '.'); ?>,-</td>
+                        <td class="service"><?= $row['namamp']; ?></td>
+                        <td class="service"><?= $row['satuanmp']; ?></td>
+                        <td class="service"><?= $row['jumlahmp']; ?></td>
+                        <td class="service">Rp <?= number_format($row['hargamp'], 0), '', '.'; ?>,-</td>
+                        <td class="total">Rp <?= number_format($row['totalmp'], 0, '', '.'); ?>,-</td>
                     </tr>
                 <?php endforeach; ?>
                 <tr>

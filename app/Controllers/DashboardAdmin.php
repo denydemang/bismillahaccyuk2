@@ -1457,7 +1457,7 @@ class DashboardAdmin extends Dashboard
             $tkrevisi = $perhitungantkrevisi->where('revisi_id', 3)->find();
 
             if (empty($revisibop) && empty($mprevisi) && empty($tkrevisi) || empty($getdatauser)) {
-                session()->setFlashdata('pesanprint', 'Tidak Data Yang Direvisi');
+                session()->setFlashdata('pesanprint', 'Tidak Data Yang Direvisi/Data Belum Lengkap');
                 return redirect()->to(base_url() . '/admin/cetakrab');
             } else {
                 $data = [
@@ -1544,8 +1544,8 @@ class DashboardAdmin extends Dashboard
         $datatk = $perhitungantk->builder()->selectSum('total_gaji')->where('idajuan', $id)->get()->getResultArray();
         $sumtk = $datatk[0]['total_gaji'];
 
-        $databb = $perhitunganmp->builder()->join('perhitungan_material', 'perhitungan_materialpenyusun.idmaterial=perhitungan_material.idmaterial')->selectSum('total_harga')->where('idajuan', $id)->get()->getResultArray();
-        $sumbb = $databb[0]['total_harga'];
+        $databb = $perhitunganmp->builder()->selectSum('totalmp')->join('perhitungan_material', 'perhitungan_materialpenyusun.idmaterial=perhitungan_material.idmaterial')->where('idajuan', $id)->get()->getResultArray();
+        $sumbb = $databb[0]['totalmp'];
 
         $bb = $perhitunganmp->select('perhitungan_materialpenyusun.*,perhitungan_material.idajuan')->join('perhitungan_material', 'perhitungan_materialpenyusun.idmaterial=perhitungan_material.idmaterial')->where('idajuan', $id)->find();
         $tk = $perhitungantk->where('idajuan', $id)->find();
@@ -1560,8 +1560,8 @@ class DashboardAdmin extends Dashboard
         $getdatauser = $builder->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('idajuan', $id)->get()->getResultArray();
 
         if ($id != false) {
-            if (empty($sumbop) && empty($sumtk) && empty($sumbb)) {
-                session()->setFlashdata('pesanprint', 'Silakan Isi Data Dulu');
+            if (empty($sumbop) && empty($sumtk) && empty($sumbb) && empty($getdatauser)) {
+                session()->setFlashdata('pesanprint', 'Silakan Lengkapi Data Dulu');
                 return redirect()->to(base_url() . '/admin/cetakrab');
             } else {
                 $data = [

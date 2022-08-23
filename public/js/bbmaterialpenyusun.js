@@ -53,6 +53,55 @@ $(document).ready(function(){
     $('.totalharga').val(formatRupiah1(total));
 
    })
+   $('.btnview').click(function(){
+    let id = $(this).data('id');
+    $('.ada').remove();
+    $('.kosong').remove();
+    $('#kosong').remove();
+    $('.gtbb').html('');
+    $('.gtbr').html('');
+    $('.gt').html('');
+    $.ajax({
+        url : base_url+"DashboardKelolaProyek/getdetailmaterialpenyusun/"+id,
+        dataType : "json",
+        success: function(response) {
+          console.log(response);
+          
+          let namamp= response.datampasli[0]['namamp']
+          let spsifikasimp =response.datampasli[0]['spesifikasimp']
+          let satuanmp= response.datampasli[0]['satuanmp']
+          let jumlahmp= response.datampasli[0]['jumlahmp']
+          let hargamprab =response.datampasli[0]['hargamp']
+          let totalmprab  =response.datampasli[0]['totalmp']
+
+          let hargampasli =response.datampasli[0]['harga_beli']
+          let totalmpasli  =response.datampasli[0]['totalharga']
+
+          let keuntungan = totalmprab - totalmpasli
+          
+       
+            $('.namamaterialdetail').html(namamp)
+            $('.spesifikasidetail').html(spsifikasimp)
+            $('.satuandetail').html(satuanmp)
+            $('.qtydetail').html(jumlahmp)
+            $('.hgdetail').html(formatRupiah1(parseInt(hargamprab)))
+            $('.totdetail').html(formatRupiah1(parseInt(totalmprab)))
+  
+                
+            $('.namamaterials').html(namamp)
+            $('.spesifikasis').html(spsifikasimp)
+            $('.satuans').html(satuanmp)
+            $('.qtys').html(jumlahmp)
+            $('.hgs').html(formatRupiah1(parseInt(hargampasli)))
+            $('.tots').html(formatRupiah1(parseInt(totalmpasli)))
+        
+
+            $('.keuntungan').html(formatRupiah1(parseInt(keuntungan)))
+
+        }
+    });
+    
+   }) 
  
        
         

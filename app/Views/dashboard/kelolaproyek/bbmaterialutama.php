@@ -384,6 +384,19 @@ use App\Models\BahanBakuProsesModel; ?>
         </div>
     </section>
 </div>
+<script>
+    $('#tablebb').DataTable({
+        "columnDefs": [{
+            orderable: false,
+            targets: [3, 4, 5, 6]
+        }],
+        "fixedColumns": {
+            leftColumns: 1,
+            rightColumns: 1
+        },
+
+    });
+</script>
 <script src="<?= base_url('js/bbmaterialutama.js'); ?>"></script>
 
 <?= $this->endSection(); ?>
