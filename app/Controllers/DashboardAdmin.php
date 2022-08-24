@@ -1494,7 +1494,7 @@ class DashboardAdmin extends Dashboard
                 $dompdf->stream('Proposal Ajuan.pdf', array("Attachment" => false));
             }
         } else {
-            return redirect()->to(base_url('admin/cetakrab'));
+            return redirect()->to(base_url('kelolaproyek/laporanhpp'));
         }
 
 

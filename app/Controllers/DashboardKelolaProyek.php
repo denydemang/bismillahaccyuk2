@@ -12,11 +12,16 @@ use App\Models\ProgressProyekModel;
 use App\Models\TenakerModel;
 use App\Models\BahanBakuProsesModel;
 use App\Models\BOPModel;
+use App\Models\PembayaranProyek;
 use App\Models\PerhitunganBOPRevisiModel;
 use App\Models\PerhitunganMaterialModel;
 use App\Models\PerhitunganMaterialPenyusunModel;
 use App\Models\PerhitunganMPrevisi;
 use App\Models\PerhitunganTenakerRevisiModel;
+
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class DashboardKelolaProyek extends Dashboard
 {
@@ -169,6 +174,13 @@ class DashboardKelolaProyek extends Dashboard
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         }
+        $pembayaranproyek = new PembayaranProyek();
+        $idproyek = session()->get('idproyek');
+        $pembayaranproyek =  $pembayaranproyek->where('idproyek', $idproyek)->find();
+        $this->datalogin += [
+            'idproyek' => $idproyek,
+            'pembayaranproyek' => $pembayaranproyek
+        ];
         $_SESSION['aktif'] = 'pembayaranproyek';
         return view('dashboard/kelolaproyek/pembayaranproyek', $this->datalogin);
     }
@@ -204,7 +216,42 @@ class DashboardKelolaProyek extends Dashboard
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         }
+        $idproyek = session()->get('idproyek');
+        $bb = new BahanBakuProsesModel();
+        $tk = new TenakerModel();
+        $bop = new BOPModel();
+        $bbrab = new PerhitunganMPrevisi();
+        $tkrab = new PerhitunganTenakerRevisiModel();
+        $boprab = new PerhitunganBOPRevisiModel();
+
+        $sumbbrab = $bb->builder()->selectSum('perhitungan_materialpenyusunrev.totalmp')
+            ->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')
+            ->where('belibahan.idproyek', $idproyek)->get()->getResultArray();
+        $sumtkrab = $tk->builder()->selectSum('perhitungantenakerrev.total_gaji')
+            ->join('perhitungantenakerrev', 'tenaker.id_pbtenaker=perhitungantenakerrev.id_pbtenaker')
+            ->where('idproyek', $idproyek)->get()->getResultArray();
+        $sumboprab = $bop->builder()->selectSum('perhitunganboprev.tot_biaya')
+            ->join('perhitunganboprev', 'transaksibop.id_pbop=perhitunganboprev.id_pbop')
+            ->where('idproyek', $idproyek)->get()->getResultArray();
+
+        $sumbb = $bb->selectSum('totalharga')->where('idproyek', $idproyek)->find();
+        $sumbb = $sumbb[0]['totalharga'];
+        $sumtk = $tk->selectSum('total_gaji')->where('idproyek', $idproyek)->find();
+        $sumtk = $sumtk[0]['total_gaji'];
+        $sumbop = $bop->selectSum('tot_biaya')->where('idproyek', $idproyek)->find();
+        $sumbop = $sumbop[0]['tot_biaya'];
+
+        $biayaasli = $sumbb + $sumtk + $sumbop;
+        $biayaRAB = $sumbbrab[0]['totalmp'] + $sumtkrab[0]['total_gaji'] + $sumboprab[0]['tot_biaya'];
+        $selisih = $biayaRAB - $biayaasli;
+
         $_SESSION['aktif'] = 'laporanhpp';
+        $this->datalogin += [
+            'selisih' => $selisih,
+            'biayaasli' => $biayaasli,
+            'biayaRAB' => $biayaRAB,
+
+        ];
         return view('dashboard/kelolaproyek/laporanhpp', $this->datalogin);
     }
     function backtodataproyek()
@@ -231,7 +278,92 @@ class DashboardKelolaProyek extends Dashboard
             echo json_encode($data);
         }
     }
+    public function printhpp()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $tanggal = $this->tanggal_indonesia(date('Y-m-d'));
+        $idajuan = session()->get('idajuan');
+        $idproyek = session()->get('idproyek');
+        $bb = new BahanBakuProsesModel();
+        $tk = new TenakerModel();
+        $bop = new BOPModel();
 
+        $databb = $bb->builder()->select('perhitungan_materialpenyusunrev.*,belibahan.harga_beli,belibahan.totalharga')
+            ->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')
+            ->where('belibahan.idproyek', $idproyek)->get()->getResultArray();
+        $datatk = $tk->builder()->select('perhitungantenakerrev.*,tenaker.gaji,tenaker.total_gaji')
+            ->join('perhitungantenakerrev', 'tenaker.id_pbtenaker=perhitungantenakerrev.id_pbtenaker')
+            ->where('idproyek', $idproyek)->get()->getResultArray();
+        $databop = $bop->builder()->select('perhitunganboprev.*,transaksibop.harga,transaksibop.tot_biaya')
+            ->join('perhitunganboprev', 'transaksibop.id_pbop=perhitunganboprev.id_pbop')
+            ->where('idproyek', $idproyek)->get()->getResultArray();
+
+        $bbrab = new PerhitunganMPrevisi();
+        $tkrab = new PerhitunganTenakerRevisiModel();
+        $boprab = new PerhitunganBOPRevisiModel();
+
+        $sumbb = $bb->selectSum('totalharga')->where('idproyek', $idproyek)->find();
+        $sumbb = $sumbb[0]['totalharga'];
+        $sumtk = $tk->selectSum('total_gaji')->where('idproyek', $idproyek)->find();
+        $sumtk = $sumtk[0]['total_gaji'];
+        $sumbop = $bop->selectSum('tot_biaya')->where('idproyek', $idproyek)->find();
+        $sumbop = $sumbop[0]['tot_biaya'];
+
+        $total = $sumbb + $sumtk + $sumbop;
+
+        $sumbbrab = $bb->builder()->selectSum('perhitungan_materialpenyusunrev.totalmp')
+            ->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')
+            ->where('belibahan.idproyek', $idproyek)->get()->getResultArray();
+        $sumtkrab = $tk->builder()->selectSum('perhitungantenakerrev.total_gaji')
+            ->join('perhitungantenakerrev', 'tenaker.id_pbtenaker=perhitungantenakerrev.id_pbtenaker')
+            ->where('idproyek', $idproyek)->get()->getResultArray();
+        $sumboprab = $bop->builder()->selectSum('perhitunganboprev.tot_biaya')
+            ->join('perhitunganboprev', 'transaksibop.id_pbop=perhitunganboprev.id_pbop')
+            ->where('idproyek', $idproyek)->get()->getResultArray();
+
+        $proyekmodel = new ProyekModel();
+        $builder = $proyekmodel->builder();
+        $builder = $builder->select('*');
+        $getdatauser = $builder->join('pengajuan_proyek', 'proyek.idajuan=pengajuan_proyek.idajuan')->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('idproyek', $idproyek)->get()->getResultArray();
+
+        $biayaasli = $sumbb + $sumtk + $sumbop;
+        $biayaRAB = $sumbbrab[0]['totalmp'] + $sumtkrab[0]['total_gaji'] + $sumboprab[0]['tot_biaya'];
+        $selisih = $biayaRAB - $biayaasli;
+        if (empty($sumbb) && empty($sumtk) && empty($sumbop) || empty($getdatauser)) {
+            session()->setFlashdata('pesanprint', 'Tidak Data Yang Direvisi/Data Belum Lengkap');
+            return redirect()->to(base_url() . '/kelolaproyek/laporanhpp');
+        } else {
+            $data = [
+                'bb' => $databb,
+                'tk' => $datatk,
+                'bop' => $databop,
+                'tanggal' => $tanggal,
+                'sumbb' => $sumbb,
+                'sumtk' => $sumtk,
+                'sumbop' => $sumbop,
+                'total' => $total,
+                'user' => $getdatauser
+
+            ];
+            $dompdf = new Dompdf();
+
+            // //     // instantiate and use the dompdf class
+            $html = view('dashboard/kelolaProyek/printperhitunganbiaya', $data);
+
+
+            $dompdf->loadHtml($html);
+
+            // (Optional) Setup the paper size and orientation
+            $dompdf->setPaper('A4', 'landscape');
+
+            // Render the HTML as PDF
+            $dompdf->render();
+
+            // Output the generated PDF to Browser
+
+            $dompdf->stream('Proposal Ajuan.pdf', array("Attachment" => false));
+        }
+    }
     // Pengelolaan Tenaga Kerja
     public function simpantenaker()
     {
