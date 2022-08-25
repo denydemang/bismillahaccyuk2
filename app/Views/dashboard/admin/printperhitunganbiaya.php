@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>sfasfafafaf</title>
+    <title>Print RAB</title>
     <style>
         .clearfix:after {
             content: "";
@@ -204,165 +204,138 @@
         <table>
             <thead>
                 <tr>
-                    <th class="service">Nama Material</th>
-                    <th class="service">Satuan Material</th>
-                    <th class="service">Qty</th>
-                    <th class="service">Harga Material</th>
-                    <th class="total">TOTAL</th>
+                    <th class="service" style="text-align:center">Nama Material</th>
+                    <th class="service" style="text-align:center">Satuan Material</th>
+                    <th class="service" style="text-align:center">Qty</th>
+                    <th class="service" style="text-align:center">Harga Material</th>
+                    <th class="total" style="text-align:center">TOTAL</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($bb as $row) : ?>
+                <?php if (empty($bb)) : ?>
+                    <?php foreach ($bb as $row) : ?>
+                        <tr>
+                            <td class="service">-</td>
+                            <td class="service">-</td>
+                            <td class="service">-</td>
+                            <td class="service">-</td>
+                            <td class="total">-</td>
+                        </tr>
+                    <?php endforeach; ?>
                     <tr>
-                        <td class="service"><?= $row['namamp']; ?></td>
-                        <td class="service"><?= $row['satuanmp']; ?></td>
-                        <td class="service"><?= $row['jumlahmp']; ?></td>
-                        <td class="service">Rp <?= number_format($row['hargamp'], 0), '', '.'; ?>,-</td>
-                        <td class="total">Rp <?= number_format($row['totalmp'], 0, '', '.'); ?>,-</td>
+                        <td colspan="4">SUBTOTAL</td>
+                        <td class="total">-</td>
                     </tr>
-                <?php endforeach; ?>
-                <tr>
-                    <td colspan="4">SUBTOTAL</td>
-                    <td class="total">Rp <?= number_format($sumbb, 0, '', '.'); ?>,-</td>
-                </tr>
+                <?php else : ?>
+                    <?php foreach ($bb as $row) : ?>
+                        <tr>
+                            <td class="service" style="text-align:center"><?= $row['namamaterial']; ?></td>
+                            <td class="service" style="text-align:center"><?= $row['satuanmaterial']; ?></td>
+                            <td class="service" style="text-align:center"><?= $row['qtymaterial']; ?></td>
+                            <td class="service" style="text-align:center">Rp <?= number_format($row['hargamaterial'], 0), '', '.'; ?>,-</td>
+                            <td class="total" style="text-align:center">Rp <?= number_format($row['total_harga'], 0, '', '.'); ?>,-</td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <tr>
+                        <td colspan="4">SUBTOTAL</td>
+                        <td class="total" style="text-align:center">Rp <?= number_format($sumbb, 0, '', '.'); ?>,-</td>
+                    </tr>
+                <?php endif; ?>
+
             </tbody>
         </table>
         <h2 style="margin-top:40px">Biaya Tenaga Kerja</h2>
         <table>
             <thead>
                 <tr>
-                    <th class="service">JobDesk</th>
-                    <th class="service">Status Pekerjaan</th>
-                    <th class="service">Gaji</th>
-                    <th class="service">Total Pekerja</th>
-                    <th class="total">Total Gaji</th>
+                    <th class="service" style="text-align:center">JobDesk</th>
+                    <th class="service" style="text-align:center">Status Pekerjaan</th>
+                    <th class="service" style="text-align:center">Gaji</th>
+                    <th class="service" style="text-align:center">Total Pekerja</th>
+                    <th class="total" style="text-align:center">Total Gaji</th>
                 </tr>
-
             </thead>
             <tbody>
-                <?php foreach ($tk as $row) : ?>
+                <?php if (empty($tk)) : ?>
+                    <?php foreach ($tk as $row) : ?>
+                        <tr>
+                            <td class="service">-</td>
+                            <td class="service">-</td>
+                            <td class="service">-</td>
+                            <td class="service">-</td>
+                            <td class="total">-</td>
+                        </tr>
+                    <?php endforeach; ?>
                     <tr>
-                        <td class="service"><?= $row['jobdesk']; ?></td>
-                        <td class="service"><?= $row['statuspekerjaan']; ?></td>
-                        <td class="service"><?= $row['gaji']; ?></td>
-                        <td class="service"><?= $row['total_pekerja']; ?></td>
-                        <td class="total"><?= $row['total_gaji']; ?></td>
+                        <td colspan="4">SUBTOTAL</td>
+                        <td class="total" style="text-align:center">Rp <?= number_format($sumtk, 0, '', '.'); ?>,-</td>
                     </tr>
-                <?php endforeach; ?>
-                <tr>
-                    <td colspan="4">SUBTOTAL</td>
-                    <td class="total">Rp <?= number_format($sumtk, 0, '', '.'); ?>,-</td>
-                </tr>
+                <?php else : ?>
+                    <?php foreach ($tk as $row) : ?>
+                        <tr>
+                            <td class="service" style="text-align:center"><?= $row['jobdesk']; ?></td>
+                            <td class="service" style="text-align:center"><?= $row['statuspekerjaan']; ?></td>
+                            <td class="service" style="text-align:center"><?= $row['gaji']; ?></td>
+                            <td class="service" style="text-align:center"><?= $row['total_pekerja']; ?></td>
+                            <td class="total" style="text-align:center"><?= $row['total_gaji']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <tr>
+                        <td colspan="4">SUBTOTAL</td>
+                        <td class="total" style="text-align:center">Rp <?= number_format($sumtk, 0, '', '.'); ?>,-</td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
         </table>
 
         <h2 style="margin-top:20px">Biaya Operasional</h2>
         <table>
             <thead>
-                <?php foreach ($bop as $row) ?>
                 <tr>
-                    <th class="desc">Nama Biaya</th>
-                    <th class="desc">Qty</th>
-                    <th class="desc">Satuan</th>
-                    <th class="desc">Harga</th>
-                    <th class="total">Total Biaya</th>
+                    <th class="desc" style="text-align:center">Nama Biaya</th>
+                    <th class="desc" style="text-align:center">Qty</th>
+                    <th class="desc" style="text-align:center">Satuan</th>
+                    <th class="desc" style="text-align:center">Harga</th>
+                    <th class="total" style="text-align:center">Total Biaya</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="desc"><?= $row['namatrans']; ?></td>
-                    <td class="desc"><?= $row['quantity']; ?></td>
-                    <td class="desc"><?= $row['satuan']; ?></td>
-                    <td class="desc"><?= $row['harga']; ?></td>
-                    <td class="total">Rp <?= number_format($row['tot_biaya'], 0, '', '.'); ?>,-</td>
-                </tr>
-                <tr>
-                    <td colspan="4">SUBTOTAL</td>
-                    <td class="total">Rp <?= number_format($sumbop, 0, '', '.'); ?>,-</td>
-                </tr>
+                <?php if (empty($bop)) : ?>
+                    <?php foreach ($bop as $row) : ?>
+                        <tr>
+                            <td class="desc">-</td>
+                            <td class="desc">-</td>
+                            <td class="desc">-</td>
+                            <td class="desc">-</td>
+                            <td class="total">-</td>
+                        </tr>
+                    <?php endforeach ?>
+                    <tr>
+                        <td colspan="4">SUBTOTAL</td>
+                        <td class="total">-</td>
+                    </tr>
+                <?php else : ?>
+                    <?php foreach ($bop as $row) : ?>
+                        <tr>
+                            <td class="desc" style="text-align:center"><?= $row['namatrans']; ?></td>
+                            <td class="desc" style="text-align:center"><?= $row['quantity']; ?></td>
+                            <td class="desc" style="text-align:center"><?= $row['satuan']; ?></td>
+                            <td class="desc" style="text-align:center"><?= $row['harga']; ?></td>
+                            <td class="total" style="text-align:center">Rp <?= number_format($row['tot_biaya'], 0, '', '.'); ?>,-</td>
+                        </tr>
+                    <?php endforeach ?>
+                    <tr>
+                        <td colspan="4">SUBTOTAL</td>
+                        <td class="total" style="text-align:center">Rp <?= number_format($sumbop, 0, '', '.'); ?>,-</td>
+                    </tr>
+
+                <?php endif; ?>
                 <tr>
                     <td colspan="4" class="grand total">TOTAL BIAYA KESELURUHAN</td>
-                    <td class="grand total">Rp <?= number_format($sumall, 0, '', '.'); ?>,-</td>
+                    <td class="grand total" style="text-align:center">Rp <?= number_format($sumall, 0, '', '.'); ?>,-</td>
                 </tr>
             </tbody>
         </table>
-
-        <h3>Item Item Yang Direvisi</h3>
-        <h2>Biaya Operasional</h2>
-        <table>
-            <thead>
-
-                <tr>
-                    <th class="desc">Nama Biaya</th>
-                    <th class="desc">Qty</th>
-                    <th class="desc">Satuan</th>
-                    <th class="desc">Harga</th>
-                    <th class="total">Total Biaya</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($boprevisi as $row) : ?>
-                    <tr>
-                        <td class="desc"><?= $row['namatrans']; ?></td>
-                        <td class="desc"><?= $row['quantity']; ?></td>
-                        <td class="desc"><?= $row['satuan']; ?></td>
-                        <td class="desc">Rp <?= number_format($row['harga'], 0, '', '.'); ?>,-</td>
-                        <td class="total">Rp <?= number_format($row['tot_biaya'], 0, '', '.'); ?>,-</td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-
-        <h2 style="margin-top:40px">Biaya Tenaga Kerja</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th class="service">JobDesk</th>
-                    <th class="service">Status Pekerjaan</th>
-                    <th class="service">Gaji</th>
-                    <th class="service">Total Pekerja</th>
-                    <th class="total">Total Gaji</th>
-                </tr>
-
-            </thead>
-            <tbody>
-                <?php foreach ($tkrevisi as $row) : ?>
-                    <tr>
-                        <td class="service"><?= $row['jobdesk']; ?></td>
-                        <td class="service"><?= $row['statuspekerjaan']; ?></td>
-                        <td class="service"><?= $row['gaji']; ?></td>
-                        <td class="service"><?= $row['total_pekerja']; ?></td>
-                        <td class="total"><?= $row['total_gaji']; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-
-        <h2 style="margin-top:20px">Biaya Material</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th class="service">Nama Material</th>
-                    <th class="service">Satuan Material</th>
-                    <th class="service">Qty</th>
-                    <th class="service">Harga Material</th>
-                    <th class="total">TOTAL</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($bbrevisi as $row) : ?>
-                    <tr>
-                        <td class="service"><?= $row['namamp']; ?></td>
-                        <td class="service"><?= $row['satuanmp']; ?></td>
-                        <td class="service"><?= $row['jumlahmp']; ?></td>
-                        <td class="service">Rp <?= number_format($row['hargamp'], 0), '', '.'; ?>,-</td>
-                        <td class="total">Rp <?= number_format($row['totalmp'], 0, '', '.'); ?>,-</td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-
-
 
     </main>
     <footer>

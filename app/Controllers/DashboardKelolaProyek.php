@@ -250,6 +250,7 @@ class DashboardKelolaProyek extends Dashboard
             'selisih' => $selisih,
             'biayaasli' => $biayaasli,
             'biayaRAB' => $biayaRAB,
+            ''
 
         ];
         return view('dashboard/kelolaproyek/laporanhpp', $this->datalogin);
@@ -345,6 +346,7 @@ class DashboardKelolaProyek extends Dashboard
                 'user' => $getdatauser
 
             ];
+
             $dompdf = new Dompdf();
 
             // //     // instantiate and use the dompdf class
@@ -994,5 +996,8 @@ class DashboardKelolaProyek extends Dashboard
             session()->setFlashdata('gagal', 'Gagal Disimpan');
         }
         return redirect()->to(base_url('kelolaproyek/progressproyek'));
+    }
+    public function printperhitunganbiaya()
+    {
     }
 }

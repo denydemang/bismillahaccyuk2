@@ -39,4 +39,9 @@
         </div>
     </section>
 </div>
+<script>
+    $('.cetak1').click(function() {
+        window.location.href = 'http://localhost:8080/kelolaproyek/printhpp'
+    })
+</script>
 <?= $this->endSection(); ?>

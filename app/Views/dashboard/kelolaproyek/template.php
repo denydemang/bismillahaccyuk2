@@ -100,34 +100,7 @@
             </ul>
             <!-- end Toggle Sidebar Dan Nama Dashboard -->
             <ul class="navbar-nav ml-auto">
-                <!-- Bagian Notifikasi-->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-item dropdown-header">15 Notifications</span>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-users mr-2"></i> 8 friend requests
-                            <span class="float-right text-muted text-sm">12 hours</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-file mr-2"></i> 3 new reports
-                            <span class="float-right text-muted text-sm">2 days</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                    </div>
-                </li>
-                <!-- End Bagian Icon Notifikasi -->
+
 
                 <!-- Bagian Enable Full Screen -->
                 <li class="nav-item d-none d-lg-inline">
@@ -211,22 +184,22 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url() ?>/kelolaproyek/progressproyek" class="nav-link  <?= ($_SESSION['aktif'] == 'progressproyek') ? 'active' : '' ?>">
+                        <!-- <li class="nav-item">
+                            <a href="<//?= base_url() ?>/kelolaproyek/progressproyek" class="nav-link  <//?= ($_SESSION['aktif'] == 'progressproyek') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-hourglass mr-3"></i>
                                 <p>
                                     Progress Proyek
                                 </p>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url(); ?>/kelolaproyek/pembayaranproyek" class="nav-link  <?= ($_SESSION['aktif'] == 'pembayaranproyek') ? 'active' : '' ?>">
+                        </li> -->
+                        <!-- <li class="nav-item">
+                            <a href="<//?= base_url(); ?>/kelolaproyek/pembayaranproyek" class="nav-link  <//?= ($_SESSION['aktif'] == 'pembayaranproyek') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-money-bill mr-3"></i>
                                 <p>
                                     Pembayaran Proyek
                                 </p>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a href="<?= base_url(); ?>/kelolaproyek/kelolabiayaoperasional" class=" nav-link <?= ($_SESSION['aktif'] == 'kelolabiayaoperasional') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-tools mr-3"></i>

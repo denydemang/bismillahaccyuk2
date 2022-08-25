@@ -105,19 +105,7 @@
             </ul>
             <!-- end Toggle Sidebar Dan Nama Dashboard -->
             <ul class="navbar-nav ml-auto">
-                <!-- Bagian Notifikasi-->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell"></i>
-                        <span class="badge badge-danger navbar-badge">1</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <h3 class="dropdown-item dropdown-header">
-                            <strong>Ajuan Proyek Anda Telah Diterima</strong>
-                        </h3>
-                    </div>
-                </li>
-                <!-- End Bagian Icon Notifikasi -->
+
 
                 <!-- Bagian Enable Full Screen -->
                 <li class="nav-item d-none d-lg-inline">
