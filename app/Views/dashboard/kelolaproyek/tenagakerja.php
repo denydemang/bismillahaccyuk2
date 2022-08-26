@@ -64,7 +64,6 @@ $this->extend('dashboard/kelolaproyek/template') ?>
                                                 <button id="btnsewatenaker" data-toggle="modal" data-target="#ModalTenaker" data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-success btn-sm btnedittenaker">Sewa</button>
                                             <?php else : ?>
                                                 <button id="btndetailtenaker" data-toggle="modal" data-target="#modaldetail" data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-info btn-sm btndetailsewa"><i class="fas fa-eye"></i></button>
-                                                <button id="btnjurnatk" data-id="<?= $row['id_pbtenaker']; ?>" class="btn btn-success btn-sm btndetailsewa">Jurnal</button>
                                             <?php endif; ?>
 
                                         </td>
@@ -267,6 +266,13 @@ $this->extend('dashboard/kelolaproyek/template') ?>
 </div>
 <script>
     $(document).ready(function() {
+        $(function() {
+            $('.tanggal').keypress(function(event) {
+                event.preventDefault();
+                return false;
+            });
+        })
+
         $('.btnedittenaker').click(function() {
             let id_pbtenaker = $(this).data('id')
             $.ajax({

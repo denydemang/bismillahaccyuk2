@@ -969,6 +969,21 @@ class DashboardKelolaProyek extends Dashboard
             echo json_encode($data);
         }
     }
+    public function getdetailbop($id)
+    {
+        if ($this->request->isAjax()) {
+            $boprab = new PerhitunganBOPRevisiModel();
+            $bopasli = new BOPModel();
+            $databopasli = $bopasli->where('id_pbop', $id)->find();
+            $databoprab = $boprab->where('id_pbop', $id)->find();
+
+            $data = [
+                'databopasli' => $databopasli,
+                'databoprab' => $databoprab
+            ];
+            echo json_encode($data);
+        }
+    }
     public function SimpanProgress()
     {
         $progress = new ProgressProyekModel();

@@ -11,32 +11,32 @@
             </div>
             <?php if (!empty($ajuanditerima)) : ?>
                 <div class="contain-row">
-                    <div class="alert alert-success col-lg-8" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <?php foreach ($ajuanditerima as $terima) : ?>
+                    <?php foreach ($ajuanditerima as $terima) : ?>
+                        <div class="alert alert-success col-lg-8" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <strong>Ajuan Proyek Anda <em><?= $terima['namaproyek']; ?></em> Telah Diterima !</strong>
-                        <?php endforeach ?>
-                    </div>
+                        </div>
+                    <?php endforeach ?>
                 </div>
             <?php endif; ?>
             <?php if (!empty($ajuanditolak)) : ?>
                 <div class="contain-row">
-                    <div class="alert alert-danger col-lg-8" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <?php foreach ($ajuanditolak as $tolak) : ?>
+                    <?php foreach ($ajuanditolak as $tolak) : ?>
+                        <div class="alert alert-danger col-lg-8" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <strong>Maaf Ajuan Proyek Anda <em><?= $tolak['namaproyek']; ?></em> Kami Tolak !</strong>
-                        <?php endforeach ?>
-                    </div>
+                        </div>
+                    <?php endforeach ?>
                 </div>
             <?php endif; ?>
             <?php if (!empty($ajuandikerjakan)) : ?>
                 <div class="contain-row">
-                    <div class="alert alert-primary col-lg-12" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <?php foreach ($ajuandikerjakan as $kerja) : ?>
+                    <?php foreach ($ajuandikerjakan as $kerja) : ?>
+                        <div class="alert alert-primary col-lg-12" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <strong>Ajuan Proyek Anda <em><?= $kerja['namaproyek']; ?></em> Sedang Kami Kerjakan, Silakan Ke Menu Progress Proyek !</strong>
-                        <?php endforeach ?>
-                    </div>
+                        </div>
+                    <?php endforeach ?>
                 </div>
             <?php endif; ?>
 

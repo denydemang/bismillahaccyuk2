@@ -58,13 +58,7 @@
                                 <label for="notelp">No Telpon</label>
                                 <input type="text" class="form-control" id="notelp" name="notelp">
                             </div>
-                            <div class="form-group">
-                                <label for="role">Role</label>
-                                <select name="role" id="role" class="custom-select">
-                                    <option value="1">Admin</option>
-                                    <option value="2">Klien</option>
-                                </select>
-                            </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Ubah User</button>

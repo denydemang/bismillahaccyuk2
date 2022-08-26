@@ -40,6 +40,7 @@ class TampilTable extends Dashboard
             $builder->select('*');
             $builder->select('level.levelnama');
             $builder->join('level', 'akun.user_level=level.user_level');
+            $builder->where('akun.user_level', 2);
             $query = $builder->get();
             $getData = $query->getResult();
             $data = [
