@@ -218,7 +218,6 @@ use App\Models\PerhitunganTenakerRevisiModel;
                       <option value="Mingguan">Mingguan</option>
                       <option value="Bulanan">Bulanan</option>
                       <option value="Kontrak">Kontrak</option>
-
                     </select>
                   </div>
                   <div class="col-lg-4 col-6">
@@ -244,7 +243,6 @@ use App\Models\PerhitunganTenakerRevisiModel;
             </div>
           </div>
           <div class="modal-footer">
-
           </div>
         </div>
       </div>

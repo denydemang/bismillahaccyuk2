@@ -44,7 +44,7 @@
                     <p>Because We Work With Masterpice Quality</p>
                     <div class="slider-btn">
                         <!-- <button class="btn btn-1">Layanan Kami</button> -->
-                        <button class="btn btn-2">AJUKAN TAWARAN</button>
+                        <a href="<?= base_url(); ?>/registrasi" class="btn btn-2">AJUKAN TAWARAN</a>
                     </div>
                 </div>
             </div>
@@ -70,29 +70,35 @@
             </div>
         </div>
         <div class="row pt-lg-5">
-            <div class="col-lg-3">
-                <figure class="figure">
-                    <img src="<?= base_url(); ?>/img/iloveimg-resized/hero.jpg" class="figure-img img-fluid rounded" alt="...">
-                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
-                </figure>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body card-padding">
+                        <figure class="figure">
+                            <img src="<?= base_url(); ?>/img/produk_2.jpg" style=" aspect-ratio: 1/1;width: 100%; height: 100%; object-fit:cover;" alt="...">
+                            <figcaption class="figure-caption text-center">Alat Pembelajaran</figcaption>
+                        </figure>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-3">
-                <figure class="figure">
-                    <img src="<?= base_url(); ?>/img/iloveimg-resized/hero2.jpg" class="figure-img img-fluid rounded" alt="...">
-                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
-                </figure>
+            <div class="col-lg-4">
+                <div class="card mb-1">
+                    <div class="card-body card-padding">
+                        <figure class="figure">
+                            <img src="<?= base_url(); ?>/img/produk_1.jpg" style=" aspect-ratio: 1/1;width: 100%; height: 100%; object-fit:cover;" alt="..." alt="...">
+                            <figcaption class="figure-caption text-center">Panel</figcaption>
+                        </figure>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-3">
-                <figure class="figure">
-                    <img src="<?= base_url(); ?>/img/iloveimg-resized/hero3.jpg" class="figure-img img-fluid rounded" alt="...">
-                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
-                </figure>
-            </div>
-            <div class="col-lg-3">
-                <figure class="figure">
-                    <img src="<?= base_url(); ?>/img/iloveimg-resized/hero.jpg" class="figure-img img-fluid rounded" alt="...">
-                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
-                </figure>
+            <div class="col-lg-4 col-3">
+                <div class="card mb-1">
+                    <div class="card-body card-padding">
+                        <figure class="figure">
+                            <img src="<?= base_url(); ?>/img/produk_3.jpg" style=" aspect-ratio: 1/1;width: 100%; height: 100%; object-fit:cover;" alt="..." alt="...">
+                            <figcaption class="figure-caption text-center">Alat Riset</figcaption>
+                        </figure>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -111,26 +117,27 @@
         <div class="row pt-lg-5">
             <div class="col-lg-3">
                 <figure class="figure">
-                    <img src="<?= base_url(); ?>/img/iloveimg-resized/hero.jpg" class="figure-img img-fluid rounded" alt="...">
-                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
+                    <img src="<?= base_url(); ?>/img/service_1.jpg" style=" aspect-ratio: 1/1;width: 100%; height: 100%; object-fit:cover;" alt="...">
+                    <figcaption class="figure-caption">Distribusi Proyek PON Papua</figcaption>
+                </figure>
+
+            </div>
+            <div class="col-lg-3">
+                <figure class="figure">
+                    <img src="<?= base_url(); ?>/img/service_2.jpg" style=" aspect-ratio: 1/1;width: 100%; height: 100%; object-fit:cover;" alt="...">
+                    <figcaption class="figure-caption">Distribusi Proyek PON Papua.</figcaption>
                 </figure>
             </div>
             <div class="col-lg-3">
                 <figure class="figure">
-                    <img src="<?= base_url(); ?>/img/iloveimg-resized/hero2.jpg" class="figure-img img-fluid rounded" alt="...">
-                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
+                    <img src="<?= base_url(); ?>/img/alat_pembelajaran.jpg" style=" aspect-ratio: 1/1;width: 100%; height: 100%; object-fit:cover;" alt="...">
+                    <figcaption class="figure-caption">Pembuatan Alat Pembelajaran</figcaption>
                 </figure>
             </div>
             <div class="col-lg-3">
                 <figure class="figure">
-                    <img src="<?= base_url(); ?>/img/iloveimg-resized/hero3.jpg" class="figure-img img-fluid rounded" alt="...">
-                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
-                </figure>
-            </div>
-            <div class="col-lg-3">
-                <figure class="figure">
-                    <img src="<?= base_url(); ?>/img/iloveimg-resized/hero.jpg" class="figure-img img-fluid rounded" alt="...">
-                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
+                    <img src="<?= base_url(); ?>/img/antena_3.jpg" style=" aspect-ratio: 1/1;width: 100%; height: 100%; object-fit:cover;" alt="...">
+                    <figcaption class="figure-caption">Pendirian, Pemindahan, dan Peninggian Tower 150KV</figcaption>
                 </figure>
             </div>
         </div>
@@ -151,25 +158,21 @@
             <div class="col-lg-3">
                 <figure class="figure">
                     <img src="<?= base_url(); ?>/img/polines.png" class="figure-img img-fluid rounded" alt="...">
-                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
                 </figure>
             </div>
             <div class="col-lg-3">
                 <figure class="figure">
                     <img src="<?= base_url(); ?>/img/pln.png" class="figure-img img-fluid rounded" alt="...">
-                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
                 </figure>
             </div>
             <div class="col-lg-3">
                 <figure class="figure">
                     <img src="<?= base_url(); ?>/img/cnbm.png" class="figure-img img-fluid rounded" alt="...">
-                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
                 </figure>
             </div>
             <div class="col-lg-3">
                 <figure class="figure">
                     <img src="<?= base_url(); ?>/img/schneider.png" class="figure-img img-fluid rounded" alt="...">
-                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
                 </figure>
             </div>
         </div>
@@ -189,15 +192,8 @@
         <div class="col-lg-12 pt-lg text-center">
             <h1>About Us</h1>
         </div>
-        <div class="row pt-lg-3">
-            <div class="col-lg-6">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, facilis! Recusandae tempore laborum inventore rem iusto architecto aliquam officiis repellat. Error ipsum at sit sapiente assumenda architecto debitis doloremque ullam.
-                Odio rem sapiente nihil vel ut dolorum cum laudantium, reiciendis repudiandae, dicta quas in quia, accusantium est neque necessitatibus corrupti exercitationem nostrum! Eligendi ea repellat labore quaerat nobis. Minus, eaque.
-            </div>
-            <div class="col-lg-6">
-                Lorem ipsumsss, dolor sit amet consectetur adipisicing elit. Harum quam excepturi nam maiores porro voluptas rem minus pariatur consequuntur ratione, rerum natus, doloremque dolorem numquam eveniet voluptate fuga nobis ex.
-                Provident, veritatis! Cumque reprehenderit consectetur error cupiditate nam eum, voluptatibus exercitationem voluptatem officiis! Dolorum blanditiis nam veniam dolorem, corrupti repellendus nemo neque temporibus omnis odit, mollitia vel veritatis illum laborum?
-            </div>
+        <div style="font-size:larger" class="text-center pt-lg-3">
+            PT Adika Jaya Engineering adalah perusahaan yang bergerak di bidang jasa yang beralamat di Jl. Gemah Kumala No 16 Gemah, Kec. Pedurungan, Kota Semarang, Jawa Tengah 50191. PT Adika Jaya Engineering Merupakan Perusahaan yang bergerak dibidang General Contractor & Supplier yang memiliki fokus di bidang mechanical & electrical baik itu pembuatan mesin industri, serta pembuatan alat riset.
         </div>
     </div>
 </section>
