@@ -1242,7 +1242,7 @@ class DashboardAdmin extends Dashboard
         $getData = $this->db->table('pengajuan_proyek');
         $getData->select('*');
         $getData->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
-        $query =  $getData->where('idajuan', 'AJP001')->get();
+        $query =  $getData->where('idajuan', $id)->get();
         $hasil = $query->getResultArray();
         $namaproyek = $hasil[0]['namaproyek'];
         $namaklien = $hasil[0]['nama'];
@@ -1260,7 +1260,7 @@ class DashboardAdmin extends Dashboard
         $getData = $this->db->table('pengajuan_proyek');
         $getData->select('*');
         $getData->join('akun', 'pengajuan_proyek.user_id=akun.user_id');
-        $query =  $getData->where('idajuan', 'AJP001')->get();
+        $query =  $getData->where('idajuan', $id)->get();
         $hasil = $query->getResultArray();
         $namaproyek = $hasil[0]['namaproyek'];
         $namaklien = $hasil[0]['nama'];

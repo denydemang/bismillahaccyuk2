@@ -66,8 +66,7 @@ use App\Models\BahanBakuProsesModel;
                                         <?php if (empty($data)) : ?>
                                             <button data-toggle="modal" data-id="<?= $row['idmaterialpenyusun']; ?>" data-target="#modalbb" class="btn btn-primary btnbeli">Beli</button>
                                         <?php else : ?>
-                                            <button data-toggle='modal' data-target='#modaldetail' data-id="<?= $row['idmaterialpenyusun']; ?>" class="btn btn-danger btn-sm btnview"><i class="fas fa-eye"></i></button>
-                                            <button data-id="<?= $row['idmaterialpenyusun']; ?>" class="btn btn-warning btn-sm btnbeli">Buat Jurnal</button>
+                                            <button data-toggle='modal' data-target='#modaldetail' data-id="<?= $row['idmaterialpenyusun']; ?>" class="btn btn-danger btn-sm btnviewmp"><i class="fas fa-eye"></i></button>
                                         <?php endif; ?>
                                     </td>
 
@@ -78,6 +77,79 @@ use App\Models\BahanBakuProsesModel;
                     </table>
                 </div>
             </div>
+    </section>
+    <section>
+        <div class="modal fade" id="modaldetail">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content bg-primary">
+                    <div class="modal-header">
+                        <h4 class="modal-title judulmodal">
+                            Detail Material Penyusun
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <h4>Material Penyusun Di RAB</h4>
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <th>Nama Material Penyusun</th>
+                                        <th>Spesifikasi</th>
+                                        <th>Satuan Material Penyusun</th>
+                                        <th>Qty</th>
+                                        <th>Harga RAB</th>
+                                        <th>Total Harga</th>
+                                    </thead>
+                                    <tbody>
+                                        <td class="nm">Nama Material</td>
+                                        <td class="jm">Spesifikasi</td>
+                                        <td class="sm">Satuan Material</td>
+                                        <td class="qty">Qty</td>
+                                        <td class="hg">Harga</td>
+                                        <td class="tot">Total</td>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <h4>Material Penyusun Asli</h4>
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <th>Nama Material Penyusun</th>
+                                        <th>Spesifikasi</th>
+                                        <th>Satuan Material Penyusun</th>
+                                        <th>Qty</th>
+                                        <th>Harga Asli</th>
+                                        <th>Total Harga</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="nm1">Nama Material</td>
+                                            <td class="jm1">Spesifikasi</td>
+                                            <td class="sm1">Satuan Material</td>
+                                            <td class="qty1">Qty</td>
+                                            <td class="hg1">Harga</td>
+                                            <td class="tot1">Total</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5">Selisih</td>
+                                            <td class="selisih">Selisih</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     <section>
         <div class="modal fade" id="modalbb">

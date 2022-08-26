@@ -90,8 +90,8 @@
                                         <label for="jenisproyek">Jenis Proyek *</label>
                                         <select type="text" class="form-control" id="jenisproyekkk" name="jenisproyek">
                                             <option selected disabled value=" --Pilih Jenis Proyek--"> --Pilih Jenis Proyek--</option>
-                                            <option value="Engineering Konstruksi">Pembuatan Mesin</option>
-                                            <option value="Engineering Manufacture">Instalasi Listrik</option>
+                                            <option value="Pembuatan Mesin">Pembuatan Mesin</option>
+                                            <option value="Instalasi Listrik">Instalasi Listrik</option>
                                             <!-- <option value="Penelitian Dan Pengembangan">Penelitian Dan Pengembangan</option> -->
                                         </select>
                                     </div>

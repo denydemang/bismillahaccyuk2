@@ -791,6 +791,17 @@ class DashboardKelolaProyek extends Dashboard
             return redirect()->to(base_url('kelolaproyek/bbdalamproses'));
         }
     }
+    public function getdetailmp($idmp)
+    {
+        if ($this->request->isAJAX()) {
+
+            $belibahan = new BahanBakuProsesModel();
+            $datapenyusun = $belibahan->builder()->select('belibahan.*,perhitungan_materialpenyusunrev.*')
+                ->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')
+                ->where('perhitungan_materialpenyusunrev.idmaterialpenyusun', $idmp)->get()->getResultArray();
+            echo json_encode($datapenyusun);
+        }
+    }
     public function getdetailmaterial($idmaterial)
     {
         if ($this->request->isAJAX()) {

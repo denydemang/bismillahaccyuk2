@@ -109,7 +109,7 @@ $this->extend('dashboard/kelolaproyek/template') ?>
                                         </div>
                                         <div class="col">
                                             <label for="tanggal">Tanggal</label>
-                                            <input readonly type="text" class="form-control tanggal" name="tanggal" id="tanggal" name="tanggal" value="<?= date("Y-m-d"); ?>">
+                                            <input type="text" class="form-control tanggal" name="tanggal" id="tanggal" name="tanggal" value="<?= date("Y-m-d"); ?>">
                                             <div class="sudah_bayarinvalid invalid-feedback">
 
                                             </div>
@@ -223,7 +223,14 @@ $this->extend('dashboard/kelolaproyek/template') ?>
         </div>
     </section>
 </div>
+<script src="<?= base_url('jquery-ui-1.13.2') ?>/jquery-ui.js"></script>
+<!-- <script src="<//?= base_url('jquery-month-picker') ?>/src/MonthPicker.js"></script> -->
+<script src="<?= base_url('daterangepicker') ?>/moment.min.js"></script>
+<script src="<?= base_url('daterangepicker') ?>/daterangepicker.js"></script>
 <script>
+    $('.tanggal').datepicker({
+        dateFormat: 'yy-mm-dd'
+    })
     $('#tabletenaker').DataTable({
         "columnDefs": [{
             orderable: false,

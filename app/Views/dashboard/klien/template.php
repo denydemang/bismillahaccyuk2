@@ -178,16 +178,16 @@
                                 </a>
                             </li>
                         <?php endif; ?>
-                        <?php if (!empty($ajuandikerjakan)) : ?>
+                        <!-- <//?php if (!empty($ajuandikerjakan)) : ?>
                             <li class="nav-item" style="margin-top:10px;">
-                                <a href="<?= base_url(); ?>/klien/progressproyek" class="nav-link <?= ($_SESSION['aktif'] == 'progressproyek') ? 'active' : '' ?>">
+                                <a href="<///?= base_url(); ?>/klien/progressproyek" class="nav-link <//?= ($_SESSION['aktif'] == 'progressproyek') ? 'active' : '' ?>">
                                     <i class="nav-icon fas fa-hourglass mr-3"></i>
                                     <p>
                                         Progress Proyek
                                     </p>
                                 </a>
                             </li>
-                        <?php endif; ?>
+                        </?php endif; ?> -->
                         <li class="nav-item" style="margin-top:10px;">
                             <a href="<?= base_url(); ?>/klien/message" class="nav-link <?= ($_SESSION['aktif'] == 'message') ? 'active' : '' ?>">
                                 <i class="nav-icon far fa-envelope mr-3"></i>
