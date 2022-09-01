@@ -289,8 +289,19 @@ class DashboardKelolaProyek extends Dashboard
         $tk = new TenakerModel();
         $bop = new BOPModel();
 
-        $databb = $bb->builder()->select('perhitungan_materialpenyusunrev.*,belibahan.harga_beli,belibahan.totalharga')
+        $idajuan =  session()->get('idajuan');
+
+        $mprevisi = new PerhitunganMaterialModel();
+        $data =  $mprevisi->where('idajuan', $idajuan)->find();
+        $this->datalogin += [
+            'datamaterial' => $data,
+        ];
+        // $databb = $bb->builder()->select('perhitungan_materialpenyusunrev.*,belibahan.harga_beli,belibahan.totalharga')
+        //     ->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')
+        //     ->where('belibahan.idproyek', $idproyek)->get()->getResultArray();
+        $databb = $bb->builder()->select('belibahan.harga_beli,belibahan.totalharga,perhitungan_materialpenyusunrev.namamp,perhitungan_materialpenyusunrev.spesifikasimp,perhitungan_materialpenyusunrev.jumlahmp,perhitungan_materialpenyusunrev.spesifikasimp,perhitungan_materialpenyusunrev.satuanmp,perhitungan_material.namamaterial,perhitungan_material.qtymaterial')
             ->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')
+            ->join('perhitungan_material', 'perhitungan_materialpenyusunrev.idmaterial=perhitungan_material.idmaterial')
             ->where('belibahan.idproyek', $idproyek)->get()->getResultArray();
         $datatk = $tk->builder()->select('perhitungantenakerrev.*,tenaker.gaji,tenaker.total_gaji')
             ->join('perhitungantenakerrev', 'tenaker.id_pbtenaker=perhitungantenakerrev.id_pbtenaker')
@@ -298,6 +309,9 @@ class DashboardKelolaProyek extends Dashboard
         $databop = $bop->builder()->select('perhitunganboprev.*,transaksibop.harga,transaksibop.tot_biaya')
             ->join('perhitunganboprev', 'transaksibop.id_pbop=perhitunganboprev.id_pbop')
             ->where('idproyek', $idproyek)->get()->getResultArray();
+
+
+
 
         $bbrab = new PerhitunganMPrevisi();
         $tkrab = new PerhitunganTenakerRevisiModel();

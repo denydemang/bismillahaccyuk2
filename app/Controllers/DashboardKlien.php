@@ -7,6 +7,11 @@ use App\Models\ProgressProyekModel;
 use App\Models\ModelLogin;
 use App\Models\massagemodel;
 use App\Models\MeetingModel;
+use App\Models\PerhitunganBOPRevisiModel;
+use App\Models\PerhitunganBBRevisiModel;
+use App\Models\PerhitunganTenakerRevisiModel;
+use App\Models\PerhitunganMaterialModel;
+
 
 require VENDORPATH . '/autoload.php';
 
@@ -182,16 +187,43 @@ class DashboardKLien extends Dashboard
     }
     public function terimaRAB($idajuan)
     {
+        $perhitunganbop = new PerhitunganBOPRevisiModel();
+        $perhitunganbb = new PerhitunganMaterialModel();
+        $perhitungantk = new PerhitunganTenakerRevisiModel();
 
         $ajuanproyek = new AjuanProyekModel();
-        $ajuanproyek->builder()->where('idajuan', $idajuan)->set('status_id', '6')->update();
-        $getaffectedrow = $ajuanproyek->builder()->db()->affectedRows();
-        if ($getaffectedrow >= 1) {
-            session()->setFlashdata('pesanrab', 'disetujui');
+        // $perhitunganmp = new PerhitunganMaterialAsliModel();
+        // $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
+        // $perhitungantkrevisi = new PerhitunganTenakerRevisiModel();
+        // $perhitungamprevisi = new PerhitunganMPrevisi();
+
+        $databop = $perhitunganbop->builder()->selectSum('tot_biaya')->where('idajuan', $idajuan)->get()->getResultArray();
+        $sumbop = $databop[0]['tot_biaya'];
+
+        $datatk = $perhitungantk->builder()->selectSum('total_gaji')->where('idajuan', $idajuan)->get()->getResultArray();
+        $sumtk = $datatk[0]['total_gaji'];
+
+        $databb = $perhitunganbb->builder()->selectSum('total_harga')->where('idajuan', $idajuan)->get()->getResultArray();
+        $sumbb = $databb[0]['total_harga'];
+
+        $totalRAB = (int)$sumbop + (int)$sumtk + (int)$sumbb;
+
+        $anggaran = $ajuanproyek->builder()->select('pengajuan_proyek.anggaran')->where('idajuan', $idajuan)->get()->getResultArray();
+        $anggaran = (int)$anggaran[0]['anggaran'];
+        if ($totalRAB > $anggaran) {
+            session()->setFlashdata('pesanrab', 'naikkananggaran');
+            session()->setFlashdata('maxrab', $totalRAB);
+            return redirect()->to(base_url('klien/ajuanproyek'));
         } else {
-            session()->setFlashdata('pesanrab', 'error');
+            $ajuanproyek->builder()->where('idajuan', $idajuan)->set('status_id', '6')->update();
+            $getaffectedrow = $ajuanproyek->builder()->db()->affectedRows();
+            if ($getaffectedrow >= 1) {
+                session()->setFlashdata('pesanrab', 'disetujui');
+            } else {
+                session()->setFlashdata('pesanrab', 'error');
+            }
+            return redirect()->to(base_url('klien/ajuanproyek'));
         }
-        return redirect()->to(base_url('klien/ajuanproyek'));
     }
     public function tolakRAB($idajuan = false)
     {
@@ -260,5 +292,20 @@ class DashboardKLien extends Dashboard
         } else {
             return redirect()->to(base_url('klien/ajuanproyek'));
         }
+    }
+    public function editanggaran()
+    {
+        $idajuan = $this->request->getVar('idajuan');
+        $anggaran = $this->request->getVar('anggaran');
+        $anggaran = filter_var($anggaran, FILTER_SANITIZE_NUMBER_INT);
+        $ajuan = new AjuanProyekModel();
+        $ajuan->builder()->where('idajuan', $idajuan)->set('anggaran', $anggaran)->update();
+        $getaffectedrow = $ajuan->builder()->db()->affectedRows();
+        if ($getaffectedrow >= 1) {
+            session()->setFlashdata('pesanrab', 'editanggaran');
+        } else {
+            session()->setFlashdata('pesanrab', 'error');
+        }
+        return redirect()->to(base_url('klien/ajuanproyek'));
     }
 }

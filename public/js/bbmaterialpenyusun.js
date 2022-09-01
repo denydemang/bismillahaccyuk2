@@ -35,12 +35,14 @@ $(document).ready(function(){
             
             $('.nm').html(response[0]['namamp'])
             $('.sm').html(response[0]['satuanmp'])
+            $('.jm').html(response[0]['spesifikasimp'])
             $('.qty').html(response[0]['jumlahmp'])
             $('.hg').html(formatRupiah1(response[0]['hargamp']))
             $('.tot').html(formatRupiah1(parseInt(response[0]['totalmp'])))
 
             $('.nm1').html(response[0]['namamp'])
             $('.sm1').html(response[0]['satuanmp'])
+            $('.jm1').html(response[0]['spesifikasimp'])
             $('.qty1').html(response[0]['jumlahmp'])
             $('.hg1').html(formatRupiah1(response[0]['harga_beli']))
             $('.tot1').html(formatRupiah1(parseInt(response[0]['totalharga'])))

@@ -1,8 +1,25 @@
-
+// const formatRupiahtyping = (money) => {
+//     angka = money.replace(/[^,\d]/g, "");
+//   if (isNaN(angka)){
+//     angka = 0;
+//   }
+//     return new Intl.NumberFormat('id-ID',
+//       { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }
+//     ).format(angka);
+//  }
+// const formatRupiah1 = (money) => {
+//     if (isNaN(money)){
+//       money = 0;
+//     }
+//       return new Intl.NumberFormat('id-ID',
+//         { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }
+//       ).format(money);
+//    }
 $(document).ready(function(){
    
     // notif ajuan 
     let pesanrab =$('.pesanrab').data('pesanrab');
+    let maxrab =$('.pesanrab').data('maxrab');
     
     if (pesanrab == 'disetujui') {
         Swal.fire({
@@ -21,6 +38,18 @@ $(document).ready(function(){
             title: 'Permintaan Meeting Berhasil Diajukan',
             icon: 'success',
         })
+    } else if ( pesanrab == 'editanggaran'){
+        Swal.fire({
+            title: 'Anggaran Berhasil Diperbarui',
+            icon: 'success',
+        })
+    }
+     else if ( pesanrab == 'naikkananggaran'){
+        Swal.fire({
+            title: 'Anggaran Anda Lebih Rendah dari RAB !',
+            text: 'Naikkan Anggaran Anda Minimal '+formatRupiah1(maxrab),
+            icon: 'error',
+        })
     }
     
     //Aksi Ajuan
@@ -28,6 +57,18 @@ $('.detailtolakrab').click(function(){
     let idajuan = $(this).data('ajuan');
     $('.idajuan').val(idajuan);
     
+})
+$('.editanggaran').click(function(){
+    let idajuan = $(this).data('ajuan');
+    $('.idajuan').val(idajuan);
+    
+})
+$('.anggaran').keyup(function(){
+    $(this).val(formatRupiahtyping($(this).val()));
+
+})
+$('#closeanggaran').click(function(){
+    $('.formeditanggaran').trigger('reset');
 })
     //Aksi Ajuan
 $('.tanggalmeeting').daterangepicker({

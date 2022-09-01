@@ -1503,7 +1503,7 @@ class DashboardAdmin extends Dashboard
             $perhitunganbb = new PerhitunganMaterialModel();
             $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
             $perhitungantkrevisi = new PerhitunganTenakerRevisiModel();
-            $perhitungamprevisi = new PerhitunganMPrevisi();
+            $perhitunganmprevisi = new PerhitunganMPrevisi();
 
             $databopr = $perhitunganboprevisi->builder()->selectSum('tot_biaya')->where('idajuan', $id)->get()->getResultArray();
             $sumbop = $databopr[0]['tot_biaya'];
@@ -1526,7 +1526,11 @@ class DashboardAdmin extends Dashboard
             $tk = $perhitungantkrevisi->where('idajuan', $id)->find();
             $bop = $perhitunganboprevisi->where('idajuan', $id)->find();
 
-            if (empty($bb) && empty($tk) && empty($bop) || empty($getdatauser)) {
+            $bbrevisi = $perhitunganmprevisi->join('perhitungan_material', 'perhitungan_materialpenyusunrev.idmaterial=perhitungan_material.idmaterial')->where('idajuan', $id)->where('revisi_id', 3)->find();
+            $tkrevisi = $perhitungantkrevisi->where('idajuan', $id)->where('revisi_id', 3)->find();
+            $boprevisi = $perhitunganboprevisi->where('idajuan', $id)->where('revisi_id', 3)->find();
+
+            if (empty($bbrevisi) && empty($tkrevisi) && empty($boprevisi) || empty($getdatauser)) {
                 session()->setFlashdata('pesanprint', 'Tidak Data Yang Direvisi/Data Belum Lengkap');
                 return redirect()->to(base_url() . '/admin/cetakrab');
             } else {
@@ -1558,7 +1562,7 @@ class DashboardAdmin extends Dashboard
 
                 // Output the generated PDF to Browser
 
-                $dompdf->stream('Proposal Ajuan.pdf', array("Attachment" => false));
+                $dompdf->stream($getdatauser[0]['idajuan'] . '-RAB-Revisi.pdf', array("Attachment" => false));
             }
         } else {
             return redirect()->to(base_url('admin/cetakrab'));
@@ -1598,7 +1602,7 @@ class DashboardAdmin extends Dashboard
         date_default_timezone_set('Asia/Jakarta');
         $tanggal = $this->tanggal_indonesia(date('Y-m-d'));
         $perhitunganbop = new PerhitunganBOPModel();
-        $perhitunganbb = new PerhitunganMaterialModel();
+        $perhitunganbb = new PerhitunganMaterialAsliModel();
         $perhitungantk = new PerhitunganTenakerModel();
         // $perhitunganmp = new PerhitunganMaterialAsliModel();
         // $perhitunganboprevisi = new PerhitunganBOPRevisiModel();
@@ -1659,7 +1663,7 @@ class DashboardAdmin extends Dashboard
 
                 // Output the generated PDF to Browser
 
-                $dompdf->stream('Proposal Ajuan.pdf', array("Attachment" => false));
+                $dompdf->stream($getdatauser[0]['idajuan'] . '-RAB.pdf', array("Attachment" => false));
             }
         } else {
             return redirect()->to(base_url('admin/cetakrab'));

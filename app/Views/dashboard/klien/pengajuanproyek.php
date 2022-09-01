@@ -76,6 +76,7 @@
                                                         <a style="white-space:nowrap !important"><button data-ajuan="<?= $ajuan['idajuan']; ?>" class="btn btn-sm btn-primary terimarab">Terima RAB</button></a>
                                                         <button style="white-space:nowrap !important" data-ajuan="<?= $ajuan['idajuan']; ?>" data-toggle="modal" data-target="#ditolak" class=" btn btn-sm btn-danger detailtolakrab">Tolak RAB</button>
                                                         <button style="white-space:nowrap !important" data-ajuan="<?= $ajuan['idajuan']; ?>" data-toggle="modal" data-target="#permintaanmeeting" class=" btn btn-sm btn-success detailmeeting">Adakan Meeting</button>
+                                                        <button style="white-space:nowrap !important" data-ajuan="<?= $ajuan['idajuan']; ?>" data-toggle="modal" data-target="#editanggaran" class=" btn btn-sm btn-warning editanggaran">Edit Anggaran</button>
                                                     </div>
                                                 </td>
                                             <?php elseif ($ajuan['status_id'] == '6') : ?>
@@ -141,6 +142,32 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="modal fade" id="editanggaran">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit Anggaran</h4>
+                            <button type="button" id="closeanggaran" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" class="formeditanggaran" action="<?= base_url('DashboardKlien/editanggaran'); ?>">
+                                <input readonly type="hidden" placeholder="Masukkan Anggaran" name="idajuan" id="idajuan" class="form-control idajuan">
+                                <div class="form-group">
+                                    <label for="anggaran">Anggaran</label>
+                                    <input type="text" placeholder="Masukkan Anggaran" name="anggaran" id="anggaran" class="form-control anggaran">
+                                </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -219,7 +246,7 @@
             </div>
         </section>
     </div>
-    <div class="pesanrab" data-pesanrab="<?= session()->getFlashdata('pesanrab'); ?>"></div>
+    <div class="pesanrab" data-maxrab="<?= session()->getFlashdata('maxrab'); ?>" data-pesanrab="<?= session()->getFlashdata('pesanrab'); ?>"></div>
 </div>
 <script src="<?= base_url('jquery-ui-1.13.2') ?>/jquery-ui.js"></script>
 <script src="<?= base_url('daterangepicker') ?>/moment.min.js"></script>
