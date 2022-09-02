@@ -198,7 +198,7 @@ class DashboardKelolaProyek extends Dashboard
         $boprevisi = new PerhitunganBOPRevisiModel();
         $data = $boprevisi->where('idajuan', $idajuan)->find();
         $id_pbopr = $this->kodeotomatis('transaksibop', 'id_pbopr', 'TOP001');
-        $idproyek = session()->get('idajuan');
+        $idproyek = session()->get('idproyek');
         $this->datalogin += [
             'kelolabop' => $data,
             'id_pbopr' => $id_pbopr,
@@ -221,32 +221,33 @@ class DashboardKelolaProyek extends Dashboard
             unset($_SESSION['aktif']);
         }
         $idproyek = session()->get('idproyek');
-        $bb = new BahanBakuProsesModel();
+        $idajuan = session()->get('idajuan');
+        $bb = new MaterialUtamaModel();
         $tk = new TenakerModel();
         $bop = new BOPModel();
-        $bbrab = new PerhitunganMPrevisi();
+        $bbrab = new PerhitunganMaterialModel();
         $tkrab = new PerhitunganTenakerRevisiModel();
         $boprab = new PerhitunganBOPRevisiModel();
 
-        $sumbbrab = $bb->builder()->selectSum('perhitungan_materialpenyusunrev.totalmp')
-            ->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')
-            ->where('belibahan.idproyek', $idproyek)->get()->getResultArray();
-        $sumtkrab = $tk->builder()->selectSum('perhitungantenakerrev.total_gaji')
-            ->join('perhitungantenakerrev', 'tenaker.id_pbtenaker=perhitungantenakerrev.id_pbtenaker')
-            ->where('idproyek', $idproyek)->get()->getResultArray();
-        $sumboprab = $bop->builder()->selectSum('perhitunganboprev.tot_biaya')
-            ->join('perhitunganboprev', 'transaksibop.id_pbop=perhitunganboprev.id_pbop')
-            ->where('idproyek', $idproyek)->get()->getResultArray();
+        $sumbbrab = $bbrab->builder()->selectSum('total_harga')
+            ->where('idajuan', $idajuan)->get()->getResultArray();
+        $sumbbrab = $sumbbrab[0]['total_harga'];
+        $sumtkrab = $tkrab->builder()->selectSum('total_gaji')
+            ->where('idajuan', $idajuan)->get()->getResultArray();
+        $sumtkrab = $sumtkrab[0]['total_gaji'];
+        $sumboprab = $boprab->builder()->selectSum('tot_biaya')
+            ->where('idajuan', $idajuan)->get()->getResultArray();
+        $sumboprab = $sumboprab[0]['tot_biaya'];
 
-        $sumbb = $bb->selectSum('totalharga')->where('idproyek', $idproyek)->find();
-        $sumbb = $sumbb[0]['totalharga'];
+        $sumbb = $bb->selectSum('total_harga')->where('idproyek', $idproyek)->find();
+        $sumbb = $sumbb[0]['total_harga'];
         $sumtk = $tk->selectSum('total_gaji')->where('idproyek', $idproyek)->find();
         $sumtk = $sumtk[0]['total_gaji'];
         $sumbop = $bop->selectSum('tot_biaya')->where('idproyek', $idproyek)->find();
         $sumbop = $sumbop[0]['tot_biaya'];
 
-        $biayaasli = $sumbb + $sumtk + $sumbop;
-        $biayaRAB = $sumbbrab[0]['totalmp'] + $sumtkrab[0]['total_gaji'] + $sumboprab[0]['tot_biaya'];
+        $biayaasli = (int)$sumbb + (int)$sumtk + (int)$sumbop;
+        $biayaRAB = (int)($sumbbrab) + (int)($sumtkrab) + (int)$sumboprab;
         $selisih = $biayaRAB - $biayaasli;
 
         $_SESSION['aktif'] = 'laporanhpp';
@@ -289,67 +290,49 @@ class DashboardKelolaProyek extends Dashboard
         $tanggal = $this->tanggal_indonesia(date('Y-m-d'));
         $idajuan = session()->get('idajuan');
         $idproyek = session()->get('idproyek');
-        $bb = new BahanBakuProsesModel();
+        $bb = new MaterialUtamaModel();
+        $penyusun = new BahanBakuProsesModel();
         $tk = new TenakerModel();
         $bop = new BOPModel();
 
-        $idajuan =  session()->get('idajuan');
+        $datapenyusun = $penyusun->builder()
+            ->select('belibahan.harga_beli,belibahan.totalharga,pmprev.idmaterial,pmprev.namamp,pmprev.spesifikasimp,pmprev.satuanmp,pmprev.jumlahmp')
+            ->join('perhitungan_materialpenyusunrev as pmprev', 'belibahan.idmaterialpenyusun=pmprev.idmaterialpenyusun')
+            ->where('idproyek', $idproyek)
+            ->get()->getResultArray();
+        $databb = $bb->builder()
+            ->select('material_utama.idmaterial,material_utama.hargamaterial,material_utama.total_harga, pm.namamaterial,pm.qtymaterial')
+            ->join('perhitungan_material as pm', 'material_utama.idmaterial=pm.idmaterial')
+            ->where('idproyek', $idproyek)
+            ->get()->getResultArray();
+        $datatk = $tk->builder()
+            ->select('tenaker.gaji,tenaker.total_gaji,pt.jobdesk,pt.statuspekerjaan,pt.total_pekerja')
+            ->join('perhitungantenakerrev as pt', 'tenaker.id_pbtenaker=pt.id_pbtenaker')
+            ->where('idproyek', $idproyek)
+            ->get()->getResultArray();
+        $databop = $bop->builder()
+            ->select('transaksibop.harga,transaksibop.tot_biaya,pb.namatrans,pb.quantity,pb.satuan')
+            ->join('perhitunganboprev as pb', 'transaksibop.id_pbop=pb.id_pbop')
+            ->where('idproyek', $idproyek)
+            ->get()->getResultArray();
 
-        $mprevisi = new PerhitunganMaterialModel();
-        $data =  $mprevisi->where('idajuan', $idajuan)->find();
-        $this->datalogin += [
-            'datamaterial' => $data,
-        ];
-        // $databb = $bb->builder()->select('perhitungan_materialpenyusunrev.*,belibahan.harga_beli,belibahan.totalharga')
-        //     ->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')
-        //     ->where('belibahan.idproyek', $idproyek)->get()->getResultArray();
-        $databb = $bb->builder()->select('belibahan.harga_beli,belibahan.totalharga,perhitungan_materialpenyusunrev.namamp,perhitungan_materialpenyusunrev.spesifikasimp,perhitungan_materialpenyusunrev.jumlahmp,perhitungan_materialpenyusunrev.spesifikasimp,perhitungan_materialpenyusunrev.satuanmp,perhitungan_material.namamaterial,perhitungan_material.qtymaterial')
-            ->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')
-            ->join('perhitungan_material', 'perhitungan_materialpenyusunrev.idmaterial=perhitungan_material.idmaterial')
-            ->where('belibahan.idproyek', $idproyek)->get()->getResultArray();
-        $datatk = $tk->builder()->select('perhitungantenakerrev.*,tenaker.gaji,tenaker.total_gaji')
-            ->join('perhitungantenakerrev', 'tenaker.id_pbtenaker=perhitungantenakerrev.id_pbtenaker')
-            ->where('idproyek', $idproyek)->get()->getResultArray();
-        $databop = $bop->builder()->select('perhitunganboprev.*,transaksibop.harga,transaksibop.tot_biaya')
-            ->join('perhitunganboprev', 'transaksibop.id_pbop=perhitunganboprev.id_pbop')
-            ->where('idproyek', $idproyek)->get()->getResultArray();
-
-
-
-
-        $bbrab = new PerhitunganMPrevisi();
-        $tkrab = new PerhitunganTenakerRevisiModel();
-        $boprab = new PerhitunganBOPRevisiModel();
-
-        $sumbb = $bb->selectSum('totalharga')->where('idproyek', $idproyek)->find();
-        $sumbb = $sumbb[0]['totalharga'];
+        $sumbb = $bb->selectSum('total_harga')->where('idproyek', $idproyek)->find();
+        $sumbb = $sumbb[0]['total_harga'];
         $sumtk = $tk->selectSum('total_gaji')->where('idproyek', $idproyek)->find();
         $sumtk = $sumtk[0]['total_gaji'];
         $sumbop = $bop->selectSum('tot_biaya')->where('idproyek', $idproyek)->find();
         $sumbop = $sumbop[0]['tot_biaya'];
-
-        $total = $sumbb + $sumtk + $sumbop;
-
-        $sumbbrab = $bb->builder()->selectSum('perhitungan_materialpenyusunrev.totalmp')
-            ->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')
-            ->where('belibahan.idproyek', $idproyek)->get()->getResultArray();
-        $sumtkrab = $tk->builder()->selectSum('perhitungantenakerrev.total_gaji')
-            ->join('perhitungantenakerrev', 'tenaker.id_pbtenaker=perhitungantenakerrev.id_pbtenaker')
-            ->where('idproyek', $idproyek)->get()->getResultArray();
-        $sumboprab = $bop->builder()->selectSum('perhitunganboprev.tot_biaya')
-            ->join('perhitunganboprev', 'transaksibop.id_pbop=perhitunganboprev.id_pbop')
-            ->where('idproyek', $idproyek)->get()->getResultArray();
+        $sumpenyusun = $penyusun->selectSum('totalharga')->where('idproyek', $idproyek)->find();
+        $sumpenyusun = $sumpenyusun[0]['totalharga'];
+        $total = (int)$sumbb + (int)$sumtk + (int)$sumbop;
 
         $proyekmodel = new ProyekModel();
         $builder = $proyekmodel->builder();
         $builder = $builder->select('*');
         $getdatauser = $builder->join('pengajuan_proyek', 'proyek.idajuan=pengajuan_proyek.idajuan')->join('akun', 'pengajuan_proyek.user_id=akun.user_id')->where('idproyek', $idproyek)->get()->getResultArray();
 
-        $biayaasli = $sumbb + $sumtk + $sumbop;
-        $biayaRAB = $sumbbrab[0]['totalmp'] + $sumtkrab[0]['total_gaji'] + $sumboprab[0]['tot_biaya'];
-        $selisih = $biayaRAB - $biayaasli;
         if (empty($sumbb) && empty($sumtk) && empty($sumbop) || empty($getdatauser)) {
-            session()->setFlashdata('pesanprint', 'Tidak Data Yang Direvisi/Data Belum Lengkap');
+            session()->setFlashdata('pesanprint', 'Lengkapi Data Terlebih Dahulu');
             return redirect()->to(base_url() . '/kelolaproyek/laporanhpp');
         } else {
             $data = [
@@ -360,6 +343,7 @@ class DashboardKelolaProyek extends Dashboard
                 'sumbb' => $sumbb,
                 'sumtk' => $sumtk,
                 'sumbop' => $sumbop,
+                'sumpenyusun' => $sumpenyusun,
                 'total' => $total,
                 'user' => $getdatauser
 
@@ -888,7 +872,8 @@ class DashboardKelolaProyek extends Dashboard
         }
         $materialutama->builder()->where('idmaterial', $idmaterial)->set('hargamaterial', $totalsemua)->update();
         $datamaterial = $materialutama->builder()->select('perhitungan_material.qtymaterial,material_utama.hargamaterial')
-            ->join('perhitungan_material', 'material_utama.idmaterial=perhitungan_material.idmaterial')->where('material_utama.idmaterial', $idmaterial)->get()->getResultArray();
+            ->join('perhitungan_material', 'material_utama.idmaterial=perhitungan_material.idmaterial')
+            ->where('material_utama.idmaterial', $idmaterial)->get()->getResultArray();
         $hargamaterial = $datamaterial[0]['hargamaterial'];
         $qtymaterial = $datamaterial[0]['qtymaterial'];
         $totalmaterial = (int)($hargamaterial) * (int)($qtymaterial);
@@ -916,8 +901,11 @@ class DashboardKelolaProyek extends Dashboard
         $id_pbtenaker = $this->request->getvar('id_pbtenaker');
         $idproyek = $this->request->getvar('idproyek');
         $gaji = $this->request->getvar('gaji');
+        $gaji = filter_var($gaji, FILTER_SANITIZE_NUMBER_INT);
         $tanggal = $this->request->getVar('tanggal');
         $total_gaji = $this->request->getvar('total_gaji');
+        $total_gaji = filter_var($total_gaji, FILTER_SANITIZE_NUMBER_INT);
+
 
         $tk->insert([
             'id_sewatenaker' => $idsewatenaker,
@@ -952,7 +940,9 @@ class DashboardKelolaProyek extends Dashboard
         $idproyek = $this->request->getvar('idproyek');
         $tanggal = $this->request->getVar('tanggal');
         $harga = $this->request->getvar('harga');
+        $harga = filter_var($harga, FILTER_SANITIZE_NUMBER_INT);
         $tot_biaya = $this->request->getvar('tot_biaya');
+        $tot_biaya = filter_var($tot_biaya, FILTER_SANITIZE_NUMBER_INT);
         // dd($harga);
         $bop->insert([
             'id_pbopr' => $id_pbopr,

@@ -19,8 +19,8 @@
                             <input type="text" style="color:red; font-weight:bold" readonly name="tot_biayaproyek" id="tot_biayaproyek" class="form-control tot_biayaproyek" value="Rp <?= number_format($biayaasli, 0, '', '.'); ?>,-">
                         </div>
                         <div>
-                            <label for="keuntungan">Keuntungan</label>
-                            <input type="text" style="color:red; font-weight:bold" readonly name="keuntungan" id="keuntungan" class="form-control keuntungan" value="Rp <?= number_format($selisih, 0, '', '.'); ?>,-">
+                            <label for="selisih">Selisih</label>
+                            <input type="text" style="color:red; font-weight:bold" readonly name="selisih" id="selisih" class="form-control selisih" value="Rp <?= number_format($selisih, 0, '', '.'); ?>,-">
                         </div>
 
                         <div style="display:flex; flex-direction:row;align-items:center;justify-content:space-between" class="pt-3">

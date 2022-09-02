@@ -79,15 +79,16 @@
     <div class="baris"></div>
     <main>
         <h2 style="text-align:center;text-decoration:underline;margin-top:50px;">LAPORAN HARGA POKOK PROYEK</h2>
-        <div style="position:relative;height:180px;width:100%">
+        <div style="position:relative;height:200px;width:100%">
             <div>
-                <h4>ID PROYEK: <span>AJP001</span></h4>
-                <h4>Nama Proyek : <span>AJP001</span></h4>
-                <h4>Nama Klien : <span>AJP001</span></h4>
-                <h4>Email Klien : <span>AJP001</span></h4>
+                <h5 style="line-height: 0.5">ID PROYEK: <span><?= $user[0]['idproyek']; ?></span></h5>
+                <h5 style="line-height: 0.5">ID AJUAN: <span><?= $user[0]['idajuan']; ?></span></h5>
+                <h5 style="line-height: 0.5">NAMA PROYEK : <span><?= $user[0]['namaproyek']; ?></span></h5>
+                <h5 style="line-height: 0.5">NAMA KLIEN : <span><?= $user[0]['nama']; ?></span></h5>
+                <h5 style="line-height: 0.5">EMAIL KLIEN : <span><?= $user[0]['email']; ?></span></h5>
             </div>
             <div style="position:absolute;top:0;right:0;">
-                <h4>12 November 1999</h4>
+                <h4><?= $tanggal; ?></h4>
             </div>
         </div>
         <section style="margin-top:10px;" class="main">
@@ -105,31 +106,65 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td style="text-align:left;font-weight:bold;" colspan="6">Box Dryer</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>Blower</td>
-                        <td>1HP, 220VAC-50/60Hz</td>
-                        <td>3</td>
-                        <td>Pcs</td>
-                        <td>4.153.000</td>
-                        <td>12.459.000</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right" colspan="6">Total Material Penyusun</td>
-                        <td>Subtotal</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right" colspan="6">Qty Material Utama</td>
-                        <td>Subtotal</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right" colspan="6">Sub Total</td>
-                        <td>Subtotal</td>
-                    </tr>
+                    <?php
+
+                    use App\Models\BahanBakuProsesModel;
+
+                    $nomor = 1;
+                    if (!empty($bb)) : ?>
+                        <?php foreach ($bb as $row) : ?>
+                            <tr>
+                                <td><?= $nomor++; ?></td>
+                                <td style="text-align:left;font-weight:bold;" colspan="6"><?= $row['namamaterial']; ?></td>
+                            </tr>
+                            <?php
+                            $penyusun = new BahanBakuProsesModel();
+                            $datapenyusun = $penyusun->builder()
+                                ->select('belibahan.harga_beli,belibahan.totalharga,pmprev.idmaterial,pmprev.namamp,pmprev.spesifikasimp,pmprev.satuanmp,pmprev.jumlahmp')
+                                ->join('perhitungan_materialpenyusunrev as pmprev', 'belibahan.idmaterialpenyusun=pmprev.idmaterialpenyusun')
+                                ->where('pmprev.idmaterial', $row['idmaterial'])
+                                ->get()->getResultArray(); ?>
+                            <?php if (!empty($datapenyusun)) : ?>
+                                <?php foreach ($datapenyusun as $row2) : ?>
+                                    <tr>
+                                        <td></td>
+                                        <td><?= $row2['namamp']; ?></td>
+                                        <td><?= $row2['spesifikasimp']; ?></td>
+                                        <td><?= $row2['jumlahmp']; ?></td>
+                                        <td><?= $row2['satuanmp']; ?></td>
+                                        <td style="white-space:nowrap">Rp <?= number_format($row2['harga_beli'], 0, '', '.'); ?>,-</td>
+                                        <td style="white-space:nowrap">Rp <?= number_format($row2['totalharga'], 0, '', '.'); ?>,-</td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else : ?>
+
+                            <?php endif; ?>
+                            <?php $jumlahpenyusun = $penyusun->builder()
+                                ->selectSum('belibahan.totalharga')
+                                ->join('perhitungan_materialpenyusunrev as pmprev', 'belibahan.idmaterialpenyusun=pmprev.idmaterialpenyusun')
+                                ->where('pmprev.idmaterial', $row['idmaterial'])
+                                ->get()->getResultArray();
+                            $jumlahpenyusun = $jumlahpenyusun[0]['totalharga'];
+                            ?>
+                            <tr>
+                                <td style="text-align:right" colspan="6">Total Harga Material Penyusun</td>
+                                <td style="white-space:nowrap">Rp <?= number_format($jumlahpenyusun, 0, '', '.'); ?>,-</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:right" colspan="6">Qty Material Utama</td>
+                                <td><?= $row['qtymaterial']; ?></td>
+                            </tr>
+                            <tr>
+                                <?php $totalmaterial = (int)$jumlahpenyusun * (int)$row['qtymaterial'] ?>
+                                <td style="text-align:right" colspan="6">Total Harga Material Utama</td>
+                                <td style="white-space:nowrap">Rp <?= number_format($totalmaterial, 0, '', '.'); ?>,-</td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <tr>
+                            <td style="text-align:right" colspan="6">Sub Total</td>
+                            <td style="white-space:nowrap">Rp <?= number_format($sumbb, 0, '', '.'); ?>,-</td>
+                        </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
 
@@ -146,18 +181,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>JHhhdsa</td>
-                        <td>1HP, 220VAC-50/60Hz</td>
-                        <td>3</td>
-                        <td>Pcs</td>
-                        <td>Pcs</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right" colspan="5">Sub Total</td>
-                        <td>Subtotal</td>
-                    </tr>
+                    <?php $nomer = 1;
+                    if (!empty($tk)) : ?>
+                        <?php foreach ($tk as $row) : ?>
+                            <tr>
+                                <td><?= $nomer++; ?></td>
+                                <td><?= $row['jobdesk']; ?></td>
+                                <td><?= $row['statuspekerjaan']; ?></td>
+                                <td><?= $row['total_pekerja']; ?></td>
+                                <td>Rp <?= number_format($row['gaji'], 0, '', '.'); ?>,-</td>
+                                <td>Rp <?= number_format($row['total_gaji'], 0, '', '.'); ?>,-</td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <tr>
+                            <td style="text-align:right" colspan="5">Sub Total</td>
+                            <td>Rp <?= number_format($sumtk, 0, '', '.'); ?>,-</td>
+                        </tr>
+                    <?php else : ?>
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right" colspan="5">Sub Total</td>
+                            <td>-</td>
+                        </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
 
@@ -174,20 +227,39 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>JHhhdsa</td>
-                        <td>1HP, 220VAC-50/60Hz</td>
-                        <td>3</td>
-                        <td>Pcs</td>
-                        <td>Pcs</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right" colspan="5">Sub Total</td>
-                        <td>Subtotal</td>
-                    </tr>
+                    <?php $Nomor = 1;
+                    if (!empty($bop)) : ?>
+                        <?php foreach ($bop as $row) : ?>
+                            <tr>
+                                <td><?= $Nomor++; ?></td>
+                                <td><?= $row['namatrans']; ?></td>
+                                <td><?= $row['quantity']; ?></td>
+                                <td><?= $row['satuan']; ?></td>
+                                <td>Rp <?= number_format($row['harga'], 0, '', '.'); ?>,-</td>
+                                <td>Rp <?= number_format($row['tot_biaya']); ?>,-</td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <tr>
+                            <td style="text-align:right" colspan="5">Sub Total</td>
+                            <td>Rp <?= number_format($sumbop, 0, '', '.'); ?>,-</td>
+                        </tr>
+                    <?php else : ?>
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right" colspan="5">Sub Total</td>
+                            <td>-</td>
+                        </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
+            <h2 style="float:right">Total Biaya : Rp <?= number_format($total, 0, '', '.'); ?>,-</h2>
         </section>
     </main>
 </body>

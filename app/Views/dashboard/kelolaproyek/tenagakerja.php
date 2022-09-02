@@ -122,7 +122,7 @@ $this->extend('dashboard/kelolaproyek/template') ?>
                                         </div>
                                         <div class="col">
                                             <label for="gaji">Sewa Tenaker</label>
-                                            <input type="text" class="form-control gaji" name="gaji" id="gaji" name="gaji" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                            <input type="text" class="form-control gaji" name="gaji" id="gaji" name="gaji">
                                             <div class="belum_bayarinvalid invalid-feedback"></div>
                                         </div>
                                     </div>
@@ -150,7 +150,7 @@ $this->extend('dashboard/kelolaproyek/template') ?>
                             <div class="modal-content bg-primary">
                                 <div class="modal-header">
                                     <h4 class="modal-title judulmodal">
-                                        Detail Material
+                                        Detail Tenaker
                                     </h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -280,20 +280,21 @@ $this->extend('dashboard/kelolaproyek/template') ?>
                 dataType: "json",
                 success: function(response) {
                     $('.id_pbtenaker').val(response.id_pbtenaker);
-                    $('.id_pbtenaker').val(response.id_pbtenaker);
-                    $('.gajiawal').val(response.gajiawal);
                     $('.total_pekerja').val(response.total_pekerja);
-                    $('.gajiawal').val(response.gaji);
+                    $('.gajiawal').val(formatRupiah1(response.gaji));
                 }
             });
         })
 
         $('.gaji').keyup(function() {
-            let gaji = $(this).val()
+            $(this).val(formatRupiahtyping($(this).val()))
+            let str = $(this).val()
+            str = str.replace(/[^0-9/]/g, '')
+            let gaji = parseInt(str);
             let total_pekerja = $('.total_pekerja').val();
             let total_gaji = gaji * total_pekerja
 
-            $('.total_gaji').val(total_gaji);
+            $('.total_gaji').val(formatRupiah1(total_gaji));
 
         })
         $('#btndetailtenaker').click(function() {

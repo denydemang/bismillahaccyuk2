@@ -101,7 +101,7 @@ use App\Models\BOPModel;
                                 </div>
                                 <div class="col">
                                     <label for="tanggal">Tanggal</label>
-                                    <input readonly type="text" class="form-control tanggal" id="tanggal" name="tanggal" value="<?= date("Y-m-d"); ?>">
+                                    <input type="text" class="form-control tanggal" id="tanggal" name="tanggal" value="<?= date("Y-m-d"); ?>">
                                     <div class="sudah_bayarinvalid invalid-feedback">
 
                                     </div>
@@ -127,14 +127,14 @@ use App\Models\BOPModel;
                                 </div>
                                 <div class="col">
                                     <label for="harga">Harga Asli</label>
-                                    <input type="text" class="form-control harga" name="harga" id="harga" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                    <input type="text" class="form-control harga" name="harga" id="harga">
                                     <div class="belum_bayarinvalid invalid-feedback"></div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col">
                                     <label for="harga">Total</label>
-                                    <input readonly type="text" class="form-control tot_biaya" name="tot_biaya" id="tot_biaya" name="tot_biaya" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                    <input readonly type="text" class="form-control tot_biaya" name="tot_biaya" id="tot_biaya" name="tot_biaya">
                                 </div>
                             </div>
                             <button id="btnsimpantenaker" type="submit" class="btn btn-primary btn-sm btnsimpantenaker mt-4">Bayar</button>
@@ -221,6 +221,7 @@ use App\Models\BOPModel;
         </div>
     </section>
 </div>
+<script src="<?= base_url('jquery-ui-1.13.2') ?>/jquery-ui.js"></script>
 <script>
     const formatRupiahtyping = (money) => {
         angka = money.replace(/[^,\d]/g, "");
@@ -244,6 +245,15 @@ use App\Models\BOPModel;
         }).format(money);
     }
     $(document).ready(function() {
+        $('.tanggal').datepicker({
+            dateFormat: 'yy-mm-dd'
+        })
+        $(function() {
+            $('.tanggal').keypress(function(event) {
+                event.preventDefault();
+                return false;
+            });
+        })
         $('.bayar').click(function() {
             let id = $(this).data('id');
             $.ajax({
@@ -255,7 +265,7 @@ use App\Models\BOPModel;
                     $('.namatrans').val(response[0]['namatrans'])
                     $('.quantity').val(response[0]['quantity'])
                     $('.satuan').val(response[0]['satuan'])
-                    $('.hargaawal').val(response[0]['harga'])
+                    $('.hargaawal').val(formatRupiah1(response[0]['harga']))
                 }
             });
         })
@@ -293,14 +303,13 @@ use App\Models\BOPModel;
         })
 
         $('.harga').keyup(function() {
-            let harga = parseInt($(this).val());
+            $(this).val(formatRupiahtyping($(this).val()));
+            let str = $(this).val()
+            str = str.replace(/[^0-9/]/g, '')
+            let harga = parseInt(str);
             let qty = parseInt($('.quantity').val());
             let total = harga * qty
-            if (!isNaN(total)) {
-                $('.tot_biaya').val(total);
-            } else {
-                $('.tot_biaya').val(0);
-            }
+            $('.tot_biaya').val(formatRupiah1(total));
         })
     })
 </script>
