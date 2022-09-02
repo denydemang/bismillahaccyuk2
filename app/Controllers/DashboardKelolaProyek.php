@@ -347,6 +347,7 @@ class DashboardKelolaProyek extends Dashboard
                 'total' => $total,
                 'user' => $getdatauser
 
+
             ];
 
             $dompdf = new Dompdf();
@@ -365,7 +366,7 @@ class DashboardKelolaProyek extends Dashboard
 
             // Output the generated PDF to Browser
 
-            $dompdf->stream('Proposal Ajuan.pdf', array("Attachment" => false));
+            $dompdf->stream('Laporan-HPP-' . $getdatauser[0]['idproyek'] . '-' . $getdatauser[0]['namaproyek'] . '.pdf', array("Attachment" => false));
         }
     }
     // Pengelolaan Tenaga Kerja
