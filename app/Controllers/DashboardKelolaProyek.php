@@ -12,6 +12,7 @@ use App\Models\ProgressProyekModel;
 use App\Models\TenakerModel;
 use App\Models\BahanBakuProsesModel;
 use App\Models\BOPModel;
+use App\Models\MaterialUtamaModel;
 use App\Models\PembayaranProyek;
 use App\Models\PerhitunganBOPRevisiModel;
 use App\Models\PerhitunganMaterialModel;
@@ -107,10 +108,13 @@ class DashboardKelolaProyek extends Dashboard
         if (isset($_SESSION['aktif'])) {
             unset($_SESSION['aktif']);
         }
-        $idajuan =  session()->get('idajuan');
+        $idproyek =  session()->get('idproyek');
 
-        $mprevisi = new PerhitunganMaterialModel();
-        $data =  $mprevisi->where('idajuan', $idajuan)->find();
+        $material = new MaterialUtamaModel();
+        $data =  $material->builder()
+            ->select('material_utama.hargamaterial,material_utama.total_harga,perhitungan_material.idmaterial,perhitungan_material.namamaterial,perhitungan_material.jenismaterial,perhitungan_material.satuanmaterial,perhitungan_material.qtymaterial')
+            ->join('perhitungan_material', 'material_utama.idmaterial=perhitungan_material.idmaterial')
+            ->where('material_utama.idproyek', $idproyek)->get()->getResultArray();
         $this->datalogin += [
             'datamaterial' => $data,
         ];
@@ -364,13 +368,13 @@ class DashboardKelolaProyek extends Dashboard
             $dompdf = new Dompdf();
 
             // //     // instantiate and use the dompdf class
-            $html = view('dashboard/kelolaProyek/printperhitunganbiaya', $data);
+            $html = view('dashboard/kelolaProyek/printperhitunganbiaya2', $data);
 
 
             $dompdf->loadHtml($html);
 
             // (Optional) Setup the paper size and orientation
-            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->setPaper('A4', 'potrait');
 
             // Render the HTML as PDF
             $dompdf->render();
@@ -855,6 +859,7 @@ class DashboardKelolaProyek extends Dashboard
     public function simpanbelibb()
     {
         $belibb = new BahanBakuProsesModel();
+        $materialutama = new MaterialUtamaModel();
         $idbeli = $this->kodeotomatis('belibahan', 'idbeli', 'BBB001');
         $idproyek = $this->request->getVar('idproyek');
         $idmaterial = $this->request->getvar('idmaterial');
@@ -873,9 +878,23 @@ class DashboardKelolaProyek extends Dashboard
             'totalharga' => $totalharga,
 
         ]);
+        $gettotal1 = $belibb->builder()->selectSum('totalharga')
+            ->join('perhitungan_materialpenyusunrev', 'belibahan.idmaterialpenyusun=perhitungan_materialpenyusunrev.idmaterialpenyusun')
+            ->where('idmaterial', $idmaterial)->get()->getResultArray();
+        if (empty($gettotal1[0]['totalharga'])) {
+            $totalsemua = 0;
+        } else {
+            $totalsemua = (int)$gettotal1[0]['totalharga'];
+        }
+        $materialutama->builder()->where('idmaterial', $idmaterial)->set('hargamaterial', $totalsemua)->update();
+        $datamaterial = $materialutama->builder()->select('perhitungan_material.qtymaterial,material_utama.hargamaterial')
+            ->join('perhitungan_material', 'material_utama.idmaterial=perhitungan_material.idmaterial')->where('material_utama.idmaterial', $idmaterial)->get()->getResultArray();
+        $hargamaterial = $datamaterial[0]['hargamaterial'];
+        $qtymaterial = $datamaterial[0]['qtymaterial'];
+        $totalmaterial = (int)($hargamaterial) * (int)($qtymaterial);
+        $materialutama->builder()->where('idmaterial', $idmaterial)->set('total_harga', $totalmaterial)->update();
         $row = $belibb->builder()->db()->affectedRows();
         if ($row >= 1) {
-
             session()->setFlashdata('berhasil', 'Berhasil Disimpan');
         } else {
             session()->setFlashdata('gagal', 'Gagal Disimpan');

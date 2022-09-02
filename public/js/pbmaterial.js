@@ -11,6 +11,23 @@ function reset(){
         $('.satuanmaterial').removeClass('is-invalid')
         $('.qtymaterial').removeClass('is-invalid')
 }
+const formatRupiahtyping = (money) => {
+        angka = money.replace(/[^,\d]/g, "");
+      if (isNaN(angka)){
+        angka = 0;
+      }
+        return new Intl.NumberFormat('id-ID',
+          { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }
+        ).format(angka);
+     }
+    const formatRupiah1 = (money) => {
+      if (isNaN(money)){
+        money = 0;
+      }
+        return new Intl.NumberFormat('id-ID',
+          { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }
+        ).format(money);
+     }
 $(document).ready(function(){
         let pesan = $('.pesanmaterial').data('pesanmaterial')
         if (pesan == 'Berhasil Disimpan'){
@@ -93,13 +110,13 @@ $(document).ready(function(){
                        $('.sm').html(response.datamaterial['satuanmaterial'])
                        $('.qty').html(response.datamaterial['qtymaterial'])
                        $('.hg').html(response.datamaterial['hargamaterial'])
-                       $('.gtbb').html(response.totalbahanpenyusun)
-                       $('.gtbr').html(response.totalbahanrevisi)
-                       $('.gt').html(response.grandtotal)
+                       $('.gtbb').html(formatRupiah1(response.totalbahanpenyusun))
+                       $('.gtbr').html(formatRupiah1(response.totalbahanrevisi))
+                       $('.gt').html(formatRupiah1(response.grandtotal))
                        
                       let tot = parseInt(response.datamaterial['qtymaterial']) * parseInt(response.datamaterial['hargamaterial']);
-                      (tot) ? $('.tot').html(tot) : $('.tot').html('Belum Dihitung');
-                      (response.datamaterial['hargamaterial']== '0') ? $('.hg').html('Belum Dihitung') : $('.hg').html(response.datamaterial['hargamaterial']) ;
+                      (tot) ? $('.tot').html(formatRupiah1(tot)) : $('.tot').html('Belum Dihitung');
+                      (response.datamaterial['hargamaterial']== '0') ? $('.hg').html('Belum Dihitung') : $('.hg').html(formatRupiah1(response.datamaterial['hargamaterial']));
                        
                       if(response.datapenyusun.length != 0){
                       
@@ -110,8 +127,8 @@ $(document).ready(function(){
                                     '<td>' + value.spesifikasimp + '</td>' +
                                     '<td>' + value.jumlahmp + '</td>' +
                                     '<td>' + value.satuanmp + '</td>' +
-                                    '<td>' + value.hargamp + '</td>' +
-                                    '<td>' + value.totalmp + '</td>' +
+                                    '<td>' + formatRupiah1(value.hargamp) + '</td>' +
+                                    '<td>' + formatRupiah1(value.totalmp) + '</td>' +
                                 '</tr>';   
                             
                                 $('.bahanpenyusun tr').first().after(html);
@@ -140,8 +157,8 @@ $(document).ready(function(){
                                     '<td>' + value.spesifikasimp + '</td>' +
                                     '<td>' + value.jumlahmp + '</td>' +
                                     '<td>' + value.satuanmp + '</td>' +
-                                    '<td>' + value.hargamp + '</td>' +
-                                    '<td>' + value.totalmp + '</td>' +
+                                    '<td>' + formatRupiah1(value.hargamp) + '</td>' +
+                                    '<td>' + formatRupiah1(value.totalmp) + '</td>' +
                                 '</tr>';   
                             
                                 $('.bahanpenyusunrevisi tr').first().after(html);

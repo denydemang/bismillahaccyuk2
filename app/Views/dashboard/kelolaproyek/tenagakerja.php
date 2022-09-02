@@ -198,7 +198,7 @@ $this->extend('dashboard/kelolaproyek/template') ?>
                                                     <td class="biayasewas">Qty</td>
                                                     <td class="totals">Harga</td>
                                                 <tr>
-                                                    <th colspan="4">Keuntungan</th>
+                                                    <th colspan="4">Selisih</th>
                                                     <th class="keuntungan">Keuntungan</th>
                                                 </tr>
 

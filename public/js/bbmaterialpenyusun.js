@@ -99,8 +99,6 @@ $(document).ready(function(){
     $('.btnbeli').click(function(){
         let id = $(this).data('id');
         $('.harga').focus()
-        console.log('ok');
-        console.log(id);
         $.ajax({
             url : base_url+"DashboardKelolaProyek/getdatamp/"+id,
             dataType : "json",

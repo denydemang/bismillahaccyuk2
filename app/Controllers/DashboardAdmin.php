@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\MeetingModel;
 use App\Models\ModelLogin;
 use App\Models\AjuanProyekModel;
+use App\Models\MaterialUtamaModel;
 // use App\Models\PerhitunganBBModel;
 // use App\Models\PerhitunganBBRevisiModel;
 // use App\Models\PerhitunganBOPModel;
@@ -590,7 +591,7 @@ class DashboardAdmin extends Dashboard
             $getdatapenyusun = $bahanpenyusun->where('idmaterial', $idmaterial)->find();
             $getdatrevisi = $mprevisi->where('idmaterial', $idmaterial)->where('revisi_id', 3)->findAll();
             $total1 = $bahanpenyusun->builder()->selectSum('totalmp')->where('idmaterial', $idmaterial)->get()->getResultArray();
-            $total2 = $mprevisi->builder()->selectSum('totalmp')->where('idmaterial', $idmaterial)->get()->getResultArray();
+            $total2 = $mprevisi->builder()->selectSum('totalmp')->where('idmaterial', $idmaterial)->where('revisi_id', 3)->get()->getResultArray();
             if (empty($total1[0]['totalmp'])) {
                 $total1 = 0;
             } else {
@@ -734,6 +735,16 @@ class DashboardAdmin extends Dashboard
         $idproyek = $this->request->getVar('idproyek');
         $idajuan = $this->request->getVar('idajuan');
         $iduser = $this->request->getVar('user_id');
+        $materialutama = new MaterialUtamaModel();
+        $data = [
+            'idajuan' => $idajuan,
+            'idproyek'  => $idproyek,
+            'date'  => 'My date 2',
+        ];
+        $getdata = $materialutama->builder()->select('perhitungan_material.idajuan,material_utama.idproyek,material_utama.id_materialutama')->join('perhitungan_material', 'material_utama.idmaterial=perhitungan_material.idmaterial')->where('idajuan', $idajuan)->get()->getResultArray();
+        foreach ($getdata as $row) {
+            $materialutama->update($row['id_materialutama'], ['idproyek' => $idproyek]);
+        }
         $namaproyek = $this->request->getVar('namaproyek');
 
         $biaya = $this->request->getVar('biaya');
@@ -929,6 +940,7 @@ class DashboardAdmin extends Dashboard
     {
         $material = new PerhitunganMaterialModel();
         $materialasli = new PerhitunganMaterialAsliModel();
+        $material_utama = new MaterialUtamaModel();
         $idmaterial = $this->request->getVar('idmaterial');
         $idajuan = $this->request->getVar('idajuan');
         $jenismaterial = $this->request->getVar('jenismaterial');
@@ -942,6 +954,14 @@ class DashboardAdmin extends Dashboard
             'namamaterial' => $namamaterial,
             'satuanmaterial' => $satuanmaterial,
             'qtymaterial' => $qtymaterial,
+        ]);
+        $material_utama->insert([
+            'id_materialutama' => '',
+            'idmaterial' => $idmaterial,
+            'idproyek' => '',
+            'hargamaterial' => '',
+            'total_harga' => '',
+
         ]);
         $materialasli->insert([
             'idmaterial' => $idmaterial,

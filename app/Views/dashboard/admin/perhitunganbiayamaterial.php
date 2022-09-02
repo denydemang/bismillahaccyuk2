@@ -258,17 +258,6 @@
                               <td class="gtbr"></td>
                            </tr>
                         </table>
-                        <table class="tabletable-bordered table-sm">
-                           <tr>
-                              <td colspan="4"></td>
-                              <td>
-                                 <h4>Grand Total</h4>
-                              </td>
-                              <td>
-                                 <h4 class="gt"></h4>
-                              </td>
-                           </tr>
-                        </table>
                      </div>
                   </div>
                </div>
